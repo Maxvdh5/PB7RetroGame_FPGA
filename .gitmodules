@@ -1,0 +1,3 @@
+[submodule "src/sdk"]
+	path = src/sdk
+	url = https://github.com/Maxvdh5/PB7RetroGame_MCU.git
