@@ -140,9 +140,9 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 set obj [get_filesets constrs_1]
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize "$origin_dir/../PROGH/digilent-xdc/Basys-3-Master.xdc"]"
+set file "[file normalize "$origin_dir/src/constraints/io.xdc"]"
 set file_added [add_files -norecurse -fileset $obj $file]
-set file "$origin_dir/../PROGH/digilent-xdc/Basys-3-Master.xdc"
+set file "$origin_dir/src/constraints/io.xdc"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
