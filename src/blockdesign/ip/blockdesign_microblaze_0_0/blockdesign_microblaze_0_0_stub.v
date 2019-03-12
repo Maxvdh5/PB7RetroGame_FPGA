@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Feb 25 19:26:16 2019
+// Date        : Fri Mar  8 13:08:16 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
-// Command     : write_verilog -force -mode synth_stub
-//               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_microblaze_0_0/blockdesign_microblaze_0_0_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top blockdesign_microblaze_0_0 -prefix
+//               blockdesign_microblaze_0_0_ blockdesign_microblaze_0_0_stub.v
 // Design      : blockdesign_microblaze_0_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a35tcpg236-1

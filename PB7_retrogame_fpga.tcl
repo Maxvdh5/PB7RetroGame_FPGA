@@ -88,7 +88,9 @@ create_project ${project_name} $origin_dir/vivado_project -part xc7a35tcpg236-1 
 set proj_dir [get_property directory [current_project]]
 
 # Reconstruct message rules
-# None
+set_msg_config  -ruleid {17}  -id {[BD 41-1306]}  -suppress  -source 2
+set_msg_config  -ruleid {18}  -id {[BD 41-1271]}  -suppress  -source 2
+
 
 # Set project properties
 set obj [current_project]
@@ -137,7 +139,13 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 # Set 'constrs_1' fileset object
 set obj [get_filesets constrs_1]
 
-# Empty (no sources present)
+# Add/Import constrs file and set constrs file properties
+set file "[file normalize "$origin_dir/src/constraints/io.xdc"]"
+set file_added [add_files -norecurse -fileset $obj $file]
+set file "$origin_dir/src/constraints/io.xdc"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
+set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
