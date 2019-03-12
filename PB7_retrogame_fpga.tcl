@@ -116,8 +116,6 @@ set files [list \
  "[file normalize "$origin_dir/src/RTL/vga.vhd"]"\
  "[file normalize "$origin_dir/src/blockdesign/blockdesign.bd"]"\
  "[file normalize "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"]"\
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/HeaderManager.vhd"]"\
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/vga.vhd"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -133,16 +131,6 @@ set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
 set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "file_type" -value "VHDL" -objects $file_obj
-
-set file "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/HeaderManager.vhd"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "file_type" -value "VHDL" -objects $file_obj
-
-set file "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/vga.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
@@ -181,29 +169,11 @@ if {[string equal [get_filesets -quiet sim_1] ""]} {
 
 # Set 'sim_1' fileset object
 set obj [get_filesets sim_1]
-# Add local files from the original project (-no_copy_sources specified)
-set files [list \
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sim_1/new/VGATest.vhd"]"\
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sim_1/new/HeaderTest.vhd"]"\
-]
-set added_files [add_files -fileset sim_1 $files]
-
-# Set 'sim_1' fileset file properties for remote files
-# None
-
-# Set 'sim_1' fileset file properties for local files
-set file "new/VGATest.vhd"
-set file_obj [get_files -of_objects [get_filesets sim_1] [list "*$file"]]
-set_property -name "file_type" -value "VHDL" -objects $file_obj
-
-set file "new/HeaderTest.vhd"
-set file_obj [get_files -of_objects [get_filesets sim_1] [list "*$file"]]
-set_property -name "file_type" -value "VHDL" -objects $file_obj
-
+# Empty (no sources present)
 
 # Set 'sim_1' fileset properties
 set obj [get_filesets sim_1]
-set_property -name "top" -value "VGATest" -objects $obj
+set_property -name "top" -value "blockdesign_wrapper" -objects $obj
 set_property -name "xsim.simulate.log_all_signals" -value "1" -objects $obj
 
 # Create 'synth_1' run (if not found)
@@ -214,6 +184,7 @@ if {[string equal [get_runs -quiet synth_1] ""]} {
   set_property flow "Vivado Synthesis 2017" [get_runs synth_1]
 }
 set obj [get_runs synth_1]
+set_property -name "needs_refresh" -value "1" -objects $obj
 set_property -name "report_strategy" -value "Vivado Synthesis Default Reports" -objects $obj
 set_property -name "strategy" -value "Vivado Synthesis Defaults" -objects $obj
 
@@ -240,6 +211,7 @@ if {[string equal [get_runs -quiet impl_1] ""]} {
   set_property flow "Vivado Implementation 2017" [get_runs impl_1]
 }
 set obj [get_runs impl_1]
+set_property -name "needs_refresh" -value "1" -objects $obj
 set_property -name "report_strategy" -value "Vivado Implementation Default Reports" -objects $obj
 set_property -name "strategy" -value "Vivado Implementation Defaults" -objects $obj
 set_property -name "steps.write_bitstream.args.readback_file" -value "0" -objects $obj
