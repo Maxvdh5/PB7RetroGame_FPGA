@@ -112,25 +112,37 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/HeaderManager.vhd"]"\
- "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/vga.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/HeaderManager.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/vga.vhd"]"\
  "[file normalize "$origin_dir/src/blockdesign/blockdesign.bd"]"\
  "[file normalize "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"]"\
+ "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/HeaderManager.vhd"]"\
+ "[file normalize "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/vga.vhd"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
 # Set 'sources_1' fileset file properties for remote files
+set file "$origin_dir/src/RTL/HeaderManager.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/vga.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
 set file "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/HeaderManager.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
 set file "$origin_dir/vivado_project/PB7_retrogame_fpga.srcs/sources_1/imports/Desktop/vga.vhd"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "file_type" -value "VHDL" -objects $file_obj
-
-set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
