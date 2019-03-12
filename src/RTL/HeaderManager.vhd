@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity HeaderManager is
     Port (  Mhz_100     : IN STD_LOGIC;
-            Mhz_25_IN   : IN STD_LOGIC;l
+            Mhz_25_IN   : IN STD_LOGIC;
             Data        : IN STD_LOGIC_VECTOR(31 downto 0);
             
             RGB         : OUT STD_LOGIC_VECTOR(7 downto 0);
