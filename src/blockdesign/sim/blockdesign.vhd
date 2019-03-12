@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
---Date        : Tue Mar 12 16:10:06 2019
+--Date        : Tue Mar 12 17:07:56 2019
 --Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -2057,16 +2057,7 @@ architecture STRUCTURE of blockdesign is
     gpio2_io_i : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component blockdesign_axi_gpio_1_0;
-  component blockdesign_VGA_0_0 is
-  port (
-    clk25 : in STD_LOGIC;
-    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    hsync : out STD_LOGIC;
-    vsync : out STD_LOGIC
-  );
-  end component blockdesign_VGA_0_0;
-  component blockdesign_HeaderManager_0_0 is
+  component blockdesign_HeaderManager_0_2 is
   port (
     Mhz_100 : in STD_LOGIC;
     Mhz_25_IN : in STD_LOGIC;
@@ -2074,10 +2065,17 @@ architecture STRUCTURE of blockdesign is
     RGB : out STD_LOGIC_VECTOR ( 7 downto 0 );
     RFlag : out STD_LOGIC
   );
-  end component blockdesign_HeaderManager_0_0;
-  signal HeaderManager_0_Mhz_25_Sync : STD_LOGIC;
+  end component blockdesign_HeaderManager_0_2;
+  component blockdesign_VGA_0_1 is
+  port (
+    clk25 : in STD_LOGIC;
+    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    hsync : out STD_LOGIC;
+    vsync : out STD_LOGIC
+  );
+  end component blockdesign_VGA_0_1;
   signal HeaderManager_0_RFlag : STD_LOGIC;
-  signal HeaderManager_0_RGB : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal VGA_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal VGA_0_hsync : STD_LOGIC;
@@ -2089,6 +2087,7 @@ architecture STRUCTURE of blockdesign is
   signal axi_gpio_1_gpio_io_o : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal axi_uartlite_0_UART_RxD : STD_LOGIC;
   signal axi_uartlite_0_UART_TxD : STD_LOGIC;
+  signal clk_wiz_0_clk_out2 : STD_LOGIC;
   signal clk_wiz_0_locked : STD_LOGIC;
   signal mdm_1_debug_sys_rst : STD_LOGIC;
   signal microblaze_0_Clk : STD_LOGIC;
@@ -2217,6 +2216,7 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_mb_reset : STD_LOGIC;
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal sys_clock_1 : STD_LOGIC;
+  signal NLW_HeaderManager_0_RGB_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
   attribute BMM_INFO_PROCESSOR : string;
@@ -2254,19 +2254,26 @@ begin
   sys_clock_1 <= sys_clock;
   usb_uart_txd <= axi_uartlite_0_UART_TxD;
   vSync <= VGA_0_vsync;
-HeaderManager_0: component blockdesign_HeaderManager_0_0
+HeaderManager_0: component blockdesign_HeaderManager_0_2
      port map (
       Data(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       Mhz_100 => microblaze_0_Clk,
-      Mhz_25_IN => HeaderManager_0_Mhz_25_Sync,
+      Mhz_25_IN => clk_wiz_0_clk_out2,
       RFlag => HeaderManager_0_RFlag,
-      RGB(7 downto 0) => HeaderManager_0_RGB(7 downto 0)
+      RGB(7 downto 0) => NLW_HeaderManager_0_RGB_UNCONNECTED(7 downto 0)
     );
-VGA_0: component blockdesign_VGA_0_0
+VGA_0: component blockdesign_VGA_0_1
      port map (
-      RGBin(7 downto 0) => HeaderManager_0_RGB(7 downto 0),
+      RGBin(7) => HeaderManager_0_RFlag,
+      RGBin(6) => HeaderManager_0_RFlag,
+      RGBin(5) => HeaderManager_0_RFlag,
+      RGBin(4) => HeaderManager_0_RFlag,
+      RGBin(3) => HeaderManager_0_RFlag,
+      RGBin(2) => HeaderManager_0_RFlag,
+      RGBin(1) => HeaderManager_0_RFlag,
+      RGBin(0) => HeaderManager_0_RFlag,
       RGBout(7 downto 0) => VGA_0_RGBout(7 downto 0),
-      clk25 => HeaderManager_0_Mhz_25_Sync,
+      clk25 => clk_wiz_0_clk_out2,
       hsync => VGA_0_hsync,
       vsync => VGA_0_vsync
     );
@@ -2350,7 +2357,7 @@ clk_wiz_0: component blockdesign_clk_wiz_0_0
      port map (
       clk_in1 => sys_clock_1,
       clk_out1 => microblaze_0_Clk,
-      clk_out2 => HeaderManager_0_Mhz_25_Sync,
+      clk_out2 => clk_wiz_0_clk_out2,
       locked => clk_wiz_0_locked,
       reset => reset_1
     );

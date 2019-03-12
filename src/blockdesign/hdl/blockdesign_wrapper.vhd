@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
---Date        : Tue Mar 12 16:10:06 2019
+--Date        : Tue Mar 12 17:07:56 2019
 --Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign_wrapper.bd
 --Design      : blockdesign_wrapper
