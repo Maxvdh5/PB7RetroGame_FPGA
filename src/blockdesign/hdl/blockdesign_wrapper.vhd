@@ -1,8 +1,8 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
---Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Sat Mar  9 18:53:12 2019
---Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
+--Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
+--Date        : Tue Mar 12 16:10:06 2019
+--Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign_wrapper.bd
 --Design      : blockdesign_wrapper
 --Purpose     : IP block netlist
@@ -14,11 +14,14 @@ use UNISIM.VCOMPONENTS.ALL;
 entity blockdesign_wrapper is
   port (
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    hSync : out STD_LOGIC;
     led_16bits_0_tri_io : inout STD_LOGIC_VECTOR ( 15 downto 0 );
     reset : in STD_LOGIC;
     sys_clock : in STD_LOGIC;
     usb_uart_rxd : in STD_LOGIC;
-    usb_uart_txd : out STD_LOGIC
+    usb_uart_txd : out STD_LOGIC;
+    vSync : out STD_LOGIC
   );
 end blockdesign_wrapper;
 
@@ -32,7 +35,10 @@ architecture STRUCTURE of blockdesign_wrapper is
     led_16bits_0_tri_t : out STD_LOGIC_VECTOR ( 15 downto 0 );
     sys_clock : in STD_LOGIC;
     reset : in STD_LOGIC;
-    JA : in STD_LOGIC_VECTOR ( 3 downto 0 )
+    JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    hSync : out STD_LOGIC;
+    vSync : out STD_LOGIC
   );
   end component blockdesign;
   component IOBUF is
@@ -111,6 +117,8 @@ begin
 blockdesign_i: component blockdesign
      port map (
       JA(3 downto 0) => JA(3 downto 0),
+      RGBout(7 downto 0) => RGBout(7 downto 0),
+      hSync => hSync,
       led_16bits_0_tri_i(15) => led_16bits_0_tri_i_15(15),
       led_16bits_0_tri_i(14) => led_16bits_0_tri_i_14(14),
       led_16bits_0_tri_i(13) => led_16bits_0_tri_i_13(13),
@@ -162,7 +170,8 @@ blockdesign_i: component blockdesign
       reset => reset,
       sys_clock => sys_clock,
       usb_uart_rxd => usb_uart_rxd,
-      usb_uart_txd => usb_uart_txd
+      usb_uart_txd => usb_uart_txd,
+      vSync => vSync
     );
 led_16bits_0_tri_iobuf_0: component IOBUF
      port map (

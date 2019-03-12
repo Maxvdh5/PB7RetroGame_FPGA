@@ -14,8 +14,8 @@ preplace inst rst_clk_wiz_0_100M -pg 1 -lvl 3 -y 30 -defaultsOSRD
 preplace inst microblaze_0_axi_periph -pg 1 -lvl 4 -y 560 -defaultsOSRD
 preplace inst microblaze_0_xlconcat -pg 1 -lvl 4 -y 350 -defaultsOSRD
 preplace inst axi_gpio_0 -pg 1 -lvl 2 -y 330 -defaultsOSRD
-preplace inst axi_gpio_1 -pg 1 -lvl 3 -y 410 -defaultsOSRD
 preplace inst HeaderManager_0 -pg 1 -lvl 4 -y 90 -defaultsOSRD
+preplace inst axi_gpio_1 -pg 1 -lvl 3 -y 410 -defaultsOSRD
 preplace inst mdm_1 -pg 1 -lvl 1 -y 40 -defaultsOSRD
 preplace inst microblaze_0_axi_intc -pg 1 -lvl 5 -y 300 -defaultsOSRD
 preplace inst microblaze_0 -pg 1 -lvl 1 -y 170 -defaultsOSRD
@@ -23,38 +23,37 @@ preplace inst axi_uartlite_0 -pg 1 -lvl 2 -y 190 -defaultsOSRD
 preplace inst clk_wiz_0 -pg 1 -lvl 2 -y 60 -defaultsOSRD
 preplace inst microblaze_0_local_memory -pg 1 -lvl 4 -y -50 -defaultsOSRD
 preplace inst VGA_0 -pg 1 -lvl 5 -y -20 -defaultsOSRD
-preplace netloc HeaderManager_0_RFlag 1 3 2 1530 300 1910
-preplace netloc rst_clk_wiz_0_100M_bus_struct_reset 1 3 1 1490
+preplace netloc HeaderManager_0_RFlag 1 3 2 1540 300 1890
+preplace netloc rst_clk_wiz_0_100M_bus_struct_reset 1 3 1 1550
 preplace netloc clk_wiz_0_locked 1 2 1 1100J
-preplace netloc microblaze_0_intr 1 4 1 1960J
-preplace netloc microblaze_0_Clk 1 0 5 30J -40 770J -40 1120 -60 1520 240 1970
-preplace netloc microblaze_0_axi_periph_M03_AXI 1 2 3 1150 250 NJ 250 1920
-preplace netloc microblaze_0_intc_axi 1 4 1 1990
-preplace netloc microblaze_0_interrupt 1 0 6 40J 410 NJ 410 1100J 280 NJ 280 1950J 400 2300
+preplace netloc microblaze_0_intr 1 4 1 1940J
+preplace netloc microblaze_0_Clk 1 0 5 30J -40 770J -40 1120 -60 1530 240 1950
+preplace netloc microblaze_0_axi_periph_M03_AXI 1 2 3 1150 250 NJ 250 1900
+preplace netloc microblaze_0_intc_axi 1 4 1 1970
+preplace netloc microblaze_0_interrupt 1 0 6 40J 410 NJ 410 1100J 280 NJ 280 1930J 400 2300
+preplace netloc HeaderManager_0_Mhz_25_Sync 1 2 3 1110 120 1540 -170 1970
 preplace netloc VGA_0_hsync 1 5 1 2300
-preplace netloc HeaderManager_0_Mhz_25_Sync 1 4 1 1970
-preplace netloc microblaze_0_ilmb_1 1 1 3 800J -70 NJ -70 1560
+preplace netloc microblaze_0_ilmb_1 1 1 3 800J -70 NJ -70 1570
 preplace netloc sys_clock_1 1 0 2 10J -30 740
-preplace netloc microblaze_0_axi_dp 1 1 3 760J -110 NJ -110 1550
-preplace netloc axi_gpio_1_gpio_io_o 1 3 1 1540
+preplace netloc microblaze_0_axi_dp 1 1 3 760J -110 NJ -110 1560
+preplace netloc axi_gpio_1_gpio_io_o 1 3 1 1550
 preplace netloc VGA_0_vsync 1 5 1 2310
 preplace netloc JA_1 1 0 3 0J -50 NJ -50 1090
-preplace netloc axi_gpio_0_GPIO2 1 2 4 1110 160 NJ 160 1990J 50 2300J
-preplace netloc microblaze_0_axi_periph_M01_AXI 1 1 4 820 -140 NJ -140 NJ -140 1930
+preplace netloc axi_gpio_0_GPIO2 1 2 4 1110 160 NJ 160 1970J 50 2300J
+preplace netloc microblaze_0_axi_periph_M01_AXI 1 1 4 810 -160 NJ -160 NJ -160 1920
 preplace netloc VGA_0_RGBout 1 5 1 2290
-preplace netloc rst_clk_wiz_0_100M_mb_reset 1 0 5 20J -100 NJ -100 NJ -100 1570 170 1980
+preplace netloc rst_clk_wiz_0_100M_mb_reset 1 0 5 20J -100 NJ -100 NJ -100 1580 170 1960
 preplace netloc axi_uartlite_0_UART 1 2 4 N 180 N 180 N 180 N
-preplace netloc clk_wiz_0_clk_out2 1 2 2 1110J 120 1530
-preplace netloc axi_gpio_0_ip2intc_irpt 1 2 2 1130J 330 1500
-preplace netloc microblaze_0_axi_periph_M02_AXI 1 1 4 810 -160 NJ -160 NJ -160 1940
+preplace netloc axi_gpio_0_ip2intc_irpt 1 2 2 1130J 330 1510
+preplace netloc microblaze_0_axi_periph_M02_AXI 1 1 4 820 -140 NJ -140 NJ -140 1910
 preplace netloc microblaze_0_dlmb_1 1 1 3 750J -80 NJ -80 N
 preplace netloc microblaze_0_debug 1 0 2 50J -20 730J
-preplace netloc HeaderManager_0_RGB 1 4 1 1980
+preplace netloc HeaderManager_0_RGB 1 4 1 1960
 preplace netloc reset_1 1 0 3 NJ -70 790 -30 1150J
 preplace netloc mdm_1_debug_sys_rst 1 1 2 780J -10 1110J
-preplace netloc rst_clk_wiz_0_100M_peripheral_aresetn 1 1 4 820 420 1140 310 1490 270 1960J
-preplace netloc rst_clk_wiz_0_100M_interconnect_aresetn 1 3 1 1510
-levelinfo -pg 1 -20 490 960 1320 1750 2140 2330 -top -270 -bot 740
+preplace netloc rst_clk_wiz_0_100M_peripheral_aresetn 1 1 4 830 420 1140 310 1500 270 1940J
+preplace netloc rst_clk_wiz_0_100M_interconnect_aresetn 1 3 1 1520
+levelinfo -pg 1 -20 490 960 1330 1750 2140 2330 -top -270 -bot 740
 ",
 }
 {
