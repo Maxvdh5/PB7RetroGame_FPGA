@@ -267,7 +267,6 @@
           <spirit:configurableElementValue spirit:referenceId="G_TEMPLATE_LIST">8</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="C_DEBUG_ENABLED">1</spirit:configurableElementValue>
         </spirit:configurableElementValues>
-        <bd:hdl_attributes/>
       </spirit:componentInstance>
       <spirit:componentInstance>
         <spirit:instanceName>microblaze_0_local_memory</spirit:instanceName>
@@ -418,15 +417,15 @@
         <spirit:internalPortReference spirit:componentRef="rst_clk_wiz_0_100M" spirit:portRef="slowest_sync_clk"/>
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_0" spirit:portRef="s_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="S00_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M00_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_local_memory" spirit:portRef="LMB_Clk"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M01_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M02_ACLK"/>
-        <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M03_ACLK"/>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>clk_wiz_0_locked</spirit:name>
@@ -455,11 +454,11 @@
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_intc" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_0" spirit:portRef="s_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="S00_ARESETN"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M00_ARESETN"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M01_ARESETN"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M02_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M03_ARESETN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
@@ -495,12 +494,6 @@
         <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Data"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>HeaderManager_0_RFlag</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="RFlag"/>
-        <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="gpio2_io_i"/>
-        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RGBin"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>VGA_0_RGBout</spirit:name>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RGBout"/>
         <spirit:externalPortReference spirit:portRef="RGBout"/>
@@ -514,6 +507,11 @@
         <spirit:name>VGA_0_vsync</spirit:name>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="vsync"/>
         <spirit:externalPortReference spirit:portRef="vSync"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>HeaderManager_0_RGB</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="RGB"/>
+        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RGBin"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
@@ -1992,7 +1990,6 @@
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_dlmb_bram_if_cntlr_0</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="C_ECC">0</spirit:configurableElementValue>
         </spirit:configurableElementValues>
-        <bd:hdl_attributes/>
       </spirit:componentInstance>
       <spirit:componentInstance>
         <spirit:instanceName>ilmb_bram_if_cntlr</spirit:instanceName>
