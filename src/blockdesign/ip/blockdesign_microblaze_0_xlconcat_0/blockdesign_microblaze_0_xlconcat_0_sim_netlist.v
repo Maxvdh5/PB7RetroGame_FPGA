@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Fri Mar  8 14:24:33 2019
+// Date        : Wed Mar 13 09:23:27 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
-// Command     : write_verilog -force -mode funcsim -rename_top blockdesign_microblaze_0_xlconcat_0 -prefix
-//               blockdesign_microblaze_0_xlconcat_0_ blockdesign_microblaze_0_xlconcat_0_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim
+//               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_microblaze_0_xlconcat_0/blockdesign_microblaze_0_xlconcat_0_sim_netlist.v
 // Design      : blockdesign_microblaze_0_xlconcat_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -16,12 +16,16 @@
 (* NotValidForBitStream *)
 module blockdesign_microblaze_0_xlconcat_0
    (In0,
+    In1,
     dout);
   input [0:0]In0;
-  output [0:0]dout;
+  input [0:0]In1;
+  output [1:0]dout;
 
   wire [0:0]In0;
+  wire [0:0]In1;
 
+  assign dout[1] = In1;
   assign dout[0] = In0;
 endmodule
 `ifndef GLBL

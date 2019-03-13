@@ -244,7 +244,6 @@ proc create_root_design { parentCell } {
 
 
   # Create interface ports
-  set led_16bits_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 led_16bits_0 ]
   set usb_uart [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:uart_rtl:1.0 usb_uart ]
 
   # Create ports
@@ -291,7 +290,7 @@ proc create_root_design { parentCell } {
    CONFIG.C_GPIO_WIDTH {4} \
    CONFIG.C_INTERRUPT_PRESENT {1} \
    CONFIG.C_IS_DUAL {1} \
-   CONFIG.GPIO2_BOARD_INTERFACE {led_16bits} \
+   CONFIG.GPIO2_BOARD_INTERFACE {Custom} \
    CONFIG.GPIO_BOARD_INTERFACE {Custom} \
    CONFIG.USE_BOARD_FLOW {true} \
  ] $axi_gpio_0
@@ -301,8 +300,10 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.C_ALL_INPUTS_2 {1} \
    CONFIG.C_ALL_OUTPUTS {1} \
+   CONFIG.C_ALL_OUTPUTS_2 {0} \
    CONFIG.C_DOUT_DEFAULT {0x05030000} \
    CONFIG.C_GPIO2_WIDTH {1} \
+   CONFIG.C_INTERRUPT_PRESENT {1} \
    CONFIG.C_IS_DUAL {1} \
  ] $axi_gpio_1
 
@@ -362,7 +363,7 @@ proc create_root_design { parentCell } {
   # Create instance: microblaze_0_xlconcat, and set properties
   set microblaze_0_xlconcat [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 microblaze_0_xlconcat ]
   set_property -dict [ list \
-   CONFIG.NUM_PORTS {1} \
+   CONFIG.NUM_PORTS {2} \
  ] $microblaze_0_xlconcat
 
   # Create instance: rst_clk_wiz_0_100M, and set properties
@@ -373,7 +374,6 @@ proc create_root_design { parentCell } {
  ] $rst_clk_wiz_0_100M
 
   # Create interface connections
-  connect_bd_intf_net -intf_net axi_gpio_0_GPIO2 [get_bd_intf_ports led_16bits_0] [get_bd_intf_pins axi_gpio_0/GPIO2]
   connect_bd_intf_net -intf_net axi_uartlite_0_UART [get_bd_intf_ports usb_uart] [get_bd_intf_pins axi_uartlite_0/UART]
   connect_bd_intf_net -intf_net microblaze_0_axi_dp [get_bd_intf_pins microblaze_0/M_AXI_DP] [get_bd_intf_pins microblaze_0_axi_periph/S00_AXI]
   connect_bd_intf_net -intf_net microblaze_0_axi_periph_M01_AXI [get_bd_intf_pins axi_uartlite_0/S_AXI] [get_bd_intf_pins microblaze_0_axi_periph/M01_AXI]
@@ -386,7 +386,6 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net microblaze_0_interrupt [get_bd_intf_pins microblaze_0/INTERRUPT] [get_bd_intf_pins microblaze_0_axi_intc/interrupt]
 
   # Create port connections
-  connect_bd_net -net HeaderManager_0_Mhz_25_Sync [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
   connect_bd_net -net HeaderManager_0_RFlag [get_bd_pins HeaderManager_0/RFlag] [get_bd_pins axi_gpio_1/gpio2_io_i]
   connect_bd_net -net HeaderManager_0_RGB [get_bd_pins HeaderManager_0/RGB] [get_bd_pins VGA_0/RGBin]
   connect_bd_net -net JA_1 [get_bd_ports JA] [get_bd_pins axi_gpio_0/gpio_io_i]
@@ -395,6 +394,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net VGA_0_vsync [get_bd_ports vSync] [get_bd_pins VGA_0/vsync]
   connect_bd_net -net axi_gpio_0_ip2intc_irpt [get_bd_pins axi_gpio_0/ip2intc_irpt] [get_bd_pins microblaze_0_xlconcat/In0]
   connect_bd_net -net axi_gpio_1_gpio_io_o [get_bd_pins HeaderManager_0/Data] [get_bd_pins axi_gpio_1/gpio_io_o]
+  connect_bd_net -net axi_gpio_1_ip2intc_irpt [get_bd_pins axi_gpio_1/ip2intc_irpt] [get_bd_pins microblaze_0_xlconcat/In1]
+  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins rst_clk_wiz_0_100M/dcm_locked]
   connect_bd_net -net mdm_1_debug_sys_rst [get_bd_pins mdm_1/Debug_SYS_Rst] [get_bd_pins rst_clk_wiz_0_100M/mb_debug_sys_rst]
   connect_bd_net -net microblaze_0_Clk [get_bd_pins HeaderManager_0/Mhz_100] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins microblaze_0/Clk] [get_bd_pins microblaze_0_axi_intc/processor_clk] [get_bd_pins microblaze_0_axi_intc/s_axi_aclk] [get_bd_pins microblaze_0_axi_periph/ACLK] [get_bd_pins microblaze_0_axi_periph/M00_ACLK] [get_bd_pins microblaze_0_axi_periph/M01_ACLK] [get_bd_pins microblaze_0_axi_periph/M02_ACLK] [get_bd_pins microblaze_0_axi_periph/M03_ACLK] [get_bd_pins microblaze_0_axi_periph/S00_ACLK] [get_bd_pins microblaze_0_local_memory/LMB_Clk] [get_bd_pins rst_clk_wiz_0_100M/slowest_sync_clk]
