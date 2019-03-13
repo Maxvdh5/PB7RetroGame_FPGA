@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
---Date        : Tue Mar 12 17:07:56 2019
+--Date        : Wed Mar 13 20:57:48 2019
 --Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -1844,7 +1844,7 @@ entity blockdesign is
     vSync : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=24,numReposBlks=17,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=25,numReposBlks=18,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=3,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_mb_cnt=1,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
@@ -2057,28 +2057,50 @@ architecture STRUCTURE of blockdesign is
     gpio2_io_i : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component blockdesign_axi_gpio_1_0;
-  component blockdesign_HeaderManager_0_2 is
-  port (
-    Mhz_100 : in STD_LOGIC;
-    Mhz_25_IN : in STD_LOGIC;
-    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
-    RGB : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    RFlag : out STD_LOGIC
-  );
-  end component blockdesign_HeaderManager_0_2;
   component blockdesign_VGA_0_1 is
   port (
     clk25 : in STD_LOGIC;
     RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hsync : out STD_LOGIC;
-    vsync : out STD_LOGIC
+    vsync : out STD_LOGIC;
+    RFlag : out STD_LOGIC;
+    outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
   end component blockdesign_VGA_0_1;
-  signal HeaderManager_0_RFlag : STD_LOGIC;
+  component blockdesign_SPRITEDRAW_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    hCount : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    vCount : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    hPos : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    vPos : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    hSync : in STD_LOGIC;
+    vSync : in STD_LOGIC;
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component blockdesign_SPRITEDRAW_0_0;
+  component blockdesign_HeaderManager_0_2 is
+  port (
+    Mhz_100 : in STD_LOGIC;
+    Mhz_25_IN : in STD_LOGIC;
+    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    RGB : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    SpX : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    SpY : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    SpData : out STD_LOGIC_VECTOR ( 15 downto 0 )
+  );
+  end component blockdesign_HeaderManager_0_2;
+  signal HeaderManager_0_SpX : STD_LOGIC_VECTOR ( 9 downto 0 );
+  signal HeaderManager_0_SpY : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
+  signal SPRITEDRAW_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal VGA_0_RFlag : STD_LOGIC;
   signal VGA_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal VGA_0_hsync : STD_LOGIC;
+  signal VGA_0_outHcount : STD_LOGIC_VECTOR ( 9 downto 0 );
+  signal VGA_0_outVcount : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal VGA_0_vsync : STD_LOGIC;
   signal axi_gpio_0_GPIO2_TRI_I : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal axi_gpio_0_GPIO2_TRI_O : STD_LOGIC_VECTOR ( 15 downto 0 );
@@ -2217,6 +2239,7 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal sys_clock_1 : STD_LOGIC;
   signal NLW_HeaderManager_0_RGB_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal NLW_HeaderManager_0_SpData_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
   attribute BMM_INFO_PROCESSOR : string;
@@ -2259,22 +2282,31 @@ HeaderManager_0: component blockdesign_HeaderManager_0_2
       Data(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       Mhz_100 => microblaze_0_Clk,
       Mhz_25_IN => clk_wiz_0_clk_out2,
-      RFlag => HeaderManager_0_RFlag,
-      RGB(7 downto 0) => NLW_HeaderManager_0_RGB_UNCONNECTED(7 downto 0)
+      RGB(7 downto 0) => NLW_HeaderManager_0_RGB_UNCONNECTED(7 downto 0),
+      SpData(15 downto 0) => NLW_HeaderManager_0_SpData_UNCONNECTED(15 downto 0),
+      SpX(9 downto 0) => HeaderManager_0_SpX(9 downto 0),
+      SpY(9 downto 0) => HeaderManager_0_SpY(9 downto 0)
+    );
+SPRITEDRAW_0: component blockdesign_SPRITEDRAW_0_0
+     port map (
+      RGBout(7 downto 0) => SPRITEDRAW_0_RGBout(7 downto 0),
+      clk => clk_wiz_0_clk_out2,
+      hCount(9 downto 0) => VGA_0_outHcount(9 downto 0),
+      hPos(9 downto 0) => HeaderManager_0_SpX(9 downto 0),
+      hSync => VGA_0_hsync,
+      vCount(9 downto 0) => VGA_0_outVcount(9 downto 0),
+      vPos(9 downto 0) => HeaderManager_0_SpY(9 downto 0),
+      vSync => VGA_0_vsync
     );
 VGA_0: component blockdesign_VGA_0_1
      port map (
-      RGBin(7) => HeaderManager_0_RFlag,
-      RGBin(6) => HeaderManager_0_RFlag,
-      RGBin(5) => HeaderManager_0_RFlag,
-      RGBin(4) => HeaderManager_0_RFlag,
-      RGBin(3) => HeaderManager_0_RFlag,
-      RGBin(2) => HeaderManager_0_RFlag,
-      RGBin(1) => HeaderManager_0_RFlag,
-      RGBin(0) => HeaderManager_0_RFlag,
+      RFlag => VGA_0_RFlag,
+      RGBin(7 downto 0) => SPRITEDRAW_0_RGBout(7 downto 0),
       RGBout(7 downto 0) => VGA_0_RGBout(7 downto 0),
       clk25 => clk_wiz_0_clk_out2,
       hsync => VGA_0_hsync,
+      outHcount(9 downto 0) => VGA_0_outHcount(9 downto 0),
+      outVcount(9 downto 0) => VGA_0_outVcount(9 downto 0),
       vsync => VGA_0_vsync
     );
 axi_gpio_0: component blockdesign_axi_gpio_0_0
@@ -2306,7 +2338,7 @@ axi_gpio_0: component blockdesign_axi_gpio_0_0
     );
 axi_gpio_1: component blockdesign_axi_gpio_1_0
      port map (
-      gpio2_io_i(0) => HeaderManager_0_RFlag,
+      gpio2_io_i(0) => VGA_0_RFlag,
       gpio_io_o(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       s_axi_aclk => microblaze_0_Clk,
       s_axi_araddr(8 downto 0) => microblaze_0_axi_periph_M03_AXI_ARADDR(8 downto 0),

@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# HeaderManager, VGA
+# HeaderManager, SPRITEDRAW, VGA
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -273,6 +273,17 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: SPRITEDRAW_0, and set properties
+  set block_name SPRITEDRAW
+  set block_cell_name SPRITEDRAW_0
+  if { [catch {set SPRITEDRAW_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_msg_id "BD_TCL-105" "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $SPRITEDRAW_0 eq "" } {
+     catch {common::send_msg_id "BD_TCL-106" "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: VGA_0, and set properties
   set block_name VGA
   set block_cell_name VGA_0
@@ -301,7 +312,7 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.C_ALL_INPUTS_2 {1} \
    CONFIG.C_ALL_OUTPUTS {1} \
-   CONFIG.C_DOUT_DEFAULT {0x05030000} \
+   CONFIG.C_DOUT_DEFAULT {0x11010000} \
    CONFIG.C_GPIO2_WIDTH {1} \
    CONFIG.C_IS_DUAL {1} \
  ] $axi_gpio_1
@@ -386,15 +397,19 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net microblaze_0_interrupt [get_bd_intf_pins microblaze_0/INTERRUPT] [get_bd_intf_pins microblaze_0_axi_intc/interrupt]
 
   # Create port connections
-  connect_bd_net -net HeaderManager_0_Mhz_25_Sync [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
-  connect_bd_net -net HeaderManager_0_RFlag [get_bd_pins HeaderManager_0/RFlag] [get_bd_pins axi_gpio_1/gpio2_io_i]
-  connect_bd_net -net HeaderManager_0_RGB [get_bd_pins HeaderManager_0/RGB] [get_bd_pins VGA_0/RGBin]
+  connect_bd_net -net HeaderManager_0_SpX [get_bd_pins HeaderManager_0/SpX] [get_bd_pins SPRITEDRAW_0/hPos]
+  connect_bd_net -net HeaderManager_0_SpY [get_bd_pins HeaderManager_0/SpY] [get_bd_pins SPRITEDRAW_0/vPos]
   connect_bd_net -net JA_1 [get_bd_ports JA] [get_bd_pins axi_gpio_0/gpio_io_i]
+  connect_bd_net -net SPRITEDRAW_0_RGBout [get_bd_pins SPRITEDRAW_0/RGBout] [get_bd_pins VGA_0/RGBin]
+  connect_bd_net -net VGA_0_RFlag [get_bd_pins VGA_0/RFlag] [get_bd_pins axi_gpio_1/gpio2_io_i]
   connect_bd_net -net VGA_0_RGBout [get_bd_ports RGBout] [get_bd_pins VGA_0/RGBout]
-  connect_bd_net -net VGA_0_hsync [get_bd_ports hSync] [get_bd_pins VGA_0/hsync]
-  connect_bd_net -net VGA_0_vsync [get_bd_ports vSync] [get_bd_pins VGA_0/vsync]
+  connect_bd_net -net VGA_0_hsync [get_bd_ports hSync] [get_bd_pins SPRITEDRAW_0/hSync] [get_bd_pins VGA_0/hsync]
+  connect_bd_net -net VGA_0_outHcount [get_bd_pins SPRITEDRAW_0/hCount] [get_bd_pins VGA_0/outHcount]
+  connect_bd_net -net VGA_0_outVcount [get_bd_pins SPRITEDRAW_0/vCount] [get_bd_pins VGA_0/outVcount]
+  connect_bd_net -net VGA_0_vsync [get_bd_ports vSync] [get_bd_pins SPRITEDRAW_0/vSync] [get_bd_pins VGA_0/vsync]
   connect_bd_net -net axi_gpio_0_ip2intc_irpt [get_bd_pins axi_gpio_0/ip2intc_irpt] [get_bd_pins microblaze_0_xlconcat/In0]
   connect_bd_net -net axi_gpio_1_gpio_io_o [get_bd_pins HeaderManager_0/Data] [get_bd_pins axi_gpio_1/gpio_io_o]
+  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins SPRITEDRAW_0/clk] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins rst_clk_wiz_0_100M/dcm_locked]
   connect_bd_net -net mdm_1_debug_sys_rst [get_bd_pins mdm_1/Debug_SYS_Rst] [get_bd_pins rst_clk_wiz_0_100M/mb_debug_sys_rst]
   connect_bd_net -net microblaze_0_Clk [get_bd_pins HeaderManager_0/Mhz_100] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins microblaze_0/Clk] [get_bd_pins microblaze_0_axi_intc/processor_clk] [get_bd_pins microblaze_0_axi_intc/s_axi_aclk] [get_bd_pins microblaze_0_axi_periph/ACLK] [get_bd_pins microblaze_0_axi_periph/M00_ACLK] [get_bd_pins microblaze_0_axi_periph/M01_ACLK] [get_bd_pins microblaze_0_axi_periph/M02_ACLK] [get_bd_pins microblaze_0_axi_periph/M03_ACLK] [get_bd_pins microblaze_0_axi_periph/S00_ACLK] [get_bd_pins microblaze_0_local_memory/LMB_Clk] [get_bd_pins rst_clk_wiz_0_100M/slowest_sync_clk]
