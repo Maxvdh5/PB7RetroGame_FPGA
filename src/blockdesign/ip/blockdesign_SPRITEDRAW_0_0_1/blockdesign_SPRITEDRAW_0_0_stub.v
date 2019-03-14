@@ -4,8 +4,8 @@
 // Date        : Thu Mar 14 11:47:11 2019
 // Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
-//               C:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_HeaderManager_0_2/blockdesign_HeaderManager_0_2_stub.v
-// Design      : blockdesign_HeaderManager_0_2
+//               C:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_SPRITEDRAW_0_0_1/blockdesign_SPRITEDRAW_0_0_stub.v
+// Design      : blockdesign_SPRITEDRAW_0_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a35tcpg236-1
 // --------------------------------------------------------------------------------
@@ -13,14 +13,15 @@
 // This empty module with port declaration file causes synthesis tools to infer a black box for IP.
 // The synthesis directives are for Synopsys Synplify support to prevent IO buffer insertion.
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
-(* x_core_info = "HeaderManager,Vivado 2017.4" *)
-module blockdesign_HeaderManager_0_2(Mhz_100, Mhz_25_IN, Data, RGB, SpX, SpY, SpData)
-/* synthesis syn_black_box black_box_pad_pin="Mhz_100,Mhz_25_IN,Data[31:0],RGB[7:0],SpX[9:0],SpY[9:0],SpData[15:0]" */;
-  input Mhz_100;
-  input Mhz_25_IN;
-  input [31:0]Data;
-  output [7:0]RGB;
-  output [9:0]SpX;
-  output [9:0]SpY;
-  output [15:0]SpData;
+(* x_core_info = "SPRITEDRAW,Vivado 2017.4" *)
+module blockdesign_SPRITEDRAW_0_0(clk, hCount, vCount, hPos, vPos, hSync, vSync, RGBout)
+/* synthesis syn_black_box black_box_pad_pin="clk,hCount[9:0],vCount[9:0],hPos[9:0],vPos[9:0],hSync,vSync,RGBout[7:0]" */;
+  input clk;
+  input [9:0]hCount;
+  input [9:0]vCount;
+  input [9:0]hPos;
+  input [9:0]vPos;
+  input hSync;
+  input vSync;
+  output [7:0]RGBout;
 endmodule
