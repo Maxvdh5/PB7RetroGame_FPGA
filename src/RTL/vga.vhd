@@ -9,18 +9,25 @@ entity VGA is
             
 			RGBout                      : OUT   STD_LOGIC_VECTOR(7 DOWNTO 0);
 			
-			hsync, vsync                : out    STD_LOGIC);
-			--outHcount, outVcount        : out    STD_LOGIC_VECTOR(9 DOWNTO 0));
+			hsync, vsync                : OUT    STD_LOGIC;
+			RFlag                       : OUT    STD_LOGIC;
+			outHcount, outVcount        : out    STD_LOGIC_VECTOR(9 DOWNTO 0));
 
 end VGA;
 
 architecture Behavioral of VGA is
-  signal hcount: STD_LOGIC_VECTOR(9 downto 0) := "0000000000";
-  signal vcount: STD_LOGIC_VECTOR(9 downto 0) := "0000000000";
+  signal hcount         : STD_LOGIC_VECTOR(9 downto 0) := "0000000000";
+  signal vcount         : STD_LOGIC_VECTOR(9 downto 0) := "0000000000";
+  signal htemp, vtemp   : STD_LOGIC;
 begin
 
---outHcount <= hcount - 144;
---outVcount <= vcount - 31;
+outHcount <= hcount - 144;
+outVcount <= vcount - 31;
+
+RFlag <=    '1' when ((htemp = '0') and (vtemp = '0')) else
+            '0';
+hsync <= htemp;
+vsync <= vtemp;
 
 process (clk25) 
 begin
@@ -32,15 +39,15 @@ begin
         end if;
 	 
         if hcount < 97 then
-            hsync <= '0';
+            htemp <= '0';
         else
-            hsync <= '1';
+            htemp <= '1';
         end if;
     
         if vcount < 3 then
-            vsync <= '0';
+            vtemp <= '0';
         else
-            vsync <= '1';
+            vtemp <= '1';
         end if;
          
         hcount <= hcount + 1;

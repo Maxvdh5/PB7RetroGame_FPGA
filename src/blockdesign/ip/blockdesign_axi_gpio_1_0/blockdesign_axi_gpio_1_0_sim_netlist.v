@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-// Date        : Tue Mar 12 15:52:25 2019
+// Date        : Wed Mar 13 17:12:06 2019
 // Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               c:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_axi_gpio_1_0/blockdesign_axi_gpio_1_0_sim_netlist.v
+//               C:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_axi_gpio_1_0/blockdesign_axi_gpio_1_0_sim_netlist.v
 // Design      : blockdesign_axi_gpio_1_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -88,7 +88,7 @@ module blockdesign_axi_gpio_1_0
   (* C_ALL_INPUTS_2 = "1" *) 
   (* C_ALL_OUTPUTS = "1" *) 
   (* C_ALL_OUTPUTS_2 = "0" *) 
-  (* C_DOUT_DEFAULT = "84082688" *) 
+  (* C_DOUT_DEFAULT = "285278208" *) 
   (* C_DOUT_DEFAULT_2 = "0" *) 
   (* C_FAMILY = "artix7" *) 
   (* C_GPIO2_WIDTH = "1" *) 
@@ -562,14 +562,14 @@ module blockdesign_axi_gpio_1_0_GPIO_Core
         .D(D[18]),
         .Q(gpio_io_o[18]),
         .R(bus2ip_reset));
-  FDSE #(
-    .INIT(1'b1)) 
+  FDRE #(
+    .INIT(1'b0)) 
     \Dual.gpio_Data_Out_reg[14] 
        (.C(s_axi_aclk),
         .CE(E),
         .D(D[17]),
         .Q(gpio_io_o[17]),
-        .S(bus2ip_reset));
+        .R(bus2ip_reset));
   FDSE #(
     .INIT(1'b1)) 
     \Dual.gpio_Data_Out_reg[15] 
@@ -722,14 +722,14 @@ module blockdesign_axi_gpio_1_0_GPIO_Core
         .D(D[0]),
         .Q(gpio_io_o[0]),
         .R(bus2ip_reset));
-  FDRE #(
-    .INIT(1'b0)) 
+  FDSE #(
+    .INIT(1'b1)) 
     \Dual.gpio_Data_Out_reg[3] 
        (.C(s_axi_aclk),
         .CE(E),
         .D(D[28]),
         .Q(gpio_io_o[28]),
-        .R(bus2ip_reset));
+        .S(bus2ip_reset));
   FDRE #(
     .INIT(1'b0)) 
     \Dual.gpio_Data_Out_reg[4] 
@@ -738,14 +738,14 @@ module blockdesign_axi_gpio_1_0_GPIO_Core
         .D(D[27]),
         .Q(gpio_io_o[27]),
         .R(bus2ip_reset));
-  FDSE #(
-    .INIT(1'b1)) 
+  FDRE #(
+    .INIT(1'b0)) 
     \Dual.gpio_Data_Out_reg[5] 
        (.C(s_axi_aclk),
         .CE(E),
         .D(D[26]),
         .Q(gpio_io_o[26]),
-        .S(bus2ip_reset));
+        .R(bus2ip_reset));
   FDRE #(
     .INIT(1'b0)) 
     \Dual.gpio_Data_Out_reg[6] 
@@ -2056,7 +2056,7 @@ module blockdesign_axi_gpio_1_0_address_decoder
 endmodule
 
 (* C_ALL_INPUTS = "0" *) (* C_ALL_INPUTS_2 = "1" *) (* C_ALL_OUTPUTS = "1" *) 
-(* C_ALL_OUTPUTS_2 = "0" *) (* C_DOUT_DEFAULT = "84082688" *) (* C_DOUT_DEFAULT_2 = "0" *) 
+(* C_ALL_OUTPUTS_2 = "0" *) (* C_DOUT_DEFAULT = "285278208" *) (* C_DOUT_DEFAULT_2 = "0" *) 
 (* C_FAMILY = "artix7" *) (* C_GPIO2_WIDTH = "1" *) (* C_GPIO_WIDTH = "32" *) 
 (* C_INTERRUPT_PRESENT = "0" *) (* C_IS_DUAL = "1" *) (* C_S_AXI_ADDR_WIDTH = "9" *) 
 (* C_S_AXI_DATA_WIDTH = "32" *) (* C_TRI_DEFAULT = "-1" *) (* C_TRI_DEFAULT_2 = "-1" *) 

@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
--- Date        : Tue Mar 12 15:52:25 2019
+-- Date        : Wed Mar 13 17:12:06 2019
 -- Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               c:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_axi_gpio_1_0/blockdesign_axi_gpio_1_0_sim_netlist.vhdl
+--               C:/Users/nickv/Documents/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_axi_gpio_1_0/blockdesign_axi_gpio_1_0_sim_netlist.vhdl
 -- Design      : blockdesign_axi_gpio_1_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -1671,16 +1671,16 @@ begin
       Q => \^gpio_io_o\(18),
       R => bus2ip_reset
     );
-\Dual.gpio_Data_Out_reg[14]\: unisim.vcomponents.FDSE
+\Dual.gpio_Data_Out_reg[14]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '1'
+      INIT => '0'
     )
         port map (
       C => s_axi_aclk,
       CE => E(0),
       D => D(17),
       Q => \^gpio_io_o\(17),
-      S => bus2ip_reset
+      R => bus2ip_reset
     );
 \Dual.gpio_Data_Out_reg[15]\: unisim.vcomponents.FDSE
     generic map(
@@ -1891,16 +1891,16 @@ begin
       Q => \^gpio_io_o\(0),
       R => bus2ip_reset
     );
-\Dual.gpio_Data_Out_reg[3]\: unisim.vcomponents.FDRE
+\Dual.gpio_Data_Out_reg[3]\: unisim.vcomponents.FDSE
     generic map(
-      INIT => '0'
+      INIT => '1'
     )
         port map (
       C => s_axi_aclk,
       CE => E(0),
       D => D(28),
       Q => \^gpio_io_o\(28),
-      R => bus2ip_reset
+      S => bus2ip_reset
     );
 \Dual.gpio_Data_Out_reg[4]\: unisim.vcomponents.FDRE
     generic map(
@@ -1913,16 +1913,16 @@ begin
       Q => \^gpio_io_o\(27),
       R => bus2ip_reset
     );
-\Dual.gpio_Data_Out_reg[5]\: unisim.vcomponents.FDSE
+\Dual.gpio_Data_Out_reg[5]\: unisim.vcomponents.FDRE
     generic map(
-      INIT => '1'
+      INIT => '0'
     )
         port map (
       C => s_axi_aclk,
       CE => E(0),
       D => D(26),
       Q => \^gpio_io_o\(26),
-      S => bus2ip_reset
+      R => bus2ip_reset
     );
 \Dual.gpio_Data_Out_reg[6]\: unisim.vcomponents.FDRE
     generic map(
@@ -3459,7 +3459,7 @@ entity blockdesign_axi_gpio_1_0_axi_gpio is
   attribute C_ALL_OUTPUTS_2 : integer;
   attribute C_ALL_OUTPUTS_2 of blockdesign_axi_gpio_1_0_axi_gpio : entity is 0;
   attribute C_DOUT_DEFAULT : integer;
-  attribute C_DOUT_DEFAULT of blockdesign_axi_gpio_1_0_axi_gpio : entity is 84082688;
+  attribute C_DOUT_DEFAULT of blockdesign_axi_gpio_1_0_axi_gpio : entity is 285278208;
   attribute C_DOUT_DEFAULT_2 : integer;
   attribute C_DOUT_DEFAULT_2 of blockdesign_axi_gpio_1_0_axi_gpio : entity is 0;
   attribute C_FAMILY : string;
@@ -4175,7 +4175,7 @@ architecture STRUCTURE of blockdesign_axi_gpio_1_0 is
   attribute C_ALL_OUTPUTS_2 : integer;
   attribute C_ALL_OUTPUTS_2 of U0 : label is 0;
   attribute C_DOUT_DEFAULT : integer;
-  attribute C_DOUT_DEFAULT of U0 : label is 84082688;
+  attribute C_DOUT_DEFAULT of U0 : label is 285278208;
   attribute C_DOUT_DEFAULT_2 : integer;
   attribute C_DOUT_DEFAULT_2 of U0 : label is 0;
   attribute C_FAMILY : string;
