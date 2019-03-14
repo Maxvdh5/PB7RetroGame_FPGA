@@ -24,23 +24,23 @@ preplace inst axi_uartlite_0 -pg 1 -lvl 2 -y 190 -defaultsOSRD
 preplace inst clk_wiz_0 -pg 1 -lvl 2 -y 60 -defaultsOSRD
 preplace inst microblaze_0_local_memory -pg 1 -lvl 4 -y -50 -defaultsOSRD
 preplace inst VGA_0 -pg 1 -lvl 6 -y -40 -defaultsOSRD
-preplace netloc VGA_0_outVcount 1 4 3 2260 90 NJ 90 2930
+preplace netloc VGA_0_outVcount 1 4 3 2260 90 N 90 2940
 preplace netloc rst_clk_wiz_0_100M_bus_struct_reset 1 3 1 1600
 preplace netloc clk_wiz_0_locked 1 2 1 1150J
 preplace netloc microblaze_0_intr 1 4 2 2280J 310 N
 preplace netloc microblaze_0_Clk 1 0 6 30J 250 810J 450 1170 130 1650 260 N 260 2590
 preplace netloc microblaze_0_axi_periph_M03_AXI 1 2 3 1220 270 NJ 270 2260
 preplace netloc microblaze_0_intc_axi 1 4 2 2270 250 N
-preplace netloc microblaze_0_interrupt 1 0 7 10J 430 NJ 430 1150J 220 NJ 220 2280J 200 N 200 2930
-preplace netloc VGA_0_RFlag 1 3 4 1610 250 2250J 140 N 140 2950
-preplace netloc VGA_0_hsync 1 4 3 2280 70 2590 -140 2970
+preplace netloc microblaze_0_interrupt 1 0 7 10J 430 NJ 430 1150J 220 NJ 220 2280J 200 N 200 2940
+preplace netloc VGA_0_RFlag 1 3 4 1610 250 2250 140 N 140 2960
+preplace netloc VGA_0_hsync 1 4 3 2280 70 2590 -140 2980
 preplace netloc microblaze_0_ilmb_1 1 1 3 820J -60 NJ -60 N
 preplace netloc sys_clock_1 1 0 2 10J -30 830
 preplace netloc microblaze_0_axi_dp 1 1 3 790J 510 NJ 510 1660
 preplace netloc axi_gpio_1_gpio_io_o 1 3 1 1640
-preplace netloc VGA_0_vsync 1 4 3 2270 100 N 100 2960
+preplace netloc VGA_0_vsync 1 4 3 2270 100 N 100 2970
 preplace netloc JA_1 1 0 3 0J 260 800J 440 1140
-preplace netloc axi_gpio_0_GPIO2 1 2 5 1160 120 1640J 50 2240J 60 NJ 60 2970J
+preplace netloc axi_gpio_0_GPIO2 1 2 5 1160 120 1640J 50 2240J 60 NJ 60 2980J
 preplace netloc microblaze_0_axi_periph_M01_AXI 1 1 4 830 410 1180J 290 NJ 290 2250
 preplace netloc VGA_0_RGBout 1 6 1 N
 preplace netloc rst_clk_wiz_0_100M_mb_reset 1 0 6 20J 460 NJ 460 1210J 230 1610 230 N 230 2600
@@ -56,9 +56,9 @@ preplace netloc reset_1 1 0 3 NJ -70 840 -30 1220J
 preplace netloc mdm_1_debug_sys_rst 1 1 2 810J -10 1160J
 preplace netloc rst_clk_wiz_0_100M_peripheral_aresetn 1 1 5 820 470 1220 520 1600 240 NJ 240 2610J
 preplace netloc rst_clk_wiz_0_100M_interconnect_aresetn 1 3 1 1630
+preplace netloc VGA_0_outHcount 1 4 3 2250 80 NJ 80 2950
 preplace netloc HeaderManager_0_SpY 1 4 1 2230
-preplace netloc VGA_0_outHcount 1 4 3 2250 80 NJ 80 2940
-levelinfo -pg 1 -20 550 1010 1430 2070 2440 2770 2990 -top -460 -bot 740
+levelinfo -pg 1 -20 550 1010 1430 2070 2440 2780 3000 -top -460 -bot 740
 ",
 }
 {
