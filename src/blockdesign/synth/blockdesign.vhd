@@ -1,8 +1,8 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
---Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
---Date        : Thu Mar 14 11:45:47 2019
---Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
+--Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
+--Date        : Mon Apr  8 17:36:33 2019
+--Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
 --Purpose     : IP block netlist
@@ -1834,9 +1834,6 @@ entity blockdesign is
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hSync : out STD_LOGIC;
-    led_16bits_0_tri_i : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    led_16bits_0_tri_o : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    led_16bits_0_tri_t : out STD_LOGIC_VECTOR ( 15 downto 0 );
     reset : in STD_LOGIC;
     sys_clock : in STD_LOGIC;
     usb_uart_rxd : in STD_LOGIC;
@@ -1907,10 +1904,8 @@ architecture STRUCTURE of blockdesign is
     s_axi_rvalid : out STD_LOGIC;
     s_axi_rready : in STD_LOGIC;
     ip2intc_irpt : out STD_LOGIC;
-    gpio_io_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
-    gpio2_io_i : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    gpio2_io_o : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    gpio2_io_t : out STD_LOGIC_VECTOR ( 15 downto 0 )
+    gpio_io_o : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    gpio2_io_i : in STD_LOGIC_VECTOR ( 3 downto 0 )
   );
   end component blockdesign_axi_gpio_0_0;
   component blockdesign_microblaze_0_0 is
@@ -1990,7 +1985,7 @@ architecture STRUCTURE of blockdesign is
     s_axi_rresp : out STD_LOGIC_VECTOR ( 1 downto 0 );
     s_axi_rvalid : out STD_LOGIC;
     s_axi_rready : in STD_LOGIC;
-    intr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    intr : in STD_LOGIC_VECTOR ( 1 downto 0 );
     processor_clk : in STD_LOGIC;
     processor_rst : in STD_LOGIC;
     irq : out STD_LOGIC;
@@ -2001,7 +1996,8 @@ architecture STRUCTURE of blockdesign is
   component blockdesign_microblaze_0_xlconcat_0 is
   port (
     In0 : in STD_LOGIC_VECTOR ( 0 to 0 );
-    dout : out STD_LOGIC_VECTOR ( 0 to 0 )
+    In1 : in STD_LOGIC_VECTOR ( 0 to 0 );
+    dout : out STD_LOGIC_VECTOR ( 1 downto 0 )
   );
   end component blockdesign_microblaze_0_xlconcat_0;
   component blockdesign_mdm_1_0 is
@@ -2053,22 +2049,11 @@ architecture STRUCTURE of blockdesign is
     s_axi_rresp : out STD_LOGIC_VECTOR ( 1 downto 0 );
     s_axi_rvalid : out STD_LOGIC;
     s_axi_rready : in STD_LOGIC;
+    ip2intc_irpt : out STD_LOGIC;
     gpio_io_o : out STD_LOGIC_VECTOR ( 31 downto 0 );
     gpio2_io_i : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component blockdesign_axi_gpio_1_0;
-  component blockdesign_VGA_0_1 is
-  port (
-    clk25 : in STD_LOGIC;
-    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    hsync : out STD_LOGIC;
-    vsync : out STD_LOGIC;
-    RFlag : out STD_LOGIC;
-    outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
-  );
-  end component blockdesign_VGA_0_1;
   component blockdesign_SPRITEDRAW_0_0 is
   port (
     clk : in STD_LOGIC;
@@ -2092,6 +2077,18 @@ architecture STRUCTURE of blockdesign is
     SpData : out STD_LOGIC_VECTOR ( 15 downto 0 )
   );
   end component blockdesign_HeaderManager_0_2;
+  component blockdesign_VGA_0_1 is
+  port (
+    clk25 : in STD_LOGIC;
+    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    hsync : out STD_LOGIC;
+    vsync : out STD_LOGIC;
+    RFlag : out STD_LOGIC;
+    outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
+  );
+  end component blockdesign_VGA_0_1;
   signal HeaderManager_0_SpX : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal HeaderManager_0_SpY : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -2102,11 +2099,9 @@ architecture STRUCTURE of blockdesign is
   signal VGA_0_outHcount : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal VGA_0_outVcount : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal VGA_0_vsync : STD_LOGIC;
-  signal axi_gpio_0_GPIO2_TRI_I : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal axi_gpio_0_GPIO2_TRI_O : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal axi_gpio_0_GPIO2_TRI_T : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal axi_gpio_0_ip2intc_irpt : STD_LOGIC;
   signal axi_gpio_1_gpio_io_o : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal axi_gpio_1_ip2intc_irpt : STD_LOGIC;
   signal axi_uartlite_0_UART_RxD : STD_LOGIC;
   signal axi_uartlite_0_UART_TxD : STD_LOGIC;
   signal clk_wiz_0_clk_out2 : STD_LOGIC;
@@ -2231,7 +2226,7 @@ architecture STRUCTURE of blockdesign is
   signal microblaze_0_interrupt_ACK : STD_LOGIC_VECTOR ( 0 to 1 );
   signal microblaze_0_interrupt_ADDRESS : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal microblaze_0_interrupt_INTERRUPT : STD_LOGIC;
-  signal microblaze_0_intr : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal microblaze_0_intr : STD_LOGIC_VECTOR ( 1 downto 0 );
   signal reset_1 : STD_LOGIC;
   signal rst_clk_wiz_0_100M_bus_struct_reset : STD_LOGIC_VECTOR ( 0 to 0 );
   signal rst_clk_wiz_0_100M_interconnect_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
@@ -2240,6 +2235,7 @@ architecture STRUCTURE of blockdesign is
   signal sys_clock_1 : STD_LOGIC;
   signal NLW_HeaderManager_0_RGB_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_HeaderManager_0_SpData_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
+  signal NLW_axi_gpio_0_gpio_io_o_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
   attribute BMM_INFO_PROCESSOR : string;
@@ -2262,17 +2258,11 @@ architecture STRUCTURE of blockdesign is
   attribute X_INTERFACE_PARAMETER of JA : signal is "XIL_INTERFACENAME DATA.JA, LAYERED_METADATA undef";
   attribute X_INTERFACE_INFO of RGBout : signal is "xilinx.com:signal:data:1.0 DATA.RGBOUT DATA";
   attribute X_INTERFACE_PARAMETER of RGBout : signal is "XIL_INTERFACENAME DATA.RGBOUT, LAYERED_METADATA undef";
-  attribute X_INTERFACE_INFO of led_16bits_0_tri_i : signal is "xilinx.com:interface:gpio:1.0 led_16bits_0 TRI_I";
-  attribute X_INTERFACE_INFO of led_16bits_0_tri_o : signal is "xilinx.com:interface:gpio:1.0 led_16bits_0 TRI_O";
-  attribute X_INTERFACE_INFO of led_16bits_0_tri_t : signal is "xilinx.com:interface:gpio:1.0 led_16bits_0 TRI_T";
 begin
   JA_1(3 downto 0) <= JA(3 downto 0);
   RGBout(7 downto 0) <= VGA_0_RGBout(7 downto 0);
-  axi_gpio_0_GPIO2_TRI_I(15 downto 0) <= led_16bits_0_tri_i(15 downto 0);
   axi_uartlite_0_UART_RxD <= usb_uart_rxd;
   hSync <= VGA_0_hsync;
-  led_16bits_0_tri_o(15 downto 0) <= axi_gpio_0_GPIO2_TRI_O(15 downto 0);
-  led_16bits_0_tri_t(15 downto 0) <= axi_gpio_0_GPIO2_TRI_T(15 downto 0);
   reset_1 <= reset;
   sys_clock_1 <= sys_clock;
   usb_uart_txd <= axi_uartlite_0_UART_TxD;
@@ -2311,10 +2301,8 @@ VGA_0: component blockdesign_VGA_0_1
     );
 axi_gpio_0: component blockdesign_axi_gpio_0_0
      port map (
-      gpio2_io_i(15 downto 0) => axi_gpio_0_GPIO2_TRI_I(15 downto 0),
-      gpio2_io_o(15 downto 0) => axi_gpio_0_GPIO2_TRI_O(15 downto 0),
-      gpio2_io_t(15 downto 0) => axi_gpio_0_GPIO2_TRI_T(15 downto 0),
-      gpio_io_i(3 downto 0) => JA_1(3 downto 0),
+      gpio2_io_i(3 downto 0) => JA_1(3 downto 0),
+      gpio_io_o(15 downto 0) => NLW_axi_gpio_0_gpio_io_o_UNCONNECTED(15 downto 0),
       ip2intc_irpt => axi_gpio_0_ip2intc_irpt,
       s_axi_aclk => microblaze_0_Clk,
       s_axi_araddr(8 downto 0) => microblaze_0_axi_periph_M02_AXI_ARADDR(8 downto 0),
@@ -2340,6 +2328,7 @@ axi_gpio_1: component blockdesign_axi_gpio_1_0
      port map (
       gpio2_io_i(0) => VGA_0_RFlag,
       gpio_io_o(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
+      ip2intc_irpt => axi_gpio_1_ip2intc_irpt,
       s_axi_aclk => microblaze_0_Clk,
       s_axi_araddr(8 downto 0) => microblaze_0_axi_periph_M03_AXI_ARADDR(8 downto 0),
       s_axi_aresetn => rst_clk_wiz_0_100M_peripheral_aresetn(0),
@@ -2495,7 +2484,7 @@ microblaze_0: component blockdesign_microblaze_0_0
 microblaze_0_axi_intc: component blockdesign_microblaze_0_axi_intc_0
      port map (
       interrupt_address(31 downto 0) => microblaze_0_interrupt_ADDRESS(31 downto 0),
-      intr(0) => microblaze_0_intr(0),
+      intr(1 downto 0) => microblaze_0_intr(1 downto 0),
       irq => microblaze_0_interrupt_INTERRUPT,
       processor_ack(1) => microblaze_0_interrupt_ACK(0),
       processor_ack(0) => microblaze_0_interrupt_ACK(1),
@@ -2650,7 +2639,8 @@ microblaze_0_local_memory: entity work.microblaze_0_local_memory_imp_1KUS4SE
 microblaze_0_xlconcat: component blockdesign_microblaze_0_xlconcat_0
      port map (
       In0(0) => axi_gpio_0_ip2intc_irpt,
-      dout(0) => microblaze_0_intr(0)
+      In1(0) => axi_gpio_1_ip2intc_irpt,
+      dout(1 downto 0) => microblaze_0_intr(1 downto 0)
     );
 rst_clk_wiz_0_100M: component blockdesign_rst_clk_wiz_0_100M_0
      port map (

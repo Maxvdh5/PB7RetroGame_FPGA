@@ -24,7 +24,7 @@ begin
 outHcount <= hcount - 144;
 outVcount <= vcount - 31;
 
-RFlag <=    '1' when ((htemp = '0') and (vtemp = '0')) else
+RFlag <=    '1' when (vcount <= 31) else
             '0';
 hsync <= htemp;
 vsync <= vtemp;
