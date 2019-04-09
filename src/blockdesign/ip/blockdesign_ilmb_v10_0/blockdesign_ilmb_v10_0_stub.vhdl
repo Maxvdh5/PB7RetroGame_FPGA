@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Mon Feb 25 19:21:28 2019
+-- Date        : Tue Apr  9 12:38:40 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 -- Command     : write_vhdl -force -mode synth_stub -rename_top blockdesign_ilmb_v10_0 -prefix
 --               blockdesign_ilmb_v10_0_ blockdesign_dlmb_v10_0_stub.vhdl
@@ -23,11 +23,11 @@ entity blockdesign_ilmb_v10_0 is
     M_AddrStrobe : in STD_LOGIC;
     M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
     M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
-    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 0 );
+    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 63 );
+    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 1 );
     LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
     LMB_ReadStrobe : out STD_LOGIC;
     LMB_WriteStrobe : out STD_LOGIC;
@@ -47,7 +47,7 @@ architecture stub of blockdesign_ilmb_v10_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "LMB_Clk,SYS_Rst,LMB_Rst,M_ABus[0:31],M_ReadStrobe,M_WriteStrobe,M_AddrStrobe,M_DBus[0:31],M_BE[0:3],Sl_DBus[0:31],Sl_Ready[0:0],Sl_Wait[0:0],Sl_UE[0:0],Sl_CE[0:0],LMB_ABus[0:31],LMB_ReadStrobe,LMB_WriteStrobe,LMB_AddrStrobe,LMB_ReadDBus[0:31],LMB_WriteDBus[0:31],LMB_Ready,LMB_Wait,LMB_UE,LMB_CE,LMB_BE[0:3]";
+attribute black_box_pad_pin of stub : architecture is "LMB_Clk,SYS_Rst,LMB_Rst,M_ABus[0:31],M_ReadStrobe,M_WriteStrobe,M_AddrStrobe,M_DBus[0:31],M_BE[0:3],Sl_DBus[0:63],Sl_Ready[0:1],Sl_Wait[0:1],Sl_UE[0:1],Sl_CE[0:1],LMB_ABus[0:31],LMB_ReadStrobe,LMB_WriteStrobe,LMB_AddrStrobe,LMB_ReadDBus[0:31],LMB_WriteDBus[0:31],LMB_Ready,LMB_Wait,LMB_UE,LMB_CE,LMB_BE[0:3]";
 attribute x_core_info : string;
 attribute x_core_info of stub : architecture is "lmb_v10,Vivado 2017.4";
 begin

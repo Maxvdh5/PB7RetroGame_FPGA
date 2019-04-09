@@ -439,11 +439,6 @@
     </spirit:componentInstances>
     <spirit:interconnections>
       <spirit:interconnection>
-        <spirit:name>microblaze_0_dlmb_1</spirit:name>
-        <spirit:activeInterface spirit:busRef="DLMB" spirit:componentRef="microblaze_0"/>
-        <spirit:activeInterface spirit:busRef="DLMB" spirit:componentRef="microblaze_0_local_memory"/>
-      </spirit:interconnection>
-      <spirit:interconnection>
         <spirit:name>microblaze_0_ilmb_1</spirit:name>
         <spirit:activeInterface spirit:busRef="ILMB" spirit:componentRef="microblaze_0"/>
         <spirit:activeInterface spirit:busRef="ILMB" spirit:componentRef="microblaze_0_local_memory"/>
@@ -483,6 +478,11 @@
         <spirit:activeInterface spirit:busRef="M03_AXI" spirit:componentRef="microblaze_0_axi_periph"/>
         <spirit:activeInterface spirit:busRef="S_AXI" spirit:componentRef="axi_gpio_1"/>
       </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>microblaze_0_DLMB</spirit:name>
+        <spirit:activeInterface spirit:busRef="DLMB" spirit:componentRef="microblaze_0"/>
+        <spirit:activeInterface spirit:busRef="LMB_M" spirit:componentRef="microblaze_0_local_memory"/>
+      </spirit:interconnection>
     </spirit:interconnections>
     <spirit:adHocConnections>
       <spirit:adHocConnection>
@@ -506,6 +506,7 @@
         <spirit:internalPortReference spirit:componentRef="axi_gpio_0" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
+        <spirit:internalPortReference spirit:componentRef="buttonDebounce_0" spirit:portRef="clk"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="S00_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M00_ACLK"/>
@@ -513,7 +514,6 @@
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M01_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M02_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M03_ACLK"/>
-        <spirit:internalPortReference spirit:componentRef="buttonDebounce_0" spirit:portRef="clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>clk_wiz_0_locked</spirit:name>
@@ -2168,13 +2168,13 @@
     <spirit:version>1.00.a</spirit:version>
     <spirit:busInterfaces>
       <spirit:busInterface>
-        <spirit:name>DLMB</spirit:name>
+        <spirit:name>ILMB</spirit:name>
         <spirit:mirroredMaster/>
         <spirit:busType spirit:library="interface" spirit:name="lmb" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:abstractionType spirit:library="interface" spirit:name="lmb_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
       </spirit:busInterface>
       <spirit:busInterface>
-        <spirit:name>ILMB</spirit:name>
+        <spirit:name>LMB_M</spirit:name>
         <spirit:mirroredMaster/>
         <spirit:busType spirit:library="interface" spirit:name="lmb" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:abstractionType spirit:library="interface" spirit:name="lmb_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
@@ -2248,17 +2248,11 @@
     <spirit:version>1.00.a</spirit:version>
     <spirit:componentInstances>
       <spirit:componentInstance>
-        <spirit:instanceName>dlmb_v10</spirit:instanceName>
-        <spirit:componentRef spirit:library="ip" spirit:name="lmb_v10" spirit:vendor="xilinx.com" spirit:version="3.0"/>
-        <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_dlmb_v10_0</spirit:configurableElementValue>
-        </spirit:configurableElementValues>
-      </spirit:componentInstance>
-      <spirit:componentInstance>
         <spirit:instanceName>ilmb_v10</spirit:instanceName>
         <spirit:componentRef spirit:library="ip" spirit:name="lmb_v10" spirit:vendor="xilinx.com" spirit:version="3.0"/>
         <spirit:configurableElementValues>
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_ilmb_v10_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="C_LMB_NUM_SLAVES">2</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
@@ -2287,13 +2281,42 @@
           <spirit:configurableElementValue spirit:referenceId="use_bram_block">BRAM_Controller</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>lmb_bram_1</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="blk_mem_gen" spirit:vendor="xilinx.com" spirit:version="8.4"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_lmb_bram_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Memory_Type">True_Dual_Port_RAM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="use_bram_block">BRAM_Controller</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>dlmb_bram_if_cntlr_1</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="lmb_bram_if_cntlr" spirit:vendor="xilinx.com" spirit:version="4.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_dlmb_bram_if_cntlr_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="C_ECC">0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+        <bd:hdl_attributes/>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>ilmb_bram_if_cntlr_1</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="lmb_bram_if_cntlr" spirit:vendor="xilinx.com" spirit:version="4.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_ilmb_bram_if_cntlr_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="C_ECC">0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>dlmb_v10</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="lmb_v10" spirit:vendor="xilinx.com" spirit:version="3.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_dlmb_v10_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="C_LMB_NUM_SLAVES">2</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
     </spirit:componentInstances>
     <spirit:interconnections>
-      <spirit:interconnection>
-        <spirit:name>microblaze_0_dlmb_bus</spirit:name>
-        <spirit:activeInterface spirit:busRef="LMB_Sl_0" spirit:componentRef="dlmb_v10"/>
-        <spirit:activeInterface spirit:busRef="SLMB" spirit:componentRef="dlmb_bram_if_cntlr"/>
-      </spirit:interconnection>
       <spirit:interconnection>
         <spirit:name>microblaze_0_ilmb_bus</spirit:name>
         <spirit:activeInterface spirit:busRef="LMB_Sl_0" spirit:componentRef="ilmb_v10"/>
@@ -2309,31 +2332,60 @@
         <spirit:activeInterface spirit:busRef="BRAM_PORT" spirit:componentRef="ilmb_bram_if_cntlr"/>
         <spirit:activeInterface spirit:busRef="BRAM_PORTB" spirit:componentRef="lmb_bram"/>
       </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>dlmb_bram_if_cntlr_1_BRAM_PORT</spirit:name>
+        <spirit:activeInterface spirit:busRef="BRAM_PORTA" spirit:componentRef="lmb_bram_1"/>
+        <spirit:activeInterface spirit:busRef="BRAM_PORT" spirit:componentRef="dlmb_bram_if_cntlr_1"/>
+      </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>ilmb_bram_if_cntlr_1_BRAM_PORT</spirit:name>
+        <spirit:activeInterface spirit:busRef="BRAM_PORTB" spirit:componentRef="lmb_bram_1"/>
+        <spirit:activeInterface spirit:busRef="BRAM_PORT" spirit:componentRef="ilmb_bram_if_cntlr_1"/>
+      </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>Conn</spirit:name>
+        <spirit:activeInterface spirit:busRef="SLMB" spirit:componentRef="dlmb_bram_if_cntlr"/>
+        <spirit:activeInterface spirit:busRef="LMB_Sl_0" spirit:componentRef="dlmb_v10"/>
+      </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>Conn2</spirit:name>
+        <spirit:activeInterface spirit:busRef="LMB_Sl_1" spirit:componentRef="ilmb_v10"/>
+        <spirit:activeInterface spirit:busRef="SLMB" spirit:componentRef="ilmb_bram_if_cntlr_1"/>
+      </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>Conn3</spirit:name>
+        <spirit:activeInterface spirit:busRef="LMB_Sl_1" spirit:componentRef="dlmb_v10"/>
+        <spirit:activeInterface spirit:busRef="SLMB" spirit:componentRef="dlmb_bram_if_cntlr_1"/>
+      </spirit:interconnection>
     </spirit:interconnections>
     <spirit:adHocConnections>
       <spirit:adHocConnection>
         <spirit:name>microblaze_0_Clk</spirit:name>
         <spirit:externalPortReference spirit:portRef="LMB_Clk"/>
-        <spirit:internalPortReference spirit:componentRef="dlmb_v10" spirit:portRef="LMB_Clk"/>
         <spirit:internalPortReference spirit:componentRef="dlmb_bram_if_cntlr" spirit:portRef="LMB_Clk"/>
         <spirit:internalPortReference spirit:componentRef="ilmb_v10" spirit:portRef="LMB_Clk"/>
         <spirit:internalPortReference spirit:componentRef="ilmb_bram_if_cntlr" spirit:portRef="LMB_Clk"/>
+        <spirit:internalPortReference spirit:componentRef="ilmb_bram_if_cntlr_1" spirit:portRef="LMB_Clk"/>
+        <spirit:internalPortReference spirit:componentRef="dlmb_v10" spirit:portRef="LMB_Clk"/>
+        <spirit:internalPortReference spirit:componentRef="dlmb_bram_if_cntlr_1" spirit:portRef="LMB_Clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>SYS_Rst_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="SYS_Rst"/>
-        <spirit:internalPortReference spirit:componentRef="dlmb_v10" spirit:portRef="SYS_Rst"/>
         <spirit:internalPortReference spirit:componentRef="dlmb_bram_if_cntlr" spirit:portRef="LMB_Rst"/>
         <spirit:internalPortReference spirit:componentRef="ilmb_v10" spirit:portRef="SYS_Rst"/>
         <spirit:internalPortReference spirit:componentRef="ilmb_bram_if_cntlr" spirit:portRef="LMB_Rst"/>
+        <spirit:internalPortReference spirit:componentRef="ilmb_bram_if_cntlr_1" spirit:portRef="LMB_Rst"/>
+        <spirit:internalPortReference spirit:componentRef="dlmb_v10" spirit:portRef="SYS_Rst"/>
+        <spirit:internalPortReference spirit:componentRef="dlmb_bram_if_cntlr_1" spirit:portRef="LMB_Rst"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
-      <spirit:hierConnection spirit:interfaceRef="DLMB/microblaze_0_dlmb">
-        <spirit:activeInterface spirit:busRef="LMB_M" spirit:componentRef="dlmb_v10"/>
-      </spirit:hierConnection>
       <spirit:hierConnection spirit:interfaceRef="ILMB/microblaze_0_ilmb">
         <spirit:activeInterface spirit:busRef="LMB_M" spirit:componentRef="ilmb_v10"/>
+      </spirit:hierConnection>
+      <spirit:hierConnection spirit:interfaceRef="LMB_M/Conn1">
+        <spirit:activeInterface spirit:busRef="LMB_M" spirit:componentRef="dlmb_v10"/>
       </spirit:hierConnection>
     </spirit:hierConnections>
   </spirit:design>
@@ -2394,6 +2446,12 @@
             <spirit:range>64K</spirit:range>
           </spirit:segment>
           <spirit:segment>
+            <spirit:name>SEG_dlmb_bram_if_cntlr_1_Mem</spirit:name>
+            <spirit:displayName>/microblaze_0_local_memory/dlmb_bram_if_cntlr_1/SLMB/Mem</spirit:displayName>
+            <spirit:addressOffset>0x00020000</spirit:addressOffset>
+            <spirit:range>64K</spirit:range>
+          </spirit:segment>
+          <spirit:segment>
             <spirit:name>SEG_dlmb_bram_if_cntlr_Mem</spirit:name>
             <spirit:displayName>/microblaze_0_local_memory/dlmb_bram_if_cntlr/SLMB/Mem</spirit:displayName>
             <spirit:addressOffset>0x00000000</spirit:addressOffset>
@@ -2412,6 +2470,12 @@
         <spirit:range>4G</spirit:range>
         <spirit:width>32</spirit:width>
         <spirit:segments>
+          <spirit:segment>
+            <spirit:name>SEG_ilmb_bram_if_cntlr_1_Mem</spirit:name>
+            <spirit:displayName>/microblaze_0_local_memory/ilmb_bram_if_cntlr_1/SLMB/Mem</spirit:displayName>
+            <spirit:addressOffset>0x00020000</spirit:addressOffset>
+            <spirit:range>64K</spirit:range>
+          </spirit:segment>
           <spirit:segment>
             <spirit:name>SEG_ilmb_bram_if_cntlr_Mem</spirit:name>
             <spirit:displayName>/microblaze_0_local_memory/ilmb_bram_if_cntlr/SLMB/Mem</spirit:displayName>

@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Feb 25 19:21:29 2019
+// Date        : Tue Apr  9 12:38:41 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 // Command     : write_verilog -force -mode synth_stub
 //               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_dlmb_v10_0/blockdesign_dlmb_v10_0_stub.v
@@ -18,7 +18,7 @@ module blockdesign_dlmb_v10_0(LMB_Clk, SYS_Rst, LMB_Rst, M_ABus, M_ReadStrobe,
   M_WriteStrobe, M_AddrStrobe, M_DBus, M_BE, Sl_DBus, Sl_Ready, Sl_Wait, Sl_UE, Sl_CE, LMB_ABus, 
   LMB_ReadStrobe, LMB_WriteStrobe, LMB_AddrStrobe, LMB_ReadDBus, LMB_WriteDBus, LMB_Ready, 
   LMB_Wait, LMB_UE, LMB_CE, LMB_BE)
-/* synthesis syn_black_box black_box_pad_pin="LMB_Clk,SYS_Rst,LMB_Rst,M_ABus[0:31],M_ReadStrobe,M_WriteStrobe,M_AddrStrobe,M_DBus[0:31],M_BE[0:3],Sl_DBus[0:31],Sl_Ready[0:0],Sl_Wait[0:0],Sl_UE[0:0],Sl_CE[0:0],LMB_ABus[0:31],LMB_ReadStrobe,LMB_WriteStrobe,LMB_AddrStrobe,LMB_ReadDBus[0:31],LMB_WriteDBus[0:31],LMB_Ready,LMB_Wait,LMB_UE,LMB_CE,LMB_BE[0:3]" */;
+/* synthesis syn_black_box black_box_pad_pin="LMB_Clk,SYS_Rst,LMB_Rst,M_ABus[0:31],M_ReadStrobe,M_WriteStrobe,M_AddrStrobe,M_DBus[0:31],M_BE[0:3],Sl_DBus[0:63],Sl_Ready[0:1],Sl_Wait[0:1],Sl_UE[0:1],Sl_CE[0:1],LMB_ABus[0:31],LMB_ReadStrobe,LMB_WriteStrobe,LMB_AddrStrobe,LMB_ReadDBus[0:31],LMB_WriteDBus[0:31],LMB_Ready,LMB_Wait,LMB_UE,LMB_CE,LMB_BE[0:3]" */;
   input LMB_Clk;
   input SYS_Rst;
   output LMB_Rst;
@@ -28,11 +28,11 @@ module blockdesign_dlmb_v10_0(LMB_Clk, SYS_Rst, LMB_Rst, M_ABus, M_ReadStrobe,
   input M_AddrStrobe;
   input [0:31]M_DBus;
   input [0:3]M_BE;
-  input [0:31]Sl_DBus;
-  input [0:0]Sl_Ready;
-  input [0:0]Sl_Wait;
-  input [0:0]Sl_UE;
-  input [0:0]Sl_CE;
+  input [0:63]Sl_DBus;
+  input [0:1]Sl_Ready;
+  input [0:1]Sl_Wait;
+  input [0:1]Sl_UE;
+  input [0:1]Sl_CE;
   output [0:31]LMB_ABus;
   output LMB_ReadStrobe;
   output LMB_WriteStrobe;
