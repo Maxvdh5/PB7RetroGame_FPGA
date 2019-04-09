@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Mon Apr  8 17:36:33 2019
+--Date        : Tue Apr  9 10:06:45 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -1841,7 +1841,7 @@ entity blockdesign is
     vSync : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=25,numReposBlks=18,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=3,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=26,numReposBlks=19,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_mb_cnt=1,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
@@ -2089,6 +2089,13 @@ architecture STRUCTURE of blockdesign is
     outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
   end component blockdesign_VGA_0_1;
+  component blockdesign_buttonDebounce_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    btnIn : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    btnOut : out STD_LOGIC_VECTOR ( 3 downto 0 )
+  );
+  end component blockdesign_buttonDebounce_0_0;
   signal HeaderManager_0_SpX : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal HeaderManager_0_SpY : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -2104,6 +2111,7 @@ architecture STRUCTURE of blockdesign is
   signal axi_gpio_1_ip2intc_irpt : STD_LOGIC;
   signal axi_uartlite_0_UART_RxD : STD_LOGIC;
   signal axi_uartlite_0_UART_TxD : STD_LOGIC;
+  signal buttonDebounce_0_btnOut : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal clk_wiz_0_clk_out2 : STD_LOGIC;
   signal clk_wiz_0_locked : STD_LOGIC;
   signal mdm_1_debug_sys_rst : STD_LOGIC;
@@ -2301,7 +2309,7 @@ VGA_0: component blockdesign_VGA_0_1
     );
 axi_gpio_0: component blockdesign_axi_gpio_0_0
      port map (
-      gpio2_io_i(3 downto 0) => JA_1(3 downto 0),
+      gpio2_io_i(3 downto 0) => buttonDebounce_0_btnOut(3 downto 0),
       gpio_io_o(15 downto 0) => NLW_axi_gpio_0_gpio_io_o_UNCONNECTED(15 downto 0),
       ip2intc_irpt => axi_gpio_0_ip2intc_irpt,
       s_axi_aclk => microblaze_0_Clk,
@@ -2373,6 +2381,12 @@ axi_uartlite_0: component blockdesign_axi_uartlite_0_0
       s_axi_wstrb(3 downto 0) => microblaze_0_axi_periph_M01_AXI_WSTRB(3 downto 0),
       s_axi_wvalid => microblaze_0_axi_periph_M01_AXI_WVALID(0),
       tx => axi_uartlite_0_UART_TxD
+    );
+buttonDebounce_0: component blockdesign_buttonDebounce_0_0
+     port map (
+      btnIn(3 downto 0) => JA_1(3 downto 0),
+      btnOut(3 downto 0) => buttonDebounce_0_btnOut(3 downto 0),
+      clk => microblaze_0_Clk
     );
 clk_wiz_0: component blockdesign_clk_wiz_0_0
      port map (
