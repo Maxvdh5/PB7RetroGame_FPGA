@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Tue Apr  9 10:06:45 2019
+--Date        : Tue Apr  9 13:47:02 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -417,17 +417,6 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity microblaze_0_local_memory_imp_1KUS4SE is
   port (
-    DLMB_abus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    DLMB_addrstrobe : in STD_LOGIC;
-    DLMB_be : in STD_LOGIC_VECTOR ( 0 to 3 );
-    DLMB_ce : out STD_LOGIC;
-    DLMB_readdbus : out STD_LOGIC_VECTOR ( 0 to 31 );
-    DLMB_readstrobe : in STD_LOGIC;
-    DLMB_ready : out STD_LOGIC;
-    DLMB_ue : out STD_LOGIC;
-    DLMB_wait : out STD_LOGIC;
-    DLMB_writedbus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    DLMB_writestrobe : in STD_LOGIC;
     ILMB_abus : in STD_LOGIC_VECTOR ( 0 to 31 );
     ILMB_addrstrobe : in STD_LOGIC;
     ILMB_ce : out STD_LOGIC;
@@ -437,40 +426,22 @@ entity microblaze_0_local_memory_imp_1KUS4SE is
     ILMB_ue : out STD_LOGIC;
     ILMB_wait : out STD_LOGIC;
     LMB_Clk : in STD_LOGIC;
+    LMB_M_abus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_M_addrstrobe : in STD_LOGIC;
+    LMB_M_be : in STD_LOGIC_VECTOR ( 0 to 3 );
+    LMB_M_ce : out STD_LOGIC;
+    LMB_M_readdbus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_M_readstrobe : in STD_LOGIC;
+    LMB_M_ready : out STD_LOGIC;
+    LMB_M_ue : out STD_LOGIC;
+    LMB_M_wait : out STD_LOGIC;
+    LMB_M_writedbus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_M_writestrobe : in STD_LOGIC;
     SYS_Rst : in STD_LOGIC
   );
 end microblaze_0_local_memory_imp_1KUS4SE;
 
 architecture STRUCTURE of microblaze_0_local_memory_imp_1KUS4SE is
-  component blockdesign_dlmb_v10_0 is
-  port (
-    LMB_Clk : in STD_LOGIC;
-    SYS_Rst : in STD_LOGIC;
-    LMB_Rst : out STD_LOGIC;
-    M_ABus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    M_ReadStrobe : in STD_LOGIC;
-    M_WriteStrobe : in STD_LOGIC;
-    M_AddrStrobe : in STD_LOGIC;
-    M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
-    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
-    LMB_ReadStrobe : out STD_LOGIC;
-    LMB_WriteStrobe : out STD_LOGIC;
-    LMB_AddrStrobe : out STD_LOGIC;
-    LMB_ReadDBus : out STD_LOGIC_VECTOR ( 0 to 31 );
-    LMB_WriteDBus : out STD_LOGIC_VECTOR ( 0 to 31 );
-    LMB_Ready : out STD_LOGIC;
-    LMB_Wait : out STD_LOGIC;
-    LMB_UE : out STD_LOGIC;
-    LMB_CE : out STD_LOGIC;
-    LMB_BE : out STD_LOGIC_VECTOR ( 0 to 3 )
-  );
-  end component blockdesign_dlmb_v10_0;
   component blockdesign_ilmb_v10_0 is
   port (
     LMB_Clk : in STD_LOGIC;
@@ -482,11 +453,11 @@ architecture STRUCTURE of microblaze_0_local_memory_imp_1KUS4SE is
     M_AddrStrobe : in STD_LOGIC;
     M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
     M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
-    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 0 );
+    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 63 );
+    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 1 );
     LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
     LMB_ReadStrobe : out STD_LOGIC;
     LMB_WriteStrobe : out STD_LOGIC;
@@ -568,30 +539,151 @@ architecture STRUCTURE of microblaze_0_local_memory_imp_1KUS4SE is
     rstb_busy : out STD_LOGIC
   );
   end component blockdesign_lmb_bram_0;
+  component blockdesign_lmb_bram_1 is
+  port (
+    clka : in STD_LOGIC;
+    rsta : in STD_LOGIC;
+    ena : in STD_LOGIC;
+    wea : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    addra : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    dina : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    douta : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    clkb : in STD_LOGIC;
+    rstb : in STD_LOGIC;
+    enb : in STD_LOGIC;
+    web : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    addrb : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    dinb : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    doutb : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    rsta_busy : out STD_LOGIC;
+    rstb_busy : out STD_LOGIC
+  );
+  end component blockdesign_lmb_bram_1;
+  component blockdesign_dlmb_bram_if_cntlr_1 is
+  port (
+    LMB_Clk : in STD_LOGIC;
+    LMB_Rst : in STD_LOGIC;
+    LMB_ABus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_WriteDBus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_AddrStrobe : in STD_LOGIC;
+    LMB_ReadStrobe : in STD_LOGIC;
+    LMB_WriteStrobe : in STD_LOGIC;
+    LMB_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
+    Sl_DBus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    Sl_Ready : out STD_LOGIC;
+    Sl_Wait : out STD_LOGIC;
+    Sl_UE : out STD_LOGIC;
+    Sl_CE : out STD_LOGIC;
+    BRAM_Rst_A : out STD_LOGIC;
+    BRAM_Clk_A : out STD_LOGIC;
+    BRAM_Addr_A : out STD_LOGIC_VECTOR ( 0 to 31 );
+    BRAM_EN_A : out STD_LOGIC;
+    BRAM_WEN_A : out STD_LOGIC_VECTOR ( 0 to 3 );
+    BRAM_Dout_A : out STD_LOGIC_VECTOR ( 0 to 31 );
+    BRAM_Din_A : in STD_LOGIC_VECTOR ( 0 to 31 )
+  );
+  end component blockdesign_dlmb_bram_if_cntlr_1;
+  component blockdesign_ilmb_bram_if_cntlr_1 is
+  port (
+    LMB_Clk : in STD_LOGIC;
+    LMB_Rst : in STD_LOGIC;
+    LMB_ABus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_WriteDBus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_AddrStrobe : in STD_LOGIC;
+    LMB_ReadStrobe : in STD_LOGIC;
+    LMB_WriteStrobe : in STD_LOGIC;
+    LMB_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
+    Sl_DBus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    Sl_Ready : out STD_LOGIC;
+    Sl_Wait : out STD_LOGIC;
+    Sl_UE : out STD_LOGIC;
+    Sl_CE : out STD_LOGIC;
+    BRAM_Rst_A : out STD_LOGIC;
+    BRAM_Clk_A : out STD_LOGIC;
+    BRAM_Addr_A : out STD_LOGIC_VECTOR ( 0 to 31 );
+    BRAM_EN_A : out STD_LOGIC;
+    BRAM_WEN_A : out STD_LOGIC_VECTOR ( 0 to 3 );
+    BRAM_Dout_A : out STD_LOGIC_VECTOR ( 0 to 31 );
+    BRAM_Din_A : in STD_LOGIC_VECTOR ( 0 to 31 )
+  );
+  end component blockdesign_ilmb_bram_if_cntlr_1;
+  component blockdesign_dlmb_v10_0 is
+  port (
+    LMB_Clk : in STD_LOGIC;
+    SYS_Rst : in STD_LOGIC;
+    LMB_Rst : out STD_LOGIC;
+    M_ABus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    M_ReadStrobe : in STD_LOGIC;
+    M_WriteStrobe : in STD_LOGIC;
+    M_AddrStrobe : in STD_LOGIC;
+    M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
+    M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
+    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 63 );
+    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_ReadStrobe : out STD_LOGIC;
+    LMB_WriteStrobe : out STD_LOGIC;
+    LMB_AddrStrobe : out STD_LOGIC;
+    LMB_ReadDBus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_WriteDBus : out STD_LOGIC_VECTOR ( 0 to 31 );
+    LMB_Ready : out STD_LOGIC;
+    LMB_Wait : out STD_LOGIC;
+    LMB_UE : out STD_LOGIC;
+    LMB_CE : out STD_LOGIC;
+    LMB_BE : out STD_LOGIC_VECTOR ( 0 to 3 )
+  );
+  end component blockdesign_dlmb_v10_0;
+  signal Conn1_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn1_ADDRSTROBE : STD_LOGIC;
+  signal Conn1_BE : STD_LOGIC_VECTOR ( 0 to 3 );
+  signal Conn1_CE : STD_LOGIC;
+  signal Conn1_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn1_READSTROBE : STD_LOGIC;
+  signal Conn1_READY : STD_LOGIC;
+  signal Conn1_UE : STD_LOGIC;
+  signal Conn1_WAIT : STD_LOGIC;
+  signal Conn1_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn1_WRITESTROBE : STD_LOGIC;
+  signal Conn2_CE : STD_LOGIC;
+  signal Conn2_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn2_READY : STD_LOGIC;
+  signal Conn2_UE : STD_LOGIC;
+  signal Conn2_WAIT : STD_LOGIC;
+  signal Conn3_CE : STD_LOGIC;
+  signal Conn3_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn3_READY : STD_LOGIC;
+  signal Conn3_UE : STD_LOGIC;
+  signal Conn3_WAIT : STD_LOGIC;
+  signal Conn_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn_ADDRSTROBE : STD_LOGIC;
+  signal Conn_BE : STD_LOGIC_VECTOR ( 0 to 3 );
+  signal Conn_CE : STD_LOGIC;
+  signal Conn_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn_READSTROBE : STD_LOGIC;
+  signal Conn_READY : STD_LOGIC;
+  signal Conn_UE : STD_LOGIC;
+  signal Conn_WAIT : STD_LOGIC;
+  signal Conn_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal Conn_WRITESTROBE : STD_LOGIC;
   signal SYS_Rst_1 : STD_LOGIC;
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_CLK : STD_LOGIC;
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_DIN : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_EN : STD_LOGIC;
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_RST : STD_LOGIC;
+  signal dlmb_bram_if_cntlr_1_BRAM_PORT_WE : STD_LOGIC_VECTOR ( 0 to 3 );
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_CLK : STD_LOGIC;
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_DIN : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_EN : STD_LOGIC;
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_RST : STD_LOGIC;
+  signal ilmb_bram_if_cntlr_1_BRAM_PORT_WE : STD_LOGIC_VECTOR ( 0 to 3 );
   signal microblaze_0_Clk : STD_LOGIC;
-  signal microblaze_0_dlmb_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_ADDRSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_BE : STD_LOGIC_VECTOR ( 0 to 3 );
-  signal microblaze_0_dlmb_CE : STD_LOGIC;
-  signal microblaze_0_dlmb_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_READSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_READY : STD_LOGIC;
-  signal microblaze_0_dlmb_UE : STD_LOGIC;
-  signal microblaze_0_dlmb_WAIT : STD_LOGIC;
-  signal microblaze_0_dlmb_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_WRITESTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_bus_ADDRSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_BE : STD_LOGIC_VECTOR ( 0 to 3 );
-  signal microblaze_0_dlmb_bus_CE : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_bus_READSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_READY : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_UE : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_WAIT : STD_LOGIC;
-  signal microblaze_0_dlmb_bus_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_bus_WRITESTROBE : STD_LOGIC;
   signal microblaze_0_dlmb_cntlr_ADDR : STD_LOGIC_VECTOR ( 0 to 31 );
   signal microblaze_0_dlmb_cntlr_CLK : STD_LOGIC;
   signal microblaze_0_dlmb_cntlr_DIN : STD_LOGIC_VECTOR ( 0 to 31 );
@@ -629,29 +721,33 @@ architecture STRUCTURE of microblaze_0_local_memory_imp_1KUS4SE is
   signal NLW_ilmb_v10_LMB_Rst_UNCONNECTED : STD_LOGIC;
   signal NLW_lmb_bram_rsta_busy_UNCONNECTED : STD_LOGIC;
   signal NLW_lmb_bram_rstb_busy_UNCONNECTED : STD_LOGIC;
+  signal NLW_lmb_bram_1_rsta_busy_UNCONNECTED : STD_LOGIC;
+  signal NLW_lmb_bram_1_rstb_busy_UNCONNECTED : STD_LOGIC;
   attribute BMM_INFO_ADDRESS_SPACE : string;
-  attribute BMM_INFO_ADDRESS_SPACE of dlmb_bram_if_cntlr : label is "byte  0x00000000 32 > blockdesign microblaze_0_local_memory/lmb_bram";
+  attribute BMM_INFO_ADDRESS_SPACE of dlmb_bram_if_cntlr : label is "byte  0x00000000 32 >  blockdesign microblaze_0_local_memory/lmb_bram blockdesign microblaze_0_local_memory/lmb_bram_1";
   attribute KEEP_HIERARCHY : string;
   attribute KEEP_HIERARCHY of dlmb_bram_if_cntlr : label is "yes";
+  attribute BMM_INFO_ADDRESS_RANGE : string;
+  attribute BMM_INFO_ADDRESS_RANGE of dlmb_bram_if_cntlr_1 : label is " ";
 begin
-  DLMB_ce <= microblaze_0_dlmb_CE;
-  DLMB_readdbus(0 to 31) <= microblaze_0_dlmb_READDBUS(0 to 31);
-  DLMB_ready <= microblaze_0_dlmb_READY;
-  DLMB_ue <= microblaze_0_dlmb_UE;
-  DLMB_wait <= microblaze_0_dlmb_WAIT;
+  Conn1_ABUS(0 to 31) <= LMB_M_abus(0 to 31);
+  Conn1_ADDRSTROBE <= LMB_M_addrstrobe;
+  Conn1_BE(0 to 3) <= LMB_M_be(0 to 3);
+  Conn1_READSTROBE <= LMB_M_readstrobe;
+  Conn1_WRITEDBUS(0 to 31) <= LMB_M_writedbus(0 to 31);
+  Conn1_WRITESTROBE <= LMB_M_writestrobe;
   ILMB_ce <= microblaze_0_ilmb_CE;
   ILMB_readdbus(0 to 31) <= microblaze_0_ilmb_READDBUS(0 to 31);
   ILMB_ready <= microblaze_0_ilmb_READY;
   ILMB_ue <= microblaze_0_ilmb_UE;
   ILMB_wait <= microblaze_0_ilmb_WAIT;
+  LMB_M_ce <= Conn1_CE;
+  LMB_M_readdbus(0 to 31) <= Conn1_READDBUS(0 to 31);
+  LMB_M_ready <= Conn1_READY;
+  LMB_M_ue <= Conn1_UE;
+  LMB_M_wait <= Conn1_WAIT;
   SYS_Rst_1 <= SYS_Rst;
   microblaze_0_Clk <= LMB_Clk;
-  microblaze_0_dlmb_ABUS(0 to 31) <= DLMB_abus(0 to 31);
-  microblaze_0_dlmb_ADDRSTROBE <= DLMB_addrstrobe;
-  microblaze_0_dlmb_BE(0 to 3) <= DLMB_be(0 to 3);
-  microblaze_0_dlmb_READSTROBE <= DLMB_readstrobe;
-  microblaze_0_dlmb_WRITEDBUS(0 to 31) <= DLMB_writedbus(0 to 31);
-  microblaze_0_dlmb_WRITESTROBE <= DLMB_writestrobe;
   microblaze_0_ilmb_ABUS(0 to 31) <= ILMB_abus(0 to 31);
   microblaze_0_ilmb_ADDRSTROBE <= ILMB_addrstrobe;
   microblaze_0_ilmb_READSTROBE <= ILMB_readstrobe;
@@ -695,47 +791,106 @@ dlmb_bram_if_cntlr: component blockdesign_dlmb_bram_if_cntlr_0
       BRAM_EN_A => microblaze_0_dlmb_cntlr_EN,
       BRAM_Rst_A => microblaze_0_dlmb_cntlr_RST,
       BRAM_WEN_A(0 to 3) => microblaze_0_dlmb_cntlr_WE(0 to 3),
-      LMB_ABus(0 to 31) => microblaze_0_dlmb_bus_ABUS(0 to 31),
-      LMB_AddrStrobe => microblaze_0_dlmb_bus_ADDRSTROBE,
-      LMB_BE(0 to 3) => microblaze_0_dlmb_bus_BE(0 to 3),
+      LMB_ABus(0 to 31) => Conn_ABUS(0 to 31),
+      LMB_AddrStrobe => Conn_ADDRSTROBE,
+      LMB_BE(0 to 3) => Conn_BE(0 to 3),
       LMB_Clk => microblaze_0_Clk,
-      LMB_ReadStrobe => microblaze_0_dlmb_bus_READSTROBE,
+      LMB_ReadStrobe => Conn_READSTROBE,
       LMB_Rst => SYS_Rst_1,
-      LMB_WriteDBus(0 to 31) => microblaze_0_dlmb_bus_WRITEDBUS(0 to 31),
-      LMB_WriteStrobe => microblaze_0_dlmb_bus_WRITESTROBE,
-      Sl_CE => microblaze_0_dlmb_bus_CE,
-      Sl_DBus(0 to 31) => microblaze_0_dlmb_bus_READDBUS(0 to 31),
-      Sl_Ready => microblaze_0_dlmb_bus_READY,
-      Sl_UE => microblaze_0_dlmb_bus_UE,
-      Sl_Wait => microblaze_0_dlmb_bus_WAIT
+      LMB_WriteDBus(0 to 31) => Conn_WRITEDBUS(0 to 31),
+      LMB_WriteStrobe => Conn_WRITESTROBE,
+      Sl_CE => Conn_CE,
+      Sl_DBus(0 to 31) => Conn_READDBUS(0 to 31),
+      Sl_Ready => Conn_READY,
+      Sl_UE => Conn_UE,
+      Sl_Wait => Conn_WAIT
+    );
+dlmb_bram_if_cntlr_1: component blockdesign_dlmb_bram_if_cntlr_1
+     port map (
+      BRAM_Addr_A(0 to 31) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(0 to 31),
+      BRAM_Clk_A => dlmb_bram_if_cntlr_1_BRAM_PORT_CLK,
+      BRAM_Din_A(0) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(31),
+      BRAM_Din_A(1) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(30),
+      BRAM_Din_A(2) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(29),
+      BRAM_Din_A(3) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(28),
+      BRAM_Din_A(4) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(27),
+      BRAM_Din_A(5) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(26),
+      BRAM_Din_A(6) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(25),
+      BRAM_Din_A(7) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(24),
+      BRAM_Din_A(8) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(23),
+      BRAM_Din_A(9) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(22),
+      BRAM_Din_A(10) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(21),
+      BRAM_Din_A(11) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(20),
+      BRAM_Din_A(12) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(19),
+      BRAM_Din_A(13) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(18),
+      BRAM_Din_A(14) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(17),
+      BRAM_Din_A(15) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(16),
+      BRAM_Din_A(16) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(15),
+      BRAM_Din_A(17) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(14),
+      BRAM_Din_A(18) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(13),
+      BRAM_Din_A(19) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(12),
+      BRAM_Din_A(20) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(11),
+      BRAM_Din_A(21) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(10),
+      BRAM_Din_A(22) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(9),
+      BRAM_Din_A(23) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(8),
+      BRAM_Din_A(24) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(7),
+      BRAM_Din_A(25) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(6),
+      BRAM_Din_A(26) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(5),
+      BRAM_Din_A(27) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(4),
+      BRAM_Din_A(28) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(3),
+      BRAM_Din_A(29) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(2),
+      BRAM_Din_A(30) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(1),
+      BRAM_Din_A(31) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(0),
+      BRAM_Dout_A(0 to 31) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(0 to 31),
+      BRAM_EN_A => dlmb_bram_if_cntlr_1_BRAM_PORT_EN,
+      BRAM_Rst_A => dlmb_bram_if_cntlr_1_BRAM_PORT_RST,
+      BRAM_WEN_A(0 to 3) => dlmb_bram_if_cntlr_1_BRAM_PORT_WE(0 to 3),
+      LMB_ABus(0 to 31) => Conn_ABUS(0 to 31),
+      LMB_AddrStrobe => Conn_ADDRSTROBE,
+      LMB_BE(0 to 3) => Conn_BE(0 to 3),
+      LMB_Clk => microblaze_0_Clk,
+      LMB_ReadStrobe => Conn_READSTROBE,
+      LMB_Rst => SYS_Rst_1,
+      LMB_WriteDBus(0 to 31) => Conn_WRITEDBUS(0 to 31),
+      LMB_WriteStrobe => Conn_WRITESTROBE,
+      Sl_CE => Conn3_CE,
+      Sl_DBus(0 to 31) => Conn3_READDBUS(0 to 31),
+      Sl_Ready => Conn3_READY,
+      Sl_UE => Conn3_UE,
+      Sl_Wait => Conn3_WAIT
     );
 dlmb_v10: component blockdesign_dlmb_v10_0
      port map (
-      LMB_ABus(0 to 31) => microblaze_0_dlmb_bus_ABUS(0 to 31),
-      LMB_AddrStrobe => microblaze_0_dlmb_bus_ADDRSTROBE,
-      LMB_BE(0 to 3) => microblaze_0_dlmb_bus_BE(0 to 3),
-      LMB_CE => microblaze_0_dlmb_CE,
+      LMB_ABus(0 to 31) => Conn_ABUS(0 to 31),
+      LMB_AddrStrobe => Conn_ADDRSTROBE,
+      LMB_BE(0 to 3) => Conn_BE(0 to 3),
+      LMB_CE => Conn1_CE,
       LMB_Clk => microblaze_0_Clk,
-      LMB_ReadDBus(0 to 31) => microblaze_0_dlmb_READDBUS(0 to 31),
-      LMB_ReadStrobe => microblaze_0_dlmb_bus_READSTROBE,
-      LMB_Ready => microblaze_0_dlmb_READY,
+      LMB_ReadDBus(0 to 31) => Conn1_READDBUS(0 to 31),
+      LMB_ReadStrobe => Conn_READSTROBE,
+      LMB_Ready => Conn1_READY,
       LMB_Rst => NLW_dlmb_v10_LMB_Rst_UNCONNECTED,
-      LMB_UE => microblaze_0_dlmb_UE,
-      LMB_Wait => microblaze_0_dlmb_WAIT,
-      LMB_WriteDBus(0 to 31) => microblaze_0_dlmb_bus_WRITEDBUS(0 to 31),
-      LMB_WriteStrobe => microblaze_0_dlmb_bus_WRITESTROBE,
-      M_ABus(0 to 31) => microblaze_0_dlmb_ABUS(0 to 31),
-      M_AddrStrobe => microblaze_0_dlmb_ADDRSTROBE,
-      M_BE(0 to 3) => microblaze_0_dlmb_BE(0 to 3),
-      M_DBus(0 to 31) => microblaze_0_dlmb_WRITEDBUS(0 to 31),
-      M_ReadStrobe => microblaze_0_dlmb_READSTROBE,
-      M_WriteStrobe => microblaze_0_dlmb_WRITESTROBE,
+      LMB_UE => Conn1_UE,
+      LMB_Wait => Conn1_WAIT,
+      LMB_WriteDBus(0 to 31) => Conn_WRITEDBUS(0 to 31),
+      LMB_WriteStrobe => Conn_WRITESTROBE,
+      M_ABus(0 to 31) => Conn1_ABUS(0 to 31),
+      M_AddrStrobe => Conn1_ADDRSTROBE,
+      M_BE(0 to 3) => Conn1_BE(0 to 3),
+      M_DBus(0 to 31) => Conn1_WRITEDBUS(0 to 31),
+      M_ReadStrobe => Conn1_READSTROBE,
+      M_WriteStrobe => Conn1_WRITESTROBE,
       SYS_Rst => SYS_Rst_1,
-      Sl_CE(0) => microblaze_0_dlmb_bus_CE,
-      Sl_DBus(0 to 31) => microblaze_0_dlmb_bus_READDBUS(0 to 31),
-      Sl_Ready(0) => microblaze_0_dlmb_bus_READY,
-      Sl_UE(0) => microblaze_0_dlmb_bus_UE,
-      Sl_Wait(0) => microblaze_0_dlmb_bus_WAIT
+      Sl_CE(0) => Conn_CE,
+      Sl_CE(1) => Conn3_CE,
+      Sl_DBus(0 to 31) => Conn_READDBUS(0 to 31),
+      Sl_DBus(32 to 63) => Conn3_READDBUS(0 to 31),
+      Sl_Ready(0) => Conn_READY,
+      Sl_Ready(1) => Conn3_READY,
+      Sl_UE(0) => Conn_UE,
+      Sl_UE(1) => Conn3_UE,
+      Sl_Wait(0) => Conn_WAIT,
+      Sl_Wait(1) => Conn3_WAIT
     );
 ilmb_bram_if_cntlr: component blockdesign_ilmb_bram_if_cntlr_0
      port map (
@@ -791,6 +946,60 @@ ilmb_bram_if_cntlr: component blockdesign_ilmb_bram_if_cntlr_0
       Sl_UE => microblaze_0_ilmb_bus_UE,
       Sl_Wait => microblaze_0_ilmb_bus_WAIT
     );
+ilmb_bram_if_cntlr_1: component blockdesign_ilmb_bram_if_cntlr_1
+     port map (
+      BRAM_Addr_A(0 to 31) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(0 to 31),
+      BRAM_Clk_A => ilmb_bram_if_cntlr_1_BRAM_PORT_CLK,
+      BRAM_Din_A(0) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(31),
+      BRAM_Din_A(1) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(30),
+      BRAM_Din_A(2) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(29),
+      BRAM_Din_A(3) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(28),
+      BRAM_Din_A(4) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(27),
+      BRAM_Din_A(5) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(26),
+      BRAM_Din_A(6) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(25),
+      BRAM_Din_A(7) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(24),
+      BRAM_Din_A(8) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(23),
+      BRAM_Din_A(9) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(22),
+      BRAM_Din_A(10) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(21),
+      BRAM_Din_A(11) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(20),
+      BRAM_Din_A(12) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(19),
+      BRAM_Din_A(13) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(18),
+      BRAM_Din_A(14) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(17),
+      BRAM_Din_A(15) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(16),
+      BRAM_Din_A(16) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(15),
+      BRAM_Din_A(17) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(14),
+      BRAM_Din_A(18) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(13),
+      BRAM_Din_A(19) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(12),
+      BRAM_Din_A(20) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(11),
+      BRAM_Din_A(21) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(10),
+      BRAM_Din_A(22) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(9),
+      BRAM_Din_A(23) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(8),
+      BRAM_Din_A(24) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(7),
+      BRAM_Din_A(25) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(6),
+      BRAM_Din_A(26) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(5),
+      BRAM_Din_A(27) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(4),
+      BRAM_Din_A(28) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(3),
+      BRAM_Din_A(29) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(2),
+      BRAM_Din_A(30) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(1),
+      BRAM_Din_A(31) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(0),
+      BRAM_Dout_A(0 to 31) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(0 to 31),
+      BRAM_EN_A => ilmb_bram_if_cntlr_1_BRAM_PORT_EN,
+      BRAM_Rst_A => ilmb_bram_if_cntlr_1_BRAM_PORT_RST,
+      BRAM_WEN_A(0 to 3) => ilmb_bram_if_cntlr_1_BRAM_PORT_WE(0 to 3),
+      LMB_ABus(0 to 31) => microblaze_0_ilmb_bus_ABUS(0 to 31),
+      LMB_AddrStrobe => microblaze_0_ilmb_bus_ADDRSTROBE,
+      LMB_BE(0 to 3) => microblaze_0_ilmb_bus_BE(0 to 3),
+      LMB_Clk => microblaze_0_Clk,
+      LMB_ReadStrobe => microblaze_0_ilmb_bus_READSTROBE,
+      LMB_Rst => SYS_Rst_1,
+      LMB_WriteDBus(0 to 31) => microblaze_0_ilmb_bus_WRITEDBUS(0 to 31),
+      LMB_WriteStrobe => microblaze_0_ilmb_bus_WRITESTROBE,
+      Sl_CE => Conn2_CE,
+      Sl_DBus(0 to 31) => Conn2_READDBUS(0 to 31),
+      Sl_Ready => Conn2_READY,
+      Sl_UE => Conn2_UE,
+      Sl_Wait => Conn2_WAIT
+    );
 ilmb_v10: component blockdesign_ilmb_v10_0
      port map (
       LMB_ABus(0 to 31) => microblaze_0_ilmb_bus_ABUS(0 to 31),
@@ -814,10 +1023,15 @@ ilmb_v10: component blockdesign_ilmb_v10_0
       M_WriteStrobe => '0',
       SYS_Rst => SYS_Rst_1,
       Sl_CE(0) => microblaze_0_ilmb_bus_CE,
+      Sl_CE(1) => Conn2_CE,
       Sl_DBus(0 to 31) => microblaze_0_ilmb_bus_READDBUS(0 to 31),
+      Sl_DBus(32 to 63) => Conn2_READDBUS(0 to 31),
       Sl_Ready(0) => microblaze_0_ilmb_bus_READY,
+      Sl_Ready(1) => Conn2_READY,
       Sl_UE(0) => microblaze_0_ilmb_bus_UE,
-      Sl_Wait(0) => microblaze_0_ilmb_bus_WAIT
+      Sl_UE(1) => Conn2_UE,
+      Sl_Wait(0) => microblaze_0_ilmb_bus_WAIT,
+      Sl_Wait(1) => Conn2_WAIT
     );
 lmb_bram: component blockdesign_lmb_bram_0
      port map (
@@ -967,6 +1181,155 @@ lmb_bram: component blockdesign_lmb_bram_0
       web(2) => microblaze_0_ilmb_cntlr_WE(1),
       web(1) => microblaze_0_ilmb_cntlr_WE(2),
       web(0) => microblaze_0_ilmb_cntlr_WE(3)
+    );
+lmb_bram_1: component blockdesign_lmb_bram_1
+     port map (
+      addra(31) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(0),
+      addra(30) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(1),
+      addra(29) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(2),
+      addra(28) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(3),
+      addra(27) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(4),
+      addra(26) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(5),
+      addra(25) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(6),
+      addra(24) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(7),
+      addra(23) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(8),
+      addra(22) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(9),
+      addra(21) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(10),
+      addra(20) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(11),
+      addra(19) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(12),
+      addra(18) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(13),
+      addra(17) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(14),
+      addra(16) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(15),
+      addra(15) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(16),
+      addra(14) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(17),
+      addra(13) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(18),
+      addra(12) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(19),
+      addra(11) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(20),
+      addra(10) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(21),
+      addra(9) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(22),
+      addra(8) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(23),
+      addra(7) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(24),
+      addra(6) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(25),
+      addra(5) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(26),
+      addra(4) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(27),
+      addra(3) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(28),
+      addra(2) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(29),
+      addra(1) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(30),
+      addra(0) => dlmb_bram_if_cntlr_1_BRAM_PORT_ADDR(31),
+      addrb(31) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(0),
+      addrb(30) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(1),
+      addrb(29) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(2),
+      addrb(28) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(3),
+      addrb(27) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(4),
+      addrb(26) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(5),
+      addrb(25) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(6),
+      addrb(24) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(7),
+      addrb(23) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(8),
+      addrb(22) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(9),
+      addrb(21) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(10),
+      addrb(20) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(11),
+      addrb(19) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(12),
+      addrb(18) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(13),
+      addrb(17) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(14),
+      addrb(16) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(15),
+      addrb(15) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(16),
+      addrb(14) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(17),
+      addrb(13) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(18),
+      addrb(12) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(19),
+      addrb(11) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(20),
+      addrb(10) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(21),
+      addrb(9) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(22),
+      addrb(8) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(23),
+      addrb(7) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(24),
+      addrb(6) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(25),
+      addrb(5) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(26),
+      addrb(4) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(27),
+      addrb(3) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(28),
+      addrb(2) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(29),
+      addrb(1) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(30),
+      addrb(0) => ilmb_bram_if_cntlr_1_BRAM_PORT_ADDR(31),
+      clka => dlmb_bram_if_cntlr_1_BRAM_PORT_CLK,
+      clkb => ilmb_bram_if_cntlr_1_BRAM_PORT_CLK,
+      dina(31) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(0),
+      dina(30) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(1),
+      dina(29) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(2),
+      dina(28) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(3),
+      dina(27) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(4),
+      dina(26) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(5),
+      dina(25) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(6),
+      dina(24) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(7),
+      dina(23) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(8),
+      dina(22) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(9),
+      dina(21) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(10),
+      dina(20) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(11),
+      dina(19) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(12),
+      dina(18) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(13),
+      dina(17) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(14),
+      dina(16) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(15),
+      dina(15) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(16),
+      dina(14) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(17),
+      dina(13) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(18),
+      dina(12) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(19),
+      dina(11) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(20),
+      dina(10) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(21),
+      dina(9) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(22),
+      dina(8) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(23),
+      dina(7) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(24),
+      dina(6) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(25),
+      dina(5) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(26),
+      dina(4) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(27),
+      dina(3) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(28),
+      dina(2) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(29),
+      dina(1) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(30),
+      dina(0) => dlmb_bram_if_cntlr_1_BRAM_PORT_DIN(31),
+      dinb(31) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(0),
+      dinb(30) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(1),
+      dinb(29) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(2),
+      dinb(28) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(3),
+      dinb(27) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(4),
+      dinb(26) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(5),
+      dinb(25) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(6),
+      dinb(24) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(7),
+      dinb(23) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(8),
+      dinb(22) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(9),
+      dinb(21) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(10),
+      dinb(20) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(11),
+      dinb(19) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(12),
+      dinb(18) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(13),
+      dinb(17) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(14),
+      dinb(16) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(15),
+      dinb(15) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(16),
+      dinb(14) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(17),
+      dinb(13) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(18),
+      dinb(12) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(19),
+      dinb(11) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(20),
+      dinb(10) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(21),
+      dinb(9) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(22),
+      dinb(8) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(23),
+      dinb(7) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(24),
+      dinb(6) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(25),
+      dinb(5) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(26),
+      dinb(4) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(27),
+      dinb(3) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(28),
+      dinb(2) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(29),
+      dinb(1) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(30),
+      dinb(0) => ilmb_bram_if_cntlr_1_BRAM_PORT_DIN(31),
+      douta(31 downto 0) => dlmb_bram_if_cntlr_1_BRAM_PORT_DOUT(31 downto 0),
+      doutb(31 downto 0) => ilmb_bram_if_cntlr_1_BRAM_PORT_DOUT(31 downto 0),
+      ena => dlmb_bram_if_cntlr_1_BRAM_PORT_EN,
+      enb => ilmb_bram_if_cntlr_1_BRAM_PORT_EN,
+      rsta => dlmb_bram_if_cntlr_1_BRAM_PORT_RST,
+      rsta_busy => NLW_lmb_bram_1_rsta_busy_UNCONNECTED,
+      rstb => ilmb_bram_if_cntlr_1_BRAM_PORT_RST,
+      rstb_busy => NLW_lmb_bram_1_rstb_busy_UNCONNECTED,
+      wea(3) => dlmb_bram_if_cntlr_1_BRAM_PORT_WE(0),
+      wea(2) => dlmb_bram_if_cntlr_1_BRAM_PORT_WE(1),
+      wea(1) => dlmb_bram_if_cntlr_1_BRAM_PORT_WE(2),
+      wea(0) => dlmb_bram_if_cntlr_1_BRAM_PORT_WE(3),
+      web(3) => ilmb_bram_if_cntlr_1_BRAM_PORT_WE(0),
+      web(2) => ilmb_bram_if_cntlr_1_BRAM_PORT_WE(1),
+      web(1) => ilmb_bram_if_cntlr_1_BRAM_PORT_WE(2),
+      web(0) => ilmb_bram_if_cntlr_1_BRAM_PORT_WE(3)
     );
 end STRUCTURE;
 library IEEE;
@@ -1841,7 +2204,7 @@ entity blockdesign is
     vSync : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=26,numReposBlks=19,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=29,numReposBlks=22,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
@@ -2116,6 +2479,17 @@ architecture STRUCTURE of blockdesign is
   signal clk_wiz_0_locked : STD_LOGIC;
   signal mdm_1_debug_sys_rst : STD_LOGIC;
   signal microblaze_0_Clk : STD_LOGIC;
+  signal microblaze_0_DLMB_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal microblaze_0_DLMB_ADDRSTROBE : STD_LOGIC;
+  signal microblaze_0_DLMB_BE : STD_LOGIC_VECTOR ( 0 to 3 );
+  signal microblaze_0_DLMB_CE : STD_LOGIC;
+  signal microblaze_0_DLMB_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal microblaze_0_DLMB_READSTROBE : STD_LOGIC;
+  signal microblaze_0_DLMB_READY : STD_LOGIC;
+  signal microblaze_0_DLMB_UE : STD_LOGIC;
+  signal microblaze_0_DLMB_WAIT : STD_LOGIC;
+  signal microblaze_0_DLMB_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
+  signal microblaze_0_DLMB_WRITESTROBE : STD_LOGIC;
   signal microblaze_0_axi_dp_ARADDR : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal microblaze_0_axi_dp_ARPROT : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal microblaze_0_axi_dp_ARREADY : STD_LOGIC_VECTOR ( 0 to 0 );
@@ -2195,17 +2569,6 @@ architecture STRUCTURE of blockdesign is
   signal microblaze_0_debug_TDI : STD_LOGIC;
   signal microblaze_0_debug_TDO : STD_LOGIC;
   signal microblaze_0_debug_UPDATE : STD_LOGIC;
-  signal microblaze_0_dlmb_1_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_1_ADDRSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_1_BE : STD_LOGIC_VECTOR ( 0 to 3 );
-  signal microblaze_0_dlmb_1_CE : STD_LOGIC;
-  signal microblaze_0_dlmb_1_READDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_1_READSTROBE : STD_LOGIC;
-  signal microblaze_0_dlmb_1_READY : STD_LOGIC;
-  signal microblaze_0_dlmb_1_UE : STD_LOGIC;
-  signal microblaze_0_dlmb_1_WAIT : STD_LOGIC;
-  signal microblaze_0_dlmb_1_WRITEDBUS : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal microblaze_0_dlmb_1_WRITESTROBE : STD_LOGIC;
   signal microblaze_0_ilmb_1_ABUS : STD_LOGIC_VECTOR ( 0 to 31 );
   signal microblaze_0_ilmb_1_ADDRSTROBE : STD_LOGIC;
   signal microblaze_0_ilmb_1_CE : STD_LOGIC;
@@ -2411,16 +2774,16 @@ mdm_1: component blockdesign_mdm_1_0
     );
 microblaze_0: component blockdesign_microblaze_0_0
      port map (
-      Byte_Enable(0 to 3) => microblaze_0_dlmb_1_BE(0 to 3),
+      Byte_Enable(0 to 3) => microblaze_0_DLMB_BE(0 to 3),
       Clk => microblaze_0_Clk,
-      DCE => microblaze_0_dlmb_1_CE,
-      DReady => microblaze_0_dlmb_1_READY,
-      DUE => microblaze_0_dlmb_1_UE,
-      DWait => microblaze_0_dlmb_1_WAIT,
-      D_AS => microblaze_0_dlmb_1_ADDRSTROBE,
-      Data_Addr(0 to 31) => microblaze_0_dlmb_1_ABUS(0 to 31),
-      Data_Read(0 to 31) => microblaze_0_dlmb_1_READDBUS(0 to 31),
-      Data_Write(0 to 31) => microblaze_0_dlmb_1_WRITEDBUS(0 to 31),
+      DCE => microblaze_0_DLMB_CE,
+      DReady => microblaze_0_DLMB_READY,
+      DUE => microblaze_0_DLMB_UE,
+      DWait => microblaze_0_DLMB_WAIT,
+      D_AS => microblaze_0_DLMB_ADDRSTROBE,
+      Data_Addr(0 to 31) => microblaze_0_DLMB_ABUS(0 to 31),
+      Data_Read(0 to 31) => microblaze_0_DLMB_READDBUS(0 to 31),
+      Data_Write(0 to 31) => microblaze_0_DLMB_WRITEDBUS(0 to 31),
       Dbg_Capture => microblaze_0_debug_CAPTURE,
       Dbg_Clk => microblaze_0_debug_CLK,
       Dbg_Disable => microblaze_0_debug_DISABLE,
@@ -2491,9 +2854,9 @@ microblaze_0: component blockdesign_microblaze_0_0
       M_AXI_DP_WREADY => microblaze_0_axi_dp_WREADY(0),
       M_AXI_DP_WSTRB(3 downto 0) => microblaze_0_axi_dp_WSTRB(3 downto 0),
       M_AXI_DP_WVALID => microblaze_0_axi_dp_WVALID,
-      Read_Strobe => microblaze_0_dlmb_1_READSTROBE,
+      Read_Strobe => microblaze_0_DLMB_READSTROBE,
       Reset => rst_clk_wiz_0_100M_mb_reset,
-      Write_Strobe => microblaze_0_dlmb_1_WRITESTROBE
+      Write_Strobe => microblaze_0_DLMB_WRITESTROBE
     );
 microblaze_0_axi_intc: component blockdesign_microblaze_0_axi_intc_0
      port map (
@@ -2628,17 +2991,6 @@ microblaze_0_axi_periph: entity work.blockdesign_microblaze_0_axi_periph_0
     );
 microblaze_0_local_memory: entity work.microblaze_0_local_memory_imp_1KUS4SE
      port map (
-      DLMB_abus(0 to 31) => microblaze_0_dlmb_1_ABUS(0 to 31),
-      DLMB_addrstrobe => microblaze_0_dlmb_1_ADDRSTROBE,
-      DLMB_be(0 to 3) => microblaze_0_dlmb_1_BE(0 to 3),
-      DLMB_ce => microblaze_0_dlmb_1_CE,
-      DLMB_readdbus(0 to 31) => microblaze_0_dlmb_1_READDBUS(0 to 31),
-      DLMB_readstrobe => microblaze_0_dlmb_1_READSTROBE,
-      DLMB_ready => microblaze_0_dlmb_1_READY,
-      DLMB_ue => microblaze_0_dlmb_1_UE,
-      DLMB_wait => microblaze_0_dlmb_1_WAIT,
-      DLMB_writedbus(0 to 31) => microblaze_0_dlmb_1_WRITEDBUS(0 to 31),
-      DLMB_writestrobe => microblaze_0_dlmb_1_WRITESTROBE,
       ILMB_abus(0 to 31) => microblaze_0_ilmb_1_ABUS(0 to 31),
       ILMB_addrstrobe => microblaze_0_ilmb_1_ADDRSTROBE,
       ILMB_ce => microblaze_0_ilmb_1_CE,
@@ -2648,6 +3000,17 @@ microblaze_0_local_memory: entity work.microblaze_0_local_memory_imp_1KUS4SE
       ILMB_ue => microblaze_0_ilmb_1_UE,
       ILMB_wait => microblaze_0_ilmb_1_WAIT,
       LMB_Clk => microblaze_0_Clk,
+      LMB_M_abus(0 to 31) => microblaze_0_DLMB_ABUS(0 to 31),
+      LMB_M_addrstrobe => microblaze_0_DLMB_ADDRSTROBE,
+      LMB_M_be(0 to 3) => microblaze_0_DLMB_BE(0 to 3),
+      LMB_M_ce => microblaze_0_DLMB_CE,
+      LMB_M_readdbus(0 to 31) => microblaze_0_DLMB_READDBUS(0 to 31),
+      LMB_M_readstrobe => microblaze_0_DLMB_READSTROBE,
+      LMB_M_ready => microblaze_0_DLMB_READY,
+      LMB_M_ue => microblaze_0_DLMB_UE,
+      LMB_M_wait => microblaze_0_DLMB_WAIT,
+      LMB_M_writedbus(0 to 31) => microblaze_0_DLMB_WRITEDBUS(0 to 31),
+      LMB_M_writestrobe => microblaze_0_DLMB_WRITESTROBE,
       SYS_Rst => rst_clk_wiz_0_100M_bus_struct_reset(0)
     );
 microblaze_0_xlconcat: component blockdesign_microblaze_0_xlconcat_0

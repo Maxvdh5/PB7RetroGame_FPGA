@@ -2,10 +2,10 @@
 <Root MajorVersion="0" MinorVersion="33">
   <CompositeFile CompositeFileTopName="blockdesign" CanBeSetAsTop="false" CanDisplayChildGraph="true">
     <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1554797207"/>
-    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1554797207"/>
-    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1554797207"/>
-    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1554797207"/>
+    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1554810424"/>
+    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1554810424"/>
+    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1554810424"/>
+    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1554810424"/>
     <FileCollection Name="SOURCES" Type="SOURCES">
       <File Name="ip/blockdesign_clk_wiz_0_0/blockdesign_clk_wiz_0_0.xci" Type="IP">
         <Instance HierarchyPath="clk_wiz_0"/>
@@ -171,6 +171,30 @@
       </File>
       <File Name="ip/blockdesign_buttonDebounce_0_0/blockdesign_buttonDebounce_0_0.xci" Type="IP">
         <Instance HierarchyPath="buttonDebounce_0"/>
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
+        <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/blockdesign_lmb_bram_1/blockdesign_lmb_bram_1.xci" Type="IP">
+        <Instance HierarchyPath="microblaze_0_local_memory/lmb_bram_1"/>
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
+        <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/blockdesign_dlmb_bram_if_cntlr_1/blockdesign_dlmb_bram_if_cntlr_1.xci" Type="IP">
+        <Instance HierarchyPath="microblaze_0_local_memory/dlmb_bram_if_cntlr_1"/>
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
+        <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/blockdesign_ilmb_bram_if_cntlr_1/blockdesign_ilmb_bram_if_cntlr_1.xci" Type="IP">
+        <Instance HierarchyPath="microblaze_0_local_memory/ilmb_bram_if_cntlr_1"/>
         <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
         <Library Name="xil_defaultlib"/>
         <UsedIn Val="SYNTHESIS"/>
