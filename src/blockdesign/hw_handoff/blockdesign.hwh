@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Apr  8 17:36:35 2019" VIVADOVERSION="2017.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Apr  9 10:06:46 2019" VIVADOVERSION="2017.4">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="blockdesign" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
     <PORT DIR="I" NAME="usb_uart_rxd" SIGIS="undef"/>
     <PORT DIR="O" NAME="usb_uart_txd" SIGIS="undef"/>
-    <PORT DIR="I" NAME="led_16bits_0_tri_i" SIGIS="undef"/>
-    <PORT DIR="O" NAME="led_16bits_0_tri_o" SIGIS="undef"/>
-    <PORT DIR="O" NAME="led_16bits_0_tri_t" SIGIS="undef"/>
     <PORT CLKFREQUENCY="100000000" DIR="I" NAME="sys_clock" SIGIS="clk" SIGNAME="External_Ports_sys_clock">
       <CONNECTIONS>
         <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_in1"/>
@@ -18,11 +15,6 @@
       <CONNECTIONS>
         <CONNECTION INSTANCE="clk_wiz_0" PORT="reset"/>
         <CONNECTION INSTANCE="rst_clk_wiz_0_100M" PORT="ext_reset_in"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" LEFT="3" NAME="JA" RIGHT="0" SIGIS="data" SIGNAME="External_Ports_JA">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="axi_gpio_0" PORT="gpio2_io_i"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" LEFT="7" NAME="RGBout" RIGHT="0" SIGIS="data" SIGNAME="VGA_0_RGBout">
@@ -40,6 +32,11 @@
         <CONNECTION INSTANCE="VGA_0" PORT="vsync"/>
       </CONNECTIONS>
     </PORT>
+    <PORT DIR="I" LEFT="3" NAME="JA" RIGHT="0" SIGIS="data" SIGNAME="External_Ports_JA">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="buttonDebounce_0" PORT="btnIn"/>
+      </CONNECTIONS>
+    </PORT>
   </EXTERNALPORTS>
 
   <EXTERNALINTERFACES>
@@ -47,13 +44,6 @@
       <PORTMAPS>
         <PORTMAP LOGICAL="RxD" PHYSICAL="usb_uart_rxd"/>
         <PORTMAP LOGICAL="TxD" PHYSICAL="usb_uart_txd"/>
-      </PORTMAPS>
-    </BUSINTERFACE>
-    <BUSINTERFACE BUSNAME="__NOC__" NAME="led_16bits_0" TYPE="INITIATOR">
-      <PORTMAPS>
-        <PORTMAP LOGICAL="TRI_I" PHYSICAL="led_16bits_0_tri_i"/>
-        <PORTMAP LOGICAL="TRI_O" PHYSICAL="led_16bits_0_tri_o"/>
-        <PORTMAP LOGICAL="TRI_T" PHYSICAL="led_16bits_0_tri_t"/>
       </PORTMAPS>
     </BUSINTERFACE>
   </EXTERNALINTERFACES>
@@ -494,9 +484,9 @@
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="15" NAME="gpio_io_o" RIGHT="0" SIGIS="undef"/>
-        <PORT DIR="I" LEFT="3" NAME="gpio2_io_i" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_JA">
+        <PORT DIR="I" LEFT="3" NAME="gpio2_io_i" RIGHT="0" SIGIS="undef" SIGNAME="buttonDebounce_0_btnOut">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="JA"/>
+            <CONNECTION INSTANCE="buttonDebounce_0" PORT="btnOut"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1292,6 +1282,32 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
+    <MODULE FULLNAME="/buttonDebounce_0" HWVERSION="1.0" INSTANCE="buttonDebounce_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="buttonDebounce" VLNV="xilinx.com:module_ref:buttonDebounce:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="counter_size" VALUE="19"/>
+        <PARAMETER NAME="Component_Name" VALUE="blockdesign_buttonDebounce_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="btnIn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_JA">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="JA"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="btnOut" RIGHT="0" SIGIS="undef" SIGNAME="buttonDebounce_0_btnOut">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="axi_gpio_0" PORT="gpio2_io_i"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
     <MODULE FULLNAME="/clk_wiz_0" HWVERSION="5.4" INSTANCE="clk_wiz_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clk_wiz" VLNV="xilinx.com:ip:clk_wiz:5.4">
       <DOCUMENTS>
         <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=clk_wiz;v=v5_4;d=pg065-clk-wiz.pdf"/>
@@ -1892,6 +1908,7 @@
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M01_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M02_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M03_ACLK"/>
+            <CONNECTION INSTANCE="buttonDebounce_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT CLKFREQUENCY="25000000" DIR="O" NAME="clk_out2" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out2">
