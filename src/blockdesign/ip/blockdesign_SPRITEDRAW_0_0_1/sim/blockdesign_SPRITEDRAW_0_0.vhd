@@ -46,51 +46,55 @@
 -- 
 -- DO NOT MODIFY THIS FILE.
 
--- IP VLNV: xilinx.com:module_ref:VGA:1.0
+-- IP VLNV: xilinx.com:module_ref:SPRITEDRAW:1.0
 -- IP Revision: 1
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-ENTITY blockdesign_VGA_0_1 IS
+ENTITY blockdesign_SPRITEDRAW_0_0 IS
   PORT (
-    clk25 : IN STD_LOGIC;
-    RGBin : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-    RGBout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-    hsync : OUT STD_LOGIC;
-    vsync : OUT STD_LOGIC;
-    RFlag : OUT STD_LOGIC;
-    outHcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
-    outVcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
+    clk : IN STD_LOGIC;
+    hCount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    vCount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    hPos : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    vPos : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    hSync : IN STD_LOGIC;
+    vSync : IN STD_LOGIC;
+    RGBout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
   );
-END blockdesign_VGA_0_1;
+END blockdesign_SPRITEDRAW_0_0;
 
-ARCHITECTURE blockdesign_VGA_0_1_arch OF blockdesign_VGA_0_1 IS
+ARCHITECTURE blockdesign_SPRITEDRAW_0_0_arch OF blockdesign_SPRITEDRAW_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings : STRING;
-  ATTRIBUTE DowngradeIPIdentifiedWarnings OF blockdesign_VGA_0_1_arch: ARCHITECTURE IS "yes";
-  COMPONENT VGA IS
+  ATTRIBUTE DowngradeIPIdentifiedWarnings OF blockdesign_SPRITEDRAW_0_0_arch: ARCHITECTURE IS "yes";
+  COMPONENT SPRITEDRAW IS
     PORT (
-      clk25 : IN STD_LOGIC;
-      RGBin : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-      RGBout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      hsync : OUT STD_LOGIC;
-      vsync : OUT STD_LOGIC;
-      RFlag : OUT STD_LOGIC;
-      outHcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
-      outVcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
+      clk : IN STD_LOGIC;
+      hCount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+      vCount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+      hPos : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+      vPos : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+      hSync : IN STD_LOGIC;
+      vSync : IN STD_LOGIC;
+      RGBout : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
-  END COMPONENT VGA;
+  END COMPONENT SPRITEDRAW;
+  ATTRIBUTE X_INTERFACE_INFO : STRING;
+  ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
+  ATTRIBUTE X_INTERFACE_PARAMETER OF clk: SIGNAL IS "XIL_INTERFACENAME clk, FREQ_HZ 25000000, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1";
+  ATTRIBUTE X_INTERFACE_INFO OF clk: SIGNAL IS "xilinx.com:signal:clock:1.0 clk CLK";
 BEGIN
-  U0 : VGA
+  U0 : SPRITEDRAW
     PORT MAP (
-      clk25 => clk25,
-      RGBin => RGBin,
-      RGBout => RGBout,
-      hsync => hsync,
-      vsync => vsync,
-      RFlag => RFlag,
-      outHcount => outHcount,
-      outVcount => outVcount
+      clk => clk,
+      hCount => hCount,
+      vCount => vCount,
+      hPos => hPos,
+      vPos => vPos,
+      hSync => hSync,
+      vSync => vSync,
+      RGBout => RGBout
     );
-END blockdesign_VGA_0_1_arch;
+END blockdesign_SPRITEDRAW_0_0_arch;

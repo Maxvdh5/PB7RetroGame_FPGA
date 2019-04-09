@@ -58,10 +58,10 @@ ENTITY blockdesign_HeaderManager_0_2 IS
     Mhz_100 : IN STD_LOGIC;
     Mhz_25_IN : IN STD_LOGIC;
     Data : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-    RGB : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     SpX : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
     SpY : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
-    SpData : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    SpData : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+    BG : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
   );
 END blockdesign_HeaderManager_0_2;
 
@@ -73,10 +73,10 @@ ARCHITECTURE blockdesign_HeaderManager_0_2_arch OF blockdesign_HeaderManager_0_2
       Mhz_100 : IN STD_LOGIC;
       Mhz_25_IN : IN STD_LOGIC;
       Data : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-      RGB : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
       SpX : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
       SpY : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
-      SpData : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+      SpData : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+      BG : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
   END COMPONENT HeaderManager;
 BEGIN
@@ -85,9 +85,9 @@ BEGIN
       Mhz_100 => Mhz_100,
       Mhz_25_IN => Mhz_25_IN,
       Data => Data,
-      RGB => RGB,
       SpX => SpX,
       SpY => SpY,
-      SpData => SpData
+      SpData => SpData,
+      BG => BG
     );
 END blockdesign_HeaderManager_0_2_arch;

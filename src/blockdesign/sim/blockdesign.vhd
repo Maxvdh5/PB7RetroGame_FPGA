@@ -1,8 +1,8 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
---Date        : Thu Mar 14 11:45:47 2019
---Host        : LAPTOP-TNOKBRFS running 64-bit major release  (build 9200)
+--Date        : Mon Apr  8 09:55:39 2019
+--Host        : LAPTOP-H33E3AH0 running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
 --Purpose     : IP block netlist
@@ -2057,18 +2057,17 @@ architecture STRUCTURE of blockdesign is
     gpio2_io_i : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component blockdesign_axi_gpio_1_0;
-  component blockdesign_VGA_0_1 is
+  component blockdesign_HeaderManager_0_2 is
   port (
-    clk25 : in STD_LOGIC;
-    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    hsync : out STD_LOGIC;
-    vsync : out STD_LOGIC;
-    RFlag : out STD_LOGIC;
-    outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
+    Mhz_100 : in STD_LOGIC;
+    Mhz_25_IN : in STD_LOGIC;
+    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    SpX : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    SpY : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    SpData : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    BG : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
-  end component blockdesign_VGA_0_1;
+  end component blockdesign_HeaderManager_0_2;
   component blockdesign_SPRITEDRAW_0_0 is
   port (
     clk : in STD_LOGIC;
@@ -2081,17 +2080,18 @@ architecture STRUCTURE of blockdesign is
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component blockdesign_SPRITEDRAW_0_0;
-  component blockdesign_HeaderManager_0_2 is
+  component blockdesign_VGA_0_1 is
   port (
-    Mhz_100 : in STD_LOGIC;
-    Mhz_25_IN : in STD_LOGIC;
-    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
-    RGB : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    SpX : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    SpY : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    SpData : out STD_LOGIC_VECTOR ( 15 downto 0 )
+    clk25 : in STD_LOGIC;
+    RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    hsync : out STD_LOGIC;
+    vsync : out STD_LOGIC;
+    RFlag : out STD_LOGIC;
+    outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
-  end component blockdesign_HeaderManager_0_2;
+  end component blockdesign_VGA_0_1;
   signal HeaderManager_0_SpX : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal HeaderManager_0_SpY : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -2238,7 +2238,7 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_mb_reset : STD_LOGIC;
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal sys_clock_1 : STD_LOGIC;
-  signal NLW_HeaderManager_0_RGB_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal NLW_HeaderManager_0_BG_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_HeaderManager_0_SpData_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
@@ -2279,10 +2279,10 @@ begin
   vSync <= VGA_0_vsync;
 HeaderManager_0: component blockdesign_HeaderManager_0_2
      port map (
+      BG(7 downto 0) => NLW_HeaderManager_0_BG_UNCONNECTED(7 downto 0),
       Data(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       Mhz_100 => microblaze_0_Clk,
       Mhz_25_IN => clk_wiz_0_clk_out2,
-      RGB(7 downto 0) => NLW_HeaderManager_0_RGB_UNCONNECTED(7 downto 0),
       SpData(15 downto 0) => NLW_HeaderManager_0_SpData_UNCONNECTED(15 downto 0),
       SpX(9 downto 0) => HeaderManager_0_SpX(9 downto 0),
       SpY(9 downto 0) => HeaderManager_0_SpY(9 downto 0)

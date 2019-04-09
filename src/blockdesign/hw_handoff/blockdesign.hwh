@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Mar 14 11:45:48 2019" VIVADOVERSION="2017.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Apr  8 09:55:40 2019" VIVADOVERSION="2017.4">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="blockdesign" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -81,7 +81,6 @@
             <CONNECTION INSTANCE="axi_gpio_1" PORT="gpio_io_o"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="7" NAME="RGB" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="9" NAME="SpX" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_SpX">
           <CONNECTIONS>
             <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="hPos"/>
@@ -93,6 +92,7 @@
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="15" NAME="SpData" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="O" LEFT="7" NAME="BG" RIGHT="0" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -1895,9 +1895,9 @@
         </PORT>
         <PORT CLKFREQUENCY="25000000" DIR="O" NAME="clk_out2" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out2">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="clk25"/>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="clk"/>
             <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_25_IN"/>
+            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="clk"/>
+            <CONNECTION INSTANCE="VGA_0" PORT="clk25"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">

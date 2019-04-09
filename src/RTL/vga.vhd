@@ -11,6 +11,7 @@ entity VGA is
 			
 			hsync, vsync                : OUT    STD_LOGIC;
 			RFlag                       : OUT    STD_LOGIC;
+			CFlag                       : OUT    STD_LOGIC;
 			outHcount, outVcount        : out    STD_LOGIC_VECTOR(9 DOWNTO 0));
 
 end VGA;
@@ -24,8 +25,12 @@ begin
 outHcount <= hcount - 144;
 outVcount <= vcount - 31;
 
-RFlag <=    '1' when ((htemp = '0') and (vtemp = '0')) else
+RFlag <=    '1' when (vcount < 31) else
             '0';
+            
+CFlag <=    '1' when (hcount = 0 AND vcount = 0) else
+            '0';
+            
 hsync <= htemp;
 vsync <= vtemp;
 
@@ -39,7 +44,7 @@ begin
         end if;
 	 
         if hcount < 97 then
-            htemp <= '0';
+            htemp <= '0'; 
         else
             htemp <= '1';
         end if;
