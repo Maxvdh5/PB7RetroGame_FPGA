@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Mon Apr  8 17:40:16 2019
+-- Date        : Tue Apr  9 22:24:16 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_VGA_0_1/blockdesign_VGA_0_1_sim_netlist.vhdl
@@ -18,9 +18,10 @@ entity blockdesign_VGA_0_1_VGA is
   port (
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     outHcount : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    CFlag : out STD_LOGIC;
     outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    \outHcount[9]\ : out STD_LOGIC_VECTOR ( 5 downto 0 );
     RFlag : out STD_LOGIC;
+    \outHcount[9]\ : out STD_LOGIC_VECTOR ( 5 downto 0 );
     hsync : out STD_LOGIC;
     vsync : out STD_LOGIC;
     RGBin : in STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -31,11 +32,13 @@ entity blockdesign_VGA_0_1_VGA is
 end blockdesign_VGA_0_1_VGA;
 
 architecture STRUCTURE of blockdesign_VGA_0_1_VGA is
+  signal \^cflag\ : STD_LOGIC;
+  signal CFlag_INST_0_i_1_n_0 : STD_LOGIC;
+  signal RFlag_INST_0_i_1_n_0 : STD_LOGIC;
   signal \RGBout[7]_i_1_n_0\ : STD_LOGIC;
   signal \RGBout[7]_i_2_n_0\ : STD_LOGIC;
   signal \RGBout[7]_i_3_n_0\ : STD_LOGIC;
   signal \RGBout[7]_i_4_n_0\ : STD_LOGIC;
-  signal clear : STD_LOGIC;
   signal \hcount[0]_i_1_n_0\ : STD_LOGIC;
   signal \hcount[9]_i_2_n_0\ : STD_LOGIC;
   signal \hcount_reg__0\ : STD_LOGIC_VECTOR ( 9 downto 4 );
@@ -43,58 +46,95 @@ architecture STRUCTURE of blockdesign_VGA_0_1_VGA is
   signal htemp_i_2_n_0 : STD_LOGIC;
   signal \^outhcount\ : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal \^outvcount\ : STD_LOGIC_VECTOR ( 9 downto 0 );
-  signal \outVcount[9]_INST_0_i_1_n_0\ : STD_LOGIC;
   signal plusOp : STD_LOGIC_VECTOR ( 9 downto 1 );
   signal \plusOp__0\ : STD_LOGIC_VECTOR ( 9 downto 6 );
   signal sel : STD_LOGIC;
   signal \vcount[5]_i_1_n_0\ : STD_LOGIC;
-  signal \vcount[9]_i_3_n_0\ : STD_LOGIC;
   signal \vcount_reg__0\ : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal vtemp_i_1_n_0 : STD_LOGIC;
   signal vtemp_i_2_n_0 : STD_LOGIC;
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of RFlag_INST_0 : label is "soft_lutpair4";
-  attribute SOFT_HLUTNM of \RGBout[7]_i_3\ : label is "soft_lutpair4";
-  attribute SOFT_HLUTNM of \RGBout[7]_i_4\ : label is "soft_lutpair9";
-  attribute SOFT_HLUTNM of \hcount[1]_i_1\ : label is "soft_lutpair11";
-  attribute SOFT_HLUTNM of \hcount[2]_i_1\ : label is "soft_lutpair11";
-  attribute SOFT_HLUTNM of \hcount[3]_i_2\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of RFlag_INST_0_i_1 : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of \RGBout[7]_i_3\ : label is "soft_lutpair8";
+  attribute SOFT_HLUTNM of \RGBout[7]_i_4\ : label is "soft_lutpair8";
+  attribute SOFT_HLUTNM of \hcount[1]_i_1\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \hcount[2]_i_1\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \hcount[3]_i_2\ : label is "soft_lutpair5";
   attribute SOFT_HLUTNM of \hcount[4]_i_1\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \hcount[6]_i_1\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \hcount[6]_i_1\ : label is "soft_lutpair11";
   attribute SOFT_HLUTNM of \hcount[7]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \hcount[8]_i_1\ : label is "soft_lutpair0";
   attribute SOFT_HLUTNM of \hcount[9]_i_2\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of htemp_i_2 : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \outHcount[4]_INST_0\ : label is "soft_lutpair12";
-  attribute SOFT_HLUTNM of \outHcount[5]_INST_0\ : label is "soft_lutpair12";
-  attribute SOFT_HLUTNM of \outHcount[6]_INST_0\ : label is "soft_lutpair10";
-  attribute SOFT_HLUTNM of \outHcount[7]_INST_0\ : label is "soft_lutpair5";
-  attribute SOFT_HLUTNM of \outHcount[8]_INST_0\ : label is "soft_lutpair5";
-  attribute SOFT_HLUTNM of \outVcount[1]_INST_0\ : label is "soft_lutpair13";
-  attribute SOFT_HLUTNM of \outVcount[2]_INST_0\ : label is "soft_lutpair8";
-  attribute SOFT_HLUTNM of \outVcount[3]_INST_0\ : label is "soft_lutpair8";
+  attribute SOFT_HLUTNM of htemp_i_2 : label is "soft_lutpair5";
+  attribute SOFT_HLUTNM of \outHcount[4]_INST_0\ : label is "soft_lutpair13";
+  attribute SOFT_HLUTNM of \outHcount[5]_INST_0\ : label is "soft_lutpair13";
+  attribute SOFT_HLUTNM of \outHcount[6]_INST_0\ : label is "soft_lutpair11";
+  attribute SOFT_HLUTNM of \outHcount[7]_INST_0\ : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of \outHcount[8]_INST_0\ : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of \outVcount[1]_INST_0\ : label is "soft_lutpair12";
+  attribute SOFT_HLUTNM of \outVcount[2]_INST_0\ : label is "soft_lutpair7";
+  attribute SOFT_HLUTNM of \outVcount[3]_INST_0\ : label is "soft_lutpair7";
   attribute SOFT_HLUTNM of \outVcount[4]_INST_0\ : label is "soft_lutpair3";
   attribute SOFT_HLUTNM of \outVcount[6]_INST_0\ : label is "soft_lutpair9";
-  attribute SOFT_HLUTNM of \outVcount[7]_INST_0\ : label is "soft_lutpair7";
-  attribute SOFT_HLUTNM of \outVcount[8]_INST_0\ : label is "soft_lutpair6";
-  attribute SOFT_HLUTNM of \outVcount[9]_INST_0_i_1\ : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of \vcount[7]_i_1\ : label is "soft_lutpair7";
-  attribute SOFT_HLUTNM of \vcount[8]_i_1\ : label is "soft_lutpair6";
-  attribute SOFT_HLUTNM of vtemp_i_2 : label is "soft_lutpair13";
+  attribute SOFT_HLUTNM of \outVcount[7]_INST_0\ : label is "soft_lutpair6";
+  attribute SOFT_HLUTNM of \outVcount[8]_INST_0\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \vcount[6]_i_1\ : label is "soft_lutpair9";
+  attribute SOFT_HLUTNM of \vcount[7]_i_1\ : label is "soft_lutpair6";
+  attribute SOFT_HLUTNM of \vcount[8]_i_1\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of vtemp_i_2 : label is "soft_lutpair12";
 begin
+  CFlag <= \^cflag\;
   outHcount(3 downto 0) <= \^outhcount\(3 downto 0);
   outVcount(9 downto 0) <= \^outvcount\(9 downto 0);
-RFlag_INST_0: unisim.vcomponents.LUT5
+CFlag_INST_0: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"00000001"
+      INIT => X"00000002"
     )
         port map (
-      I0 => \vcount_reg__0\(8),
-      I1 => \vcount_reg__0\(6),
+      I0 => CFlag_INST_0_i_1_n_0,
+      I1 => \vcount_reg__0\(8),
+      I2 => \vcount_reg__0\(6),
+      I3 => \vcount_reg__0\(5),
+      I4 => \vcount_reg__0\(7),
+      O => \^cflag\
+    );
+CFlag_INST_0_i_1: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"0000002000000000"
+    )
+        port map (
+      I0 => \vcount_reg__0\(3),
+      I1 => \vcount_reg__0\(2),
+      I2 => \vcount_reg__0\(0),
+      I3 => \vcount_reg__0\(1),
+      I4 => \vcount_reg__0\(4),
+      I5 => \vcount_reg__0\(9),
+      O => CFlag_INST_0_i_1_n_0
+    );
+RFlag_INST_0: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"0000000000000002"
+    )
+        port map (
+      I0 => RFlag_INST_0_i_1_n_0,
+      I1 => \vcount_reg__0\(7),
       I2 => \vcount_reg__0\(5),
-      I3 => \vcount_reg__0\(7),
-      I4 => \vcount_reg__0\(9),
+      I3 => \vcount_reg__0\(6),
+      I4 => \vcount_reg__0\(8),
+      I5 => \vcount_reg__0\(9),
       O => RFlag
+    );
+RFlag_INST_0_i_1: unisim.vcomponents.LUT5
+    generic map(
+      INIT => X"7FFFFFFF"
+    )
+        port map (
+      I0 => \vcount_reg__0\(3),
+      I1 => \vcount_reg__0\(1),
+      I2 => \vcount_reg__0\(0),
+      I3 => \vcount_reg__0\(2),
+      I4 => \vcount_reg__0\(4),
+      O => RFlag_INST_0_i_1_n_0
     );
 \RGBout[7]_i_1\: unisim.vcomponents.LUT5
     generic map(
@@ -104,7 +144,7 @@ RFlag_INST_0: unisim.vcomponents.LUT5
       I0 => \vcount_reg__0\(9),
       I1 => \RGBout[7]_i_2_n_0\,
       I2 => \RGBout[7]_i_3_n_0\,
-      I3 => \outVcount[9]_INST_0_i_1_n_0\,
+      I3 => RFlag_INST_0_i_1_n_0,
       I4 => \RGBout[7]_i_4_n_0\,
       O => \RGBout[7]_i_1_n_0\
     );
@@ -616,7 +656,7 @@ htemp_reg: unisim.vcomponents.FDRE
     )
         port map (
       I0 => \vcount_reg__0\(5),
-      I1 => \outVcount[9]_INST_0_i_1_n_0\,
+      I1 => RFlag_INST_0_i_1_n_0,
       I2 => \vcount_reg__0\(6),
       O => \^outvcount\(6)
     );
@@ -625,7 +665,7 @@ htemp_reg: unisim.vcomponents.FDRE
       INIT => X"FD02"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(6),
       I2 => \vcount_reg__0\(5),
       I3 => \vcount_reg__0\(7),
@@ -636,7 +676,7 @@ htemp_reg: unisim.vcomponents.FDRE
       INIT => X"FFFD0002"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(7),
       I2 => \vcount_reg__0\(5),
       I3 => \vcount_reg__0\(6),
@@ -648,25 +688,13 @@ htemp_reg: unisim.vcomponents.FDRE
       INIT => X"FFFFFFFD00000002"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(7),
       I2 => \vcount_reg__0\(5),
       I3 => \vcount_reg__0\(6),
       I4 => \vcount_reg__0\(8),
       I5 => \vcount_reg__0\(9),
       O => \^outvcount\(9)
-    );
-\outVcount[9]_INST_0_i_1\: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"7FFFFFFF"
-    )
-        port map (
-      I0 => \vcount_reg__0\(3),
-      I1 => \vcount_reg__0\(1),
-      I2 => \vcount_reg__0\(0),
-      I3 => \vcount_reg__0\(2),
-      I4 => \vcount_reg__0\(4),
-      O => \outVcount[9]_INST_0_i_1_n_0\
     );
 \vcount[5]_i_1\: unisim.vcomponents.LUT6
     generic map(
@@ -687,7 +715,7 @@ htemp_reg: unisim.vcomponents.FDRE
     )
         port map (
       I0 => \vcount_reg__0\(5),
-      I1 => \outVcount[9]_INST_0_i_1_n_0\,
+      I1 => RFlag_INST_0_i_1_n_0,
       I2 => \vcount_reg__0\(6),
       O => \plusOp__0\(6)
     );
@@ -696,7 +724,7 @@ htemp_reg: unisim.vcomponents.FDRE
       INIT => X"BF40"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(5),
       I2 => \vcount_reg__0\(6),
       I3 => \vcount_reg__0\(7),
@@ -707,50 +735,25 @@ htemp_reg: unisim.vcomponents.FDRE
       INIT => X"BFFF4000"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(6),
       I2 => \vcount_reg__0\(5),
       I3 => \vcount_reg__0\(7),
       I4 => \vcount_reg__0\(8),
       O => \plusOp__0\(8)
     );
-\vcount[9]_i_1\: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"00000002"
-    )
-        port map (
-      I0 => \vcount[9]_i_3_n_0\,
-      I1 => \vcount_reg__0\(8),
-      I2 => \vcount_reg__0\(6),
-      I3 => \vcount_reg__0\(5),
-      I4 => \vcount_reg__0\(7),
-      O => clear
-    );
-\vcount[9]_i_2\: unisim.vcomponents.LUT6
+\vcount[9]_i_1\: unisim.vcomponents.LUT6
     generic map(
       INIT => X"BFFFFFFF40000000"
     )
         port map (
-      I0 => \outVcount[9]_INST_0_i_1_n_0\,
+      I0 => RFlag_INST_0_i_1_n_0,
       I1 => \vcount_reg__0\(7),
       I2 => \vcount_reg__0\(5),
       I3 => \vcount_reg__0\(6),
       I4 => \vcount_reg__0\(8),
       I5 => \vcount_reg__0\(9),
       O => \plusOp__0\(9)
-    );
-\vcount[9]_i_3\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"0000002000000000"
-    )
-        port map (
-      I0 => \vcount_reg__0\(3),
-      I1 => \vcount_reg__0\(2),
-      I2 => \vcount_reg__0\(0),
-      I3 => \vcount_reg__0\(1),
-      I4 => \vcount_reg__0\(4),
-      I5 => \vcount_reg__0\(9),
-      O => \vcount[9]_i_3_n_0\
     );
 \vcount_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -761,7 +764,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \^outvcount\(0),
       Q => \vcount_reg__0\(0),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[1]\: unisim.vcomponents.FDRE
     generic map(
@@ -772,7 +775,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \^outvcount\(1),
       Q => \vcount_reg__0\(1),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[2]\: unisim.vcomponents.FDRE
     generic map(
@@ -783,7 +786,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \^outvcount\(2),
       Q => \vcount_reg__0\(2),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[3]\: unisim.vcomponents.FDRE
     generic map(
@@ -794,7 +797,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \^outvcount\(3),
       Q => \vcount_reg__0\(3),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[4]\: unisim.vcomponents.FDRE
     generic map(
@@ -805,7 +808,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \^outvcount\(4),
       Q => \vcount_reg__0\(4),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[5]\: unisim.vcomponents.FDRE
     generic map(
@@ -816,7 +819,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \vcount[5]_i_1_n_0\,
       Q => \vcount_reg__0\(5),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[6]\: unisim.vcomponents.FDRE
     generic map(
@@ -827,7 +830,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \plusOp__0\(6),
       Q => \vcount_reg__0\(6),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[7]\: unisim.vcomponents.FDRE
     generic map(
@@ -838,7 +841,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \plusOp__0\(7),
       Q => \vcount_reg__0\(7),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[8]\: unisim.vcomponents.FDRE
     generic map(
@@ -849,7 +852,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \plusOp__0\(8),
       Q => \vcount_reg__0\(8),
-      R => clear
+      R => \^cflag\
     );
 \vcount_reg[9]\: unisim.vcomponents.FDRE
     generic map(
@@ -860,7 +863,7 @@ htemp_reg: unisim.vcomponents.FDRE
       CE => sel,
       D => \plusOp__0\(9),
       Q => \vcount_reg__0\(9),
-      R => clear
+      R => \^cflag\
     );
 vtemp_i_1: unisim.vcomponents.LUT6
     generic map(
@@ -905,6 +908,7 @@ entity blockdesign_VGA_0_1 is
     hsync : out STD_LOGIC;
     vsync : out STD_LOGIC;
     RFlag : out STD_LOGIC;
+    CFlag : out STD_LOGIC;
     outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
     outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
@@ -922,6 +926,7 @@ architecture STRUCTURE of blockdesign_VGA_0_1 is
 begin
 U0: entity work.blockdesign_VGA_0_1_VGA
      port map (
+      CFlag => CFlag,
       RFlag => RFlag,
       RGBin(7 downto 0) => RGBin(7 downto 0),
       RGBout(7 downto 0) => RGBout(7 downto 0),

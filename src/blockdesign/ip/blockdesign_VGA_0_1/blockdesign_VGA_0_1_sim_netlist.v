@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Apr  8 17:40:16 2019
+// Date        : Tue Apr  9 22:24:16 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_VGA_0_1/blockdesign_VGA_0_1_sim_netlist.v
@@ -21,6 +21,7 @@ module blockdesign_VGA_0_1
     hsync,
     vsync,
     RFlag,
+    CFlag,
     outHcount,
     outVcount);
   input clk25;
@@ -29,9 +30,11 @@ module blockdesign_VGA_0_1
   output hsync;
   output vsync;
   output RFlag;
+  output CFlag;
   output [9:0]outHcount;
   output [9:0]outVcount;
 
+  wire CFlag;
   wire RFlag;
   wire [7:0]RGBin;
   wire [7:0]RGBout;
@@ -42,7 +45,8 @@ module blockdesign_VGA_0_1
   wire vsync;
 
   blockdesign_VGA_0_1_VGA U0
-       (.RFlag(RFlag),
+       (.CFlag(CFlag),
+        .RFlag(RFlag),
         .RGBin(RGBin),
         .RGBout(RGBout),
         .clk25(clk25),
@@ -57,31 +61,35 @@ endmodule
 module blockdesign_VGA_0_1_VGA
    (RGBout,
     outHcount,
+    CFlag,
     outVcount,
-    \outHcount[9] ,
     RFlag,
+    \outHcount[9] ,
     hsync,
     vsync,
     RGBin,
     clk25);
   output [7:0]RGBout;
   output [3:0]outHcount;
+  output CFlag;
   output [9:0]outVcount;
-  output [5:0]\outHcount[9] ;
   output RFlag;
+  output [5:0]\outHcount[9] ;
   output hsync;
   output vsync;
   input [7:0]RGBin;
   input clk25;
 
+  wire CFlag;
+  wire CFlag_INST_0_i_1_n_0;
   wire RFlag;
+  wire RFlag_INST_0_i_1_n_0;
   wire [7:0]RGBin;
   wire [7:0]RGBout;
   wire \RGBout[7]_i_1_n_0 ;
   wire \RGBout[7]_i_2_n_0 ;
   wire \RGBout[7]_i_3_n_0 ;
   wire \RGBout[7]_i_4_n_0 ;
-  wire clear;
   wire clk25;
   wire \hcount[0]_i_1_n_0 ;
   wire \hcount[9]_i_2_n_0 ;
@@ -92,34 +100,61 @@ module blockdesign_VGA_0_1_VGA
   wire [3:0]outHcount;
   wire [5:0]\outHcount[9] ;
   wire [9:0]outVcount;
-  wire \outVcount[9]_INST_0_i_1_n_0 ;
   wire [9:1]plusOp;
   wire [9:6]plusOp__0;
   wire sel;
   wire \vcount[5]_i_1_n_0 ;
-  wire \vcount[9]_i_3_n_0 ;
   wire [9:0]vcount_reg__0;
   wire vsync;
   wire vtemp_i_1_n_0;
   wire vtemp_i_2_n_0;
 
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT5 #(
-    .INIT(32'h00000001)) 
+    .INIT(32'h00000002)) 
+    CFlag_INST_0
+       (.I0(CFlag_INST_0_i_1_n_0),
+        .I1(vcount_reg__0[8]),
+        .I2(vcount_reg__0[6]),
+        .I3(vcount_reg__0[5]),
+        .I4(vcount_reg__0[7]),
+        .O(CFlag));
+  LUT6 #(
+    .INIT(64'h0000002000000000)) 
+    CFlag_INST_0_i_1
+       (.I0(vcount_reg__0[3]),
+        .I1(vcount_reg__0[2]),
+        .I2(vcount_reg__0[0]),
+        .I3(vcount_reg__0[1]),
+        .I4(vcount_reg__0[4]),
+        .I5(vcount_reg__0[9]),
+        .O(CFlag_INST_0_i_1_n_0));
+  LUT6 #(
+    .INIT(64'h0000000000000002)) 
     RFlag_INST_0
-       (.I0(vcount_reg__0[8]),
-        .I1(vcount_reg__0[6]),
+       (.I0(RFlag_INST_0_i_1_n_0),
+        .I1(vcount_reg__0[7]),
         .I2(vcount_reg__0[5]),
-        .I3(vcount_reg__0[7]),
-        .I4(vcount_reg__0[9]),
+        .I3(vcount_reg__0[6]),
+        .I4(vcount_reg__0[8]),
+        .I5(vcount_reg__0[9]),
         .O(RFlag));
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  LUT5 #(
+    .INIT(32'h7FFFFFFF)) 
+    RFlag_INST_0_i_1
+       (.I0(vcount_reg__0[3]),
+        .I1(vcount_reg__0[1]),
+        .I2(vcount_reg__0[0]),
+        .I3(vcount_reg__0[2]),
+        .I4(vcount_reg__0[4]),
+        .O(RFlag_INST_0_i_1_n_0));
   LUT5 #(
     .INIT(32'hBBBFFFBF)) 
     \RGBout[7]_i_1 
        (.I0(vcount_reg__0[9]),
         .I1(\RGBout[7]_i_2_n_0 ),
         .I2(\RGBout[7]_i_3_n_0 ),
-        .I3(\outVcount[9]_INST_0_i_1_n_0 ),
+        .I3(RFlag_INST_0_i_1_n_0),
         .I4(\RGBout[7]_i_4_n_0 ),
         .O(\RGBout[7]_i_1_n_0 ));
   LUT6 #(
@@ -132,7 +167,7 @@ module blockdesign_VGA_0_1_VGA
         .I4(hcount_reg__0[4]),
         .I5(hcount_reg__0[6]),
         .O(\RGBout[7]_i_2_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'h7FFF)) 
     \RGBout[7]_i_3 
@@ -141,7 +176,7 @@ module blockdesign_VGA_0_1_VGA
         .I2(vcount_reg__0[6]),
         .I3(vcount_reg__0[8]),
         .O(\RGBout[7]_i_3_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair9" *) 
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'hFFFE)) 
     \RGBout[7]_i_4 
@@ -203,14 +238,14 @@ module blockdesign_VGA_0_1_VGA
     \hcount[0]_i_1 
        (.I0(outHcount[0]),
         .O(\hcount[0]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
+  (* SOFT_HLUTNM = "soft_lutpair10" *) 
   LUT2 #(
     .INIT(4'h6)) 
     \hcount[1]_i_1 
        (.I0(outHcount[0]),
         .I1(outHcount[1]),
         .O(plusOp[1]));
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
+  (* SOFT_HLUTNM = "soft_lutpair10" *) 
   LUT3 #(
     .INIT(8'h78)) 
     \hcount[2]_i_1 
@@ -228,7 +263,7 @@ module blockdesign_VGA_0_1_VGA
         .I4(hcount_reg__0[5]),
         .I5(htemp_i_2_n_0),
         .O(sel));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
   LUT4 #(
     .INIT(16'h7F80)) 
     \hcount[3]_i_2 
@@ -257,7 +292,7 @@ module blockdesign_VGA_0_1_VGA
         .I4(outHcount[3]),
         .I5(hcount_reg__0[5]),
         .O(plusOp[5]));
-  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT3 #(
     .INIT(8'hD2)) 
     \hcount[6]_i_1 
@@ -394,7 +429,7 @@ module blockdesign_VGA_0_1_VGA
         .I4(hcount_reg__0[6]),
         .I5(htemp_i_2_n_0),
         .O(htemp_i_1_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
   LUT5 #(
     .INIT(32'hFFFFFFFE)) 
     htemp_i_2
@@ -410,20 +445,20 @@ module blockdesign_VGA_0_1_VGA
         .D(htemp_i_1_n_0),
         .Q(hsync),
         .R(1'b0));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
   LUT1 #(
     .INIT(2'h1)) 
     \outHcount[4]_INST_0 
        (.I0(hcount_reg__0[4]),
         .O(\outHcount[9] [0]));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
   LUT2 #(
     .INIT(4'h9)) 
     \outHcount[5]_INST_0 
        (.I0(hcount_reg__0[5]),
         .I1(hcount_reg__0[4]),
         .O(\outHcount[9] [1]));
-  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT3 #(
     .INIT(8'hA9)) 
     \outHcount[6]_INST_0 
@@ -431,7 +466,7 @@ module blockdesign_VGA_0_1_VGA
         .I1(hcount_reg__0[4]),
         .I2(hcount_reg__0[5]),
         .O(\outHcount[9] [2]));
-  (* SOFT_HLUTNM = "soft_lutpair5" *) 
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT4 #(
     .INIT(16'h01FE)) 
     \outHcount[7]_INST_0 
@@ -440,7 +475,7 @@ module blockdesign_VGA_0_1_VGA
         .I2(hcount_reg__0[5]),
         .I3(hcount_reg__0[7]),
         .O(\outHcount[9] [3]));
-  (* SOFT_HLUTNM = "soft_lutpair5" *) 
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT5 #(
     .INIT(32'hFE0001FF)) 
     \outHcount[8]_INST_0 
@@ -465,14 +500,14 @@ module blockdesign_VGA_0_1_VGA
     \outVcount[0]_INST_0 
        (.I0(vcount_reg__0[0]),
         .O(outVcount[0]));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
   LUT2 #(
     .INIT(4'h6)) 
     \outVcount[1]_INST_0 
        (.I0(vcount_reg__0[0]),
         .I1(vcount_reg__0[1]),
         .O(outVcount[1]));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT3 #(
     .INIT(8'h78)) 
     \outVcount[2]_INST_0 
@@ -480,7 +515,7 @@ module blockdesign_VGA_0_1_VGA
         .I1(vcount_reg__0[0]),
         .I2(vcount_reg__0[2]),
         .O(outVcount[2]));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT4 #(
     .INIT(16'h7F80)) 
     \outVcount[3]_INST_0 
@@ -514,23 +549,23 @@ module blockdesign_VGA_0_1_VGA
     .INIT(8'hB4)) 
     \outVcount[6]_INST_0 
        (.I0(vcount_reg__0[5]),
-        .I1(\outVcount[9]_INST_0_i_1_n_0 ),
+        .I1(RFlag_INST_0_i_1_n_0),
         .I2(vcount_reg__0[6]),
         .O(outVcount[6]));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
+  (* SOFT_HLUTNM = "soft_lutpair6" *) 
   LUT4 #(
     .INIT(16'hFD02)) 
     \outVcount[7]_INST_0 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[6]),
         .I2(vcount_reg__0[5]),
         .I3(vcount_reg__0[7]),
         .O(outVcount[7]));
-  (* SOFT_HLUTNM = "soft_lutpair6" *) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT5 #(
     .INIT(32'hFFFD0002)) 
     \outVcount[8]_INST_0 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[7]),
         .I2(vcount_reg__0[5]),
         .I3(vcount_reg__0[6]),
@@ -539,23 +574,13 @@ module blockdesign_VGA_0_1_VGA
   LUT6 #(
     .INIT(64'hFFFFFFFD00000002)) 
     \outVcount[9]_INST_0 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[7]),
         .I2(vcount_reg__0[5]),
         .I3(vcount_reg__0[6]),
         .I4(vcount_reg__0[8]),
         .I5(vcount_reg__0[9]),
         .O(outVcount[9]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT5 #(
-    .INIT(32'h7FFFFFFF)) 
-    \outVcount[9]_INST_0_i_1 
-       (.I0(vcount_reg__0[3]),
-        .I1(vcount_reg__0[1]),
-        .I2(vcount_reg__0[0]),
-        .I3(vcount_reg__0[2]),
-        .I4(vcount_reg__0[4]),
-        .O(\outVcount[9]_INST_0_i_1_n_0 ));
   LUT6 #(
     .INIT(64'h7FFFFFFF80000000)) 
     \vcount[5]_i_1 
@@ -566,61 +591,43 @@ module blockdesign_VGA_0_1_VGA
         .I4(vcount_reg__0[3]),
         .I5(vcount_reg__0[5]),
         .O(\vcount[5]_i_1_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair9" *) 
   LUT3 #(
     .INIT(8'hD2)) 
     \vcount[6]_i_1 
        (.I0(vcount_reg__0[5]),
-        .I1(\outVcount[9]_INST_0_i_1_n_0 ),
+        .I1(RFlag_INST_0_i_1_n_0),
         .I2(vcount_reg__0[6]),
         .O(plusOp__0[6]));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
+  (* SOFT_HLUTNM = "soft_lutpair6" *) 
   LUT4 #(
     .INIT(16'hBF40)) 
     \vcount[7]_i_1 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[5]),
         .I2(vcount_reg__0[6]),
         .I3(vcount_reg__0[7]),
         .O(plusOp__0[7]));
-  (* SOFT_HLUTNM = "soft_lutpair6" *) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT5 #(
     .INIT(32'hBFFF4000)) 
     \vcount[8]_i_1 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[6]),
         .I2(vcount_reg__0[5]),
         .I3(vcount_reg__0[7]),
         .I4(vcount_reg__0[8]),
         .O(plusOp__0[8]));
-  LUT5 #(
-    .INIT(32'h00000002)) 
-    \vcount[9]_i_1 
-       (.I0(\vcount[9]_i_3_n_0 ),
-        .I1(vcount_reg__0[8]),
-        .I2(vcount_reg__0[6]),
-        .I3(vcount_reg__0[5]),
-        .I4(vcount_reg__0[7]),
-        .O(clear));
   LUT6 #(
     .INIT(64'hBFFFFFFF40000000)) 
-    \vcount[9]_i_2 
-       (.I0(\outVcount[9]_INST_0_i_1_n_0 ),
+    \vcount[9]_i_1 
+       (.I0(RFlag_INST_0_i_1_n_0),
         .I1(vcount_reg__0[7]),
         .I2(vcount_reg__0[5]),
         .I3(vcount_reg__0[6]),
         .I4(vcount_reg__0[8]),
         .I5(vcount_reg__0[9]),
         .O(plusOp__0[9]));
-  LUT6 #(
-    .INIT(64'h0000002000000000)) 
-    \vcount[9]_i_3 
-       (.I0(vcount_reg__0[3]),
-        .I1(vcount_reg__0[2]),
-        .I2(vcount_reg__0[0]),
-        .I3(vcount_reg__0[1]),
-        .I4(vcount_reg__0[4]),
-        .I5(vcount_reg__0[9]),
-        .O(\vcount[9]_i_3_n_0 ));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[0] 
@@ -628,7 +635,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(outVcount[0]),
         .Q(vcount_reg__0[0]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[1] 
@@ -636,7 +643,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(outVcount[1]),
         .Q(vcount_reg__0[1]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[2] 
@@ -644,7 +651,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(outVcount[2]),
         .Q(vcount_reg__0[2]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[3] 
@@ -652,7 +659,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(outVcount[3]),
         .Q(vcount_reg__0[3]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[4] 
@@ -660,7 +667,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(outVcount[4]),
         .Q(vcount_reg__0[4]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[5] 
@@ -668,7 +675,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(\vcount[5]_i_1_n_0 ),
         .Q(vcount_reg__0[5]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[6] 
@@ -676,7 +683,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(plusOp__0[6]),
         .Q(vcount_reg__0[6]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[7] 
@@ -684,7 +691,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(plusOp__0[7]),
         .Q(vcount_reg__0[7]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[8] 
@@ -692,7 +699,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(plusOp__0[8]),
         .Q(vcount_reg__0[8]),
-        .R(clear));
+        .R(CFlag));
   FDRE #(
     .INIT(1'b0)) 
     \vcount_reg[9] 
@@ -700,7 +707,7 @@ module blockdesign_VGA_0_1_VGA
         .CE(sel),
         .D(plusOp__0[9]),
         .Q(vcount_reg__0[9]),
-        .R(clear));
+        .R(CFlag));
   LUT6 #(
     .INIT(64'hFFFFFFFFFFFFFEFF)) 
     vtemp_i_1
@@ -711,7 +718,7 @@ module blockdesign_VGA_0_1_VGA
         .I4(\RGBout[7]_i_4_n_0 ),
         .I5(vcount_reg__0[3]),
         .O(vtemp_i_1_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
   LUT2 #(
     .INIT(4'h7)) 
     vtemp_i_2

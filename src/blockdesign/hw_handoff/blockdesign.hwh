@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Apr  9 13:47:04 2019" VIVADOVERSION="2017.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Apr 10 00:30:25 2019" VIVADOVERSION="2017.4">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="blockdesign" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -49,6 +49,56 @@
   </EXTERNALINTERFACES>
 
   <MODULES>
+    <MODULE FULLNAME="/FrameBuffer_0" HWVERSION="1.0" INSTANCE="FrameBuffer_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="FrameBuffer" VLNV="xilinx.com:module_ref:FrameBuffer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="blockdesign_FrameBuffer_0_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="Clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="ObjectX" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectX">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="HeaderManager_0" PORT="ObjectX"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="ObjectY" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectY">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="HeaderManager_0" PORT="ObjectY"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="15" NAME="ObjectSpID" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectSpID">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="HeaderManager_0" PORT="ObjectSpID"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="Hcount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outHcount">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="VGA_0" PORT="outHcount"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="Vcount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outVcount">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="VGA_0" PORT="outVcount"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="Clear" SIGIS="undef" SIGNAME="VGA_0_CFlag">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="VGA_0" PORT="CFlag"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="RGBout" RIGHT="0" SIGIS="undef" SIGNAME="FrameBuffer_0_RGBout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="VGA_0" PORT="RGBin"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
     <MODULE FULLNAME="/HeaderManager_0" HWVERSION="1.0" INSTANCE="HeaderManager_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="HeaderManager" VLNV="xilinx.com:module_ref:HeaderManager:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
@@ -71,68 +121,22 @@
             <CONNECTION INSTANCE="axi_gpio_1" PORT="gpio_io_o"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="7" NAME="RGB" RIGHT="0" SIGIS="undef"/>
-        <PORT DIR="O" LEFT="9" NAME="SpX" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_SpX">
+        <PORT DIR="O" LEFT="9" NAME="ObjectX" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectX">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="hPos"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="ObjectX"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="9" NAME="SpY" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_SpY">
+        <PORT DIR="O" LEFT="9" NAME="ObjectY" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectY">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="vPos"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="ObjectY"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="15" NAME="SpData" RIGHT="0" SIGIS="undef"/>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE FULLNAME="/SPRITEDRAW_0" HWVERSION="1.0" INSTANCE="SPRITEDRAW_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="SPRITEDRAW" VLNV="xilinx.com:module_ref:SPRITEDRAW:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="blockdesign_SPRITEDRAW_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="25000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out2">
+        <PORT DIR="O" LEFT="15" NAME="ObjectSpID" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_ObjectSpID">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out2"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="ObjectSpID"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="9" NAME="hCount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outHcount">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="outHcount"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="vCount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outVcount">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="outVcount"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="hPos" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_SpX">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="HeaderManager_0" PORT="SpX"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="vPos" RIGHT="0" SIGIS="undef" SIGNAME="HeaderManager_0_SpY">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="HeaderManager_0" PORT="SpY"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="hSync" SIGIS="undef" SIGNAME="VGA_0_hsync">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="hsync"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="vSync" SIGIS="undef" SIGNAME="VGA_0_vsync">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="vsync"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="7" NAME="RGBout" RIGHT="0" SIGIS="undef" SIGNAME="SPRITEDRAW_0_RGBout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="VGA_0" PORT="RGBin"/>
-          </CONNECTIONS>
-        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="BG" RIGHT="0" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -148,9 +152,9 @@
             <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out2"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="7" NAME="RGBin" RIGHT="0" SIGIS="undef" SIGNAME="SPRITEDRAW_0_RGBout">
+        <PORT DIR="I" LEFT="7" NAME="RGBin" RIGHT="0" SIGIS="undef" SIGNAME="FrameBuffer_0_RGBout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="RGBout"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="RGBout"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="7" NAME="RGBout" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_RGBout">
@@ -161,13 +165,11 @@
         <PORT DIR="O" NAME="hsync" SIGIS="undef" SIGNAME="VGA_0_hsync">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="hSync"/>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="hSync"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="vsync" SIGIS="undef" SIGNAME="VGA_0_vsync">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="vSync"/>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="vSync"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="RFlag" SIGIS="undef" SIGNAME="VGA_0_RFlag">
@@ -175,14 +177,19 @@
             <CONNECTION INSTANCE="axi_gpio_1" PORT="gpio2_io_i"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" NAME="CFlag" SIGIS="undef" SIGNAME="VGA_0_CFlag">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Clear"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" LEFT="9" NAME="outHcount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outHcount">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="hCount"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Hcount"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="outVcount" RIGHT="0" SIGIS="undef" SIGNAME="VGA_0_outVcount">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="vCount"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Vcount"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1897,7 +1904,6 @@
             <CONNECTION INSTANCE="axi_uartlite_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="axi_gpio_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="axi_gpio_1" PORT="s_axi_aclk"/>
-            <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_100"/>
             <CONNECTION INSTANCE="buttonDebounce_0" PORT="clk"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="S00_ACLK"/>
@@ -1911,13 +1917,14 @@
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M01_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M02_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M03_ACLK"/>
+            <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_100"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT CLKFREQUENCY="25000000" DIR="O" NAME="clk_out2" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out2">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="SPRITEDRAW_0" PORT="clk"/>
-            <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_25_IN"/>
             <CONNECTION INSTANCE="VGA_0" PORT="clk25"/>
+            <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_25_IN"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">

@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Tue Apr  9 13:47:01 2019
+--Date        : Wed Apr 10 00:30:23 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -723,12 +723,12 @@ architecture STRUCTURE of microblaze_0_local_memory_imp_1KUS4SE is
   signal NLW_lmb_bram_rstb_busy_UNCONNECTED : STD_LOGIC;
   signal NLW_lmb_bram_1_rsta_busy_UNCONNECTED : STD_LOGIC;
   signal NLW_lmb_bram_1_rstb_busy_UNCONNECTED : STD_LOGIC;
-  attribute BMM_INFO_ADDRESS_SPACE : string;
-  attribute BMM_INFO_ADDRESS_SPACE of dlmb_bram_if_cntlr : label is "byte  0x00000000 32 >  blockdesign microblaze_0_local_memory/lmb_bram blockdesign microblaze_0_local_memory/lmb_bram_1";
   attribute KEEP_HIERARCHY : string;
   attribute KEEP_HIERARCHY of dlmb_bram_if_cntlr : label is "yes";
-  attribute BMM_INFO_ADDRESS_RANGE : string;
-  attribute BMM_INFO_ADDRESS_RANGE of dlmb_bram_if_cntlr_1 : label is " ";
+  attribute bmm_info_address_space : string;
+  attribute bmm_info_address_space of dlmb_bram_if_cntlr : label is "byte  0x00000000 32 >  blockdesign microblaze_0_local_memory/lmb_bram blockdesign microblaze_0_local_memory/lmb_bram_1";
+  attribute bmm_info_address_range : string;
+  attribute bmm_info_address_range of dlmb_bram_if_cntlr_1 : label is " ";
 begin
   Conn1_ABUS(0 to 31) <= LMB_M_abus(0 to 31);
   Conn1_ADDRSTROBE <= LMB_M_addrstrobe;
@@ -2203,10 +2203,10 @@ entity blockdesign is
     usb_uart_txd : out STD_LOGIC;
     vSync : out STD_LOGIC
   );
-  attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=29,numReposBlks=22,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
-  attribute HW_HANDOFF : string;
-  attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
+  attribute core_generation_info : string;
+  attribute core_generation_info of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=29,numReposBlks=22,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute hw_handoff : string;
+  attribute hw_handoff of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
 
 architecture STRUCTURE of blockdesign is
@@ -2417,29 +2417,13 @@ architecture STRUCTURE of blockdesign is
     gpio2_io_i : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
   end component blockdesign_axi_gpio_1_0;
-  component blockdesign_SPRITEDRAW_0_0 is
+  component blockdesign_buttonDebounce_0_0 is
   port (
     clk : in STD_LOGIC;
-    hCount : in STD_LOGIC_VECTOR ( 9 downto 0 );
-    vCount : in STD_LOGIC_VECTOR ( 9 downto 0 );
-    hPos : in STD_LOGIC_VECTOR ( 9 downto 0 );
-    vPos : in STD_LOGIC_VECTOR ( 9 downto 0 );
-    hSync : in STD_LOGIC;
-    vSync : in STD_LOGIC;
-    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    btnIn : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    btnOut : out STD_LOGIC_VECTOR ( 3 downto 0 )
   );
-  end component blockdesign_SPRITEDRAW_0_0;
-  component blockdesign_HeaderManager_0_2 is
-  port (
-    Mhz_100 : in STD_LOGIC;
-    Mhz_25_IN : in STD_LOGIC;
-    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
-    RGB : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    SpX : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    SpY : out STD_LOGIC_VECTOR ( 9 downto 0 );
-    SpData : out STD_LOGIC_VECTOR ( 15 downto 0 )
-  );
-  end component blockdesign_HeaderManager_0_2;
+  end component blockdesign_buttonDebounce_0_0;
   component blockdesign_VGA_0_1 is
   port (
     clk25 : in STD_LOGIC;
@@ -2448,21 +2432,40 @@ architecture STRUCTURE of blockdesign is
     hsync : out STD_LOGIC;
     vsync : out STD_LOGIC;
     RFlag : out STD_LOGIC;
+    CFlag : out STD_LOGIC;
     outHcount : out STD_LOGIC_VECTOR ( 9 downto 0 );
     outVcount : out STD_LOGIC_VECTOR ( 9 downto 0 )
   );
   end component blockdesign_VGA_0_1;
-  component blockdesign_buttonDebounce_0_0 is
+  component blockdesign_HeaderManager_0_2 is
   port (
-    clk : in STD_LOGIC;
-    btnIn : in STD_LOGIC_VECTOR ( 3 downto 0 );
-    btnOut : out STD_LOGIC_VECTOR ( 3 downto 0 )
+    Mhz_100 : in STD_LOGIC;
+    Mhz_25_IN : in STD_LOGIC;
+    Data : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    ObjectX : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    ObjectY : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    ObjectSpID : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    BG : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
-  end component blockdesign_buttonDebounce_0_0;
-  signal HeaderManager_0_SpX : STD_LOGIC_VECTOR ( 9 downto 0 );
-  signal HeaderManager_0_SpY : STD_LOGIC_VECTOR ( 9 downto 0 );
+  end component blockdesign_HeaderManager_0_2;
+  component blockdesign_FrameBuffer_0_1 is
+  port (
+    Clk : in STD_LOGIC;
+    ObjectX : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    ObjectY : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    ObjectSpID : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    Hcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    Vcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    Clear : in STD_LOGIC;
+    RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component blockdesign_FrameBuffer_0_1;
+  signal FrameBuffer_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal HeaderManager_0_ObjectSpID : STD_LOGIC_VECTOR ( 15 downto 0 );
+  signal HeaderManager_0_ObjectX : STD_LOGIC_VECTOR ( 9 downto 0 );
+  signal HeaderManager_0_ObjectY : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal JA_1 : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal SPRITEDRAW_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal VGA_0_CFlag : STD_LOGIC;
   signal VGA_0_RFlag : STD_LOGIC;
   signal VGA_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal VGA_0_hsync : STD_LOGIC;
@@ -2604,31 +2607,30 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_mb_reset : STD_LOGIC;
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal sys_clock_1 : STD_LOGIC;
-  signal NLW_HeaderManager_0_RGB_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal NLW_HeaderManager_0_SpData_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
+  signal NLW_HeaderManager_0_BG_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_axi_gpio_0_gpio_io_o_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
-  attribute BMM_INFO_PROCESSOR : string;
-  attribute BMM_INFO_PROCESSOR of microblaze_0 : label is "microblaze-le > blockdesign microblaze_0_local_memory/dlmb_bram_if_cntlr";
   attribute KEEP_HIERARCHY : string;
   attribute KEEP_HIERARCHY of microblaze_0 : label is "yes";
-  attribute X_INTERFACE_INFO : string;
-  attribute X_INTERFACE_INFO of hSync : signal is "xilinx.com:signal:data:1.0 DATA.HSYNC DATA";
-  attribute X_INTERFACE_PARAMETER : string;
-  attribute X_INTERFACE_PARAMETER of hSync : signal is "XIL_INTERFACENAME DATA.HSYNC, LAYERED_METADATA undef";
-  attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
-  attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME RST.RESET, POLARITY ACTIVE_HIGH";
-  attribute X_INTERFACE_INFO of sys_clock : signal is "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK";
-  attribute X_INTERFACE_PARAMETER of sys_clock : signal is "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN blockdesign_sys_clock, FREQ_HZ 100000000, PHASE 0.000";
-  attribute X_INTERFACE_INFO of usb_uart_rxd : signal is "xilinx.com:interface:uart:1.0 usb_uart RxD";
-  attribute X_INTERFACE_INFO of usb_uart_txd : signal is "xilinx.com:interface:uart:1.0 usb_uart TxD";
-  attribute X_INTERFACE_INFO of vSync : signal is "xilinx.com:signal:data:1.0 DATA.VSYNC DATA";
-  attribute X_INTERFACE_PARAMETER of vSync : signal is "XIL_INTERFACENAME DATA.VSYNC, LAYERED_METADATA undef";
-  attribute X_INTERFACE_INFO of JA : signal is "xilinx.com:signal:data:1.0 DATA.JA DATA";
-  attribute X_INTERFACE_PARAMETER of JA : signal is "XIL_INTERFACENAME DATA.JA, LAYERED_METADATA undef";
-  attribute X_INTERFACE_INFO of RGBout : signal is "xilinx.com:signal:data:1.0 DATA.RGBOUT DATA";
-  attribute X_INTERFACE_PARAMETER of RGBout : signal is "XIL_INTERFACENAME DATA.RGBOUT, LAYERED_METADATA undef";
+  attribute bmm_info_processor : string;
+  attribute bmm_info_processor of microblaze_0 : label is "microblaze-le > blockdesign microblaze_0_local_memory/dlmb_bram_if_cntlr";
+  attribute x_interface_info : string;
+  attribute x_interface_info of hSync : signal is "xilinx.com:signal:data:1.0 DATA.HSYNC DATA";
+  attribute x_interface_parameter : string;
+  attribute x_interface_parameter of hSync : signal is "XIL_INTERFACENAME DATA.HSYNC, LAYERED_METADATA undef";
+  attribute x_interface_info of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
+  attribute x_interface_parameter of reset : signal is "XIL_INTERFACENAME RST.RESET, POLARITY ACTIVE_HIGH";
+  attribute x_interface_info of sys_clock : signal is "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK";
+  attribute x_interface_parameter of sys_clock : signal is "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN blockdesign_sys_clock, FREQ_HZ 100000000, PHASE 0.000";
+  attribute x_interface_info of usb_uart_rxd : signal is "xilinx.com:interface:uart:1.0 usb_uart RxD";
+  attribute x_interface_info of usb_uart_txd : signal is "xilinx.com:interface:uart:1.0 usb_uart TxD";
+  attribute x_interface_info of vSync : signal is "xilinx.com:signal:data:1.0 DATA.VSYNC DATA";
+  attribute x_interface_parameter of vSync : signal is "XIL_INTERFACENAME DATA.VSYNC, LAYERED_METADATA undef";
+  attribute x_interface_info of JA : signal is "xilinx.com:signal:data:1.0 DATA.JA DATA";
+  attribute x_interface_parameter of JA : signal is "XIL_INTERFACENAME DATA.JA, LAYERED_METADATA undef";
+  attribute x_interface_info of RGBout : signal is "xilinx.com:signal:data:1.0 DATA.RGBOUT DATA";
+  attribute x_interface_parameter of RGBout : signal is "XIL_INTERFACENAME DATA.RGBOUT, LAYERED_METADATA undef";
 begin
   JA_1(3 downto 0) <= JA(3 downto 0);
   RGBout(7 downto 0) <= VGA_0_RGBout(7 downto 0);
@@ -2638,31 +2640,32 @@ begin
   sys_clock_1 <= sys_clock;
   usb_uart_txd <= axi_uartlite_0_UART_TxD;
   vSync <= VGA_0_vsync;
+FrameBuffer_0: component blockdesign_FrameBuffer_0_1
+     port map (
+      Clear => VGA_0_CFlag,
+      Clk => microblaze_0_Clk,
+      Hcount(9 downto 0) => VGA_0_outHcount(9 downto 0),
+      ObjectSpID(15 downto 0) => HeaderManager_0_ObjectSpID(15 downto 0),
+      ObjectX(9 downto 0) => HeaderManager_0_ObjectX(9 downto 0),
+      ObjectY(9 downto 0) => HeaderManager_0_ObjectY(9 downto 0),
+      RGBout(7 downto 0) => FrameBuffer_0_RGBout(7 downto 0),
+      Vcount(9 downto 0) => VGA_0_outVcount(9 downto 0)
+    );
 HeaderManager_0: component blockdesign_HeaderManager_0_2
      port map (
+      BG(7 downto 0) => NLW_HeaderManager_0_BG_UNCONNECTED(7 downto 0),
       Data(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       Mhz_100 => microblaze_0_Clk,
       Mhz_25_IN => clk_wiz_0_clk_out2,
-      RGB(7 downto 0) => NLW_HeaderManager_0_RGB_UNCONNECTED(7 downto 0),
-      SpData(15 downto 0) => NLW_HeaderManager_0_SpData_UNCONNECTED(15 downto 0),
-      SpX(9 downto 0) => HeaderManager_0_SpX(9 downto 0),
-      SpY(9 downto 0) => HeaderManager_0_SpY(9 downto 0)
-    );
-SPRITEDRAW_0: component blockdesign_SPRITEDRAW_0_0
-     port map (
-      RGBout(7 downto 0) => SPRITEDRAW_0_RGBout(7 downto 0),
-      clk => clk_wiz_0_clk_out2,
-      hCount(9 downto 0) => VGA_0_outHcount(9 downto 0),
-      hPos(9 downto 0) => HeaderManager_0_SpX(9 downto 0),
-      hSync => VGA_0_hsync,
-      vCount(9 downto 0) => VGA_0_outVcount(9 downto 0),
-      vPos(9 downto 0) => HeaderManager_0_SpY(9 downto 0),
-      vSync => VGA_0_vsync
+      ObjectSpID(15 downto 0) => HeaderManager_0_ObjectSpID(15 downto 0),
+      ObjectX(9 downto 0) => HeaderManager_0_ObjectX(9 downto 0),
+      ObjectY(9 downto 0) => HeaderManager_0_ObjectY(9 downto 0)
     );
 VGA_0: component blockdesign_VGA_0_1
      port map (
+      CFlag => VGA_0_CFlag,
       RFlag => VGA_0_RFlag,
-      RGBin(7 downto 0) => SPRITEDRAW_0_RGBout(7 downto 0),
+      RGBin(7 downto 0) => FrameBuffer_0_RGBout(7 downto 0),
       RGBout(7 downto 0) => VGA_0_RGBout(7 downto 0),
       clk25 => clk_wiz_0_clk_out2,
       hsync => VGA_0_hsync,

@@ -61,6 +61,7 @@ ENTITY blockdesign_VGA_0_1 IS
     hsync : OUT STD_LOGIC;
     vsync : OUT STD_LOGIC;
     RFlag : OUT STD_LOGIC;
+    CFlag : OUT STD_LOGIC;
     outHcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
     outVcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
   );
@@ -77,6 +78,7 @@ ARCHITECTURE blockdesign_VGA_0_1_arch OF blockdesign_VGA_0_1 IS
       hsync : OUT STD_LOGIC;
       vsync : OUT STD_LOGIC;
       RFlag : OUT STD_LOGIC;
+      CFlag : OUT STD_LOGIC;
       outHcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
       outVcount : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
     );
@@ -90,6 +92,7 @@ BEGIN
       hsync => hsync,
       vsync => vsync,
       RFlag => RFlag,
+      CFlag => CFlag,
       outHcount => outHcount,
       outVcount => outVcount
     );

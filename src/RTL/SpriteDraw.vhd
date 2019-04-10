@@ -54,7 +54,7 @@ begin
 
 process(clk)
 begin
-    if rising_edge(clk) then
+    if rising_edge(clk) then 
             if (hCount >= hPos - 2 AND hCount < (hPos - 2 + size_x) AND vCount >= vPos AND vCount < (vPos + size_y)) then 
                 if cnt >= 199 then
                     cnt <= 0;
