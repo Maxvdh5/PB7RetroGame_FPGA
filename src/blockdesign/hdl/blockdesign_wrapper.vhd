@@ -1,8 +1,8 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
---Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Wed Apr 10 00:30:24 2019
---Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
+--Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
+--Date        : Wed Apr 10 17:37:16 2019
+--Host        : LAPTOP-H33E3AH0 running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign_wrapper.bd
 --Design      : blockdesign_wrapper
 --Purpose     : IP block netlist
@@ -15,6 +15,7 @@ entity blockdesign_wrapper is
   port (
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    dip_switches_16bits_tri_i : in STD_LOGIC_VECTOR ( 15 downto 0 );
     hSync : out STD_LOGIC;
     reset : in STD_LOGIC;
     sys_clock : in STD_LOGIC;
@@ -34,7 +35,8 @@ architecture STRUCTURE of blockdesign_wrapper is
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hSync : out STD_LOGIC;
     vSync : out STD_LOGIC;
-    JA : in STD_LOGIC_VECTOR ( 3 downto 0 )
+    JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    dip_switches_16bits_tri_i : in STD_LOGIC_VECTOR ( 15 downto 0 )
   );
   end component blockdesign;
 begin
@@ -42,6 +44,7 @@ blockdesign_i: component blockdesign
      port map (
       JA(3 downto 0) => JA(3 downto 0),
       RGBout(7 downto 0) => RGBout(7 downto 0),
+      dip_switches_16bits_tri_i(15 downto 0) => dip_switches_16bits_tri_i(15 downto 0),
       hSync => hSync,
       reset => reset,
       sys_clock => sys_clock,

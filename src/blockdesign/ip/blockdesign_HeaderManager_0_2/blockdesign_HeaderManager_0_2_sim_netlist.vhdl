@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Tue Apr  9 23:55:19 2019
--- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
+-- Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
+-- Date        : Wed Apr 10 15:22:02 2019
+-- Host        : LAPTOP-H33E3AH0 running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_HeaderManager_0_2/blockdesign_HeaderManager_0_2_sim_netlist.vhdl
+--               D:/Github/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_HeaderManager_0_2/blockdesign_HeaderManager_0_2_sim_netlist.vhdl
 -- Design      : blockdesign_HeaderManager_0_2
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -413,133 +413,133 @@ begin
       Q => \DataBuffer_reg_n_0_[9]\,
       R => '0'
     );
-\ObjectSpID_reg[0]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[0]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(0),
       Q => ObjectSpID(0),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[10]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[10]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(10),
       Q => ObjectSpID(10),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[11]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[11]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(11),
       Q => ObjectSpID(11),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[12]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[12]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(12),
       Q => ObjectSpID(12),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[13]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[13]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(13),
       Q => ObjectSpID(13),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[14]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[14]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(14),
       Q => ObjectSpID(14),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[15]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[15]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(15),
       Q => ObjectSpID(15),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[1]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[1]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(1),
       Q => ObjectSpID(1),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[2]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[2]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(2),
       Q => ObjectSpID(2),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[3]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[3]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(3),
       Q => ObjectSpID(3),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[4]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[4]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(4),
       Q => ObjectSpID(4),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[5]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[5]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(5),
       Q => ObjectSpID(5),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[6]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[6]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(6),
       Q => ObjectSpID(6),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[7]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[7]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(7),
       Q => ObjectSpID(7),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[8]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[8]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(8),
       Q => ObjectSpID(8),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
-\ObjectSpID_reg[9]\: unisim.vcomponents.FDRE
+\ObjectSpID_reg[9]\: unisim.vcomponents.FDSE
      port map (
       C => Mhz_100,
       CE => \ObjectX[9]_i_2_n_0\,
       D => SpDataT(9),
       Q => ObjectSpID(9),
-      R => \ObjectX[9]_i_1_n_0\
+      S => \ObjectX[9]_i_1_n_0\
     );
 \ObjectX[9]_i_1\: unisim.vcomponents.LUT6
     generic map(

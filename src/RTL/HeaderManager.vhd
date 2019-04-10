@@ -1,8 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-use work.SpriteRecordPKG.ALL;
-
 entity HeaderManager is
     Port (  Mhz_100     : IN  STD_LOGIC;
             Mhz_25_IN   : IN  STD_LOGIC;
@@ -60,7 +58,7 @@ begin
                             BG          <= (others => '0');
                             ObjectX     <= (others => '0');
                             ObjectY     <= (others => '0');
-                            ObjectSpID  <= (others => '0');
+                            ObjectSpID  <= (others => '1');
             end case;
             Ready <= '1';
         end if;

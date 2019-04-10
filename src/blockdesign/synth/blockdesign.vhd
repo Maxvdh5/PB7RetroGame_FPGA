@@ -1,8 +1,8 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
---Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Wed Apr 10 00:30:23 2019
---Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
+--Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
+--Date        : Wed Apr 10 17:37:16 2019
+--Host        : LAPTOP-H33E3AH0 running 64-bit major release  (build 9200)
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
 --Purpose     : IP block netlist
@@ -2196,6 +2196,7 @@ entity blockdesign is
   port (
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    dip_switches_16bits_tri_i : in STD_LOGIC_VECTOR ( 15 downto 0 );
     hSync : out STD_LOGIC;
     reset : in STD_LOGIC;
     sys_clock : in STD_LOGIC;
@@ -2267,7 +2268,7 @@ architecture STRUCTURE of blockdesign is
     s_axi_rvalid : out STD_LOGIC;
     s_axi_rready : in STD_LOGIC;
     ip2intc_irpt : out STD_LOGIC;
-    gpio_io_o : out STD_LOGIC_VECTOR ( 15 downto 0 );
+    gpio_io_i : in STD_LOGIC_VECTOR ( 15 downto 0 );
     gpio2_io_i : in STD_LOGIC_VECTOR ( 3 downto 0 )
   );
   end component blockdesign_axi_gpio_0_0;
@@ -2454,6 +2455,7 @@ architecture STRUCTURE of blockdesign is
     ObjectX : in STD_LOGIC_VECTOR ( 9 downto 0 );
     ObjectY : in STD_LOGIC_VECTOR ( 9 downto 0 );
     ObjectSpID : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    BG : in STD_LOGIC_VECTOR ( 7 downto 0 );
     Hcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
     Vcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
     Clear : in STD_LOGIC;
@@ -2461,6 +2463,7 @@ architecture STRUCTURE of blockdesign is
   );
   end component blockdesign_FrameBuffer_0_1;
   signal FrameBuffer_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal HeaderManager_0_BG : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal HeaderManager_0_ObjectSpID : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal HeaderManager_0_ObjectX : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal HeaderManager_0_ObjectY : STD_LOGIC_VECTOR ( 9 downto 0 );
@@ -2472,6 +2475,7 @@ architecture STRUCTURE of blockdesign is
   signal VGA_0_outHcount : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal VGA_0_outVcount : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal VGA_0_vsync : STD_LOGIC;
+  signal axi_gpio_0_GPIO_TRI_I : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal axi_gpio_0_ip2intc_irpt : STD_LOGIC;
   signal axi_gpio_1_gpio_io_o : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal axi_gpio_1_ip2intc_irpt : STD_LOGIC;
@@ -2607,8 +2611,6 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_mb_reset : STD_LOGIC;
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal sys_clock_1 : STD_LOGIC;
-  signal NLW_HeaderManager_0_BG_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal NLW_axi_gpio_0_gpio_io_o_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal NLW_axi_uartlite_0_interrupt_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
   attribute KEEP_HIERARCHY : string;
@@ -2631,9 +2633,11 @@ architecture STRUCTURE of blockdesign is
   attribute x_interface_parameter of JA : signal is "XIL_INTERFACENAME DATA.JA, LAYERED_METADATA undef";
   attribute x_interface_info of RGBout : signal is "xilinx.com:signal:data:1.0 DATA.RGBOUT DATA";
   attribute x_interface_parameter of RGBout : signal is "XIL_INTERFACENAME DATA.RGBOUT, LAYERED_METADATA undef";
+  attribute x_interface_info of dip_switches_16bits_tri_i : signal is "xilinx.com:interface:gpio:1.0 dip_switches_16bits TRI_I";
 begin
   JA_1(3 downto 0) <= JA(3 downto 0);
   RGBout(7 downto 0) <= VGA_0_RGBout(7 downto 0);
+  axi_gpio_0_GPIO_TRI_I(15 downto 0) <= dip_switches_16bits_tri_i(15 downto 0);
   axi_uartlite_0_UART_RxD <= usb_uart_rxd;
   hSync <= VGA_0_hsync;
   reset_1 <= reset;
@@ -2642,6 +2646,7 @@ begin
   vSync <= VGA_0_vsync;
 FrameBuffer_0: component blockdesign_FrameBuffer_0_1
      port map (
+      BG(7 downto 0) => HeaderManager_0_BG(7 downto 0),
       Clear => VGA_0_CFlag,
       Clk => microblaze_0_Clk,
       Hcount(9 downto 0) => VGA_0_outHcount(9 downto 0),
@@ -2653,7 +2658,7 @@ FrameBuffer_0: component blockdesign_FrameBuffer_0_1
     );
 HeaderManager_0: component blockdesign_HeaderManager_0_2
      port map (
-      BG(7 downto 0) => NLW_HeaderManager_0_BG_UNCONNECTED(7 downto 0),
+      BG(7 downto 0) => HeaderManager_0_BG(7 downto 0),
       Data(31 downto 0) => axi_gpio_1_gpio_io_o(31 downto 0),
       Mhz_100 => microblaze_0_Clk,
       Mhz_25_IN => clk_wiz_0_clk_out2,
@@ -2676,7 +2681,7 @@ VGA_0: component blockdesign_VGA_0_1
 axi_gpio_0: component blockdesign_axi_gpio_0_0
      port map (
       gpio2_io_i(3 downto 0) => buttonDebounce_0_btnOut(3 downto 0),
-      gpio_io_o(15 downto 0) => NLW_axi_gpio_0_gpio_io_o_UNCONNECTED(15 downto 0),
+      gpio_io_i(15 downto 0) => axi_gpio_0_GPIO_TRI_I(15 downto 0),
       ip2intc_irpt => axi_gpio_0_ip2intc_irpt,
       s_axi_aclk => microblaze_0_Clk,
       s_axi_araddr(8 downto 0) => microblaze_0_axi_periph_M02_AXI_ARADDR(8 downto 0),

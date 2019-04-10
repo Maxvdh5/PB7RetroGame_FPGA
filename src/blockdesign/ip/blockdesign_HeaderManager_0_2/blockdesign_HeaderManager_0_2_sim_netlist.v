@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Tue Apr  9 23:55:19 2019
-// Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
+// Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
+// Date        : Wed Apr 10 15:22:02 2019
+// Host        : LAPTOP-H33E3AH0 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_HeaderManager_0_2/blockdesign_HeaderManager_0_2_sim_netlist.v
+//               D:/Github/PB7RetroGame/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_HeaderManager_0_2/blockdesign_HeaderManager_0_2_sim_netlist.v
 // Design      : blockdesign_HeaderManager_0_2
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -363,102 +363,102 @@ module blockdesign_HeaderManager_0_2_HeaderManager
         .D(Data[9]),
         .Q(\DataBuffer_reg_n_0_[9] ),
         .R(1'b0));
-  FDRE \ObjectSpID_reg[0] 
+  FDSE \ObjectSpID_reg[0] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[0]),
         .Q(ObjectSpID[0]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[10] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[10] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[10]),
         .Q(ObjectSpID[10]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[11] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[11] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[11]),
         .Q(ObjectSpID[11]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[12] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[12] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[12]),
         .Q(ObjectSpID[12]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[13] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[13] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[13]),
         .Q(ObjectSpID[13]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[14] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[14] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[14]),
         .Q(ObjectSpID[14]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[15] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[15] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[15]),
         .Q(ObjectSpID[15]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[1] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[1] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[1]),
         .Q(ObjectSpID[1]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[2] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[2] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[2]),
         .Q(ObjectSpID[2]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[3] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[3] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[3]),
         .Q(ObjectSpID[3]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[4] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[4] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[4]),
         .Q(ObjectSpID[4]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[5] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[5] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[5]),
         .Q(ObjectSpID[5]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[6] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[6] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[6]),
         .Q(ObjectSpID[6]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[7] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[7] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[7]),
         .Q(ObjectSpID[7]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[8] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[8] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[8]),
         .Q(ObjectSpID[8]),
-        .R(\ObjectX[9]_i_1_n_0 ));
-  FDRE \ObjectSpID_reg[9] 
+        .S(\ObjectX[9]_i_1_n_0 ));
+  FDSE \ObjectSpID_reg[9] 
        (.C(Mhz_100),
         .CE(\ObjectX[9]_i_2_n_0 ),
         .D(SpDataT[9]),
         .Q(ObjectSpID[9]),
-        .R(\ObjectX[9]_i_1_n_0 ));
+        .S(\ObjectX[9]_i_1_n_0 ));
   LUT6 #(
     .INIT(64'hFF555555CF414141)) 
     \ObjectX[9]_i_1 

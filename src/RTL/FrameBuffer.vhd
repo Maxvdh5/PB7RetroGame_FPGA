@@ -7,26 +7,29 @@ use work.SpriteRecordPKG.ALL;
 
 entity FrameBuffer is
     Port    (   Clk         : IN STD_LOGIC;
-                ObjectX     : IN std_logic_vector(9 downto 0);
-                ObjectY     : IN std_logic_vector(9 downto 0);
-                ObjectSpID  : IN std_logic_vector(15 downto 0);
-                Hcount      : IN std_logic_vector(9 downto 0);
-                Vcount      : IN std_logic_vector(9 downto 0);
+                ObjectX     : IN STD_LOGIC_VECTOR(9 downto 0);
+                ObjectY     : IN STD_LOGIC_VECTOR(9 downto 0);
+                ObjectSpID  : IN STD_LOGIC_VECTOR(15 downto 0);
+                BG          : IN STD_LOGIC_VECTOR(7 downto 0);
+                Hcount      : IN STD_LOGIC_VECTOR(9 downto 0);
+                Vcount      : IN STD_LOGIC_VECTOR(9 downto 0);
                 Clear       : IN STD_LOGIC;
-                RGBout      : OUT std_logic_vector(7 downto 0));
+                RGBout      : OUT STD_LOGIC_VECTOR(7 downto 0));
 end FrameBuffer;
 
 architecture Behavioral of FrameBuffer is
 
 constant    MAX_OBJECTS : integer   := 128;
-constant    SPRITE_SIZE : unsigned  := X"0A";
+constant    SPRITE_SIZE : unsigned  := X"14";
 
 type frame is array(MAX_OBJECTS-1 downto 0) of SPRITE;
 signal buff : frame := (others => SPRITE_INIT);
 
-signal      cIndex          : integer := 0;
+signal      cIndex          : unsigned(7 downto 0);
 signal      ColorInPixel    : boolean := false;
+signal      PixelValue      : PIXEL := (others => '1');
 signal      CurrentObject   : SPRITE := SPRITE_INIT;
+signal      OutputObject    : OUTPUT_SPRITE;
 
 begin
 
@@ -40,11 +43,11 @@ begin
         
         if Clear = '1' then
             buff <= (others => SPRITE_INIT);
-            cIndex <= 0;
+            cIndex <= X"00";
         end if;
         
-        if (cIndex < MAX_OBJECTS) AND (buff(cIndex-1) /= CurrentObject) then
-            buff(cIndex) <= CurrentObject;
+        if (cIndex < MAX_OBJECTS) AND (buff(to_integer(cIndex)-1) /= CurrentObject) then
+            buff(to_integer(cIndex)) <= CurrentObject;
             cIndex <= cIndex + 1;
         end if;
         
@@ -55,14 +58,17 @@ begin
                 unsigned(Hcount) < unsigned(buff(i).X)+SPRITE_SIZE) and
                (unsigned(Vcount) >= unsigned(buff(i).Y) and
                 unsigned(Vcount) < unsigned(buff(i).Y)+SPRITE_SIZE)) then
+                    OutputObject <= (Xvga => Hcount, Yvga => Vcount, Xsp => buff(i).X, Ysp => buff(i).Y, SpID => buff(i).SpID);
                     ColorInPixel <= true;
           end if;
         end loop;  -- i
 
-        if ColorInPixel then
+        if ColorInPixel AND (PixelValue /= X"FFFF") then
+            --Read PixelValue location from PMOD || 
+            PixelValue <= PIXEL_CALCULATION(OutputObject.Xvga, OutputObject.Yvga, OutputObject.Xsp, OutputObject.Ysp, OutputObject.SpID);
             RGBout <= X"FF";
         else
-            RGBout <= X"00";
+            RGBout <= BG;
         end if;
     end if;
 end process;

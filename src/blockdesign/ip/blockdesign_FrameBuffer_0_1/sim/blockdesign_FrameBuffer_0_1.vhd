@@ -59,6 +59,7 @@ ENTITY blockdesign_FrameBuffer_0_1 IS
     ObjectX : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     ObjectY : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     ObjectSpID : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    BG : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     Hcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     Vcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     Clear : IN STD_LOGIC;
@@ -75,6 +76,7 @@ ARCHITECTURE blockdesign_FrameBuffer_0_1_arch OF blockdesign_FrameBuffer_0_1 IS
       ObjectX : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       ObjectY : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       ObjectSpID : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+      BG : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       Hcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       Vcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       Clear : IN STD_LOGIC;
@@ -92,6 +94,7 @@ BEGIN
       ObjectX => ObjectX,
       ObjectY => ObjectY,
       ObjectSpID => ObjectSpID,
+      BG => BG,
       Hcount => Hcount,
       Vcount => Vcount,
       Clear => Clear,

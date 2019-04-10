@@ -273,6 +273,7 @@ proc create_root_design { parentCell } {
 
 
   # Create interface ports
+  set dip_switches_16bits [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 dip_switches_16bits ]
   set usb_uart [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:uart_rtl:1.0 usb_uart ]
 
   # Create ports
@@ -326,16 +327,16 @@ proc create_root_design { parentCell } {
   # Create instance: axi_gpio_0, and set properties
   set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
   set_property -dict [ list \
-   CONFIG.C_ALL_INPUTS {0} \
+   CONFIG.C_ALL_INPUTS {1} \
    CONFIG.C_ALL_INPUTS_2 {1} \
-   CONFIG.C_ALL_OUTPUTS {1} \
+   CONFIG.C_ALL_OUTPUTS {0} \
    CONFIG.C_ALL_OUTPUTS_2 {0} \
    CONFIG.C_GPIO2_WIDTH {4} \
    CONFIG.C_GPIO_WIDTH {16} \
    CONFIG.C_INTERRUPT_PRESENT {1} \
    CONFIG.C_IS_DUAL {1} \
    CONFIG.GPIO2_BOARD_INTERFACE {Custom} \
-   CONFIG.GPIO_BOARD_INTERFACE {Custom} \
+   CONFIG.GPIO_BOARD_INTERFACE {dip_switches_16bits} \
    CONFIG.USE_BOARD_FLOW {true} \
  ] $axi_gpio_0
 
@@ -428,6 +429,7 @@ proc create_root_design { parentCell } {
  ] $rst_clk_wiz_0_100M
 
   # Create interface connections
+  connect_bd_intf_net -intf_net axi_gpio_0_GPIO [get_bd_intf_ports dip_switches_16bits] [get_bd_intf_pins axi_gpio_0/GPIO]
   connect_bd_intf_net -intf_net axi_uartlite_0_UART [get_bd_intf_ports usb_uart] [get_bd_intf_pins axi_uartlite_0/UART]
   connect_bd_intf_net -intf_net microblaze_0_DLMB [get_bd_intf_pins microblaze_0/DLMB] [get_bd_intf_pins microblaze_0_local_memory/LMB_M]
   connect_bd_intf_net -intf_net microblaze_0_axi_dp [get_bd_intf_pins microblaze_0/M_AXI_DP] [get_bd_intf_pins microblaze_0_axi_periph/S00_AXI]
@@ -441,6 +443,7 @@ proc create_root_design { parentCell } {
 
   # Create port connections
   connect_bd_net -net FrameBuffer_0_RGBout [get_bd_pins FrameBuffer_0/RGBout] [get_bd_pins VGA_0/RGBin]
+  connect_bd_net -net HeaderManager_0_BG [get_bd_pins FrameBuffer_0/BG] [get_bd_pins HeaderManager_0/BG]
   connect_bd_net -net HeaderManager_0_ObjectSpID [get_bd_pins FrameBuffer_0/ObjectSpID] [get_bd_pins HeaderManager_0/ObjectSpID]
   connect_bd_net -net HeaderManager_0_ObjectX [get_bd_pins FrameBuffer_0/ObjectX] [get_bd_pins HeaderManager_0/ObjectX]
   connect_bd_net -net HeaderManager_0_ObjectY [get_bd_pins FrameBuffer_0/ObjectY] [get_bd_pins HeaderManager_0/ObjectY]
