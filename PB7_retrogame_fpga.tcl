@@ -88,7 +88,9 @@ create_project ${project_name} $origin_dir/vivado_project -part xc7a35tcpg236-1 
 set proj_dir [get_property directory [current_project]]
 
 # Reconstruct message rules
-# None
+set_msg_config  -ruleid {17}  -id {[BD 41-1306]}  -suppress  -source 2
+set_msg_config  -ruleid {18}  -id {[BD 41-1271]}  -suppress  -source 2
+
 
 # Set project properties
 set obj [current_project]
@@ -110,13 +112,55 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
+ "[file normalize "$origin_dir/src/RTL/SpriteRecordPKG.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/HeaderManager.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/vga.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/debounce.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/buttonDebounce.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/FrameBuffer.vhd"]"\
  "[file normalize "$origin_dir/src/blockdesign/blockdesign.bd"]"\
  "[file normalize "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/SpriteDraw.vhd"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
 # Set 'sources_1' fileset file properties for remote files
+set file "$origin_dir/src/RTL/SpriteRecordPKG.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/HeaderManager.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/vga.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/debounce.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/buttonDebounce.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/FrameBuffer.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
 set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "$origin_dir/src/RTL/SpriteDraw.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
@@ -137,7 +181,13 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 # Set 'constrs_1' fileset object
 set obj [get_filesets constrs_1]
 
-# Empty (no sources present)
+# Add/Import constrs file and set constrs file properties
+set file "[file normalize "$origin_dir/src/constraints/io.xdc"]"
+set file_added [add_files -norecurse -fileset $obj $file]
+set file "$origin_dir/src/constraints/io.xdc"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
+set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
@@ -154,6 +204,7 @@ set obj [get_filesets sim_1]
 # Set 'sim_1' fileset properties
 set obj [get_filesets sim_1]
 set_property -name "top" -value "blockdesign_wrapper" -objects $obj
+set_property -name "xsim.simulate.log_all_signals" -value "1" -objects $obj
 
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {

@@ -672,7 +672,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>SENSITIVITY</spirit:name>
-          <spirit:value spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.INTERRUPT.SENSITIVITY">LEVEL_HIGH</spirit:value>
+          <spirit:value spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.INTERRUPT.SENSITIVITY">EDGE_FALLING</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -716,7 +716,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>SENSITIVITY</spirit:name>
-          <spirit:value spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.INTERRUPT_INPUT.SENSITIVITY">LEVEL_HIGH</spirit:value>
+          <spirit:value spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.INTERRUPT_INPUT.SENSITIVITY">LEVEL_HIGH:LEVEL_HIGH</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -2281,7 +2281,7 @@ For each bit:
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:f3ee6776</spirit:value>
+            <spirit:value>7:18b142ac</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2296,11 +2296,11 @@ For each bit:
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Feb 25 18:19:57 UTC 2019</spirit:value>
+            <spirit:value>Mon Apr 08 15:36:35 UTC 2019</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:f3ee6776</spirit:value>
+            <spirit:value>7:18b142ac</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2322,7 +2322,7 @@ For each bit:
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:95b7cf15</spirit:value>
+            <spirit:value>7:4c4968d7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2337,11 +2337,11 @@ For each bit:
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Feb 25 18:19:57 UTC 2019</spirit:value>
+            <spirit:value>Mon Apr 08 15:36:35 UTC 2019</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:95b7cf15</spirit:value>
+            <spirit:value>7:4c4968d7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2355,11 +2355,11 @@ For each bit:
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Feb 25 18:25:43 UTC 2019</spirit:value>
+            <spirit:value>Mon Apr 08 15:38:07 UTC 2019</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:f3ee6776</spirit:value>
+            <spirit:value>7:18b142ac</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2873,11 +2873,11 @@ For each bit:
       <spirit:modelParameter spirit:dataType="std_logic_vector(31 downto 0)">
         <spirit:name>C_KIND_OF_INTR</spirit:name>
         <spirit:displayName>Interrupts type (Level or Edge)</spirit:displayName>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_KIND_OF_INTR" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_KIND_OF_INTR" spirit:bitStringLength="32">0xfffffff0</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="std_logic_vector(31 downto 0)">
         <spirit:name>C_KIND_OF_EDGE</spirit:name>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_KIND_OF_EDGE" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_KIND_OF_EDGE" spirit:bitStringLength="32">0xfffffffe</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="std_logic_vector(31 downto 0)">
         <spirit:name>C_KIND_OF_LVL</spirit:name>
@@ -2885,7 +2885,7 @@ For each bit:
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="std_logic_vector(31 downto 0)">
         <spirit:name>C_ASYNC_INTR</spirit:name>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_ASYNC_INTR" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_ASYNC_INTR" spirit:bitStringLength="32">0xFFFFFFFC</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_NUM_SYNC_FF</spirit:name>
@@ -2924,11 +2924,11 @@ For each bit:
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_IRQ_IS_LEVEL</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_IRQ_IS_LEVEL" spirit:maximum="1" spirit:rangeType="long">1</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_IRQ_IS_LEVEL" spirit:maximum="1" spirit:rangeType="long">0</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="std_logic">
         <spirit:name>C_IRQ_ACTIVE</spirit:name>
-        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_IRQ_ACTIVE" spirit:bitStringLength="1">0x1</spirit:value>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_IRQ_ACTIVE" spirit:bitStringLength="1">0x0</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_DISABLE_SYNCHRONIZERS</spirit:name>
@@ -3146,7 +3146,7 @@ For each bit:
       <spirit:name>C_KIND_OF_INTR</spirit:name>
       <spirit:displayName>Interrupts type - Edge or Level</spirit:displayName>
       <spirit:description>The setting of each bit in this option indicates the type of incoming interrupt for each bit. 0 = Level, 1 = Edge. Updates of these settings will affect C_KIND_OF_INTR parameter values.</spirit:description>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_KIND_OF_INTR" spirit:order="1900" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_KIND_OF_INTR" spirit:order="1900" spirit:bitStringLength="32">0xFFFFFFF0</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_NUM_INTR_INPUTS</spirit:name>
@@ -3170,7 +3170,7 @@ For each bit:
       <spirit:name>C_ASYNC_INTR</spirit:name>
       <spirit:displayName>Interrupts asynchronous</spirit:displayName>
       <spirit:description>The setting of each bit in this option indicates whether the incoming interrupt is treated as asynchronous or not. 0 = Synchronous, 1 = Asynchronous.</spirit:description>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_ASYNC_INTR" spirit:order="2110" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_ASYNC_INTR" spirit:order="2110" spirit:bitStringLength="32">0xFFFFFFFC</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_NUM_SYNC_FF</spirit:name>
@@ -3182,13 +3182,13 @@ For each bit:
       <spirit:name>C_IRQ_IS_LEVEL</spirit:name>
       <spirit:displayName>Interrupt type</spirit:displayName>
       <spirit:description>The setting of this option indicates the IRQ port active type. 0 = Active Edge, 1 = Active Level.</spirit:description>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_IRQ_IS_LEVEL" spirit:choiceRef="choice_pairs_706a7d3a" spirit:order="2200">1</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_IRQ_IS_LEVEL" spirit:choiceRef="choice_pairs_706a7d3a" spirit:order="2200">0</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_KIND_OF_EDGE</spirit:name>
       <spirit:displayName>Edge type - Rising or Falling</spirit:displayName>
       <spirit:description>The setting of each bit in this option indicates the type of edge for the incoming interrupt of each bit. 0 = Falling, 1 = Rising.</spirit:description>
-      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_KIND_OF_EDGE" spirit:order="2300" spirit:bitStringLength="32">0xFFFFFFFF</spirit:value>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.C_KIND_OF_EDGE" spirit:order="2300" spirit:bitStringLength="32">0xFFFFFFFE</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_HAS_FAST</spirit:name>
@@ -3229,7 +3229,7 @@ For each bit:
       <spirit:name>Sense_of_IRQ_Edge_Type</spirit:name>
       <spirit:displayName>Edge type</spirit:displayName>
       <spirit:description>The setting of this parameter indicates the IRQ port type of edge. 0 = Falling Edge, 1 = Rising Edge.</spirit:description>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Sense_of_IRQ_Edge_Type" spirit:choiceRef="choice_list_5945ab3f" spirit:order="2700">Rising</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Sense_of_IRQ_Edge_Type" spirit:choiceRef="choice_list_5945ab3f" spirit:order="2700">Falling</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_EN_CASCADE_MODE</spirit:name>
@@ -3301,6 +3301,7 @@ For each bit:
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.INTERRUPT.LOW_LATENCY" xilinx:valueSource="user" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.INTERRUPT.SENSITIVITY" xilinx:valueSource="user" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.INTERRUPT_INPUT.PortWidth" xilinx:valuePermission="bd"/>
+        <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.INTERRUPT_INPUT.SENSITIVITY" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.PROC_CLOCK.CLK_DOMAIN" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.PROC_CLOCK.FREQ_HZ" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.PROC_CLOCK.PHASE" xilinx:valuePermission="bd"/>
@@ -3337,11 +3338,16 @@ For each bit:
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_DISABLE_SYNCHRONIZERS" xilinx:valueSource="propagated"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_ENABLE_ASYNC" xilinx:valueSource="propagated" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_HAS_FAST" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_IRQ_IS_LEVEL" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_IVAR_RESET_VALUE" xilinx:valueSource="propagated" xilinx:valuePermission="bd"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_KIND_OF_EDGE" xilinx:valueSource="propagated" xilinx:valuePermission="bd_and_user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_KIND_OF_INTR" xilinx:valueSource="propagated" xilinx:valuePermission="bd_and_user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_KIND_OF_LVL" xilinx:valueSource="propagated" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_MB_CLK_NOT_CONNECTED" xilinx:valueSource="propagated"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_NUM_INTR_INPUTS" xilinx:valueSource="propagated" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_PROCESSOR_CLK_FREQ_MHZ" xilinx:valueSource="propagated"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.C_S_AXI_ACLK_FREQ_MHZ" xilinx:valueSource="propagated"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.Sense_of_IRQ_Edge_Type" xilinx:valueSource="user"/>
       </xilinx:configElementInfos>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

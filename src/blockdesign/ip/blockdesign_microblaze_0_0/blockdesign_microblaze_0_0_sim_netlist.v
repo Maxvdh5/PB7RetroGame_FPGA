@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Feb 25 19:26:17 2019
+// Date        : Fri Mar  8 13:08:16 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
-// Command     : write_verilog -force -mode funcsim
-//               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_microblaze_0_0/blockdesign_microblaze_0_0_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top blockdesign_microblaze_0_0 -prefix
+//               blockdesign_microblaze_0_0_ blockdesign_microblaze_0_0_sim_netlist.v
 // Design      : blockdesign_microblaze_0_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -69,7 +69,7 @@ module blockdesign_microblaze_0_0
     Dbg_Disable);
   (* x_interface_info = "xilinx.com:signal:clock:1.0 CLK.CLK CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME CLK.CLK, ASSOCIATED_BUSIF M0_AXIS:S0_AXIS:M1_AXIS:S1_AXIS:M2_AXIS:S2_AXIS:M3_AXIS:S3_AXIS:M4_AXIS:S4_AXIS:M5_AXIS:S5_AXIS:M6_AXIS:S6_AXIS:M7_AXIS:S7_AXIS:M8_AXIS:S8_AXIS:M9_AXIS:S9_AXIS:M10_AXIS:S10_AXIS:M11_AXIS:S11_AXIS:M12_AXIS:S12_AXIS:M13_AXIS:S13_AXIS:M14_AXIS:S14_AXIS:M15_AXIS:S15_AXIS:DLMB:ILMB:M_AXI_DP:M_AXI_IP:M_AXI_DC:M_AXI_IC:M_ACE_DC:M_ACE_IC:MON_DLMB:MON_ILMB:MON_AXI_DP:MON_AXI_IP:MON_AXI_DC:MON_AXI_IC:MON_ACE_DC:MON_ACE_IC, ASSOCIATED_RESET Reset, FREQ_HZ 100000000, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1" *) input Clk;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 RST.RESET RST" *) (* x_interface_parameter = "XIL_INTERFACENAME RST.RESET, POLARITY ACTIVE_HIGH, TYPE PROCESSOR" *) input Reset;
-  (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 INTERRUPT INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME INTERRUPT, SENSITIVITY LEVEL_HIGH, LOW_LATENCY 1" *) input Interrupt;
+  (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 INTERRUPT INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME INTERRUPT, SENSITIVITY EDGE_FALLING, LOW_LATENCY 1" *) input Interrupt;
   (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 INTERRUPT ADDRESS" *) input [0:31]Interrupt_Address;
   (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 INTERRUPT ACK" *) output [0:1]Interrupt_Ack;
   (* x_interface_info = "xilinx.com:interface:lmb:1.0 ILMB ABUS" *) (* x_interface_parameter = "XIL_INTERFACENAME ILMB, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_ONLY" *) output [0:31]Instr_Addr;
@@ -454,7 +454,7 @@ module blockdesign_microblaze_0_0
   (* C_D_AXI = "1" *) 
   (* C_D_LMB = "1" *) 
   (* C_ECC_USE_CE_EXCEPTION = "0" *) 
-  (* C_EDGE_IS_POSITIVE = "1" *) 
+  (* C_EDGE_IS_POSITIVE = "0" *) 
   (* C_ENDIANNESS = "1" *) 
   (* C_FAMILY = "artix7" *) 
   (* C_FAULT_TOLERANT = "0" *) 
@@ -476,7 +476,7 @@ module blockdesign_microblaze_0_0
   (* C_INSTANCE = "blockdesign_microblaze_0_0" *) 
   (* C_INSTR_SIZE = "32" *) 
   (* C_INTERCONNECT = "2" *) 
-  (* C_INTERRUPT_IS_EDGE = "0" *) 
+  (* C_INTERRUPT_IS_EDGE = "1" *) 
   (* C_I_AXI = "0" *) 
   (* C_I_LMB = "1" *) 
   (* C_LOCKSTEP_MASTER = "0" *) 
@@ -1027,7 +1027,6 @@ module blockdesign_microblaze_0_0
         .Write_Strobe(Write_Strobe));
 endmodule
 
-(* ORIG_REF_NAME = "ALU" *) 
 module blockdesign_microblaze_0_0_ALU
    (LO,
     \Data_Addr[0] ,
@@ -1744,7 +1743,6 @@ module blockdesign_microblaze_0_0_ALU
         .op2_C(op2_C[18]));
 endmodule
 
-(* ORIG_REF_NAME = "ALU_Bit" *) 
 module blockdesign_microblaze_0_0_ALU_Bit
    (EX_CarryOut,
     \Data_Addr[10] ,
@@ -3719,41 +3717,34 @@ module blockdesign_microblaze_0_0_ALU_Bit__parameterized2
         .lopt_9(lopt_7));
 endmodule
 
-(* ORIG_REF_NAME = "Byte_Doublet_Handle" *) 
 module blockdesign_microblaze_0_0_Byte_Doublet_Handle
    (D,
-    sel_LSB,
-    extend_Data_Read,
     \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
+    extend_Data_Read,
     Op2_Low,
     Op1_Low,
     isbyte,
     isdoublet,
     \write_Addr_I_reg[0] ,
-    \WB_DAXI_Read_Data_reg[17] ,
+    \WB_DAXI_Read_Data_reg[16] ,
     Data_Read0_out,
+    \WB_DAXI_Read_Data_reg[19] ,
+    \WB_DAXI_Read_Data_reg[21] ,
     Q,
     DReady,
     Data_Read);
   output [29:0]D;
-  output [1:0]sel_LSB;
-  output [2:0]extend_Data_Read;
-  output \Using_FPGA.Native ;
-  output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
-  output \Using_FPGA.Native_2 ;
-  output \Using_FPGA.Native_3 ;
+  output [0:0]\Using_FPGA.Native ;
+  output [7:0]extend_Data_Read;
   input [0:1]Op2_Low;
   input [0:1]Op1_Low;
   input isbyte;
   input isdoublet;
   input [0:31]\write_Addr_I_reg[0] ;
-  input [2:0]\WB_DAXI_Read_Data_reg[17] ;
-  input [2:0]Data_Read0_out;
+  input [5:0]\WB_DAXI_Read_Data_reg[16] ;
+  input [9:0]Data_Read0_out;
+  input \WB_DAXI_Read_Data_reg[19] ;
+  input \WB_DAXI_Read_Data_reg[21] ;
   input [7:0]Q;
   input DReady;
   input [7:0]Data_Read;
@@ -3761,24 +3752,21 @@ module blockdesign_microblaze_0_0_Byte_Doublet_Handle
   wire [29:0]D;
   wire DReady;
   wire [7:0]Data_Read;
-  wire [2:0]Data_Read0_out;
+  wire [9:0]Data_Read0_out;
   wire [0:1]Op1_Low;
   wire [0:1]Op2_Low;
   wire [7:0]Q;
-  wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire [2:0]\WB_DAXI_Read_Data_reg[17] ;
+  wire [0:0]\Using_FPGA.Native ;
+  wire [5:0]\WB_DAXI_Read_Data_reg[16] ;
+  wire \WB_DAXI_Read_Data_reg[19] ;
+  wire \WB_DAXI_Read_Data_reg[21] ;
   wire byte_selects_0;
   wire byte_selects_1;
-  wire [2:0]extend_Data_Read;
+  wire [7:0]extend_Data_Read;
   wire isbyte;
   wire isdoublet;
   wire low_addr_i_0;
   wire low_addr_i_1;
-  wire [1:0]sel_LSB;
   wire [1:0]sel_Write_Mux_MSB;
   wire [0:31]\write_Addr_I_reg[0] ;
 
@@ -3821,7 +3809,7 @@ module blockdesign_microblaze_0_0_Byte_Doublet_Handle
         .isbyte(isbyte),
         .\write_Addr_I_reg[0] ({\write_Addr_I_reg[0] [19],\write_Addr_I_reg[0] [23],\write_Addr_I_reg[0] [27],\write_Addr_I_reg[0] [31]}));
   blockdesign_microblaze_0_0_MB_LUT3__parameterized9 \Use_Dynamic_Bus_Sizing.Not_Using_Reverse_Mem_Instr.READ_SEL_LEFT_I 
-       (.\Using_FPGA.Native_0 (sel_LSB[1]),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .byte_selects_1(byte_selects_1),
         .isbyte(isbyte),
         .isdoublet(isdoublet));
@@ -3830,14 +3818,10 @@ module blockdesign_microblaze_0_0_Byte_Doublet_Handle
         .Data_Read(Data_Read),
         .Data_Read0_out(Data_Read0_out),
         .Q(Q),
-        .\Using_FPGA.Native_0 (sel_LSB[0]),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_3 ),
-        .\WB_DAXI_Read_Data_reg[17] (\WB_DAXI_Read_Data_reg[17] ),
-        .byte_i_reg(sel_LSB[1]),
+        .\WB_DAXI_Read_Data_reg[16] (\WB_DAXI_Read_Data_reg[16] ),
+        .\WB_DAXI_Read_Data_reg[19] (\WB_DAXI_Read_Data_reg[19] ),
+        .\WB_DAXI_Read_Data_reg[21] (\WB_DAXI_Read_Data_reg[21] ),
+        .byte_i_reg(\Using_FPGA.Native ),
         .byte_selects_0(byte_selects_0),
         .extend_Data_Read(extend_Data_Read),
         .isbyte(isbyte));
@@ -3857,7 +3841,6 @@ module blockdesign_microblaze_0_0_Byte_Doublet_Handle
         .low_addr_i_1(low_addr_i_1));
 endmodule
 
-(* ORIG_REF_NAME = "DAXI_interface" *) 
 module blockdesign_microblaze_0_0_DAXI_interface
    (MEM_DAXI_Data_Strobe,
     D,
@@ -3866,55 +3849,49 @@ module blockdesign_microblaze_0_0_DAXI_interface
     extend_Data_Read,
     Q,
     Data_Read0_out,
+    \Using_FPGA.Native ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     Clk,
     DReady,
     M_AXI_DP_ARREADY,
-    ex_Valid_reg,
-    M_AXI_DP_WREADY,
+    is_swx_I_reg,
     M_AXI_DP_AWREADY,
-    M_AXI_DP_RVALID,
+    M_AXI_DP_WREADY,
     M_AXI_DP_BVALID,
+    M_AXI_DP_RVALID,
     LOCKSTEP_Master_Out,
-    DWait,
     mem_access,
+    DWait,
     Data_Read,
-    sel_LSB,
-    \WB_DAXI_Read_Data_reg[24]_0 ,
-    \WB_DAXI_Read_Data_reg[27]_0 ,
-    \WB_DAXI_Read_Data_reg[28]_0 ,
-    \WB_DAXI_Read_Data_reg[29]_0 ,
-    \WB_DAXI_Read_Data_reg[30]_0 ,
+    byte_i_reg,
     M_AXI_DP_RDATA,
-    \Using_FPGA.Native );
+    \Using_FPGA.Native_1 );
   output MEM_DAXI_Data_Strobe;
   output [70:0]D;
   output DReady0_out;
   output \Using_Ext_Databus.mem_access_reg ;
-  output [12:0]extend_Data_Read;
+  output [7:0]extend_Data_Read;
   output [7:0]Q;
   output [15:0]Data_Read0_out;
+  output \Using_FPGA.Native ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input Clk;
   input DReady;
   input M_AXI_DP_ARREADY;
-  input [0:0]ex_Valid_reg;
-  input M_AXI_DP_WREADY;
+  input [0:0]is_swx_I_reg;
   input M_AXI_DP_AWREADY;
-  input M_AXI_DP_RVALID;
+  input M_AXI_DP_WREADY;
   input M_AXI_DP_BVALID;
+  input M_AXI_DP_RVALID;
   input [0:0]LOCKSTEP_Master_Out;
-  input DWait;
   input mem_access;
+  input DWait;
   input [23:0]Data_Read;
-  input [1:0]sel_LSB;
-  input \WB_DAXI_Read_Data_reg[24]_0 ;
-  input \WB_DAXI_Read_Data_reg[27]_0 ;
-  input \WB_DAXI_Read_Data_reg[28]_0 ;
-  input \WB_DAXI_Read_Data_reg[29]_0 ;
-  input \WB_DAXI_Read_Data_reg[30]_0 ;
+  input [0:0]byte_i_reg;
   input [31:0]M_AXI_DP_RDATA;
-  input [67:0]\Using_FPGA.Native ;
+  input [67:0]\Using_FPGA.Native_1 ;
 
   wire Clk;
   wire [70:0]D;
@@ -3936,450 +3913,442 @@ module blockdesign_microblaze_0_0_DAXI_interface
   wire M_AXI_DP_WVALID_i_i_1_n_0;
   wire [7:0]Q;
   wire \Using_Ext_Databus.mem_access_reg ;
-  wire [67:0]\Using_FPGA.Native ;
-  wire \Using_FPGA.Native_i_3__12_n_0 ;
-  wire \Using_FPGA.Native_i_3__13_n_0 ;
-  wire \Using_FPGA.Native_i_4__5_n_0 ;
-  wire \Using_FPGA.Native_i_5__3_n_0 ;
-  wire \Using_FPGA.Native_i_6__4_n_0 ;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
+  wire [67:0]\Using_FPGA.Native_1 ;
   wire [0:23]WB_DAXI_Read_Data;
-  wire \WB_DAXI_Read_Data_reg[24]_0 ;
-  wire \WB_DAXI_Read_Data_reg[27]_0 ;
-  wire \WB_DAXI_Read_Data_reg[28]_0 ;
-  wire \WB_DAXI_Read_Data_reg[29]_0 ;
-  wire \WB_DAXI_Read_Data_reg[30]_0 ;
   wire active_access;
   wire active_access_d1;
   wire active_access_i_1_n_0;
-  wire [0:0]ex_Valid_reg;
-  wire [12:0]extend_Data_Read;
+  wire [0:0]byte_i_reg;
+  wire [7:0]extend_Data_Read;
+  wire [0:0]is_swx_I_reg;
   wire mem_access;
   wire mem_access_completed0;
   wire new_request;
-  wire [1:0]sel_LSB;
   wire sync_reset;
 
   LUT4 #(
     .INIT(16'h0004)) 
     \Add_Output_DFFs.M_AXI_DP_AWADDR[31]_i_1 
-       (.I0(DWait),
+       (.I0(DReady),
         .I1(mem_access),
         .I2(active_access_d1),
-        .I3(DReady),
+        .I3(DWait),
         .O(new_request));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[0] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [36]),
+        .D(\Using_FPGA.Native_1 [36]),
         .Q(D[39]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [46]),
+        .D(\Using_FPGA.Native_1 [46]),
         .Q(D[49]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [47]),
+        .D(\Using_FPGA.Native_1 [47]),
         .Q(D[50]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [48]),
+        .D(\Using_FPGA.Native_1 [48]),
         .Q(D[51]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [49]),
+        .D(\Using_FPGA.Native_1 [49]),
         .Q(D[52]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[14] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [50]),
+        .D(\Using_FPGA.Native_1 [50]),
         .Q(D[53]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[15] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [51]),
+        .D(\Using_FPGA.Native_1 [51]),
         .Q(D[54]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[16] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [52]),
+        .D(\Using_FPGA.Native_1 [52]),
         .Q(D[55]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[17] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [53]),
+        .D(\Using_FPGA.Native_1 [53]),
         .Q(D[56]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [54]),
+        .D(\Using_FPGA.Native_1 [54]),
         .Q(D[57]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [55]),
+        .D(\Using_FPGA.Native_1 [55]),
         .Q(D[58]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[1] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [37]),
+        .D(\Using_FPGA.Native_1 [37]),
         .Q(D[40]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [56]),
+        .D(\Using_FPGA.Native_1 [56]),
         .Q(D[59]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [57]),
+        .D(\Using_FPGA.Native_1 [57]),
         .Q(D[60]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [58]),
+        .D(\Using_FPGA.Native_1 [58]),
         .Q(D[61]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [59]),
+        .D(\Using_FPGA.Native_1 [59]),
         .Q(D[62]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [60]),
+        .D(\Using_FPGA.Native_1 [60]),
         .Q(D[63]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[25] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [61]),
+        .D(\Using_FPGA.Native_1 [61]),
         .Q(D[64]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [62]),
+        .D(\Using_FPGA.Native_1 [62]),
         .Q(D[65]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [63]),
+        .D(\Using_FPGA.Native_1 [63]),
         .Q(D[66]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [64]),
+        .D(\Using_FPGA.Native_1 [64]),
         .Q(D[67]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [65]),
+        .D(\Using_FPGA.Native_1 [65]),
         .Q(D[68]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [38]),
+        .D(\Using_FPGA.Native_1 [38]),
         .Q(D[41]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[30] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [66]),
+        .D(\Using_FPGA.Native_1 [66]),
         .Q(D[69]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [67]),
+        .D(\Using_FPGA.Native_1 [67]),
         .Q(D[70]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[3] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [39]),
+        .D(\Using_FPGA.Native_1 [39]),
         .Q(D[42]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [40]),
+        .D(\Using_FPGA.Native_1 [40]),
         .Q(D[43]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [41]),
+        .D(\Using_FPGA.Native_1 [41]),
         .Q(D[44]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [42]),
+        .D(\Using_FPGA.Native_1 [42]),
         .Q(D[45]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [43]),
+        .D(\Using_FPGA.Native_1 [43]),
         .Q(D[46]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[8] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [44]),
+        .D(\Using_FPGA.Native_1 [44]),
         .Q(D[47]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [45]),
+        .D(\Using_FPGA.Native_1 [45]),
         .Q(D[48]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[0] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [4]),
+        .D(\Using_FPGA.Native_1 [4]),
         .Q(D[6]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[10] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [14]),
+        .D(\Using_FPGA.Native_1 [14]),
         .Q(D[16]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[11] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [15]),
+        .D(\Using_FPGA.Native_1 [15]),
         .Q(D[17]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[12] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [16]),
+        .D(\Using_FPGA.Native_1 [16]),
         .Q(D[18]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[13] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [17]),
+        .D(\Using_FPGA.Native_1 [17]),
         .Q(D[19]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[14] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [18]),
+        .D(\Using_FPGA.Native_1 [18]),
         .Q(D[20]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[15] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [19]),
+        .D(\Using_FPGA.Native_1 [19]),
         .Q(D[21]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[16] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [20]),
+        .D(\Using_FPGA.Native_1 [20]),
         .Q(D[22]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[17] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [21]),
+        .D(\Using_FPGA.Native_1 [21]),
         .Q(D[23]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[18] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [22]),
+        .D(\Using_FPGA.Native_1 [22]),
         .Q(D[24]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[19] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [23]),
+        .D(\Using_FPGA.Native_1 [23]),
         .Q(D[25]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[1] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [5]),
+        .D(\Using_FPGA.Native_1 [5]),
         .Q(D[7]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[20] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [24]),
+        .D(\Using_FPGA.Native_1 [24]),
         .Q(D[26]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[21] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [25]),
+        .D(\Using_FPGA.Native_1 [25]),
         .Q(D[27]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[22] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [26]),
+        .D(\Using_FPGA.Native_1 [26]),
         .Q(D[28]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[23] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [27]),
+        .D(\Using_FPGA.Native_1 [27]),
         .Q(D[29]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[24] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [28]),
+        .D(\Using_FPGA.Native_1 [28]),
         .Q(D[30]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[25] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [29]),
+        .D(\Using_FPGA.Native_1 [29]),
         .Q(D[31]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[26] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [30]),
+        .D(\Using_FPGA.Native_1 [30]),
         .Q(D[32]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[27] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [31]),
+        .D(\Using_FPGA.Native_1 [31]),
         .Q(D[33]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[28] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [32]),
+        .D(\Using_FPGA.Native_1 [32]),
         .Q(D[34]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[29] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [33]),
+        .D(\Using_FPGA.Native_1 [33]),
         .Q(D[35]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[2] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [6]),
+        .D(\Using_FPGA.Native_1 [6]),
         .Q(D[8]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[30] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [34]),
+        .D(\Using_FPGA.Native_1 [34]),
         .Q(D[36]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[31] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [35]),
+        .D(\Using_FPGA.Native_1 [35]),
         .Q(D[37]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[3] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [7]),
+        .D(\Using_FPGA.Native_1 [7]),
         .Q(D[9]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[4] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [8]),
+        .D(\Using_FPGA.Native_1 [8]),
         .Q(D[10]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[5] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [9]),
+        .D(\Using_FPGA.Native_1 [9]),
         .Q(D[11]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[6] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [10]),
+        .D(\Using_FPGA.Native_1 [10]),
         .Q(D[12]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[7] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [11]),
+        .D(\Using_FPGA.Native_1 [11]),
         .Q(D[13]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[8] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [12]),
+        .D(\Using_FPGA.Native_1 [12]),
         .Q(D[14]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WDATA_i_reg[9] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [13]),
+        .D(\Using_FPGA.Native_1 [13]),
         .Q(D[15]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WSTRB_i_reg[0] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [0]),
+        .D(\Using_FPGA.Native_1 [0]),
         .Q(D[2]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WSTRB_i_reg[1] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [1]),
+        .D(\Using_FPGA.Native_1 [1]),
         .Q(D[3]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WSTRB_i_reg[2] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [2]),
+        .D(\Using_FPGA.Native_1 [2]),
         .Q(D[4]),
         .R(sync_reset));
   FDRE \Add_Output_DFFs.M_AXI_DP_WSTRB_i_reg[3] 
        (.C(Clk),
         .CE(new_request),
-        .D(\Using_FPGA.Native [3]),
+        .D(\Using_FPGA.Native_1 [3]),
         .Q(D[5]),
         .R(sync_reset));
   LUT5 #(
     .INIT(32'h00005530)) 
     M_AXI_DP_ARVALID_i_i_1
        (.I0(M_AXI_DP_ARREADY),
-        .I1(ex_Valid_reg),
+        .I1(is_swx_I_reg),
         .I2(new_request),
         .I3(D[0]),
         .I4(sync_reset),
@@ -4396,8 +4365,8 @@ module blockdesign_microblaze_0_0_DAXI_interface
     .INIT(32'h000055C0)) 
     M_AXI_DP_AWVALID_i_i_1
        (.I0(M_AXI_DP_AWREADY),
-        .I1(ex_Valid_reg),
-        .I2(new_request),
+        .I1(new_request),
+        .I2(is_swx_I_reg),
         .I3(D[38]),
         .I4(sync_reset),
         .O(M_AXI_DP_AWVALID_i_i_1_n_0));
@@ -4413,8 +4382,8 @@ module blockdesign_microblaze_0_0_DAXI_interface
     .INIT(32'h000055C0)) 
     M_AXI_DP_WVALID_i_i_1
        (.I0(M_AXI_DP_WREADY),
-        .I1(ex_Valid_reg),
-        .I2(new_request),
+        .I1(new_request),
+        .I2(is_swx_I_reg),
         .I3(D[1]),
         .I4(sync_reset),
         .O(M_AXI_DP_WVALID_i_i_1_n_0));
@@ -4431,12 +4400,12 @@ module blockdesign_microblaze_0_0_DAXI_interface
     \Using_FPGA.Native_i_1__100 
        (.I0(Data_Read[4]),
         .I1(WB_DAXI_Read_Data[19]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[20]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[3]),
-        .O(extend_Data_Read[9]));
-  (* SOFT_HLUTNM = "soft_lutpair53" *) 
+        .O(extend_Data_Read[4]));
+  (* SOFT_HLUTNM = "soft_lutpair57" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__101 
@@ -4449,12 +4418,12 @@ module blockdesign_microblaze_0_0_DAXI_interface
     \Using_FPGA.Native_i_1__102 
        (.I0(Data_Read[3]),
         .I1(WB_DAXI_Read_Data[20]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[19]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[4]),
-        .O(extend_Data_Read[8]));
-  (* SOFT_HLUTNM = "soft_lutpair54" *) 
+        .O(extend_Data_Read[3]));
+  (* SOFT_HLUTNM = "soft_lutpair64" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__103 
@@ -4467,22 +4436,12 @@ module blockdesign_microblaze_0_0_DAXI_interface
     \Using_FPGA.Native_i_1__104 
        (.I0(Data_Read[2]),
         .I1(WB_DAXI_Read_Data[21]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[18]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[5]),
-        .O(extend_Data_Read[7]));
-  LUT6 #(
-    .INIT(64'hF0F0FAFAFFF0FCFC)) 
-    \Using_FPGA.Native_i_1__105 
-       (.I0(Data_Read0_out[2]),
-        .I1(Data_Read0_out[10]),
-        .I2(\WB_DAXI_Read_Data_reg[29]_0 ),
-        .I3(\Using_FPGA.Native_i_3__12_n_0 ),
-        .I4(sel_LSB[1]),
-        .I5(sel_LSB[0]),
-        .O(extend_Data_Read[1]));
-  (* SOFT_HLUTNM = "soft_lutpair51" *) 
+        .O(extend_Data_Read[2]));
+  (* SOFT_HLUTNM = "soft_lutpair58" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__106 
@@ -4492,25 +4451,15 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .O(Data_Read0_out[10]));
   LUT6 #(
     .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    \Using_FPGA.Native_i_1__107 
+    \Using_FPGA.Native_i_1__108 
        (.I0(Data_Read[1]),
         .I1(WB_DAXI_Read_Data[22]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[17]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[6]),
-        .O(extend_Data_Read[6]));
-  LUT6 #(
-    .INIT(64'hF0F0FAFAFFF0FCFC)) 
-    \Using_FPGA.Native_i_1__108 
-       (.I0(Data_Read0_out[1]),
-        .I1(Data_Read0_out[9]),
-        .I2(\WB_DAXI_Read_Data_reg[30]_0 ),
-        .I3(\Using_FPGA.Native_i_3__13_n_0 ),
-        .I4(sel_LSB[1]),
-        .I5(sel_LSB[0]),
-        .O(extend_Data_Read[0]));
-  (* SOFT_HLUTNM = "soft_lutpair55" *) 
+        .O(extend_Data_Read[1]));
+  (* SOFT_HLUTNM = "soft_lutpair64" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__109 
@@ -4518,7 +4467,6 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[6]),
         .O(Data_Read0_out[9]));
-  (* SOFT_HLUTNM = "soft_lutpair61" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__111 
@@ -4526,7 +4474,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[7]),
         .O(Data_Read0_out[8]));
-  (* SOFT_HLUTNM = "soft_lutpair53" *) 
+  (* SOFT_HLUTNM = "soft_lutpair57" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__112 
@@ -4542,7 +4490,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[9]),
         .O(Data_Read0_out[6]));
-  (* SOFT_HLUTNM = "soft_lutpair52" *) 
+  (* SOFT_HLUTNM = "soft_lutpair58" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__114 
@@ -4550,7 +4498,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[10]),
         .O(Data_Read0_out[5]));
-  (* SOFT_HLUTNM = "soft_lutpair54" *) 
+  (* SOFT_HLUTNM = "soft_lutpair59" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__115 
@@ -4558,7 +4506,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[11]),
         .O(Data_Read0_out[4]));
-  (* SOFT_HLUTNM = "soft_lutpair55" *) 
+  (* SOFT_HLUTNM = "soft_lutpair59" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__116 
@@ -4566,7 +4514,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[12]),
         .O(Data_Read0_out[3]));
-  (* SOFT_HLUTNM = "soft_lutpair56" *) 
+  (* SOFT_HLUTNM = "soft_lutpair60" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__117 
@@ -4574,7 +4522,7 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[13]),
         .O(Data_Read0_out[2]));
-  (* SOFT_HLUTNM = "soft_lutpair57" *) 
+  (* SOFT_HLUTNM = "soft_lutpair60" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__118 
@@ -4585,20 +4533,20 @@ module blockdesign_microblaze_0_0_DAXI_interface
   LUT2 #(
     .INIT(4'hE)) 
     \Using_FPGA.Native_i_1__3 
-       (.I0(MEM_DAXI_Data_Strobe),
-        .I1(DReady),
+       (.I0(DReady),
+        .I1(MEM_DAXI_Data_Strobe),
         .O(DReady0_out));
   LUT6 #(
     .INIT(64'hAFA0CFCFAFA0C0C0)) 
     \Using_FPGA.Native_i_1__94 
        (.I0(Data_Read[7]),
         .I1(WB_DAXI_Read_Data[16]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[23]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[0]),
-        .O(extend_Data_Read[12]));
-  (* SOFT_HLUTNM = "soft_lutpair52" *) 
+        .O(extend_Data_Read[7]));
+  (* SOFT_HLUTNM = "soft_lutpair62" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__95 
@@ -4611,12 +4559,12 @@ module blockdesign_microblaze_0_0_DAXI_interface
     \Using_FPGA.Native_i_1__96 
        (.I0(Data_Read[6]),
         .I1(WB_DAXI_Read_Data[17]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[22]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[1]),
-        .O(extend_Data_Read[11]));
-  (* SOFT_HLUTNM = "soft_lutpair60" *) 
+        .O(extend_Data_Read[6]));
+  (* SOFT_HLUTNM = "soft_lutpair63" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__97 
@@ -4629,12 +4577,12 @@ module blockdesign_microblaze_0_0_DAXI_interface
     \Using_FPGA.Native_i_1__98 
        (.I0(Data_Read[5]),
         .I1(WB_DAXI_Read_Data[18]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[21]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[2]),
-        .O(extend_Data_Read[10]));
-  (* SOFT_HLUTNM = "soft_lutpair61" *) 
+        .O(extend_Data_Read[5]));
+  (* SOFT_HLUTNM = "soft_lutpair63" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__99 
@@ -4643,93 +4591,39 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .I2(WB_DAXI_Read_Data[2]),
         .O(Data_Read0_out[13]));
   LUT6 #(
-    .INIT(64'hF0F0FAFAFFF0FCFC)) 
-    \Using_FPGA.Native_i_2__42 
-       (.I0(Data_Read0_out[7]),
-        .I1(Data_Read0_out[15]),
-        .I2(\WB_DAXI_Read_Data_reg[24]_0 ),
-        .I3(\Using_FPGA.Native_i_4__5_n_0 ),
-        .I4(sel_LSB[1]),
-        .I5(sel_LSB[0]),
-        .O(extend_Data_Read[4]));
-  LUT6 #(
-    .INIT(64'hF0F0FAFAFFF0FCFC)) 
-    \Using_FPGA.Native_i_2__45 
-       (.I0(Data_Read0_out[4]),
-        .I1(Data_Read0_out[12]),
-        .I2(\WB_DAXI_Read_Data_reg[27]_0 ),
-        .I3(\Using_FPGA.Native_i_5__3_n_0 ),
-        .I4(sel_LSB[1]),
-        .I5(sel_LSB[0]),
-        .O(extend_Data_Read[3]));
-  LUT6 #(
-    .INIT(64'hF0F0FAFAFFF0FCFC)) 
-    \Using_FPGA.Native_i_2__46 
-       (.I0(Data_Read0_out[3]),
-        .I1(Data_Read0_out[11]),
-        .I2(\WB_DAXI_Read_Data_reg[28]_0 ),
-        .I3(\Using_FPGA.Native_i_6__4_n_0 ),
-        .I4(sel_LSB[1]),
-        .I5(sel_LSB[0]),
-        .O(extend_Data_Read[2]));
-  LUT6 #(
     .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    \Using_FPGA.Native_i_2__47 
+    \Using_FPGA.Native_i_2__46 
        (.I0(Data_Read[0]),
         .I1(WB_DAXI_Read_Data[23]),
-        .I2(sel_LSB[1]),
+        .I2(byte_i_reg),
         .I3(Data_Read[16]),
         .I4(DReady),
         .I5(WB_DAXI_Read_Data[7]),
-        .O(extend_Data_Read[5]));
-  (* SOFT_HLUTNM = "soft_lutpair57" *) 
+        .O(extend_Data_Read[0]));
+  (* SOFT_HLUTNM = "soft_lutpair61" *) 
   LUT3 #(
     .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_2__48 
+    \Using_FPGA.Native_i_2__47 
        (.I0(Data_Read[8]),
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[15]),
         .O(Data_Read0_out[0]));
-  (* SOFT_HLUTNM = "soft_lutpair59" *) 
+  (* SOFT_HLUTNM = "soft_lutpair62" *) 
   LUT3 #(
     .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_3__12 
+    \Using_FPGA.Native_i_3__14 
        (.I0(Data_Read[2]),
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[21]),
-        .O(\Using_FPGA.Native_i_3__12_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair60" *) 
+        .O(\Using_FPGA.Native_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair61" *) 
   LUT3 #(
     .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_3__13 
-       (.I0(Data_Read[1]),
-        .I1(DReady),
-        .I2(WB_DAXI_Read_Data[22]),
-        .O(\Using_FPGA.Native_i_3__13_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair58" *) 
-  LUT3 #(
-    .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_4__5 
-       (.I0(Data_Read[7]),
-        .I1(DReady),
-        .I2(WB_DAXI_Read_Data[16]),
-        .O(\Using_FPGA.Native_i_4__5_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair58" *) 
-  LUT3 #(
-    .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_5__3 
+    \Using_FPGA.Native_i_5__4 
        (.I0(Data_Read[4]),
         .I1(DReady),
         .I2(WB_DAXI_Read_Data[19]),
-        .O(\Using_FPGA.Native_i_5__3_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair59" *) 
-  LUT3 #(
-    .INIT(8'hB8)) 
-    \Using_FPGA.Native_i_6__4 
-       (.I0(Data_Read[3]),
-        .I1(DReady),
-        .I2(WB_DAXI_Read_Data[20]),
-        .O(\Using_FPGA.Native_i_6__4_n_0 ));
+        .O(\Using_FPGA.Native ));
   FDRE \WB_DAXI_Read_Data_reg[0] 
        (.C(Clk),
         .CE(M_AXI_DP_RVALID),
@@ -4934,8 +4828,8 @@ module blockdesign_microblaze_0_0_DAXI_interface
        (.I0(sync_reset),
         .I1(active_access),
         .I2(new_request),
-        .I3(M_AXI_DP_RVALID),
-        .I4(M_AXI_DP_BVALID),
+        .I3(M_AXI_DP_BVALID),
+        .I4(M_AXI_DP_RVALID),
         .I5(LOCKSTEP_Master_Out),
         .O(active_access_i_1_n_0));
   FDRE active_access_reg
@@ -4948,8 +4842,8 @@ module blockdesign_microblaze_0_0_DAXI_interface
     .INIT(8'hA8)) 
     mem_access_completed_i_1
        (.I0(active_access),
-        .I1(M_AXI_DP_RVALID),
-        .I2(M_AXI_DP_BVALID),
+        .I1(M_AXI_DP_BVALID),
+        .I2(M_AXI_DP_RVALID),
         .O(mem_access_completed0));
   FDRE mem_access_completed_reg
        (.C(Clk),
@@ -4957,16 +4851,15 @@ module blockdesign_microblaze_0_0_DAXI_interface
         .D(mem_access_completed0),
         .Q(MEM_DAXI_Data_Strobe),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair51" *) 
+  (* SOFT_HLUTNM = "soft_lutpair56" *) 
   LUT2 #(
     .INIT(4'h1)) 
     trace_reg_write_novalid_i_2
-       (.I0(DReady),
-        .I1(MEM_DAXI_Data_Strobe),
+       (.I0(MEM_DAXI_Data_Strobe),
+        .I1(DReady),
         .O(\Using_Ext_Databus.mem_access_reg ));
 endmodule
 
-(* ORIG_REF_NAME = "Data_Flow" *) 
 module blockdesign_microblaze_0_0_Data_Flow
    (Op1_Low,
     Op2_Low,
@@ -4977,7 +4870,7 @@ module blockdesign_microblaze_0_0_Data_Flow
     \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ,
     Address,
     \C_reg[30] ,
-    \C_reg[28] ,
+    \C_reg[31] ,
     A,
     Is_Equal,
     msr_I,
@@ -5078,22 +4971,22 @@ module blockdesign_microblaze_0_0_Data_Flow
     \Using_FPGA.Native_36 ,
     \Use_Async_Reset.sync_reset_reg ,
     ex_Valid_reg,
-    \Use_Async_Reset.sync_reset_reg_0 ,
     \Using_FPGA.Native_37 ,
+    \Using_FPGA.Native_38 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
     in0,
     D,
     SR,
     void_bit,
-    \Using_FPGA.Native_38 ,
+    \Using_FPGA.Native_39 ,
     \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ,
+    clz_instr,
+    \Using_FPGA.Native_40 ,
+    pcmp_instr,
     \Use_The_PCMP_instr.CLZ_Instr_reg_0 ,
     PCMP_Instr2_out,
-    clz_instr,
-    \Using_FPGA.Native_39 ,
-    pcmp_instr,
-    \Using_FPGA.Native_40 ,
     \Use_The_PCMP_instr.PCMP_Instr_reg_3 ,
+    \Using_FPGA.Native_41 ,
     BitField_Extract,
     exception_kind,
     res_Forward2,
@@ -5101,7 +4994,7 @@ module blockdesign_microblaze_0_0_Data_Flow
     compare_Instr,
     \instr_EX_i_reg[22] ,
     BitField_Insert,
-    \Using_FPGA.Native_41 ,
+    \Using_FPGA.Native_42 ,
     register_write,
     read_register_MSR_1_reg,
     sext16,
@@ -5113,7 +5006,7 @@ module blockdesign_microblaze_0_0_Data_Flow
     Op1_Shift,
     Sext,
     Shifted,
-    \Using_FPGA.Native_42 ,
+    \Using_FPGA.Native_43 ,
     \Result_Sel_reg[0] ,
     extend_Data_Read,
     data_Read_Mask,
@@ -5148,7 +5041,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
   output [0:31]Address;
   output \C_reg[30] ;
-  output \C_reg[28] ;
+  output \C_reg[31] ;
   output [0:0]A;
   output Is_Equal;
   output [2:0]msr_I;
@@ -5249,22 +5142,22 @@ module blockdesign_microblaze_0_0_Data_Flow
   input \Using_FPGA.Native_36 ;
   input \Use_Async_Reset.sync_reset_reg ;
   input ex_Valid_reg;
-  input \Use_Async_Reset.sync_reset_reg_0 ;
   input \Using_FPGA.Native_37 ;
+  input \Using_FPGA.Native_38 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input in0;
   input [7:0]D;
   input [0:0]SR;
   input void_bit;
-  input \Using_FPGA.Native_38 ;
+  input \Using_FPGA.Native_39 ;
   input \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
+  input clz_instr;
+  input \Using_FPGA.Native_40 ;
+  input pcmp_instr;
   input \Use_The_PCMP_instr.CLZ_Instr_reg_0 ;
   input PCMP_Instr2_out;
-  input clz_instr;
-  input \Using_FPGA.Native_39 ;
-  input pcmp_instr;
-  input \Using_FPGA.Native_40 ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg_3 ;
+  input \Using_FPGA.Native_41 ;
   input BitField_Extract;
   input [0:0]exception_kind;
   input res_Forward2;
@@ -5272,7 +5165,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   input compare_Instr;
   input \instr_EX_i_reg[22] ;
   input BitField_Insert;
-  input \Using_FPGA.Native_41 ;
+  input \Using_FPGA.Native_42 ;
   input register_write;
   input read_register_MSR_1_reg;
   input sext16;
@@ -5284,7 +5177,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   input Op1_Shift;
   input Sext;
   input Shifted;
-  input \Using_FPGA.Native_42 ;
+  input \Using_FPGA.Native_43 ;
   input [1:0]\Result_Sel_reg[0] ;
   input [15:0]extend_Data_Read;
   input [1:0]data_Read_Mask;
@@ -5312,7 +5205,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   input lopt_8;
 
   wire [0:0]A;
-  wire [30:31]A_0;
+  wire [30:31]A_1;
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ;
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
   wire [0:31]Address;
@@ -5344,8 +5237,8 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire BitField_Extract;
   wire BitField_Insert;
   wire [2:0]Buffer_Addr;
-  wire \C_reg[28] ;
   wire \C_reg[30] ;
+  wire \C_reg[31] ;
   wire Clk;
   wire [7:0]D;
   wire DI;
@@ -5439,9 +5332,9 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire Operand_Select_I_n_126;
   wire Operand_Select_I_n_127;
   wire Operand_Select_I_n_128;
+  wire Operand_Select_I_n_129;
   wire Operand_Select_I_n_13;
   wire Operand_Select_I_n_14;
-  wire Operand_Select_I_n_142;
   wire Operand_Select_I_n_143;
   wire Operand_Select_I_n_144;
   wire Operand_Select_I_n_145;
@@ -5486,9 +5379,6 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire Operand_Select_I_n_180;
   wire Operand_Select_I_n_181;
   wire Operand_Select_I_n_182;
-  wire Operand_Select_I_n_183;
-  wire Operand_Select_I_n_184;
-  wire Operand_Select_I_n_185;
   wire Operand_Select_I_n_19;
   wire Operand_Select_I_n_2;
   wire Operand_Select_I_n_20;
@@ -5553,7 +5443,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire Shift_Logic_Module_I_n_1;
   wire Shift_Logic_Module_I_n_2;
   wire Shift_Logic_Module_I_n_3;
-  wire Shift_Logic_Module_I_n_37;
+  wire Shift_Logic_Module_I_n_38;
   wire Shift_Logic_Res;
   wire Shift_Logic_Res0_out;
   wire Shift_Logic_Res10_out;
@@ -5580,11 +5470,11 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire Shift_Logic_Res7_out;
   wire Shift_Logic_Res8_out;
   wire Shift_Logic_Res9_out;
+  wire Shift_Logic_Res_0;
   wire Shift_Oper;
   wire Shifted;
   wire Unsigned_Op;
   wire \Use_Async_Reset.sync_reset_reg ;
-  wire \Use_Async_Reset.sync_reset_reg_0 ;
   wire \Use_PCMP_instr.carry_equal_byte1/S ;
   wire \Use_PCMP_instr.carry_equal_byte1/Using_FPGA.The_Compare[0].sel_reg ;
   wire \Use_PCMP_instr.carry_equal_byte1/Using_FPGA.The_Compare[2].sel_reg ;
@@ -5651,6 +5541,7 @@ module blockdesign_microblaze_0_0_Data_Flow
   wire \Using_FPGA.Native_40 ;
   wire \Using_FPGA.Native_41 ;
   wire \Using_FPGA.Native_42 ;
+  wire \Using_FPGA.Native_43 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
@@ -5712,9 +5603,9 @@ module blockdesign_microblaze_0_0_Data_Flow
         .Op1_Logic(Op1_Low[1]),
         .Op1_Shift(\Using_FPGA.Native ),
         .S(\Using_FPGA.ALL_Bits[0].ALU_Bit_I1/S ),
-        .Shifted(\C_reg[28] ),
+        .Shifted(\C_reg[31] ),
         .Unsigned_Op(Unsigned_Op),
-        .\Using_FPGA.Native (Operand_Select_I_n_184),
+        .\Using_FPGA.Native (Operand_Select_I_n_182),
         .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
         .\Using_FPGA.Native_1 (Operand_Select_I_n_53),
         .\Using_FPGA.Native_10 (Operand_Select_I_n_62),
@@ -5763,15 +5654,15 @@ module blockdesign_microblaze_0_0_Data_Flow
         .MSR_Rst(MSR_Rst),
         .\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg (\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ),
         .\Use_Async_Reset.sync_reset_reg (\Use_Async_Reset.sync_reset_reg ),
-        .\Use_Async_Reset.sync_reset_reg_0 (\Use_Async_Reset.sync_reset_reg_0 ),
         .\Using_FPGA.Native (\Using_FPGA.Native_36 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_37 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_38 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_39 ),
         .\Using_dynamic_instr_Address.old_IE_value_reg (\Using_dynamic_instr_Address.old_IE_value_reg ),
         .ex_Valid_reg(ex_Valid_reg),
         .msr_I(msr_I));
   blockdesign_microblaze_0_0_Operand_Select Operand_Select_I
-       (.A({A_0[30],A_0[31]}),
+       (.A({A_1[30],A_1[31]}),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] (Operand_Select_I_n_59),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] (Operand_Select_I_n_60),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] (Operand_Select_I_n_61),
@@ -5789,7 +5680,7 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] (Operand_Select_I_n_92),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] (Operand_Select_I_n_93),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
-        .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (Operand_Select_I_n_184),
+        .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (Operand_Select_I_n_182),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] (Operand_Select_I_n_53),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] (Operand_Select_I_n_54),
         .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] (Operand_Select_I_n_55),
@@ -5800,15 +5691,15 @@ module blockdesign_microblaze_0_0_Data_Flow
         .B({op2_C[15],op2_C[16],op2_C[17],op2_C[18],op2_C[19],op2_C[20],op2_C[21],op2_C[22],op2_C[23],op2_C[24],op2_C[25],op2_C[26],op2_C[27],\Using_FPGA.DSP48E1_I1_0 ,\Using_FPGA.DSP48E1_I1 ,Op2_Low[0],Op2_Low[1]}),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
-        .\C_reg[23] ({Operand_Select_I_n_142,Operand_Select_I_n_143,Operand_Select_I_n_144,Operand_Select_I_n_145,Operand_Select_I_n_146,Operand_Select_I_n_147}),
-        .\C_reg[23]_0 (Operand_Select_I_n_148),
+        .\C_reg[23] ({Operand_Select_I_n_143,Operand_Select_I_n_144,Operand_Select_I_n_145,Operand_Select_I_n_146,Operand_Select_I_n_147,Operand_Select_I_n_148}),
+        .\C_reg[23]_0 (Operand_Select_I_n_149),
         .\C_reg[30] (Operand_Select_I_n_63),
         .\C_reg[30]_0 (\C_reg[30] ),
         .\C_reg[30]_1 (Operand_Select_I_n_65),
         .\C_reg[30]_2 (Operand_Select_I_n_66),
         .\C_reg[30]_3 (Operand_Select_I_n_94),
         .Clk(Clk),
-        .D({Operand_Select_I_n_98,Operand_Select_I_n_99,Operand_Select_I_n_100,Operand_Select_I_n_101,Operand_Select_I_n_102,Operand_Select_I_n_103,Operand_Select_I_n_104,Operand_Select_I_n_105,Operand_Select_I_n_106,Operand_Select_I_n_107,Operand_Select_I_n_108,Operand_Select_I_n_109,Operand_Select_I_n_110,Operand_Select_I_n_111,Operand_Select_I_n_112,Operand_Select_I_n_113,Operand_Select_I_n_114,Operand_Select_I_n_115,Operand_Select_I_n_116,Operand_Select_I_n_117,Operand_Select_I_n_118,Operand_Select_I_n_119,Operand_Select_I_n_120,Operand_Select_I_n_121,Operand_Select_I_n_122,Operand_Select_I_n_123,Operand_Select_I_n_124,Operand_Select_I_n_125,Operand_Select_I_n_126,Operand_Select_I_n_127,Operand_Select_I_n_128}),
+        .D({Operand_Select_I_n_99,Operand_Select_I_n_100,Operand_Select_I_n_101,Operand_Select_I_n_102,Operand_Select_I_n_103,Operand_Select_I_n_104,Operand_Select_I_n_105,Operand_Select_I_n_106,Operand_Select_I_n_107,Operand_Select_I_n_108,Operand_Select_I_n_109,Operand_Select_I_n_110,Operand_Select_I_n_111,Operand_Select_I_n_112,Operand_Select_I_n_113,Operand_Select_I_n_114,Operand_Select_I_n_115,Operand_Select_I_n_116,Operand_Select_I_n_117,Operand_Select_I_n_118,Operand_Select_I_n_119,Operand_Select_I_n_120,Operand_Select_I_n_121,Operand_Select_I_n_122,Operand_Select_I_n_123,Operand_Select_I_n_124,Operand_Select_I_n_125,Operand_Select_I_n_126,Operand_Select_I_n_127,Operand_Select_I_n_128,Operand_Select_I_n_129}),
         .D_0(D_0),
         .D_1(D_1),
         .D_10(D_10),
@@ -5864,27 +5755,25 @@ module blockdesign_microblaze_0_0_Data_Flow
         .S_5(\Use_PCMP_instr.carry_equal_byte3/S ),
         .S_8(\Use_PCMP_instr.carry_equal_byte4/S ),
         .Select_Logic_reg(Shift_Logic_Res31_out),
-        .Sext(Operand_Select_I_n_183),
+        .Select_Logic_reg_0(Shift_Logic_Res_0),
+        .Sext(Operand_Select_I_n_181),
         .Shift_Logic_Res(Shift_Logic_Res30_out),
-        .Shifted(\C_reg[28] ),
+        .Shifted(\C_reg[31] ),
         .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg_0 ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_BitField.mem_mask0_reg[1] ({Operand_Select_I_n_149,Operand_Select_I_n_150,Operand_Select_I_n_151,Operand_Select_I_n_152,Operand_Select_I_n_153,Operand_Select_I_n_154,Operand_Select_I_n_155,Operand_Select_I_n_156,Operand_Select_I_n_157,Operand_Select_I_n_158,Operand_Select_I_n_159,Operand_Select_I_n_160,Operand_Select_I_n_161,Operand_Select_I_n_162,Operand_Select_I_n_163,Operand_Select_I_n_164,Operand_Select_I_n_165,Operand_Select_I_n_166,Operand_Select_I_n_167,Operand_Select_I_n_168,Operand_Select_I_n_169,Operand_Select_I_n_170,Operand_Select_I_n_171,Operand_Select_I_n_172,Operand_Select_I_n_173,Operand_Select_I_n_174,Operand_Select_I_n_175,Operand_Select_I_n_176,Operand_Select_I_n_177,Operand_Select_I_n_178,Operand_Select_I_n_179}),
+        .\Using_BitField.mem_mask0_reg[1] ({Operand_Select_I_n_150,Operand_Select_I_n_151,Operand_Select_I_n_152,Operand_Select_I_n_153,Operand_Select_I_n_154,Operand_Select_I_n_155,Operand_Select_I_n_156,Operand_Select_I_n_157,Operand_Select_I_n_158,Operand_Select_I_n_159,Operand_Select_I_n_160,Operand_Select_I_n_161,Operand_Select_I_n_162,Operand_Select_I_n_163,Operand_Select_I_n_164,Operand_Select_I_n_165,Operand_Select_I_n_166,Operand_Select_I_n_167,Operand_Select_I_n_168,Operand_Select_I_n_169,Operand_Select_I_n_170,Operand_Select_I_n_171,Operand_Select_I_n_172,Operand_Select_I_n_173,Operand_Select_I_n_174,Operand_Select_I_n_175,Operand_Select_I_n_176,Operand_Select_I_n_177,Operand_Select_I_n_178,Operand_Select_I_n_179,Operand_Select_I_n_180}),
         .\Using_FPGA.Native (Op1_Low[0]),
         .\Using_FPGA.Native_0 (Operand_Select_I_n_97),
-        .\Using_FPGA.Native_1 (Operand_Select_I_n_180),
-        .\Using_FPGA.Native_10 (\Using_Barrel_Shifter.barrel_shift_I_n_28 ),
-        .\Using_FPGA.Native_11 (Shift_Logic_Module_I_n_1),
-        .\Using_FPGA.Native_12 (Shift_Logic_Module_I_n_2),
-        .\Using_FPGA.Native_13 (Shift_Logic_Module_I_n_3),
-        .\Using_FPGA.Native_2 (Operand_Select_I_n_181),
-        .\Using_FPGA.Native_3 (Operand_Select_I_n_182),
-        .\Using_FPGA.Native_4 (Operand_Select_I_n_185),
-        .\Using_FPGA.Native_5 (Is_Equal),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_39 ),
-        .\Using_FPGA.Native_7 (\Using_Barrel_Shifter.barrel_shift_I_n_25 ),
-        .\Using_FPGA.Native_8 (\Using_Barrel_Shifter.barrel_shift_I_n_27 ),
-        .\Using_FPGA.Native_9 (\Using_Barrel_Shifter.barrel_shift_I_n_26 ),
+        .\Using_FPGA.Native_1 (Operand_Select_I_n_98),
+        .\Using_FPGA.Native_10 (Shift_Logic_Module_I_n_2),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_40 ),
+        .\Using_FPGA.Native_3 (Is_Equal),
+        .\Using_FPGA.Native_4 (\Using_Barrel_Shifter.barrel_shift_I_n_25 ),
+        .\Using_FPGA.Native_5 (\Using_Barrel_Shifter.barrel_shift_I_n_27 ),
+        .\Using_FPGA.Native_6 (\Using_Barrel_Shifter.barrel_shift_I_n_26 ),
+        .\Using_FPGA.Native_7 (\Using_Barrel_Shifter.barrel_shift_I_n_28 ),
+        .\Using_FPGA.Native_8 (Shift_Logic_Module_I_n_1),
+        .\Using_FPGA.Native_9 (Shift_Logic_Module_I_n_3),
         .\Using_FPGA.The_Compare[0].sel_reg (\Use_PCMP_instr.carry_equal_byte1/Using_FPGA.The_Compare[0].sel_reg ),
         .\Using_FPGA.The_Compare[0].sel_reg_3 (\Use_PCMP_instr.carry_equal_byte2/Using_FPGA.The_Compare[0].sel_reg ),
         .\Using_FPGA.The_Compare[0].sel_reg_6 (\Use_PCMP_instr.carry_equal_byte3/Using_FPGA.The_Compare[0].sel_reg ),
@@ -5922,7 +5811,7 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Instr_Addr[0] (\Instr_Addr[0] [101:70]),
         .OF_PipeRun(OF_PipeRun),
         .PC_Write(PC_Write),
-        .\Using_FPGA.Native (\Using_FPGA.Native_38 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_39 ),
         .\Using_FPGA.Native_0 (\Instr_Addr[0] [69:40]),
         .jump(jump),
         .raw_Data_Addr({raw_Data_Addr[30],raw_Data_Addr[31]}),
@@ -5995,7 +5884,7 @@ module blockdesign_microblaze_0_0_Data_Flow
         .Select_Logic_reg_19(Shift_Logic_Res1_out),
         .Select_Logic_reg_2(Shift_Logic_Res19_out),
         .Select_Logic_reg_20(Shift_Logic_Res0_out),
-        .Select_Logic_reg_21(Shift_Logic_Module_I_n_37),
+        .Select_Logic_reg_21(Shift_Logic_Module_I_n_38),
         .Select_Logic_reg_3(Shift_Logic_Res18_out),
         .Select_Logic_reg_4(Shift_Logic_Res17_out),
         .Select_Logic_reg_5(Shift_Logic_Res15_out),
@@ -6028,7 +5917,7 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Using_BitField.mem_mask0_reg[30] (Barrel_Result03_out),
         .\Using_BitField.mem_mask0_reg[8] (Barrel_Result069_out),
         .\Using_BitField.mem_mask0_reg[9] (Barrel_Result066_out),
-        .\Using_FPGA.Native (\Using_FPGA.Native_41 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_42 ),
         .\Using_FPGA.Native_0 (\trace_pc_i_reg[0] [3:1]),
         .\Using_FPGA.Native_1 (\Instr_Addr[0] [69:40]),
         .data_Read_Mask(data_Read_Mask),
@@ -6049,16 +5938,16 @@ module blockdesign_microblaze_0_0_Data_Flow
         .I3(I3),
         .Logic_Oper(Logic_Oper),
         .Op1_Logic(Op1_Low[1]),
-        .Op1_Shift(\C_reg[30] ),
+        .Op1_Shift(\Using_FPGA.Native ),
         .S(\Use_PCMP_instr.carry_equal_byte1/S ),
         .S_1(\Use_PCMP_instr.carry_equal_byte2/S ),
         .S_4(\Use_PCMP_instr.carry_equal_byte3/S ),
         .S_7(\Use_PCMP_instr.carry_equal_byte4/S ),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
-        .Shift_Logic_Res(Shift_Logic_Res31_out),
+        .Shift_Logic_Res(Shift_Logic_Res_0),
         .Shift_Oper(Shift_Oper),
-        .Shifted(\C_reg[28] ),
+        .Shifted(\C_reg[31] ),
         .\Use_The_PCMP_instr.CLZ_Instr_reg (Operand_Select_I_n_97),
         .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
         .\Use_The_PCMP_instr.PCMP_Instr_reg_0 (\Use_The_PCMP_instr.PCMP_Instr_reg_0 ),
@@ -6068,76 +5957,74 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Using_FPGA.Native (Is_Equal),
         .\Using_FPGA.Native_0 (Shift_Logic_Module_I_n_1),
         .\Using_FPGA.Native_1 (Shift_Logic_Module_I_n_2),
-        .\Using_FPGA.Native_10 (Shift_Logic_Res19_out),
-        .\Using_FPGA.Native_11 (Shift_Logic_Res18_out),
-        .\Using_FPGA.Native_12 (Shift_Logic_Res17_out),
-        .\Using_FPGA.Native_13 (Shift_Logic_Res15_out),
-        .\Using_FPGA.Native_14 (Shift_Logic_Res14_out),
-        .\Using_FPGA.Native_15 (Shift_Logic_Res13_out),
-        .\Using_FPGA.Native_16 (Shift_Logic_Res12_out),
-        .\Using_FPGA.Native_17 (Shift_Logic_Res11_out),
-        .\Using_FPGA.Native_18 (Shift_Logic_Res10_out),
-        .\Using_FPGA.Native_19 (Shift_Logic_Res9_out),
+        .\Using_FPGA.Native_10 (Shift_Logic_Res20_out),
+        .\Using_FPGA.Native_11 (Shift_Logic_Res19_out),
+        .\Using_FPGA.Native_12 (Shift_Logic_Res18_out),
+        .\Using_FPGA.Native_13 (Shift_Logic_Res17_out),
+        .\Using_FPGA.Native_14 (Shift_Logic_Res15_out),
+        .\Using_FPGA.Native_15 (Shift_Logic_Res14_out),
+        .\Using_FPGA.Native_16 (Shift_Logic_Res13_out),
+        .\Using_FPGA.Native_17 (Shift_Logic_Res12_out),
+        .\Using_FPGA.Native_18 (Shift_Logic_Res11_out),
+        .\Using_FPGA.Native_19 (Shift_Logic_Res10_out),
         .\Using_FPGA.Native_2 (Shift_Logic_Module_I_n_3),
-        .\Using_FPGA.Native_20 (Shift_Logic_Res8_out),
-        .\Using_FPGA.Native_21 (Shift_Logic_Res7_out),
-        .\Using_FPGA.Native_22 (Shift_Logic_Res6_out),
-        .\Using_FPGA.Native_23 (Shift_Logic_Res5_out),
-        .\Using_FPGA.Native_24 (Shift_Logic_Res4_out),
-        .\Using_FPGA.Native_25 (Shift_Logic_Res3_out),
-        .\Using_FPGA.Native_26 (Shift_Logic_Res2_out),
-        .\Using_FPGA.Native_27 (Shift_Logic_Res1_out),
-        .\Using_FPGA.Native_28 (Shift_Logic_Res0_out),
-        .\Using_FPGA.Native_29 (Shift_Logic_Module_I_n_37),
-        .\Using_FPGA.Native_3 (Shift_Logic_Res30_out),
-        .\Using_FPGA.Native_30 (\Using_FPGA.Native_33 ),
-        .\Using_FPGA.Native_31 (\Using_FPGA.Native_34 ),
-        .\Using_FPGA.Native_32 (\Using_FPGA.Native_35 ),
-        .\Using_FPGA.Native_33 (Operand_Select_I_n_181),
-        .\Using_FPGA.Native_34 (\Using_FPGA.Native_39 ),
-        .\Using_FPGA.Native_35 (\Using_FPGA.Native_40 ),
-        .\Using_FPGA.Native_36 (Operand_Select_I_n_182),
-        .\Using_FPGA.Native_37 (Operand_Select_I_n_185),
-        .\Using_FPGA.Native_38 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .\Using_FPGA.Native_39 (Operand_Select_I_n_180),
-        .\Using_FPGA.Native_4 (Shift_Logic_Res),
-        .\Using_FPGA.Native_40 (Op1_Low[0]),
-        .\Using_FPGA.Native_41 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
-        .\Using_FPGA.Native_42 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_43 (Op1_Shift),
-        .\Using_FPGA.Native_44 (Operand_Select_I_n_53),
-        .\Using_FPGA.Native_45 (Operand_Select_I_n_54),
-        .\Using_FPGA.Native_46 (Operand_Select_I_n_55),
-        .\Using_FPGA.Native_47 (Operand_Select_I_n_57),
-        .\Using_FPGA.Native_48 (Operand_Select_I_n_58),
-        .\Using_FPGA.Native_49 (Operand_Select_I_n_59),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_32 ),
-        .\Using_FPGA.Native_50 (Operand_Select_I_n_60),
-        .\Using_FPGA.Native_51 (Operand_Select_I_n_61),
-        .\Using_FPGA.Native_52 (Operand_Select_I_n_62),
-        .\Using_FPGA.Native_53 (Operand_Select_I_n_63),
-        .\Using_FPGA.Native_54 (Operand_Select_I_n_65),
-        .\Using_FPGA.Native_55 (Operand_Select_I_n_66),
-        .\Using_FPGA.Native_56 (Operand_Select_I_n_183),
-        .\Using_FPGA.Native_57 (Operand_Select_I_n_82),
-        .\Using_FPGA.Native_58 (Operand_Select_I_n_83),
-        .\Using_FPGA.Native_59 (Operand_Select_I_n_84),
-        .\Using_FPGA.Native_6 (Shift_Logic_Res23_out),
-        .\Using_FPGA.Native_60 (Operand_Select_I_n_85),
-        .\Using_FPGA.Native_61 (Operand_Select_I_n_86),
-        .\Using_FPGA.Native_62 (Operand_Select_I_n_87),
-        .\Using_FPGA.Native_63 (Operand_Select_I_n_88),
-        .\Using_FPGA.Native_64 (Operand_Select_I_n_89),
-        .\Using_FPGA.Native_65 (Operand_Select_I_n_90),
-        .\Using_FPGA.Native_66 (Operand_Select_I_n_91),
-        .\Using_FPGA.Native_67 (Operand_Select_I_n_92),
-        .\Using_FPGA.Native_68 (Operand_Select_I_n_93),
-        .\Using_FPGA.Native_69 (Operand_Select_I_n_94),
-        .\Using_FPGA.Native_7 (Shift_Logic_Res22_out),
-        .\Using_FPGA.Native_70 (Shifted),
-        .\Using_FPGA.Native_71 (\Using_FPGA.Native_42 ),
-        .\Using_FPGA.Native_8 (Shift_Logic_Res21_out),
-        .\Using_FPGA.Native_9 (Shift_Logic_Res20_out),
+        .\Using_FPGA.Native_20 (Shift_Logic_Res9_out),
+        .\Using_FPGA.Native_21 (Shift_Logic_Res8_out),
+        .\Using_FPGA.Native_22 (Shift_Logic_Res7_out),
+        .\Using_FPGA.Native_23 (Shift_Logic_Res6_out),
+        .\Using_FPGA.Native_24 (Shift_Logic_Res5_out),
+        .\Using_FPGA.Native_25 (Shift_Logic_Res4_out),
+        .\Using_FPGA.Native_26 (Shift_Logic_Res3_out),
+        .\Using_FPGA.Native_27 (Shift_Logic_Res2_out),
+        .\Using_FPGA.Native_28 (Shift_Logic_Res1_out),
+        .\Using_FPGA.Native_29 (Shift_Logic_Res0_out),
+        .\Using_FPGA.Native_3 (Shift_Logic_Res31_out),
+        .\Using_FPGA.Native_30 (Shift_Logic_Module_I_n_38),
+        .\Using_FPGA.Native_31 (\Using_FPGA.Native_33 ),
+        .\Using_FPGA.Native_32 (\Using_FPGA.Native_34 ),
+        .\Using_FPGA.Native_33 (\Using_FPGA.Native_35 ),
+        .\Using_FPGA.Native_34 (Operand_Select_I_n_98),
+        .\Using_FPGA.Native_35 (\Using_FPGA.Native_41 ),
+        .\Using_FPGA.Native_36 (\Using_FPGA.Native_40 ),
+        .\Using_FPGA.Native_37 (Op1_Low[0]),
+        .\Using_FPGA.Native_38 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
+        .\Using_FPGA.Native_39 (Op1_Shift),
+        .\Using_FPGA.Native_4 (Shift_Logic_Res30_out),
+        .\Using_FPGA.Native_40 (Operand_Select_I_n_53),
+        .\Using_FPGA.Native_41 (Operand_Select_I_n_54),
+        .\Using_FPGA.Native_42 (Operand_Select_I_n_55),
+        .\Using_FPGA.Native_43 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .\Using_FPGA.Native_44 (Operand_Select_I_n_57),
+        .\Using_FPGA.Native_45 (Operand_Select_I_n_58),
+        .\Using_FPGA.Native_46 (Operand_Select_I_n_59),
+        .\Using_FPGA.Native_47 (Operand_Select_I_n_60),
+        .\Using_FPGA.Native_48 (Operand_Select_I_n_61),
+        .\Using_FPGA.Native_49 (Operand_Select_I_n_62),
+        .\Using_FPGA.Native_5 (Shift_Logic_Res),
+        .\Using_FPGA.Native_50 (Operand_Select_I_n_63),
+        .\Using_FPGA.Native_51 (\C_reg[30] ),
+        .\Using_FPGA.Native_52 (Operand_Select_I_n_65),
+        .\Using_FPGA.Native_53 (Operand_Select_I_n_66),
+        .\Using_FPGA.Native_54 (Operand_Select_I_n_181),
+        .\Using_FPGA.Native_55 (Operand_Select_I_n_82),
+        .\Using_FPGA.Native_56 (Operand_Select_I_n_83),
+        .\Using_FPGA.Native_57 (Operand_Select_I_n_84),
+        .\Using_FPGA.Native_58 (Operand_Select_I_n_85),
+        .\Using_FPGA.Native_59 (Operand_Select_I_n_86),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_32 ),
+        .\Using_FPGA.Native_60 (Operand_Select_I_n_87),
+        .\Using_FPGA.Native_61 (Operand_Select_I_n_88),
+        .\Using_FPGA.Native_62 (Operand_Select_I_n_89),
+        .\Using_FPGA.Native_63 (Operand_Select_I_n_90),
+        .\Using_FPGA.Native_64 (Operand_Select_I_n_91),
+        .\Using_FPGA.Native_65 (Operand_Select_I_n_92),
+        .\Using_FPGA.Native_66 (Operand_Select_I_n_93),
+        .\Using_FPGA.Native_67 (Operand_Select_I_n_94),
+        .\Using_FPGA.Native_68 (Shifted),
+        .\Using_FPGA.Native_69 (\Using_FPGA.Native_43 ),
+        .\Using_FPGA.Native_7 (Shift_Logic_Res23_out),
+        .\Using_FPGA.Native_8 (Shift_Logic_Res22_out),
+        .\Using_FPGA.Native_9 (Shift_Logic_Res21_out),
         .\Using_FPGA.The_Compare[0].sel_reg (\Use_PCMP_instr.carry_equal_byte1/Using_FPGA.The_Compare[0].sel_reg ),
         .\Using_FPGA.The_Compare[0].sel_reg_2 (\Use_PCMP_instr.carry_equal_byte2/Using_FPGA.The_Compare[0].sel_reg ),
         .\Using_FPGA.The_Compare[0].sel_reg_5 (\Use_PCMP_instr.carry_equal_byte3/Using_FPGA.The_Compare[0].sel_reg ),
@@ -6147,16 +6034,15 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Using_FPGA.The_Compare[2].sel_reg_3 (\Use_PCMP_instr.carry_equal_byte3/Using_FPGA.The_Compare[2].sel_reg ),
         .\Using_FPGA.The_Compare[2].sel_reg_6 (\Use_PCMP_instr.carry_equal_byte4/Using_FPGA.The_Compare[2].sel_reg ),
         .clz_instr(clz_instr),
-        .pcmp_instr(pcmp_instr),
         .shift_Logic_Result({shift_Logic_Result[26],shift_Logic_Result[27],shift_Logic_Result[28],shift_Logic_Result[29],shift_Logic_Result[30],shift_Logic_Result[31]}));
   blockdesign_microblaze_0_0_barrel_shift \Using_Barrel_Shifter.barrel_shift_I 
        (.B({op2_C[27],\Using_FPGA.DSP48E1_I1_0 ,\Using_FPGA.DSP48E1_I1 ,Op2_Low[0],Op2_Low[1]}),
         .Barrel_Result({Barrel_Result[0],Barrel_Result[1],Barrel_Result[2],Barrel_Result[3],Barrel_Result[4],Barrel_Result[5],Barrel_Result[6],Barrel_Result[7]}),
-        .\C_reg[17]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_25 ),
-        .\C_reg[19]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_26 ),
-        .\C_reg[19]_1 (\Using_Barrel_Shifter.barrel_shift_I_n_27 ),
+        .\C_reg[11]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_26 ),
+        .\C_reg[19]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_27 ),
+        .\C_reg[21]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_25 ),
         .\C_reg[24]_0 (\Using_Barrel_Shifter.barrel_shift_I_n_28 ),
-        .\C_reg[30]_0 ({A_0[30],A_0[31]}),
+        .\C_reg[30]_0 ({A_1[30],A_1[31]}),
         .Clk(Clk),
         .D(D),
         .Data_Write(Data_Write),
@@ -6164,9 +6050,9 @@ module blockdesign_microblaze_0_0_Data_Flow
         .Op1_Shift(\Using_FPGA.Native ),
         .Other_Result(Barrel_Result0),
         .SR(SR),
-        .Shifted(\C_reg[28] ),
+        .Shifted(\C_reg[31] ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_Barrel_Shifter.BitField_Insert_reg ({BitField_Insert,Operand_Select_I_n_149,Operand_Select_I_n_150,Operand_Select_I_n_151,Operand_Select_I_n_152,Operand_Select_I_n_153,Operand_Select_I_n_154,Operand_Select_I_n_155,Operand_Select_I_n_156,Operand_Select_I_n_157,Operand_Select_I_n_158,Operand_Select_I_n_159,Operand_Select_I_n_160,Operand_Select_I_n_161,Operand_Select_I_n_162,Operand_Select_I_n_163,Operand_Select_I_n_164,Operand_Select_I_n_165,Operand_Select_I_n_166,Operand_Select_I_n_167,Operand_Select_I_n_168,Operand_Select_I_n_169,Operand_Select_I_n_170,Operand_Select_I_n_171,Operand_Select_I_n_172,Operand_Select_I_n_173,Operand_Select_I_n_174,Operand_Select_I_n_175,Operand_Select_I_n_176,Operand_Select_I_n_177,Operand_Select_I_n_178,Operand_Select_I_n_179}),
+        .\Using_Barrel_Shifter.BitField_Insert_reg ({BitField_Insert,Operand_Select_I_n_150,Operand_Select_I_n_151,Operand_Select_I_n_152,Operand_Select_I_n_153,Operand_Select_I_n_154,Operand_Select_I_n_155,Operand_Select_I_n_156,Operand_Select_I_n_157,Operand_Select_I_n_158,Operand_Select_I_n_159,Operand_Select_I_n_160,Operand_Select_I_n_161,Operand_Select_I_n_162,Operand_Select_I_n_163,Operand_Select_I_n_164,Operand_Select_I_n_165,Operand_Select_I_n_166,Operand_Select_I_n_167,Operand_Select_I_n_168,Operand_Select_I_n_169,Operand_Select_I_n_170,Operand_Select_I_n_171,Operand_Select_I_n_172,Operand_Select_I_n_173,Operand_Select_I_n_174,Operand_Select_I_n_175,Operand_Select_I_n_176,Operand_Select_I_n_177,Operand_Select_I_n_178,Operand_Select_I_n_179,Operand_Select_I_n_180}),
         .\Using_FPGA.Native (Barrel_Result03_out),
         .\Using_FPGA.Native_0 (Barrel_Result06_out),
         .\Using_FPGA.Native_1 (Barrel_Result09_out),
@@ -6215,14 +6101,14 @@ module blockdesign_microblaze_0_0_Data_Flow
         .\Using_FPGA.Native_49 (Operand_Select_I_n_87),
         .\Using_FPGA.Native_5 (Barrel_Result021_out),
         .\Using_FPGA.Native_50 (Operand_Select_I_n_57),
-        .\Using_FPGA.Native_51 (Operand_Select_I_n_148),
-        .\Using_FPGA.Native_52 ({Operand_Select_I_n_98,Operand_Select_I_n_99,Operand_Select_I_n_100,Operand_Select_I_n_101,Operand_Select_I_n_102,Operand_Select_I_n_103,Operand_Select_I_n_104,Operand_Select_I_n_105,Operand_Select_I_n_106,Operand_Select_I_n_107,Operand_Select_I_n_108,Operand_Select_I_n_109,Operand_Select_I_n_110,Operand_Select_I_n_111,Operand_Select_I_n_112,Operand_Select_I_n_113,Operand_Select_I_n_114,Operand_Select_I_n_115,Operand_Select_I_n_116,Operand_Select_I_n_117,Operand_Select_I_n_118,Operand_Select_I_n_119,Operand_Select_I_n_120,Operand_Select_I_n_121,Operand_Select_I_n_122,Operand_Select_I_n_123,Operand_Select_I_n_124,Operand_Select_I_n_125,Operand_Select_I_n_126,Operand_Select_I_n_127,Operand_Select_I_n_128}),
-        .\Using_FPGA.Native_53 ({Operand_Select_I_n_142,Operand_Select_I_n_143,Operand_Select_I_n_144,Operand_Select_I_n_145,Operand_Select_I_n_146,Operand_Select_I_n_147}),
+        .\Using_FPGA.Native_51 ({Operand_Select_I_n_99,Operand_Select_I_n_100,Operand_Select_I_n_101,Operand_Select_I_n_102,Operand_Select_I_n_103,Operand_Select_I_n_104,Operand_Select_I_n_105,Operand_Select_I_n_106,Operand_Select_I_n_107,Operand_Select_I_n_108,Operand_Select_I_n_109,Operand_Select_I_n_110,Operand_Select_I_n_111,Operand_Select_I_n_112,Operand_Select_I_n_113,Operand_Select_I_n_114,Operand_Select_I_n_115,Operand_Select_I_n_116,Operand_Select_I_n_117,Operand_Select_I_n_118,Operand_Select_I_n_119,Operand_Select_I_n_120,Operand_Select_I_n_121,Operand_Select_I_n_122,Operand_Select_I_n_123,Operand_Select_I_n_124,Operand_Select_I_n_125,Operand_Select_I_n_126,Operand_Select_I_n_127,Operand_Select_I_n_128,Operand_Select_I_n_129}),
+        .\Using_FPGA.Native_52 ({Operand_Select_I_n_143,Operand_Select_I_n_144,Operand_Select_I_n_145,Operand_Select_I_n_146,Operand_Select_I_n_147,Operand_Select_I_n_148}),
         .\Using_FPGA.Native_6 (Barrel_Result024_out),
         .\Using_FPGA.Native_7 (Barrel_Result027_out),
         .\Using_FPGA.Native_8 (Barrel_Result030_out),
         .\Using_FPGA.Native_9 (Barrel_Result033_out),
         .in0(in0),
+        .\instr_EX_i_reg[22] (Operand_Select_I_n_149),
         .void_bit(void_bit));
   blockdesign_microblaze_0_0_Zero_Detect Zero_Detect_I
        (.EX_Op1({A,Operand_Select_I_n_2,Operand_Select_I_n_3,Operand_Select_I_n_4,Operand_Select_I_n_5,Operand_Select_I_n_6,Operand_Select_I_n_7,Operand_Select_I_n_8,Operand_Select_I_n_9,Operand_Select_I_n_10,Operand_Select_I_n_11,Operand_Select_I_n_12,Operand_Select_I_n_13,Operand_Select_I_n_14,Operand_Select_I_n_15,Operand_Select_I_n_16,Operand_Select_I_n_17,Operand_Select_I_n_18,Operand_Select_I_n_19,Operand_Select_I_n_20,Operand_Select_I_n_21,Operand_Select_I_n_22,Operand_Select_I_n_23,Operand_Select_I_n_24,Operand_Select_I_n_25,Operand_Select_I_n_26,Operand_Select_I_n_27,Operand_Select_I_n_28,Operand_Select_I_n_29,Operand_Select_I_n_30}),
@@ -6242,15 +6128,16 @@ module blockdesign_microblaze_0_0_Data_Flow
         .op2_C({op2_C[0],op2_C[1],op2_C[2],op2_C[3],op2_C[4],op2_C[5],op2_C[6],op2_C[7],op2_C[8],op2_C[9],op2_C[10],op2_C[11],op2_C[12],op2_C[13],op2_C[14],op2_C[15],op2_C[16],op2_C[17],op2_C[18],op2_C[19],op2_C[20],op2_C[21],op2_C[22],op2_C[23],op2_C[24],op2_C[25],op2_C[26],op2_C[27]}));
 endmodule
 
-(* ORIG_REF_NAME = "Debug" *) 
 module blockdesign_microblaze_0_0_Debug
    (dbg_pause,
     mb_halted_1_reg_0,
+    Sleep,
     dbg_brki_hit,
     LOCKSTEP_Master_Out,
+    force_stop_cmd_i,
+    force_stop_cmd_hold,
     \data_rd_reg_reg[0]_0 ,
     D,
-    \Area_Debug_Control.force_stop_cmd_1_reg_0 ,
     register_write,
     \Using_FPGA.Native ,
     \void_bit16_reg[15] ,
@@ -6259,9 +6146,10 @@ module blockdesign_microblaze_0_0_Debug
     Dbg_Trig_Ack_Out,
     IReady1_out,
     \LOCKSTEP_Out_reg[3] ,
-    \LOCKSTEP_Out_reg[3]_0 ,
+    iFetch_In_Progress_reg,
     SR,
     Dbg_TDO,
+    \Serial_Dbg_Intf.command_reg_reg[1]_0 ,
     Reg_Write,
     \Using_FPGA.Native_0 ,
     Q,
@@ -6271,9 +6159,9 @@ module blockdesign_microblaze_0_0_Debug
     Clk,
     Dbg_Trig_Ack_In,
     Dbg_Trig_Out,
-    Sleep,
     \Area_Debug_Control.dbg_brki_hit_reg_0 ,
     Dbg_Update,
+    no_sleeping,
     of_PipeRun,
     use_Imm_Reg,
     OF_PipeRun,
@@ -6287,18 +6175,17 @@ module blockdesign_microblaze_0_0_Debug
     \Serial_Dbg_Intf.control_reg_reg[8]_0 ,
     Not_Barrel_Op,
     Reset_Mode,
+    Sleep_Decode,
     Scan_Reset,
     Scan_Reset_Sel,
-    Sleep_Decode,
-    Status_Reg_En,
-    Dbg_Reg_En_4_sp_1,
+    Dbg_Reg_En_5_sp_1,
+    Dbg_Reg_En_0_sp_1,
     Dbg_Reg_En,
-    Dbg_Reg_En_6_sp_1,
     Dbg_Shift,
     has_inhibit_EX,
-    Dbg_Reg_En_2_sp_1,
+    \Dbg_Reg_En[0]_0 ,
     Valid_Instr_i,
-    iFetch_In_Progress_reg,
+    iFetch_In_Progress_reg_0,
     \Using_FPGA.Native_1 ,
     wakeup_i,
     reset_delay_reg,
@@ -6306,17 +6193,17 @@ module blockdesign_microblaze_0_0_Debug
     Is_Equal,
     Dbg_TDI,
     Address,
-    \Using_LWX_SWX_instr.reservation_reg ,
-    \Using_FPGA.Native_2 ,
-    take_Intr_Now_III,
-    S105_out);
+    ex_Valid_reg,
+    \Using_FPGA.Native_2 );
   output dbg_pause;
   output mb_halted_1_reg_0;
+  output Sleep;
   output dbg_brki_hit;
   output [36:0]LOCKSTEP_Master_Out;
+  output force_stop_cmd_i;
+  output force_stop_cmd_hold;
   output \data_rd_reg_reg[0]_0 ;
   output [0:0]D;
-  output \Area_Debug_Control.force_stop_cmd_1_reg_0 ;
   output register_write;
   output \Using_FPGA.Native ;
   output \void_bit16_reg[15] ;
@@ -6325,9 +6212,10 @@ module blockdesign_microblaze_0_0_Debug
   output [1:0]Dbg_Trig_Ack_Out;
   output IReady1_out;
   output \LOCKSTEP_Out_reg[3] ;
-  output \LOCKSTEP_Out_reg[3]_0 ;
+  output iFetch_In_Progress_reg;
   output [0:0]SR;
   output Dbg_TDO;
+  output \Serial_Dbg_Intf.command_reg_reg[1]_0 ;
   output Reg_Write;
   output \Using_FPGA.Native_0 ;
   output [0:0]Q;
@@ -6337,9 +6225,9 @@ module blockdesign_microblaze_0_0_Debug
   input Clk;
   input [1:0]Dbg_Trig_Ack_In;
   input [1:0]Dbg_Trig_Out;
-  input Sleep;
   input \Area_Debug_Control.dbg_brki_hit_reg_0 ;
   input Dbg_Update;
+  input no_sleeping;
   input of_PipeRun;
   input use_Imm_Reg;
   input OF_PipeRun;
@@ -6353,18 +6241,17 @@ module blockdesign_microblaze_0_0_Debug
   input \Serial_Dbg_Intf.control_reg_reg[8]_0 ;
   input Not_Barrel_Op;
   input [0:1]Reset_Mode;
+  input Sleep_Decode;
   input Scan_Reset;
   input Scan_Reset_Sel;
-  input Sleep_Decode;
-  input Status_Reg_En;
-  input Dbg_Reg_En_4_sp_1;
+  input Dbg_Reg_En_5_sp_1;
+  input Dbg_Reg_En_0_sp_1;
   input [0:7]Dbg_Reg_En;
-  input Dbg_Reg_En_6_sp_1;
   input Dbg_Shift;
   input has_inhibit_EX;
-  input Dbg_Reg_En_2_sp_1;
+  input \Dbg_Reg_En[0]_0 ;
   input Valid_Instr_i;
-  input [31:0]iFetch_In_Progress_reg;
+  input [31:0]iFetch_In_Progress_reg_0;
   input [28:0]\Using_FPGA.Native_1 ;
   input [0:1]wakeup_i;
   input reset_delay_reg;
@@ -6372,10 +6259,8 @@ module blockdesign_microblaze_0_0_Debug
   input Is_Equal;
   input Dbg_TDI;
   input [0:31]Address;
-  input [0:0]\Using_LWX_SWX_instr.reservation_reg ;
+  input [0:0]ex_Valid_reg;
   input [2:0]\Using_FPGA.Native_2 ;
-  input take_Intr_Now_III;
-  input S105_out;
 
   wire A1;
   wire A2;
@@ -6420,7 +6305,8 @@ module blockdesign_microblaze_0_0_Debug
   wire \Area_Debug_Control.dbg_brki_hit_reg_0 ;
   wire \Area_Debug_Control.dbg_hit[0]_i_1_n_0 ;
   wire \Area_Debug_Control.dbg_stop_Detected_reg_n_0 ;
-  wire \Area_Debug_Control.force_stop_cmd_1_reg_0 ;
+  wire \Area_Debug_Control.force_stop_cmd_1_i_1_n_0 ;
+  wire \Area_Debug_Control.force_stop_cmd_hold_i_1_n_0 ;
   wire \Area_Debug_Control.force_stop_i_i_1_n_0 ;
   wire \Area_Debug_Control.force_stop_i_reg_n_0 ;
   wire \Area_Debug_Control.saved_reset_mode_sleep_1_i_1_n_0 ;
@@ -6431,15 +6317,17 @@ module blockdesign_microblaze_0_0_Debug
   wire Dbg_Capture;
   wire Dbg_Clk;
   wire [0:7]Dbg_Reg_En;
-  wire Dbg_Reg_En_2_sn_1;
-  wire Dbg_Reg_En_4_sn_1;
-  wire Dbg_Reg_En_6_sn_1;
+  wire \Dbg_Reg_En[0]_0 ;
+  wire Dbg_Reg_En_0_sn_1;
+  wire Dbg_Reg_En_5_sn_1;
   wire Dbg_Shift;
   wire Dbg_Stop;
   wire Dbg_TDI;
   wire Dbg_TDO;
   wire Dbg_TDO_INST_0_i_10_n_0;
+  wire Dbg_TDO_INST_0_i_11_n_0;
   wire Dbg_TDO_INST_0_i_12_n_0;
+  wire Dbg_TDO_INST_0_i_15_n_0;
   wire Dbg_TDO_INST_0_i_16_n_0;
   wire Dbg_TDO_INST_0_i_17_n_0;
   wire Dbg_TDO_INST_0_i_18_n_0;
@@ -6453,12 +6341,10 @@ module blockdesign_microblaze_0_0_Debug
   wire Dbg_TDO_INST_0_i_25_n_0;
   wire Dbg_TDO_INST_0_i_26_n_0;
   wire Dbg_TDO_INST_0_i_27_n_0;
-  wire Dbg_TDO_INST_0_i_28_n_0;
-  wire Dbg_TDO_INST_0_i_29_n_0;
-  wire Dbg_TDO_INST_0_i_35_n_0;
+  wire Dbg_TDO_INST_0_i_33_n_0;
   wire Dbg_TDO_INST_0_i_3_n_0;
+  wire Dbg_TDO_INST_0_i_4_n_0;
   wire Dbg_TDO_INST_0_i_5_n_0;
-  wire Dbg_TDO_INST_0_i_6_n_0;
   wire Dbg_TDO_INST_0_i_7_n_0;
   wire Dbg_TDO_INST_0_i_8_n_0;
   wire Dbg_TDO_INST_0_i_9_n_0;
@@ -6476,13 +6362,13 @@ module blockdesign_microblaze_0_0_Debug
   wire Is_Equal;
   wire [36:0]LOCKSTEP_Master_Out;
   wire \LOCKSTEP_Out_reg[3] ;
-  wire \LOCKSTEP_Out_reg[3]_0 ;
   wire New_Dbg_Instr2_TCK;
   wire New_Dbg_Instr_TCK;
   wire Not_Barrel_Op;
   wire OF_PipeRun;
   wire Pause;
   wire [0:0]Q;
+  wire Q0_in;
   wire Q0_out;
   wire Q11_in;
   wire Q2_in;
@@ -6496,22 +6382,20 @@ module blockdesign_microblaze_0_0_Debug
   wire Reg_Write;
   wire [0:1]Reset_Mode;
   wire S;
-  wire S105_out;
   wire [0:0]SR;
   wire Scan_Reset;
   wire Scan_Reset_Sel;
   wire \Serial_Dbg_Intf.New_Dbg_Instr_TCK_i_2_n_0 ;
-  wire \Serial_Dbg_Intf.SRL16E_4_n_0 ;
-  wire \Serial_Dbg_Intf.SRL16E_7_n_0 ;
+  wire \Serial_Dbg_Intf.SRL16E_8_n_0 ;
+  wire \Serial_Dbg_Intf.The_Cache_Addresses[2].SRL16E_Cache_I_n_0 ;
   wire \Serial_Dbg_Intf.The_Cache_Addresses[6].SRL16E_Cache_I_n_0 ;
-  wire \Serial_Dbg_Intf.command_reg[0]_i_3_n_0 ;
+  wire \Serial_Dbg_Intf.command_reg_reg[1]_0 ;
   wire \Serial_Dbg_Intf.continue_from_brk_reg_n_0 ;
   wire \Serial_Dbg_Intf.control_reg_reg[8]_0 ;
   wire \Serial_Dbg_Intf.control_reg_reg_n_0_[0] ;
   wire \Serial_Dbg_Intf.control_reg_reg_n_0_[3] ;
   wire \Serial_Dbg_Intf.control_reg_reg_n_0_[4] ;
   wire \Serial_Dbg_Intf.control_reg_reg_n_0_[5] ;
-  wire \Serial_Dbg_Intf.dbg_wakeup_i_i_3_n_0 ;
   wire \Serial_Dbg_Intf.new_dbg_instr_shifting_CLK_reg_n_0 ;
   wire \Serial_Dbg_Intf.sample_synced_1_reg_n_0_[0] ;
   wire \Serial_Dbg_Intf.sample_synced_1_reg_n_0_[1] ;
@@ -6575,15 +6459,12 @@ module blockdesign_microblaze_0_0_Debug
   wire Sleep;
   wire Sleep_Decode;
   wire Sleep_Out;
-  wire Status_Reg_En;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire [28:0]\Using_FPGA.Native_1 ;
   wire [2:0]\Using_FPGA.Native_2 ;
-  wire [0:0]\Using_LWX_SWX_instr.reservation_reg ;
   wire \Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ;
   wire \Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_1 ;
-  wire \Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_2 ;
   wire Valid_Instr_i;
   wire branch_with_delay;
   wire capture_1;
@@ -6605,6 +6486,7 @@ module blockdesign_microblaze_0_0_Debug
   wire dbg_halt_reset_mode_reg_n_0;
   wire dbg_pause;
   wire dbg_stop_1;
+  wire [0:0]ex_Valid_reg;
   wire exception;
   wire exception_i_2_n_0;
   wire executing;
@@ -6615,7 +6497,8 @@ module blockdesign_microblaze_0_0_Debug
   wire force_stop_cmd_i;
   wire force_stop_cmd_rst;
   wire has_inhibit_EX;
-  wire [31:0]iFetch_In_Progress_reg;
+  wire iFetch_In_Progress_reg;
+  wire [31:0]iFetch_In_Progress_reg_0;
   wire [0:1]instr_read_reg;
   wire mb_halted_1;
   wire mb_halted_1_reg_0;
@@ -6631,7 +6514,6 @@ module blockdesign_microblaze_0_0_Debug
   wire p_0_in_1;
   wire p_12_out__0;
   wire p_1_in;
-  wire p_2_out;
   wire p_3_out;
   wire p_62_out;
   wire p_69_out;
@@ -6681,8 +6563,6 @@ module blockdesign_microblaze_0_0_Debug
   wire sync_reset;
   wire sync_trig_ack_in_0_n_1;
   wire sync_trig_out_0_n_1;
-  wire take_Intr_Now_III;
-  wire tdo_config_word1_0;
   wire trig_ack_in_0_synced;
   wire trig_ack_in_0_synced_1;
   wire trig_out_0_synced;
@@ -6693,12 +6573,10 @@ module blockdesign_microblaze_0_0_Debug
   wire [0:1]wakeup_i;
   wire wb_read_imm_reg_1_i;
 
-  assign Dbg_Reg_En_2_sn_1 = Dbg_Reg_En_2_sp_1;
-  assign Dbg_Reg_En_4_sn_1 = Dbg_Reg_En_4_sp_1;
-  assign Dbg_Reg_En_6_sn_1 = Dbg_Reg_En_6_sp_1;
+  assign Dbg_Reg_En_0_sn_1 = Dbg_Reg_En_0_sp_1;
+  assign Dbg_Reg_En_5_sn_1 = Dbg_Reg_En_5_sp_1;
   blockdesign_microblaze_0_0_MB_FDRSE \Area_Debug_Control.Dbg_Inhibit_EX_FDRSE 
-       (.\Area_Debug_Control.normal_stop_cmd_hold_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
-        .Clk(Clk),
+       (.Clk(Clk),
         .Dbg_Clean_Stop_reg(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_1 ),
         .Is_Equal(Is_Equal),
         .Not_Barrel_Op(Not_Barrel_Op),
@@ -6708,6 +6586,7 @@ module blockdesign_microblaze_0_0_Debug
         .S(S),
         .SR(SR),
         .\Serial_Dbg_Intf.continue_from_brk_reg (\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
         .\Using_FPGA.Native_0 (\Area_Debug_Control.Dbg_Inhibit_EX_FDRSE_n_2 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .clz_instr(clz_instr),
@@ -6721,13 +6600,13 @@ module blockdesign_microblaze_0_0_Debug
   blockdesign_microblaze_0_0_MB_FDRSE_17 \Area_Debug_Control.Stop_CPU_FDRSE 
        (.\Area_Debug_Control.dbg_stop_Detected_reg (\Area_Debug_Control.Stop_CPU_FDRSE_n_1 ),
         .\Area_Debug_Control.dbg_stop_Detected_reg_0 (\Area_Debug_Control.dbg_stop_Detected_reg_n_0 ),
-        .\Area_Debug_Control.normal_stop_cmd_hold_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
         .Clk(Clk),
         .Dbg_Clean_Stop_reg(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_1 ),
         .Dbg_Stop(Dbg_Stop),
         .Reset_Mode(Reset_Mode),
         .S(S),
         .\Serial_Dbg_Intf.control_reg_reg[0] (\Area_Debug_Control.Dbg_Inhibit_EX_FDRSE_n_2 ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
         .\Serial_Dbg_Intf.new_dbg_instr_shifting_CLK_reg (\Serial_Dbg_Intf.new_dbg_instr_shifting_CLK_reg_n_0 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .dbg_stop_1(dbg_stop_1),
@@ -6736,17 +6615,18 @@ module blockdesign_microblaze_0_0_Debug
         .trig_out_0_synced_1(trig_out_0_synced_1));
   blockdesign_microblaze_0_0_MB_FDRSE_18 \Area_Debug_Control.Stop_Instr_Fetch_FDRSE 
        (.\Area_Debug_Control.dbg_stop_Detected_reg (\Area_Debug_Control.dbg_stop_Detected_reg_n_0 ),
+        .\Area_Debug_Control.force_stop_cmd_hold_reg (force_stop_cmd_hold),
         .\Area_Debug_Control.force_stop_i_reg (exception_i_2_n_0),
         .\Area_Debug_Control.mb_halted_i_reg (\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_4 ),
-        .\Area_Debug_Control.normal_stop_cmd_hold_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
         .\Area_Optimized.register_write_reg (register_write),
         .Clk(Clk),
         .D({\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_7 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_8 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_9 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_10 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_11 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_12 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_13 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_14 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_15 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_16 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_17 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_18 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_19 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_20 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_21 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_22 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_23 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_24 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_25 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_26 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_27 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_28 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_29 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_30 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_31 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_32 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_33 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_34 ,\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_35 }),
         .E(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_5 ),
-        .\LOCKSTEP_Out_reg[3] (\LOCKSTEP_Out_reg[3]_0 ),
         .Reset_Mode(Reset_Mode),
         .S(S),
         .\Serial_Dbg_Intf.control_reg_reg[0] (\Area_Debug_Control.Dbg_Inhibit_EX_FDRSE_n_2 ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (force_stop_cmd_i),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg_0 (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
         .\Serial_Dbg_Intf.if_debug_ready_i_reg (LOCKSTEP_Master_Out[35]),
         .\Serial_Dbg_Intf.sample_synced_1_reg[6] (\Serial_Dbg_Intf.sample_synced_1_reg_n_0_[6] ),
         .\Single_Synchronize.use_async_reset.sync_reg (LOCKSTEP_Master_Out[34]),
@@ -6759,8 +6639,8 @@ module blockdesign_microblaze_0_0_Debug
         .dbg_halt_reset_mode_reg(dbg_halt_reset_mode_reg_n_0),
         .exception_reg(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_36 ),
         .exception_reg_0(exception),
-        .force_stop_cmd_hold(force_stop_cmd_hold),
-        .force_stop_cmd_i(force_stop_cmd_i),
+        .iFetch_In_Progress_reg(iFetch_In_Progress_reg),
+        .mul_Executing_done_reg(iFetch_In_Progress_reg_0[30:0]),
         .normal_stop_cmd_hold(normal_stop_cmd_hold),
         .normal_stop_cmd_i(normal_stop_cmd_i),
         .ok_To_Stop(ok_To_Stop),
@@ -6770,8 +6650,7 @@ module blockdesign_microblaze_0_0_Debug
         .saved_reset_mode_sleep(saved_reset_mode_sleep),
         .saved_reset_mode_sleep_1(saved_reset_mode_sleep_1),
         .sleep_reset_mode_reg(Sleep_Out),
-        .sync_reset(sync_reset),
-        .trace_valid_instr_part1_reg(iFetch_In_Progress_reg[30:0]));
+        .sync_reset(sync_reset));
   FDRE \Area_Debug_Control.dbg_brki_hit_reg 
        (.C(Clk),
         .CE(1'b1),
@@ -6810,32 +6689,39 @@ module blockdesign_microblaze_0_0_Debug
         .D(\Area_Debug_Control.Stop_CPU_FDRSE_n_1 ),
         .Q(\Area_Debug_Control.dbg_stop_Detected_reg_n_0 ),
         .R(sync_reset));
+  (* SOFT_HLUTNM = "soft_lutpair48" *) 
+  LUT2 #(
+    .INIT(4'hE)) 
+    \Area_Debug_Control.force_stop_cmd_1_i_1 
+       (.I0(force_stop_cmd_hold),
+        .I1(force_stop_cmd_i),
+        .O(\Area_Debug_Control.force_stop_cmd_1_i_1_n_0 ));
   FDRE \Area_Debug_Control.force_stop_cmd_1_reg 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Area_Debug_Control.force_stop_cmd_1_reg_0 ),
+        .D(\Area_Debug_Control.force_stop_cmd_1_i_1_n_0 ),
         .Q(force_stop_cmd_1),
         .R(sync_reset));
   LUT3 #(
     .INIT(8'h0E)) 
     \Area_Debug_Control.force_stop_cmd_hold_i_1 
-       (.I0(force_stop_cmd_hold),
-        .I1(force_stop_cmd_i),
+       (.I0(force_stop_cmd_i),
+        .I1(force_stop_cmd_hold),
         .I2(ok_To_Stop),
-        .O(p_2_out));
+        .O(\Area_Debug_Control.force_stop_cmd_hold_i_1_n_0 ));
   FDRE \Area_Debug_Control.force_stop_cmd_hold_reg 
        (.C(Clk),
         .CE(1'b1),
-        .D(p_2_out),
+        .D(\Area_Debug_Control.force_stop_cmd_hold_i_1_n_0 ),
         .Q(force_stop_cmd_hold),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair41" *) 
+  (* SOFT_HLUTNM = "soft_lutpair48" *) 
   LUT5 #(
     .INIT(32'h55550100)) 
     \Area_Debug_Control.force_stop_i_i_1 
        (.I0(mb_halted_1_reg_0),
-        .I1(force_stop_cmd_hold),
-        .I2(force_stop_cmd_i),
+        .I1(force_stop_cmd_i),
+        .I2(force_stop_cmd_hold),
         .I3(force_stop_cmd_1),
         .I4(\Area_Debug_Control.force_stop_i_reg_n_0 ),
         .O(\Area_Debug_Control.force_stop_i_i_1_n_0 ));
@@ -6856,8 +6742,8 @@ module blockdesign_microblaze_0_0_Debug
     \Area_Debug_Control.normal_stop_cmd_hold_i_1 
        (.I0(normal_stop_cmd_hold),
         .I1(normal_stop_cmd_i),
-        .I2(force_stop_cmd_hold),
-        .I3(force_stop_cmd_i),
+        .I2(force_stop_cmd_i),
+        .I3(force_stop_cmd_hold),
         .I4(dbg_clean_stop),
         .I5(ok_To_Stop),
         .O(p_3_out));
@@ -6867,7 +6753,7 @@ module blockdesign_microblaze_0_0_Debug
         .D(p_3_out),
         .Q(normal_stop_cmd_hold),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair46" *) 
+  (* SOFT_HLUTNM = "soft_lutpair49" *) 
   LUT4 #(
     .INIT(16'h0CAA)) 
     \Area_Debug_Control.saved_reset_mode_sleep_1_i_1 
@@ -6891,8 +6777,8 @@ module blockdesign_microblaze_0_0_Debug
   LUT2 #(
     .INIT(4'hE)) 
     \Area_Debug_Control.step_continue_1_i_1 
-       (.I0(\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
-        .I1(start_single_step_reg_n_0),
+       (.I0(start_single_step_reg_n_0),
+        .I1(\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
         .O(step_continue));
   FDRE \Area_Debug_Control.step_continue_1_reg 
        (.C(Clk),
@@ -6925,7 +6811,7 @@ module blockdesign_microblaze_0_0_Debug
         .Q(wb_read_imm_reg_1_i),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'h00000000FCFF17D7)) 
+    .INIT(64'h00000000FDFD437F)) 
     Dbg_TDO_INST_0_i_1
        (.I0(Dbg_TDO_INST_0_i_7_n_0),
         .I1(sel0_2),
@@ -6935,99 +6821,117 @@ module blockdesign_microblaze_0_0_Debug
         .I5(Dbg_TDO_INST_0_i_10_n_0),
         .O(Dbg_TDO_INST_0_i_1_n_0));
   LUT6 #(
-    .INIT(64'h55555555555D5555)) 
+    .INIT(64'hEEEEEEEFEEEEEEEE)) 
     Dbg_TDO_INST_0_i_10
-       (.I0(\Serial_Dbg_Intf.command_reg[0]_i_3_n_0 ),
-        .I1(data_read_reg[0]),
+       (.I0(\Dbg_Reg_En[0]_0 ),
+        .I1(Dbg_TDO_INST_0_i_12_n_0),
         .I2(sel0[1]),
-        .I3(A3),
-        .I4(Dbg_TDO_INST_0_i_29_n_0),
-        .I5(sel0_2),
+        .I3(Dbg_TDO_INST_0_i_8_n_0),
+        .I4(sel0_2),
+        .I5(data_read_reg[0]),
         .O(Dbg_TDO_INST_0_i_10_n_0));
-  LUT6 #(
-    .INIT(64'h1110111111101010)) 
+  (* SOFT_HLUTNM = "soft_lutpair55" *) 
+  LUT3 #(
+    .INIT(8'hB8)) 
+    Dbg_TDO_INST_0_i_11
+       (.I0(instr_read_reg[1]),
+        .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I2(instr_read_reg[0]),
+        .O(Dbg_TDO_INST_0_i_11_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair52" *) 
+  LUT4 #(
+    .INIT(16'hFFEF)) 
     Dbg_TDO_INST_0_i_12
-       (.I0(Dbg_Reg_En[7]),
-        .I1(Dbg_Reg_En_2_sn_1),
-        .I2(Dbg_Reg_En[6]),
-        .I3(instr_read_reg[1]),
-        .I4(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I5(instr_read_reg[0]),
+       (.I0(Dbg_Reg_En[1]),
+        .I1(Dbg_Reg_En[3]),
+        .I2(Dbg_Reg_En[5]),
+        .I3(Dbg_Reg_En[4]),
         .O(Dbg_TDO_INST_0_i_12_n_0));
-  LUT5 #(
-    .INIT(32'hB833B800)) 
-    Dbg_TDO_INST_0_i_16
-       (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[27] ),
-        .I1(A1),
-        .I2(\Serial_Dbg_Intf.status_reg_reg_n_0_[29] ),
-        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(\Serial_Dbg_Intf.status_reg_reg_n_0_[28] ),
-        .O(Dbg_TDO_INST_0_i_16_n_0));
-  LUT6 #(
-    .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    Dbg_TDO_INST_0_i_17
-       (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[23] ),
-        .I1(\Serial_Dbg_Intf.status_reg_reg_n_0_[22] ),
-        .I2(A1),
-        .I3(\Serial_Dbg_Intf.status_reg_reg_n_0_[25] ),
-        .I4(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I5(\Serial_Dbg_Intf.status_reg_reg_n_0_[24] ),
-        .O(Dbg_TDO_INST_0_i_17_n_0));
   LUT6 #(
     .INIT(64'h2B2B2B2828282B28)) 
-    Dbg_TDO_INST_0_i_18
-       (.I0(Dbg_TDO_INST_0_i_35_n_0),
-        .I1(A2),
-        .I2(A1),
+    Dbg_TDO_INST_0_i_15
+       (.I0(Dbg_TDO_INST_0_i_33_n_0),
+        .I1(A1),
+        .I2(A2),
         .I3(\Serial_Dbg_Intf.status_reg_reg_n_0_[16] ),
         .I4(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I5(\Serial_Dbg_Intf.status_reg_reg_n_0_[17] ),
+        .O(Dbg_TDO_INST_0_i_15_n_0));
+  LUT5 #(
+    .INIT(32'hFA0C0A0C)) 
+    Dbg_TDO_INST_0_i_16
+       (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[29] ),
+        .I1(\Serial_Dbg_Intf.status_reg_reg_n_0_[28] ),
+        .I2(A1),
+        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I4(\Serial_Dbg_Intf.status_reg_reg_n_0_[27] ),
+        .O(Dbg_TDO_INST_0_i_16_n_0));
+  LUT6 #(
+    .INIT(64'hF0FFF000AACCAACC)) 
+    Dbg_TDO_INST_0_i_17
+       (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[25] ),
+        .I1(\Serial_Dbg_Intf.status_reg_reg_n_0_[24] ),
+        .I2(\Serial_Dbg_Intf.status_reg_reg_n_0_[23] ),
+        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I4(\Serial_Dbg_Intf.status_reg_reg_n_0_[22] ),
+        .I5(A1),
+        .O(Dbg_TDO_INST_0_i_17_n_0));
+  LUT6 #(
+    .INIT(64'hFACF0ACFFAC00AC0)) 
+    Dbg_TDO_INST_0_i_18
+       (.I0(data_read_reg[29]),
+        .I1(data_read_reg[30]),
+        .I2(A1),
+        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I4(data_read_reg[31]),
+        .I5(data_read_reg[32]),
         .O(Dbg_TDO_INST_0_i_18_n_0));
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
     Dbg_TDO_INST_0_i_19
-       (.I0(data_read_reg[5]),
-        .I1(data_read_reg[6]),
+       (.I0(data_read_reg[25]),
+        .I1(data_read_reg[26]),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[7]),
-        .I5(data_read_reg[8]),
+        .I4(data_read_reg[27]),
+        .I5(data_read_reg[28]),
         .O(Dbg_TDO_INST_0_i_19_n_0));
-  LUT6 #(
-    .INIT(64'hFACF0ACFFAC00AC0)) 
-    Dbg_TDO_INST_0_i_20
-       (.I0(data_read_reg[1]),
-        .I1(data_read_reg[2]),
-        .I2(A1),
-        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[3]),
-        .I5(data_read_reg[4]),
-        .O(Dbg_TDO_INST_0_i_20_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair48" *) 
+  (* SOFT_HLUTNM = "soft_lutpair46" *) 
   LUT4 #(
-    .INIT(16'h5556)) 
-    Dbg_TDO_INST_0_i_21
+    .INIT(16'hAAA9)) 
+    Dbg_TDO_INST_0_i_20
        (.I0(A3),
         .I1(A2),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .O(Dbg_TDO_INST_0_i_21_n_0));
+        .O(Dbg_TDO_INST_0_i_20_n_0));
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
-    Dbg_TDO_INST_0_i_22
-       (.I0(data_read_reg[9]),
-        .I1(data_read_reg[10]),
+    Dbg_TDO_INST_0_i_21
+       (.I0(data_read_reg[21]),
+        .I1(data_read_reg[22]),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[11]),
-        .I5(data_read_reg[12]),
-        .O(Dbg_TDO_INST_0_i_22_n_0));
+        .I4(data_read_reg[23]),
+        .I5(data_read_reg[24]),
+        .O(Dbg_TDO_INST_0_i_21_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair53" *) 
   LUT3 #(
-    .INIT(8'h56)) 
-    Dbg_TDO_INST_0_i_23
+    .INIT(8'hA9)) 
+    Dbg_TDO_INST_0_i_22
        (.I0(A2),
         .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I2(A1),
+        .O(Dbg_TDO_INST_0_i_22_n_0));
+  LUT6 #(
+    .INIT(64'hFACF0ACFFAC00AC0)) 
+    Dbg_TDO_INST_0_i_23
+       (.I0(data_read_reg[17]),
+        .I1(data_read_reg[18]),
+        .I2(A1),
+        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I4(data_read_reg[19]),
+        .I5(data_read_reg[20]),
         .O(Dbg_TDO_INST_0_i_23_n_0));
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
@@ -7042,100 +6946,82 @@ module blockdesign_microblaze_0_0_Debug
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
     Dbg_TDO_INST_0_i_25
-       (.I0(data_read_reg[21]),
-        .I1(data_read_reg[22]),
+       (.I0(data_read_reg[9]),
+        .I1(data_read_reg[10]),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[23]),
-        .I5(data_read_reg[24]),
+        .I4(data_read_reg[11]),
+        .I5(data_read_reg[12]),
         .O(Dbg_TDO_INST_0_i_25_n_0));
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
     Dbg_TDO_INST_0_i_26
-       (.I0(data_read_reg[17]),
-        .I1(data_read_reg[18]),
+       (.I0(data_read_reg[5]),
+        .I1(data_read_reg[6]),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[19]),
-        .I5(data_read_reg[20]),
+        .I4(data_read_reg[7]),
+        .I5(data_read_reg[8]),
         .O(Dbg_TDO_INST_0_i_26_n_0));
   LUT6 #(
     .INIT(64'hFACF0ACFFAC00AC0)) 
     Dbg_TDO_INST_0_i_27
-       (.I0(data_read_reg[25]),
-        .I1(data_read_reg[26]),
+       (.I0(data_read_reg[1]),
+        .I1(data_read_reg[2]),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[27]),
-        .I5(data_read_reg[28]),
+        .I4(data_read_reg[3]),
+        .I5(data_read_reg[4]),
         .O(Dbg_TDO_INST_0_i_27_n_0));
   LUT6 #(
-    .INIT(64'hFACF0ACFFAC00AC0)) 
-    Dbg_TDO_INST_0_i_28
-       (.I0(data_read_reg[29]),
-        .I1(data_read_reg[30]),
-        .I2(A1),
-        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I4(data_read_reg[31]),
-        .I5(data_read_reg[32]),
-        .O(Dbg_TDO_INST_0_i_28_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair49" *) 
-  LUT3 #(
-    .INIT(8'h01)) 
-    Dbg_TDO_INST_0_i_29
-       (.I0(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I1(A1),
-        .I2(A2),
-        .O(Dbg_TDO_INST_0_i_29_n_0));
-  LUT6 #(
-    .INIT(64'h0FFFFFFFF0000002)) 
+    .INIT(64'hBEEEB22E8EE28222)) 
     Dbg_TDO_INST_0_i_3
-       (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[0] ),
-        .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .I2(A1),
-        .I3(A2),
-        .I4(A3),
-        .I5(sel0_2),
+       (.I0(Dbg_TDO_INST_0_i_15_n_0),
+        .I1(A3),
+        .I2(A2),
+        .I3(A1),
+        .I4(Dbg_TDO_INST_0_i_16_n_0),
+        .I5(Dbg_TDO_INST_0_i_17_n_0),
         .O(Dbg_TDO_INST_0_i_3_n_0));
   LUT5 #(
     .INIT(32'hA0A0CFC0)) 
-    Dbg_TDO_INST_0_i_35
+    Dbg_TDO_INST_0_i_33
        (.I0(\Serial_Dbg_Intf.status_reg_reg_n_0_[19] ),
         .I1(\Serial_Dbg_Intf.status_reg_reg_n_0_[18] ),
         .I2(A1),
         .I3(\Serial_Dbg_Intf.status_reg_reg_n_0_[20] ),
         .I4(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
-        .O(Dbg_TDO_INST_0_i_35_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair49" *) 
+        .O(Dbg_TDO_INST_0_i_33_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair51" *) 
   LUT4 #(
     .INIT(16'h9555)) 
+    Dbg_TDO_INST_0_i_4
+       (.I0(sel0_2),
+        .I1(A1),
+        .I2(A2),
+        .I3(A3),
+        .O(Dbg_TDO_INST_0_i_4_n_0));
+  LUT6 #(
+    .INIT(64'h0000000100000000)) 
     Dbg_TDO_INST_0_i_5
        (.I0(sel0_2),
         .I1(A3),
         .I2(A2),
         .I3(A1),
+        .I4(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I5(\Serial_Dbg_Intf.status_reg_reg_n_0_[0] ),
         .O(Dbg_TDO_INST_0_i_5_n_0));
   LUT6 #(
-    .INIT(64'hFCAFAFCF0CA0A0C0)) 
-    Dbg_TDO_INST_0_i_6
-       (.I0(Dbg_TDO_INST_0_i_16_n_0),
-        .I1(Dbg_TDO_INST_0_i_17_n_0),
-        .I2(A3),
-        .I3(A1),
-        .I4(A2),
-        .I5(Dbg_TDO_INST_0_i_18_n_0),
-        .O(Dbg_TDO_INST_0_i_6_n_0));
-  LUT6 #(
-    .INIT(64'hCFC0AFAFCFC0A0A0)) 
+    .INIT(64'hAFA0CFCFAFA0C0C0)) 
     Dbg_TDO_INST_0_i_7
-       (.I0(Dbg_TDO_INST_0_i_19_n_0),
-        .I1(Dbg_TDO_INST_0_i_20_n_0),
-        .I2(Dbg_TDO_INST_0_i_21_n_0),
-        .I3(Dbg_TDO_INST_0_i_22_n_0),
-        .I4(Dbg_TDO_INST_0_i_23_n_0),
-        .I5(Dbg_TDO_INST_0_i_24_n_0),
+       (.I0(Dbg_TDO_INST_0_i_18_n_0),
+        .I1(Dbg_TDO_INST_0_i_19_n_0),
+        .I2(Dbg_TDO_INST_0_i_20_n_0),
+        .I3(Dbg_TDO_INST_0_i_21_n_0),
+        .I4(Dbg_TDO_INST_0_i_22_n_0),
+        .I5(Dbg_TDO_INST_0_i_23_n_0),
         .O(Dbg_TDO_INST_0_i_7_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair42" *) 
+  (* SOFT_HLUTNM = "soft_lutpair53" *) 
   LUT4 #(
     .INIT(16'hFFFE)) 
     Dbg_TDO_INST_0_i_8
@@ -7145,14 +7031,14 @@ module blockdesign_microblaze_0_0_Debug
         .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .O(Dbg_TDO_INST_0_i_8_n_0));
   LUT6 #(
-    .INIT(64'hCFC0AFAFCFC0A0A0)) 
+    .INIT(64'hAFA0CFCFAFA0C0C0)) 
     Dbg_TDO_INST_0_i_9
-       (.I0(Dbg_TDO_INST_0_i_25_n_0),
-        .I1(Dbg_TDO_INST_0_i_26_n_0),
-        .I2(Dbg_TDO_INST_0_i_21_n_0),
-        .I3(Dbg_TDO_INST_0_i_27_n_0),
-        .I4(Dbg_TDO_INST_0_i_23_n_0),
-        .I5(Dbg_TDO_INST_0_i_28_n_0),
+       (.I0(Dbg_TDO_INST_0_i_24_n_0),
+        .I1(Dbg_TDO_INST_0_i_25_n_0),
+        .I2(Dbg_TDO_INST_0_i_20_n_0),
+        .I3(Dbg_TDO_INST_0_i_26_n_0),
+        .I4(Dbg_TDO_INST_0_i_22_n_0),
+        .I5(Dbg_TDO_INST_0_i_27_n_0),
         .O(Dbg_TDO_INST_0_i_9_n_0));
   FDRE Full_32_bit_1_reg
        (.C(Clk),
@@ -7169,24 +7055,17 @@ module blockdesign_microblaze_0_0_Debug
   LUT2 #(
     .INIT(4'h1)) 
     I_AS_INST_0_i_1
-       (.I0(IReady),
-        .I1(LOCKSTEP_Master_Out[35]),
+       (.I0(LOCKSTEP_Master_Out[35]),
+        .I1(IReady),
         .O(\LOCKSTEP_Out_reg[3] ));
-  (* SOFT_HLUTNM = "soft_lutpair41" *) 
-  LUT2 #(
-    .INIT(4'hE)) 
-    \LOCKSTEP_Master_Out[1]_INST_0_i_1 
-       (.I0(force_stop_cmd_hold),
-        .I1(force_stop_cmd_i),
-        .O(\Area_Debug_Control.force_stop_cmd_1_reg_0 ));
   LUT5 #(
-    .INIT(32'h00000004)) 
+    .INIT(32'h00000001)) 
     \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_i_1 
-       (.I0(Dbg_Reg_En[4]),
-        .I1(Dbg_Reg_En[5]),
-        .I2(Dbg_Reg_En[1]),
-        .I3(Dbg_Reg_En[3]),
-        .I4(\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_2 ),
+       (.I0(Dbg_TDO_INST_0_i_12_n_0),
+        .I1(Dbg_Reg_En[6]),
+        .I2(Dbg_Reg_En[0]),
+        .I3(Dbg_Reg_En[2]),
+        .I4(Dbg_Reg_En[7]),
         .O(Instr_Insert_Reg_En));
   FDCE #(
     .INIT(1'b0)) 
@@ -7214,13 +7093,13 @@ module blockdesign_microblaze_0_0_Debug
         .I4(sel0_2),
         .I5(\Serial_Dbg_Intf.New_Dbg_Instr_TCK_i_2_n_0 ),
         .O(p_83_out));
-  (* SOFT_HLUTNM = "soft_lutpair48" *) 
+  (* SOFT_HLUTNM = "soft_lutpair51" *) 
   LUT3 #(
     .INIT(8'h80)) 
     \Serial_Dbg_Intf.New_Dbg_Instr_TCK_i_2 
-       (.I0(A1),
+       (.I0(A3),
         .I1(A2),
-        .I2(A3),
+        .I2(A1),
         .O(\Serial_Dbg_Intf.New_Dbg_Instr_TCK_i_2_n_0 ));
   FDCE #(
     .INIT(1'b0)) 
@@ -7500,43 +7379,43 @@ module blockdesign_microblaze_0_0_Debug
         .Q2_in(Q2_in));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized14 \Serial_Dbg_Intf.SRL16E_4 
        (.Dbg_Clk(Dbg_Clk),
-        .Dbg_TDO(\Serial_Dbg_Intf.SRL16E_4_n_0 ),
-        .Q({sel0[1],sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
+        .Dbg_Reg_En({Dbg_Reg_En[6],Dbg_Reg_En[7]}),
+        .\Dbg_Reg_En[4] (Dbg_TDO_INST_0_i_12_n_0),
+        .\Dbg_Reg_En[5] (Dbg_Reg_En_5_sn_1),
+        .Dbg_Reg_En_0_sp_1(Dbg_Reg_En_0_sn_1),
+        .Dbg_TDO(Dbg_TDO),
+        .Q({sel0,sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
         .Q0_out(Q0_out),
         .Q2_in(Q2_in),
-        .Q3_in(Q3_in));
+        .Q3_in(Q3_in),
+        .\Serial_Dbg_Intf.instr_read_reg_reg[1] (Dbg_TDO_INST_0_i_11_n_0),
+        .\Serial_Dbg_Intf.shift_count_reg[3] (Dbg_TDO_INST_0_i_3_n_0),
+        .\Serial_Dbg_Intf.shift_count_reg[4] (Dbg_TDO_INST_0_i_1_n_0),
+        .\Serial_Dbg_Intf.shift_count_reg[4]_0 (Dbg_TDO_INST_0_i_4_n_0),
+        .\Serial_Dbg_Intf.shift_count_reg[4]_1 (Dbg_TDO_INST_0_i_5_n_0),
+        .\Serial_Dbg_Intf.shift_count_reg[4]_2 (\Serial_Dbg_Intf.SRL16E_8_n_0 ),
+        .\Serial_Dbg_Intf.shift_count_reg[5] (\Serial_Dbg_Intf.The_Cache_Addresses[6].SRL16E_Cache_I_n_0 ),
+        .\Serial_Dbg_Intf.shift_count_reg[5]_0 (\Serial_Dbg_Intf.The_Cache_Addresses[2].SRL16E_Cache_I_n_0 ));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized10 \Serial_Dbg_Intf.SRL16E_7 
        (.Dbg_Clk(Dbg_Clk),
-        .Dbg_Reg_En(Dbg_Reg_En[7]),
-        .\Dbg_Reg_En[6] (Dbg_Reg_En_6_sn_1),
-        .Dbg_TDO(\Serial_Dbg_Intf.SRL16E_7_n_0 ),
-        .Q({sel0,sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
-        .\Serial_Dbg_Intf.shift_count_reg[5] (\Serial_Dbg_Intf.SRL16E_4_n_0 ),
-        .tdo_config_word1_0(tdo_config_word1_0));
+        .Q({A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
+        .Q0_in(Q0_in));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized10_19 \Serial_Dbg_Intf.SRL16E_8 
        (.Dbg_Clk(Dbg_Clk),
-        .Q({A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
-        .tdo_config_word1_0(tdo_config_word1_0));
+        .Dbg_TDO(\Serial_Dbg_Intf.SRL16E_8_n_0 ),
+        .Q({sel0[2:1],sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
+        .Q0_in(Q0_in));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized6 \Serial_Dbg_Intf.The_Cache_Addresses[1].SRL16E_Cache_I 
        (.Dbg_Clk(Dbg_Clk),
         .Q({A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
         .Q6_out(Q6_out));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized8 \Serial_Dbg_Intf.The_Cache_Addresses[2].SRL16E_Cache_I 
        (.Dbg_Clk(Dbg_Clk),
-        .\Dbg_Reg_En[4] (Dbg_Reg_En_4_sn_1),
-        .Dbg_TDO(Dbg_TDO),
-        .Q({sel0,sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
+        .Dbg_TDO(\Serial_Dbg_Intf.The_Cache_Addresses[2].SRL16E_Cache_I_n_0 ),
+        .Q({sel0[1],sel0_2,A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
         .Q11_in(Q11_in),
         .Q6_out(Q6_out),
-        .Q_0(Q_0),
-        .\Serial_Dbg_Intf.instr_read_reg_reg[1] (Dbg_TDO_INST_0_i_12_n_0),
-        .\Serial_Dbg_Intf.shift_count_reg[3] (Dbg_TDO_INST_0_i_6_n_0),
-        .\Serial_Dbg_Intf.shift_count_reg[4] (Dbg_TDO_INST_0_i_1_n_0),
-        .\Serial_Dbg_Intf.shift_count_reg[4]_0 (Dbg_TDO_INST_0_i_5_n_0),
-        .\Serial_Dbg_Intf.shift_count_reg[5] (\Serial_Dbg_Intf.The_Cache_Addresses[6].SRL16E_Cache_I_n_0 ),
-        .\Serial_Dbg_Intf.shift_count_reg[6] (\Serial_Dbg_Intf.SRL16E_7_n_0 ),
-        .\Serial_Dbg_Intf.status_reg_reg[0] (Dbg_TDO_INST_0_i_3_n_0),
-        .Status_Reg_En(Status_Reg_En));
+        .Q_0(Q_0));
   blockdesign_microblaze_0_0_MB_SRL16E__parameterized10_20 \Serial_Dbg_Intf.The_Cache_Addresses[3].SRL16E_Cache_I 
        (.Dbg_Clk(Dbg_Clk),
         .Q({A3,A2,A1,\Serial_Dbg_Intf.shift_count_reg_n_0_[0] }),
@@ -7573,13 +7452,13 @@ module blockdesign_microblaze_0_0_Debug
         .D(Dbg_Capture),
         .Q(capture_1));
   LUT5 #(
-    .INIT(32'h00000002)) 
+    .INIT(32'h00000010)) 
     \Serial_Dbg_Intf.command_reg[0]_i_1 
-       (.I0(\Serial_Dbg_Intf.command_reg[0]_i_3_n_0 ),
-        .I1(Dbg_Reg_En[5]),
-        .I2(Dbg_Reg_En[4]),
-        .I3(Dbg_Reg_En[1]),
-        .I4(Dbg_Reg_En[3]),
+       (.I0(Dbg_Reg_En[0]),
+        .I1(Dbg_Reg_En[2]),
+        .I2(Dbg_Reg_En[6]),
+        .I3(Dbg_Reg_En[7]),
+        .I4(\Serial_Dbg_Intf.command_reg_reg[1]_0 ),
         .O(Command_Reg_En));
   LUT3 #(
     .INIT(8'hB8)) 
@@ -7588,14 +7467,6 @@ module blockdesign_microblaze_0_0_Debug
         .I1(Scan_Reset_Sel),
         .I2(command_reg_clear),
         .O(command_reg_rst));
-  LUT4 #(
-    .INIT(16'h0004)) 
-    \Serial_Dbg_Intf.command_reg[0]_i_3 
-       (.I0(Dbg_Reg_En[7]),
-        .I1(Dbg_Reg_En[6]),
-        .I2(Dbg_Reg_En[0]),
-        .I3(Dbg_Reg_En[2]),
-        .O(\Serial_Dbg_Intf.command_reg[0]_i_3_n_0 ));
   FDCE #(
     .INIT(1'b0)) 
     \Serial_Dbg_Intf.command_reg_reg[0] 
@@ -7943,31 +7814,24 @@ module blockdesign_microblaze_0_0_Debug
         .D(sample_synced[9]),
         .Q(LOCKSTEP_Master_Out[36]),
         .R(sync_reset));
-  LUT4 #(
-    .INIT(16'h0001)) 
-    \Serial_Dbg_Intf.dbg_wakeup_i_i_1 
-       (.I0(Dbg_Reg_En[0]),
-        .I1(Dbg_Reg_En[2]),
-        .I2(Dbg_Reg_En[6]),
-        .I3(\Serial_Dbg_Intf.dbg_wakeup_i_i_3_n_0 ),
-        .O(Control_Reg_En));
-  LUT4 #(
-    .INIT(16'h888B)) 
-    \Serial_Dbg_Intf.dbg_wakeup_i_i_2 
-       (.I0(Scan_Reset),
-        .I1(Scan_Reset_Sel),
-        .I2(Sleep_Out),
-        .I3(Sleep_Decode),
-        .O(no_sleeping));
   LUT5 #(
-    .INIT(32'hFFFEFFFF)) 
+    .INIT(32'h00000004)) 
+    \Serial_Dbg_Intf.dbg_wakeup_i_i_1 
+       (.I0(\Serial_Dbg_Intf.command_reg_reg[1]_0 ),
+        .I1(Dbg_Reg_En[7]),
+        .I2(Dbg_Reg_En[2]),
+        .I3(Dbg_Reg_En[0]),
+        .I4(Dbg_Reg_En[6]),
+        .O(Control_Reg_En));
+  (* SOFT_HLUTNM = "soft_lutpair52" *) 
+  LUT4 #(
+    .INIT(16'hFFFE)) 
     \Serial_Dbg_Intf.dbg_wakeup_i_i_3 
-       (.I0(Dbg_Reg_En[5]),
-        .I1(Dbg_Reg_En[4]),
-        .I2(Dbg_Reg_En[1]),
-        .I3(Dbg_Reg_En[3]),
-        .I4(Dbg_Reg_En[7]),
-        .O(\Serial_Dbg_Intf.dbg_wakeup_i_i_3_n_0 ));
+       (.I0(Dbg_Reg_En[1]),
+        .I1(Dbg_Reg_En[3]),
+        .I2(Dbg_Reg_En[4]),
+        .I3(Dbg_Reg_En[5]),
+        .O(\Serial_Dbg_Intf.command_reg_reg[1]_0 ));
   FDCE #(
     .INIT(1'b0)) 
     \Serial_Dbg_Intf.dbg_wakeup_i_reg 
@@ -7977,12 +7841,12 @@ module blockdesign_microblaze_0_0_Debug
         .D(\Serial_Dbg_Intf.shift_datain_reg_n_0_[31] ),
         .Q(LOCKSTEP_Master_Out[33]));
   LUT4 #(
-    .INIT(16'hBBB8)) 
+    .INIT(16'hDDD8)) 
     \Serial_Dbg_Intf.force_stop_TClk_i_1 
-       (.I0(Scan_Reset),
-        .I1(Scan_Reset_Sel),
-        .I2(force_stop_cmd_hold),
-        .I3(force_stop_cmd_i),
+       (.I0(Scan_Reset_Sel),
+        .I1(Scan_Reset),
+        .I2(force_stop_cmd_i),
+        .I3(force_stop_cmd_hold),
         .O(force_stop_cmd_rst));
   FDCE #(
     .INIT(1'b0)) 
@@ -8120,14 +7984,14 @@ module blockdesign_microblaze_0_0_Debug
         .D(sample_synced[8]),
         .Q(\Serial_Dbg_Intf.sample_synced_1_reg_n_0_[8] ),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair50" *) 
+  (* SOFT_HLUTNM = "soft_lutpair55" *) 
   LUT2 #(
     .INIT(4'h2)) 
     \Serial_Dbg_Intf.shift_count[0]_i_1 
        (.I0(Dbg_Shift),
         .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .O(p_0_in[0]));
-  (* SOFT_HLUTNM = "soft_lutpair50" *) 
+  (* SOFT_HLUTNM = "soft_lutpair54" *) 
   LUT3 #(
     .INIT(8'h28)) 
     \Serial_Dbg_Intf.shift_count[1]_i_1 
@@ -8135,7 +7999,7 @@ module blockdesign_microblaze_0_0_Debug
         .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I2(A1),
         .O(p_0_in[1]));
-  (* SOFT_HLUTNM = "soft_lutpair43" *) 
+  (* SOFT_HLUTNM = "soft_lutpair47" *) 
   LUT4 #(
     .INIT(16'h2A80)) 
     \Serial_Dbg_Intf.shift_count[2]_i_1 
@@ -8144,7 +8008,7 @@ module blockdesign_microblaze_0_0_Debug
         .I2(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I3(A2),
         .O(p_0_in[2]));
-  (* SOFT_HLUTNM = "soft_lutpair43" *) 
+  (* SOFT_HLUTNM = "soft_lutpair47" *) 
   LUT5 #(
     .INIT(32'h2AAA8000)) 
     \Serial_Dbg_Intf.shift_count[3]_i_1 
@@ -8158,12 +8022,13 @@ module blockdesign_microblaze_0_0_Debug
     .INIT(64'h2AAAAAAA80000000)) 
     \Serial_Dbg_Intf.shift_count[4]_i_1 
        (.I0(Dbg_Shift),
-        .I1(A2),
+        .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I2(A1),
-        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I3(A2),
         .I4(A3),
         .I5(sel0_2),
         .O(p_0_in[4]));
+  (* SOFT_HLUTNM = "soft_lutpair54" *) 
   LUT3 #(
     .INIT(8'h82)) 
     \Serial_Dbg_Intf.shift_count[5]_i_1 
@@ -8186,18 +8051,18 @@ module blockdesign_microblaze_0_0_Debug
     \Serial_Dbg_Intf.shift_count[7]_i_1 
        (.I0(Dbg_Shift),
         .I1(\Serial_Dbg_Intf.shift_count[7]_i_2_n_0 ),
-        .I2(sel0[1]),
-        .I3(sel0[2]),
+        .I2(sel0[2]),
+        .I3(sel0[1]),
         .I4(sel0[3]),
         .O(p_0_in[7]));
-  (* SOFT_HLUTNM = "soft_lutpair42" *) 
+  (* SOFT_HLUTNM = "soft_lutpair46" *) 
   LUT5 #(
     .INIT(32'h7FFFFFFF)) 
     \Serial_Dbg_Intf.shift_count[7]_i_2 
        (.I0(A3),
-        .I1(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
+        .I1(A2),
         .I2(A1),
-        .I3(A2),
+        .I3(\Serial_Dbg_Intf.shift_count_reg_n_0_[0] ),
         .I4(sel0_2),
         .O(\Serial_Dbg_Intf.shift_count[7]_i_2_n_0 ));
   FDCE #(
@@ -8589,7 +8454,7 @@ module blockdesign_microblaze_0_0_Debug
        (.C(Dbg_Clk),
         .CE(Dbg_Capture),
         .CLR(\Serial_Dbg_Intf.sync_pause_n_1 ),
-        .D(\Using_LWX_SWX_instr.reservation_reg ),
+        .D(ex_Valid_reg),
         .Q(\Serial_Dbg_Intf.status_reg_reg_n_0_[22] ));
   FDCE #(
     .INIT(1'b0)) 
@@ -8613,7 +8478,7 @@ module blockdesign_microblaze_0_0_Debug
        (.C(Dbg_Clk),
         .CE(Dbg_Capture),
         .CLR(\Serial_Dbg_Intf.sync_pause_n_1 ),
-        .D(iFetch_In_Progress_reg[31]),
+        .D(iFetch_In_Progress_reg_0[31]),
         .Q(\Serial_Dbg_Intf.status_reg_reg_n_0_[25] ));
   FDCE #(
     .INIT(1'b0)) 
@@ -8654,9 +8519,9 @@ module blockdesign_microblaze_0_0_Debug
         .Clk(Clk),
         .LOCKSTEP_Master_Out({LOCKSTEP_Master_Out[35],LOCKSTEP_Master_Out[33:32]}),
         .\Serial_Dbg_Intf.continue_from_brk_reg (\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (force_stop_cmd_i),
         .dbg_continue_i_reg(\Serial_Dbg_Intf.sync_dbg_wakeup_n_0 ),
         .dbg_pause(dbg_pause),
-        .force_stop_cmd_i(force_stop_cmd_i),
         .normal_stop_cmd_i(normal_stop_cmd_i),
         .start_single_cmd(start_single_cmd),
         .sync_reset(sync_reset));
@@ -8703,7 +8568,9 @@ module blockdesign_microblaze_0_0_Debug
        (.AR(\Serial_Dbg_Intf.sync_pause_n_1 ),
         .D(sleep_synced),
         .Dbg_Clk(Dbg_Clk),
-        .Sleep(Sleep));
+        .Sleep(Sleep),
+        .Sleep_Decode(Sleep_Decode),
+        .sleep_reset_mode_reg(Sleep_Out));
   blockdesign_microblaze_0_0_mb_sync_bit__parameterized2_29 \Serial_Dbg_Intf.sync_stop_CPU 
        (.AR(\Serial_Dbg_Intf.sync_pause_n_1 ),
         .D(\Serial_Dbg_Intf.sync_stop_CPU_n_0 ),
@@ -8721,14 +8588,15 @@ module blockdesign_microblaze_0_0_Debug
         .D(\Serial_Dbg_Intf.sync_sample_n_15 ),
         .Q(Dbg_Trig_In[0]),
         .R(sync_reset));
-  LUT5 #(
-    .INIT(32'hFFFF0100)) 
+  LUT6 #(
+    .INIT(64'hFFFFFFFF00000200)) 
     \Serial_Dbg_Intf.unchanged_i_1 
-       (.I0(\Serial_Dbg_Intf.dbg_wakeup_i_i_3_n_0 ),
-        .I1(Dbg_Reg_En[2]),
-        .I2(Dbg_Reg_En[0]),
+       (.I0(Dbg_Reg_En[7]),
+        .I1(Dbg_Reg_En[0]),
+        .I2(Dbg_Reg_En[2]),
         .I3(Dbg_Reg_En[6]),
-        .I4(unchanged),
+        .I4(\Serial_Dbg_Intf.command_reg_reg[1]_0 ),
+        .I5(unchanged),
         .O(\Serial_Dbg_Intf.unchanged_i_1_n_0 ));
   FDCE #(
     .INIT(1'b0)) 
@@ -8740,30 +8608,29 @@ module blockdesign_microblaze_0_0_Debug
         .Q(unchanged));
   LUT2 #(
     .INIT(4'hE)) 
-    \Using_FPGA.Native_i_1__12 
-       (.I0(LOCKSTEP_Master_Out[35]),
-        .I1(IReady),
+    \Using_FPGA.Native_i_1__11 
+       (.I0(IReady),
+        .I1(LOCKSTEP_Master_Out[35]),
         .O(IReady1_out));
   blockdesign_microblaze_0_0_address_hit \Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I 
        (.Address(Address),
+        .\Area_Debug_Control.force_stop_cmd_hold_reg (force_stop_cmd_hold),
         .Dbg_Clk(Dbg_Clk),
         .Dbg_Reg_En(Dbg_Reg_En),
         .Dbg_TDI(Dbg_TDI),
         .Hit(\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_1 ),
         .Q(\Serial_Dbg_Intf.control_reg_reg_n_0_[0] ),
-        .\Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_2 ),
         .\Serial_Dbg_Intf.control_reg_reg[8] (\Serial_Dbg_Intf.control_reg_reg[8]_0 ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (force_stop_cmd_i),
         .Single_Step_N(single_Step_N),
         .\Using_FPGA.Native (\Using_PC_Breakpoints.All_PC_Brks[0].Serial_Interface_1.address_hit_I_n_0 ),
-        .force_stop_cmd_hold(force_stop_cmd_hold),
-        .force_stop_cmd_i(force_stop_cmd_i),
         .normal_stop_cmd_hold(normal_stop_cmd_hold),
         .normal_stop_cmd_i(normal_stop_cmd_i));
   LUT2 #(
     .INIT(4'hE)) 
     command_reg_clear_i_1
-       (.I0(read_register_PC_1_reg_n_0),
-        .I1(\data_rd_reg_reg[0]_0 ),
+       (.I0(\data_rd_reg_reg[0]_0 ),
+        .I1(read_register_PC_1_reg_n_0),
         .O(command_reg_clear_i_1_n_0));
   FDRE command_reg_clear_reg
        (.C(Clk),
@@ -8776,8 +8643,8 @@ module blockdesign_microblaze_0_0_Debug
     \data_rd_reg[32]_i_1 
        (.I0(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_6 ),
         .I1(\Area_Debug_Control.Stop_Instr_Fetch_FDRSE_n_5 ),
-        .I2(LOCKSTEP_Master_Out[34]),
-        .I3(LOCKSTEP_Master_Out[35]),
+        .I2(LOCKSTEP_Master_Out[35]),
+        .I3(LOCKSTEP_Master_Out[34]),
         .I4(data_rd_reg[32]),
         .O(\data_rd_reg[32]_i_1_n_0 ));
   FDRE \data_rd_reg_reg[0] 
@@ -8985,16 +8852,16 @@ module blockdesign_microblaze_0_0_Debug
         .Q(LOCKSTEP_Master_Out[32]),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'hAAAAAAAA00000300)) 
+    .INIT(64'hAAAAAAAA00030000)) 
     dbg_halt_reset_mode_i_1
        (.I0(reset_mode_dbg_halt),
-        .I1(start_single_step_reg_n_0),
-        .I2(\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
-        .I3(dbg_halt_reset_mode_reg_n_0),
-        .I4(\Serial_Dbg_Intf.control_reg_reg_n_0_[0] ),
+        .I1(\Serial_Dbg_Intf.continue_from_brk_reg_n_0 ),
+        .I2(start_single_step_reg_n_0),
+        .I3(\Serial_Dbg_Intf.control_reg_reg_n_0_[0] ),
+        .I4(dbg_halt_reset_mode_reg_n_0),
         .I5(sync_reset),
         .O(dbg_halt_reset_mode_i_1_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair47" *) 
+  (* SOFT_HLUTNM = "soft_lutpair50" *) 
   LUT2 #(
     .INIT(4'h2)) 
     dbg_halt_reset_mode_i_2
@@ -9037,7 +8904,7 @@ module blockdesign_microblaze_0_0_Debug
   LUT5 #(
     .INIT(32'h005D000C)) 
     executing_i_1
-       (.I0(iFetch_In_Progress_reg[30]),
+       (.I0(iFetch_In_Progress_reg_0[30]),
         .I1(start_dbg_exec_reg_n_0),
         .I2(has_inhibit_EX),
         .I3(\Area_Debug_Control.force_stop_i_reg_n_0 ),
@@ -9090,7 +8957,7 @@ module blockdesign_microblaze_0_0_Debug
         .CLR(running_clock_rst),
         .D(1'b1),
         .Q(running_clock));
-  (* SOFT_HLUTNM = "soft_lutpair46" *) 
+  (* SOFT_HLUTNM = "soft_lutpair49" *) 
   LUT4 #(
     .INIT(16'h2F20)) 
     saved_reset_mode_dbg_halt_i_1
@@ -9105,7 +8972,7 @@ module blockdesign_microblaze_0_0_Debug
         .D(saved_reset_mode_dbg_halt_i_1_n_0),
         .Q(saved_reset_mode_dbg_halt),
         .R(1'b0));
-  (* SOFT_HLUTNM = "soft_lutpair47" *) 
+  (* SOFT_HLUTNM = "soft_lutpair50" *) 
   LUT4 #(
     .INIT(16'h2F20)) 
     saved_reset_mode_sleep_i_1
@@ -9124,8 +8991,8 @@ module blockdesign_microblaze_0_0_Debug
     .INIT(32'hFDFFFD00)) 
     single_Step_N_i_1
        (.I0(start_single_step_reg_n_0),
-        .I1(single_step_count[0]),
-        .I2(single_step_count[1]),
+        .I1(single_step_count[1]),
+        .I2(single_step_count[0]),
         .I3(ok_To_Stop),
         .I4(single_Step_N),
         .O(single_Step_N_i_1_n_0));
@@ -9144,15 +9011,13 @@ module blockdesign_microblaze_0_0_Debug
         .I3(ok_To_Stop),
         .I4(single_step_count[0]),
         .O(\single_step_count[0]_i_1_n_0 ));
-  LUT6 #(
-    .INIT(64'hBBBBB0BB88888F88)) 
+  LUT4 #(
+    .INIT(16'h0BF8)) 
     \single_step_count[1]_i_1 
        (.I0(\Serial_Dbg_Intf.control_reg_reg_n_0_[5] ),
         .I1(start_single_cmd),
-        .I2(take_Intr_Now_III),
-        .I3(of_PipeRun),
-        .I4(S105_out),
-        .I5(single_step_count[1]),
+        .I2(ok_To_Stop),
+        .I3(single_step_count[1]),
         .O(\single_step_count[1]_i_1_n_0 ));
   FDRE \single_step_count_reg[0] 
        (.C(Clk),
@@ -9171,8 +9036,8 @@ module blockdesign_microblaze_0_0_Debug
     sleep_reset_mode_i_1
        (.I0(sleep_reset_mode_i_2_n_0),
         .I1(sync_reset),
-        .I2(wakeup_i[0]),
-        .I3(wakeup_i[1]),
+        .I2(wakeup_i[1]),
+        .I3(wakeup_i[0]),
         .I4(saved_reset_mode_sleep),
         .I5(Sleep_Out),
         .O(sleep_reset_mode_i_1_n_0));
@@ -9199,8 +9064,8 @@ module blockdesign_microblaze_0_0_Debug
     start_single_step_i_1
        (.I0(start_single_cmd),
         .I1(start_single_step_reg_n_0),
-        .I2(single_step_count[0]),
-        .I3(single_step_count[1]),
+        .I2(single_step_count[1]),
+        .I3(single_step_count[0]),
         .I4(ok_To_Stop),
         .O(start_single_step_i_1_n_0));
   FDRE start_single_step_reg
@@ -9241,7 +9106,6 @@ module blockdesign_microblaze_0_0_Debug
         .R(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "Decode" *) 
 module blockdesign_microblaze_0_0_Decode
    (IReady,
     Buffer_Addr,
@@ -9257,7 +9121,6 @@ module blockdesign_microblaze_0_0_Decode
     carry_In,
     Reg_Test_Equal,
     reg_Test_Equal_N,
-    take_Intr_Now_III,
     opsel1_SPR,
     exception_kind,
     Pause_Ack,
@@ -9272,6 +9135,7 @@ module blockdesign_microblaze_0_0_Decode
     has_inhibit_EX,
     dbg_clean_stop,
     Valid_Instr_i,
+    interrupt_Taken_i,
     \trace_instruction_i_reg[0] ,
     Hibernate,
     Sleep_Decode,
@@ -9282,24 +9146,23 @@ module blockdesign_microblaze_0_0_Decode
     sext8,
     sext16,
     Not_Barrel_Op,
-    S105_out,
     DI,
     reg_Write_I,
     \Using_BitField.mem_Rd_reg[9] ,
     reg_Write_dbg,
-    LOCKSTEP_Master_Out,
-    \Serial_Dbg_Intf.status_reg_reg[22] ,
+    PC_Write,
     MSR_Rst,
     \Using_FPGA.Native ,
     Op1_Shift,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    PC_Write,
+    LOCKSTEP_Master_Out,
+    \Serial_Dbg_Intf.status_reg_reg[22] ,
     ok_To_Stop,
-    E,
-    \Using_FPGA.Native_2 ,
     \Area_Debug_Control.dbg_brki_hit_reg ,
     \Area_Debug_Control.dbg_brki_hit_reg_0 ,
+    E,
+    \Using_FPGA.Native_2 ,
     D_0,
     D_1,
     D_2,
@@ -9340,7 +9203,7 @@ module blockdesign_microblaze_0_0_Decode
     PCMP_Instr2_out,
     in0,
     OF_PipeRun,
-    Sleep,
+    no_sleeping,
     branch_with_delay,
     Shifted,
     void_bit,
@@ -9357,7 +9220,7 @@ module blockdesign_microblaze_0_0_Decode
     \Using_FPGA.Native_14 ,
     \Using_FPGA.Native_15 ,
     \Using_Ext_Databus.mem_access_reg ,
-    \C_reg[31] ,
+    \C_reg[28] ,
     Interrupt_Ack,
     Shift_Oper,
     \Using_FPGA.Native_16 ,
@@ -9375,17 +9238,18 @@ module blockdesign_microblaze_0_0_Decode
     \Using_FPGA.Native_18 ,
     Reg_zero,
     \Using_FPGA.Native_19 ,
-    mem_access_completed_reg,
-    DReady,
     MEM_DAXI_Data_Strobe,
+    DReady,
+    mem_access_completed_reg,
+    \Serial_Dbg_Intf.if_debug_ready_i_reg ,
+    Op2_Low,
     \Using_FPGA.Native_20 ,
     \Using_FPGA.Native_21 ,
     \Using_FPGA.Native_22 ,
-    \Area_Debug_Control.force_stop_cmd_hold_reg ,
-    Op2_Low,
     \Using_FPGA.Native_23 ,
     \Using_FPGA.Native_24 ,
-    \Serial_Dbg_Intf.if_debug_ready_i_reg ,
+    force_stop_cmd_hold,
+    force_stop_cmd_i,
     dbg_brki_hit,
     \Size_17to32.imm_Reg_reg[0] ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
@@ -9420,7 +9284,7 @@ module blockdesign_microblaze_0_0_Decode
     \Using_FPGA.take_Intr_2nd_Phase_reg_29 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_30 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_31 ,
-    Interrupt,
+    internal_interrupt,
     \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ,
     \Using_FPGA.Native_25 ,
     \Using_FPGA.Native_26 ,
@@ -9429,11 +9293,13 @@ module blockdesign_microblaze_0_0_Decode
     trace_reg_write_novalid,
     wakeup_i,
     \Using_FPGA.Native_27 ,
-    \Serial_Dbg_Intf.control_reg_reg[8] ,
+    Scan_Reset,
+    Scan_Reset_Sel,
     Sleep_Out,
+    \Serial_Dbg_Intf.control_reg_reg[8] ,
     \Using_FPGA.Native_28 ,
-    IReady_0,
     \Serial_Dbg_Intf.if_debug_ready_i_reg_0 ,
+    IReady_0,
     mem_access,
     lopt,
     lopt_1,
@@ -9457,7 +9323,6 @@ module blockdesign_microblaze_0_0_Decode
   output carry_In;
   output Reg_Test_Equal;
   output reg_Test_Equal_N;
-  output take_Intr_Now_III;
   output opsel1_SPR;
   output [0:0]exception_kind;
   output Pause_Ack;
@@ -9472,6 +9337,7 @@ module blockdesign_microblaze_0_0_Decode
   output has_inhibit_EX;
   output dbg_clean_stop;
   output Valid_Instr_i;
+  output interrupt_Taken_i;
   output [31:0]\trace_instruction_i_reg[0] ;
   output Hibernate;
   output Sleep_Decode;
@@ -9482,24 +9348,23 @@ module blockdesign_microblaze_0_0_Decode
   output sext8;
   output sext16;
   output Not_Barrel_Op;
-  output S105_out;
   output DI;
   output reg_Write_I;
   output \Using_BitField.mem_Rd_reg[9] ;
   output reg_Write_dbg;
-  output [0:0]LOCKSTEP_Master_Out;
-  output [0:0]\Serial_Dbg_Intf.status_reg_reg[22] ;
+  output PC_Write;
   output MSR_Rst;
   output \Using_FPGA.Native ;
   output Op1_Shift;
   output \Using_FPGA.Native_0 ;
   output \Using_FPGA.Native_1 ;
-  output PC_Write;
+  output [0:0]LOCKSTEP_Master_Out;
+  output [0:0]\Serial_Dbg_Intf.status_reg_reg[22] ;
   output ok_To_Stop;
-  output [0:0]E;
-  output \Using_FPGA.Native_2 ;
   output \Area_Debug_Control.dbg_brki_hit_reg ;
   output \Area_Debug_Control.dbg_brki_hit_reg_0 ;
+  output [0:0]E;
+  output \Using_FPGA.Native_2 ;
   output D_0;
   output D_1;
   output D_2;
@@ -9540,7 +9405,7 @@ module blockdesign_microblaze_0_0_Decode
   output PCMP_Instr2_out;
   output in0;
   output OF_PipeRun;
-  output Sleep;
+  output no_sleeping;
   output branch_with_delay;
   output Shifted;
   output void_bit;
@@ -9557,7 +9422,7 @@ module blockdesign_microblaze_0_0_Decode
   output \Using_FPGA.Native_14 ;
   output \Using_FPGA.Native_15 ;
   output \Using_Ext_Databus.mem_access_reg ;
-  output \C_reg[31] ;
+  output \C_reg[28] ;
   output [0:1]Interrupt_Ack;
   output Shift_Oper;
   output [1:0]\Using_FPGA.Native_16 ;
@@ -9575,17 +9440,18 @@ module blockdesign_microblaze_0_0_Decode
   input \Using_FPGA.Native_18 ;
   input Reg_zero;
   input \Using_FPGA.Native_19 ;
-  input mem_access_completed_reg;
-  input DReady;
   input MEM_DAXI_Data_Strobe;
+  input DReady;
+  input mem_access_completed_reg;
+  input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
+  input [0:0]Op2_Low;
   input \Using_FPGA.Native_20 ;
   input \Using_FPGA.Native_21 ;
-  input [2:0]\Using_FPGA.Native_22 ;
-  input \Area_Debug_Control.force_stop_cmd_hold_reg ;
-  input [0:0]Op2_Low;
+  input \Using_FPGA.Native_22 ;
   input \Using_FPGA.Native_23 ;
-  input \Using_FPGA.Native_24 ;
-  input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
+  input [2:0]\Using_FPGA.Native_24 ;
+  input force_stop_cmd_hold;
+  input force_stop_cmd_i;
   input dbg_brki_hit;
   input [15:0]\Size_17to32.imm_Reg_reg[0] ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
@@ -9620,7 +9486,7 @@ module blockdesign_microblaze_0_0_Decode
   input \Using_FPGA.take_Intr_2nd_Phase_reg_29 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_30 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_31 ;
-  input Interrupt;
+  input internal_interrupt;
   input \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
   input \Using_FPGA.Native_25 ;
   input \Using_FPGA.Native_26 ;
@@ -9629,11 +9495,13 @@ module blockdesign_microblaze_0_0_Decode
   input trace_reg_write_novalid;
   input [0:1]wakeup_i;
   input \Using_FPGA.Native_27 ;
-  input [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
+  input Scan_Reset;
+  input Scan_Reset_Sel;
   input Sleep_Out;
+  input [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
   input \Using_FPGA.Native_28 ;
-  input IReady_0;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg_0 ;
+  input IReady_0;
   input mem_access;
   input lopt;
   output lopt_1;
@@ -9647,13 +9515,12 @@ module blockdesign_microblaze_0_0_Decode
   wire [0:0]A;
   wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire \Area_Debug_Control.dbg_brki_hit_reg_0 ;
-  wire \Area_Debug_Control.force_stop_cmd_hold_reg ;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Blocked_Valid_Instr;
   wire Blocked_Valid_Instr0;
   wire [2:0]Buffer_Addr;
-  wire \C_reg[31] ;
+  wire \C_reg[28] ;
   wire Clk;
   wire [6:0]D;
   wire DI;
@@ -9702,11 +9569,10 @@ module blockdesign_microblaze_0_0_Decode
   wire IReady;
   wire IReady1_out;
   wire IReady_0;
-  wire I_AS_INST_0_i_2_n_0;
-  wire Interrupt;
   wire [0:1]Interrupt_Ack;
   wire LO;
   wire [0:0]LOCKSTEP_Master_Out;
+  wire \LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ;
   wire MEM_DAXI_Data_Strobe;
   wire MSR_Rst;
   wire MSRclr_Instr;
@@ -9722,14 +9588,14 @@ module blockdesign_microblaze_0_0_Decode
   wire PC_Write;
   wire Pause_Ack;
   wire Pause_Ack0;
-  wire PreFetch_Buffer_I_n_109;
+  wire PreFetch_Buffer_I_n_108;
   wire PreFetch_Buffer_I_n_110;
-  wire PreFetch_Buffer_I_n_112;
+  wire PreFetch_Buffer_I_n_111;
   wire PreFetch_Buffer_I_n_113;
-  wire PreFetch_Buffer_I_n_115;
+  wire PreFetch_Buffer_I_n_114;
+  wire PreFetch_Buffer_I_n_116;
   wire PreFetch_Buffer_I_n_117;
   wire PreFetch_Buffer_I_n_118;
-  wire PreFetch_Buffer_I_n_122;
   wire PreFetch_Buffer_I_n_123;
   wire PreFetch_Buffer_I_n_124;
   wire PreFetch_Buffer_I_n_125;
@@ -9742,18 +9608,20 @@ module blockdesign_microblaze_0_0_Decode
   wire PreFetch_Buffer_I_n_132;
   wire PreFetch_Buffer_I_n_36;
   wire PreFetch_Buffer_I_n_37;
-  wire PreFetch_Buffer_I_n_38;
   wire PreFetch_Buffer_I_n_39;
   wire PreFetch_Buffer_I_n_40;
-  wire PreFetch_Buffer_I_n_47;
-  wire PreFetch_Buffer_I_n_49;
-  wire PreFetch_Buffer_I_n_50;
-  wire PreFetch_Buffer_I_n_51;
+  wire PreFetch_Buffer_I_n_43;
+  wire PreFetch_Buffer_I_n_45;
+  wire PreFetch_Buffer_I_n_46;
+  wire PreFetch_Buffer_I_n_48;
+  wire PreFetch_Buffer_I_n_52;
   wire PreFetch_Buffer_I_n_56;
-  wire PreFetch_Buffer_I_n_59;
+  wire PreFetch_Buffer_I_n_61;
+  wire PreFetch_Buffer_I_n_63;
+  wire PreFetch_Buffer_I_n_64;
   wire PreFetch_Buffer_I_n_65;
-  wire PreFetch_Buffer_I_n_66;
   wire PreFetch_Buffer_I_n_67;
+  wire PreFetch_Buffer_I_n_73;
   wire [4:0]Q;
   wire R;
   wire R_0;
@@ -9761,8 +9629,11 @@ module blockdesign_microblaze_0_0_Decode
   wire Reg_Test_Equal_N_i7_out;
   wire Reg_Test_Equal_i;
   wire Reg_zero;
+  wire S0_out;
   wire S105_out;
   wire S1_out;
+  wire Scan_Reset;
+  wire Scan_Reset_Sel;
   wire Select_Logic;
   wire Select_Logic0;
   wire Select_Logic_reg_0;
@@ -9777,7 +9648,6 @@ module blockdesign_microblaze_0_0_Decode
   wire Shifted;
   wire Sign_Extend_i_1_n_0;
   wire [15:0]\Size_17to32.imm_Reg_reg[0] ;
-  wire Sleep;
   wire Sleep_Decode;
   wire Sleep_Out;
   wire Suspend;
@@ -9785,6 +9655,8 @@ module blockdesign_microblaze_0_0_Decode
   wire \Use_Async_Reset.sync_reset_reg ;
   wire \Using_BitField.mem_Rd_reg[9] ;
   wire \Using_Ext_Databus.mem_access_reg ;
+  wire \Using_FPGA.MUXCY_JUMP_CARRY3_n_11 ;
+  wire \Using_FPGA.MUXCY_JUMP_CARRY3_n_12 ;
   wire \Using_FPGA.MUXCY_JUMP_CARRY3_n_2 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -9802,9 +9674,9 @@ module blockdesign_microblaze_0_0_Decode
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_20 ;
   wire \Using_FPGA.Native_21 ;
-  wire [2:0]\Using_FPGA.Native_22 ;
+  wire \Using_FPGA.Native_22 ;
   wire \Using_FPGA.Native_23 ;
-  wire \Using_FPGA.Native_24 ;
+  wire [2:0]\Using_FPGA.Native_24 ;
   wire \Using_FPGA.Native_25 ;
   wire \Using_FPGA.Native_26 ;
   wire \Using_FPGA.Native_27 ;
@@ -9816,30 +9688,32 @@ module blockdesign_microblaze_0_0_Decode
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.Native_i_3__0_n_0 ;
   wire \Using_FPGA.Native_i_3__1_n_0 ;
+  wire \Using_FPGA.Native_i_3__2_n_0 ;
   wire \Using_FPGA.Native_i_3__4_n_0 ;
+  wire \Using_FPGA.Native_i_3__6_n_0 ;
   wire \Using_FPGA.Native_i_3_n_0 ;
   wire \Using_FPGA.Native_i_4_n_0 ;
   wire \Using_FPGA.Native_i_5_n_0 ;
-  wire \Using_FPGA.Native_i_6__0_n_0 ;
+  wire \Using_FPGA.Native_i_6__1_n_0 ;
   wire \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_1 ;
-  wire \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_3 ;
-  wire \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_6 ;
+  wire \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_2 ;
+  wire \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_8 ;
   wire \Using_FPGA.enable_Interrupts_I_reg_n_0 ;
   wire \Using_FPGA.iFetch_MuxCY_2_n_1 ;
   wire \Using_FPGA.iFetch_MuxCY_2_n_3 ;
   wire \Using_FPGA.iFetch_MuxCY_2_n_4 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_1 ;
-  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_12 ;
+  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_10 ;
+  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_11 ;
+  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_14 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_15 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_16 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_17 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_2 ;
-  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_4 ;
-  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_6 ;
+  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_5 ;
+  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_7 ;
   wire \Using_FPGA.of_PipeRun_MuxCY_1_n_8 ;
-  wire \Using_FPGA.of_PipeRun_MuxCY_1_n_9 ;
   wire \Using_FPGA.reset_BIP_I_reg_n_0 ;
   wire \Using_FPGA.set_BIP_I_reg_n_0 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
@@ -9910,7 +9784,6 @@ module blockdesign_microblaze_0_0_Decode
   wire doublet_Read_i_i_1_n_0;
   wire enable_Interrupts_I;
   wire ex_Valid;
-  wire ex_Valid_1st_cycle4_out;
   wire ex_Valid_1st_cycle_reg_n_0;
   wire ex_first_cycle;
   wire ex_not_mul_op;
@@ -9925,6 +9798,8 @@ module blockdesign_microblaze_0_0_Decode
   wire force_Val2_N;
   wire force_jump1;
   wire force_jump2;
+  wire force_stop_cmd_hold;
+  wire force_stop_cmd_i;
   wire has_inhibit_EX;
   wire hibernate_i_i_1_n_0;
   wire iFetch_In_Progress;
@@ -9936,6 +9811,8 @@ module blockdesign_microblaze_0_0_Decode
   wire inHibit_EX1;
   wire inHibit_EX_i_3_n_0;
   wire [0:10]instr_OF;
+  wire internal_interrupt;
+  wire interrupt_Taken_i;
   wire is_lwx_I;
   wire is_swx_I;
   wire is_swx_I_reg_n_0;
@@ -9969,7 +9846,6 @@ module blockdesign_microblaze_0_0_Decode
   wire lopt_25;
   wire lopt_26;
   wire lopt_27;
-  wire lopt_28;
   wire \^lopt_3 ;
   wire \^lopt_4 ;
   wire \^lopt_5 ;
@@ -10001,6 +9877,7 @@ module blockdesign_microblaze_0_0_Decode
   wire mul_first136_in;
   wire mul_first38_out;
   wire new_Carry;
+  wire no_sleeping;
   wire nonvalid_IFetch_n_reg_n_0;
   wire of_PipeRun;
   wire of_PipeRun_Select;
@@ -10015,6 +9892,7 @@ module blockdesign_microblaze_0_0_Decode
   wire opsel1_SPR_Select_2_1;
   wire opsel1_SPR_Select_2_2;
   wire [4:0]p_1_in;
+  wire p_47_out;
   wire p_49_out;
   wire p_50_out;
   wire p_51_out;
@@ -10054,7 +9932,6 @@ module blockdesign_microblaze_0_0_Decode
   wire take_intr_Done;
   wire [31:0]\trace_instruction_i_reg[0] ;
   wire trace_reg_write_novalid;
-  wire trace_reg_write_novalid_i_3_n_0;
   wire trace_valid_instr_part1;
   wire trace_valid_instr_part10;
   wire trace_valid_instr_part1_i_2_n_0;
@@ -10084,8 +9961,8 @@ module blockdesign_microblaze_0_0_Decode
         .I1(ex_Valid),
         .I2(write_Reg_reg_n_0),
         .I3(writing_reg_n_0),
-        .I4(MEM_DAXI_Data_Strobe),
-        .I5(DReady),
+        .I4(DReady),
+        .I5(MEM_DAXI_Data_Strobe),
         .O(reg_Write_dbg));
   FDRE Blocked_Valid_Instr_reg
        (.C(Clk),
@@ -10096,10 +9973,10 @@ module blockdesign_microblaze_0_0_Decode
   FDRE Compare_Instr_reg
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_117),
+        .D(PreFetch_Buffer_I_n_113),
         .Q(compare_Instr),
         .R(MSRclr_Instr_i));
-  (* SOFT_HLUTNM = "soft_lutpair35" *) 
+  (* SOFT_HLUTNM = "soft_lutpair39" *) 
   LUT4 #(
     .INIT(16'h4044)) 
     D_AS_INST_0
@@ -10111,8 +9988,8 @@ module blockdesign_microblaze_0_0_Decode
   LUT2 #(
     .INIT(4'h1)) 
     Dbg_Clean_Stop_i_1
-       (.I0(use_Imm_Reg),
-        .I1(jump2_I_reg_n_0),
+       (.I0(jump2_I_reg_n_0),
+        .I1(use_Imm_Reg),
         .O(Dbg_Clean_Stop_i_1_n_0));
   FDSE Dbg_Clean_Stop_reg
        (.C(Clk),
@@ -10126,23 +10003,23 @@ module blockdesign_microblaze_0_0_Decode
         .D(inHibit_EX),
         .Q(has_inhibit_EX),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair29" *) 
+  LUT6 #(
+    .INIT(64'hD000D000D0000000)) 
+    \LOCKSTEP_Master_Out[1]_INST_0 
+       (.I0(is_swx_I_reg_n_0),
+        .I1(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
+        .I2(load_Store_i),
+        .I3(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
+        .I4(force_stop_cmd_hold),
+        .I5(force_stop_cmd_i),
+        .O(LOCKSTEP_Master_Out));
+  (* SOFT_HLUTNM = "soft_lutpair31" *) 
   LUT2 #(
     .INIT(4'h2)) 
-    I_AS_INST_0_i_2
+    \LOCKSTEP_Master_Out[1]_INST_0_i_1 
        (.I0(ex_Valid),
         .I1(\Using_FPGA.Native_18 ),
-        .O(I_AS_INST_0_i_2_n_0));
-  LUT6 #(
-    .INIT(64'h2020002000000000)) 
-    \LOCKSTEP_Master_Out[1]_INST_0 
-       (.I0(ex_Valid),
-        .I1(\Using_FPGA.Native_18 ),
-        .I2(load_Store_i),
-        .I3(is_swx_I_reg_n_0),
-        .I4(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
-        .I5(\Area_Debug_Control.force_stop_cmd_hold_reg ),
-        .O(LOCKSTEP_Master_Out));
+        .O(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ));
   LUT6 #(
     .INIT(64'h0000000000D50000)) 
     Pause_Ack_i_1
@@ -10164,7 +10041,7 @@ module blockdesign_microblaze_0_0_Decode
         .\Area_Debug_Control.dbg_brki_hit_reg_0 (\Area_Debug_Control.dbg_brki_hit_reg_0 ),
         .CI(IReady),
         .Clk(Clk),
-        .Compare_Instr_reg(PreFetch_Buffer_I_n_117),
+        .Compare_Instr_reg(PreFetch_Buffer_I_n_113),
         .D({reg1_Addr[0],reg1_Addr[1],reg1_Addr[2],reg1_Addr[3],reg1_Addr[4],imm_Value[0],imm_Value[1],imm_Value[2],imm_Value[3],imm_Value[4],imm_Value[12],imm_Value[13],imm_Value[14],imm_Value[15]}),
         .DI(DI),
         .D_0(D_0),
@@ -10201,86 +10078,83 @@ module blockdesign_microblaze_0_0_Decode
         .D_8(D_8),
         .D_9(D_9),
         .E(E),
-        .I2106_out(I2106_out),
         .MSRclr_Instr_i0_in(MSRclr_Instr_i0_in),
         .R(R_0),
         .Reg_Test_Equal_N_i7_out(Reg_Test_Equal_N_i7_out),
         .Reg_Test_Equal_i(Reg_Test_Equal_i),
-        .S(S1_out),
-        .Select_Logic0(Select_Logic0),
+        .S(S0_out),
+        .S105_out(S105_out),
         .\Serial_Dbg_Intf.control_reg_reg[8] (\Serial_Dbg_Intf.control_reg_reg[8] ),
         .\Serial_Dbg_Intf.if_debug_ready_i_reg (\Serial_Dbg_Intf.if_debug_ready_i_reg ),
         .\Size_17to32.imm_Reg_reg[0] (\Size_17to32.imm_Reg_reg[0] ),
-        .\Using_Barrel_Shifter.Not_Barrel_Op_reg (PreFetch_Buffer_I_n_110),
-        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_59),
-        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_65),
-        .\Using_FPGA.Native_2 (PreFetch_Buffer_I_n_66),
-        .\Using_FPGA.Native_3 (PreFetch_Buffer_I_n_67),
-        .\Using_FPGA.Native_4 (PreFetch_Buffer_I_n_118),
-        .\Using_FPGA.Native_5 (PreFetch_Buffer_I_n_125),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (PreFetch_Buffer_I_n_61),
+        .\Using_Barrel_Shifter.Not_Barrel_Op_reg (PreFetch_Buffer_I_n_73),
+        .\Using_FPGA.Native (PreFetch_Buffer_I_n_56),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_63),
+        .\Using_FPGA.Native_2 (PreFetch_Buffer_I_n_64),
+        .\Using_FPGA.Native_3 (PreFetch_Buffer_I_n_65),
+        .\Using_FPGA.Native_4 (PreFetch_Buffer_I_n_67),
+        .\Using_FPGA.Native_5 (PreFetch_Buffer_I_n_123),
         .\Using_FPGA.Native_6 (\Using_FPGA.Native_18 ),
+        .\Using_FPGA.Native_7 (S1_out),
         .\Using_FPGA.set_BIP_I_reg (PreFetch_Buffer_I_n_36),
         .\Using_FPGA.set_BIP_I_reg_0 (\Using_FPGA.set_BIP_I_reg_n_0 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (take_Intr_Now_III),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (exception_kind),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_1 (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_10 (\Using_FPGA.take_Intr_2nd_Phase_reg_9 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_11 (\Using_FPGA.take_Intr_2nd_Phase_reg_10 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_12 (\Using_FPGA.take_Intr_2nd_Phase_reg_11 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_13 (\Using_FPGA.take_Intr_2nd_Phase_reg_12 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_14 (\Using_FPGA.take_Intr_2nd_Phase_reg_13 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_15 (\Using_FPGA.take_Intr_2nd_Phase_reg_14 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_16 (\Using_FPGA.take_Intr_2nd_Phase_reg_15 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_17 (\Using_FPGA.take_Intr_2nd_Phase_reg_16 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_18 (\Using_FPGA.take_Intr_2nd_Phase_reg_17 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_19 (\Using_FPGA.take_Intr_2nd_Phase_reg_18 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_2 (\Using_FPGA.take_Intr_2nd_Phase_reg_1 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_20 (\Using_FPGA.take_Intr_2nd_Phase_reg_19 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_21 (\Using_FPGA.take_Intr_2nd_Phase_reg_20 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_22 (\Using_FPGA.take_Intr_2nd_Phase_reg_21 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_23 (\Using_FPGA.take_Intr_2nd_Phase_reg_22 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_24 (\Using_FPGA.take_Intr_2nd_Phase_reg_23 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_25 (\Using_FPGA.take_Intr_2nd_Phase_reg_24 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_26 (\Using_FPGA.take_Intr_2nd_Phase_reg_25 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_27 (\Using_FPGA.take_Intr_2nd_Phase_reg_26 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_28 (\Using_FPGA.take_Intr_2nd_Phase_reg_27 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_29 (\Using_FPGA.take_Intr_2nd_Phase_reg_28 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_3 (\Using_FPGA.take_Intr_2nd_Phase_reg_2 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_30 (\Using_FPGA.take_Intr_2nd_Phase_reg_29 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_31 (\Using_FPGA.take_Intr_2nd_Phase_reg_30 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_32 (\Using_FPGA.take_Intr_2nd_Phase_reg_31 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_4 (\Using_FPGA.take_Intr_2nd_Phase_reg_3 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_5 (\Using_FPGA.take_Intr_2nd_Phase_reg_4 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_6 (\Using_FPGA.take_Intr_2nd_Phase_reg_5 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_7 (\Using_FPGA.take_Intr_2nd_Phase_reg_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_8 (\Using_FPGA.take_Intr_2nd_Phase_reg_7 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_9 (\Using_FPGA.take_Intr_2nd_Phase_reg_8 ),
-        .\Using_MSR_Instr.MSRxxx_Instr_i_reg (PreFetch_Buffer_I_n_38),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_1 (\Using_FPGA.take_Intr_2nd_Phase_reg_1 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_10 (\Using_FPGA.take_Intr_2nd_Phase_reg_10 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_11 (\Using_FPGA.take_Intr_2nd_Phase_reg_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_12 (\Using_FPGA.take_Intr_2nd_Phase_reg_12 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_13 (\Using_FPGA.take_Intr_2nd_Phase_reg_13 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_14 (\Using_FPGA.take_Intr_2nd_Phase_reg_14 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_15 (\Using_FPGA.take_Intr_2nd_Phase_reg_15 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_16 (\Using_FPGA.take_Intr_2nd_Phase_reg_16 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_17 (\Using_FPGA.take_Intr_2nd_Phase_reg_17 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_18 (\Using_FPGA.take_Intr_2nd_Phase_reg_18 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_19 (\Using_FPGA.take_Intr_2nd_Phase_reg_19 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_2 (\Using_FPGA.take_Intr_2nd_Phase_reg_2 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_20 (\Using_FPGA.take_Intr_2nd_Phase_reg_20 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_21 (\Using_FPGA.take_Intr_2nd_Phase_reg_21 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_22 (\Using_FPGA.take_Intr_2nd_Phase_reg_22 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_23 (\Using_FPGA.take_Intr_2nd_Phase_reg_23 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_24 (\Using_FPGA.take_Intr_2nd_Phase_reg_24 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_25 (\Using_FPGA.take_Intr_2nd_Phase_reg_25 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_26 (\Using_FPGA.take_Intr_2nd_Phase_reg_26 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_27 (\Using_FPGA.take_Intr_2nd_Phase_reg_27 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_28 (\Using_FPGA.take_Intr_2nd_Phase_reg_28 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_29 (\Using_FPGA.take_Intr_2nd_Phase_reg_29 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_3 (\Using_FPGA.take_Intr_2nd_Phase_reg_3 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_30 (\Using_FPGA.take_Intr_2nd_Phase_reg_30 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_31 (\Using_FPGA.take_Intr_2nd_Phase_reg_31 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_4 (\Using_FPGA.take_Intr_2nd_Phase_reg_4 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_5 (\Using_FPGA.take_Intr_2nd_Phase_reg_5 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_6 (\Using_FPGA.take_Intr_2nd_Phase_reg_6 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_7 (\Using_FPGA.take_Intr_2nd_Phase_reg_7 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_8 (\Using_FPGA.take_Intr_2nd_Phase_reg_8 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_9 (\Using_FPGA.take_Intr_2nd_Phase_reg_9 ),
         .\Using_MSR_Instr.msrxxx_carry_reg (PreFetch_Buffer_I_n_40),
         .\Using_MSR_Instr.write_MSR_I_reg (PreFetch_Buffer_I_n_37),
         .\Using_MSR_Instr.write_MSR_I_reg_0 (\Using_MSR_Instr.write_MSR_I_reg_n_0 ),
-        .\Using_Mul_Instr.ex_not_mul_op_i_reg (PreFetch_Buffer_I_n_51),
+        .\Using_Mul_Instr.ex_not_mul_op_i_reg (PreFetch_Buffer_I_n_111),
         .Y(Y),
         .buffer_Full(buffer_Full),
         .byte_i17_out(byte_i17_out),
-        .byte_i_reg(PreFetch_Buffer_I_n_128),
+        .byte_i_reg(PreFetch_Buffer_I_n_132),
         .check_srx15_in(check_srx15_in),
         .d_AS_I20_out(d_AS_I20_out),
         .dbg_brki_hit(dbg_brki_hit),
         .dbg_pause(dbg_pause),
         .dbg_pause_reg(jump),
-        .doublet_i_reg(PreFetch_Buffer_I_n_132),
+        .doublet_i_reg(PreFetch_Buffer_I_n_130),
         .enable_Interrupts_I(enable_Interrupts_I),
         .ex_Valid(ex_Valid),
-        .ex_Valid_reg(PreFetch_Buffer_I_n_124),
+        .ex_Valid_reg(PreFetch_Buffer_I_n_43),
         .force1_i43_out(force1_i43_out),
         .force_Val1_i41_out(force_Val1_i41_out),
-        .force_Val2_N(force_Val2_N),
-        .iFetch_In_Progress_reg(\Using_FPGA.MUXCY_JUMP_CARRY3_n_2 ),
         .inHibit_EX(inHibit_EX),
-        .inHibit_EX_reg(PreFetch_Buffer_I_n_56),
-        .inHibit_EX_reg_0(S105_out),
+        .inHibit_EX_reg(PreFetch_Buffer_I_n_46),
+        .inHibit_EX_reg_0(ok_To_Stop),
         .\instr_EX_i_reg[21] (imm_Value[5]),
         .\instr_EX_i_reg[22] (imm_Value[6]),
         .\instr_EX_i_reg[23] (imm_Value[7]),
@@ -10299,21 +10173,21 @@ module blockdesign_microblaze_0_0_Decode
         .is_swx_I_reg_0(is_swx_I_reg_n_0),
         .isbyte(isbyte),
         .isdoublet(isdoublet),
-        .jump2_I_reg(PreFetch_Buffer_I_n_50),
+        .jump2_I_reg(PreFetch_Buffer_I_n_45),
         .jump2_I_reg_0(jump2_I_reg_n_0),
         .jump_Carry2(jump_Carry2),
-        .load_Store_i_reg(PreFetch_Buffer_I_n_109),
+        .load_Store_i(load_Store_i),
+        .load_Store_i_reg(PreFetch_Buffer_I_n_108),
         .lopt(\^lopt_5 ),
         .lopt_1(\^lopt_6 ),
         .lopt_2(\^lopt_7 ),
         .lopt_3(lopt_8),
         .lopt_4(lopt_9),
         .lopt_5(lopt_10),
-        .lopt_6(lopt_11),
-        .mbar_first(mbar_first),
+        .mbar_decode_I_reg(\Using_FPGA.MUXCY_JUMP_CARRY3_n_2 ),
+        .mbar_first_reg(PreFetch_Buffer_I_n_52),
         .mbar_hold_I_reg(mbar_hold_I_reg_n_0),
         .mbar_is_sleep0(mbar_is_sleep0),
-        .mbar_sleep_reg(mbar_first_i_2_n_0),
         .mem_access_completed_reg(mem_access_completed_reg),
         .missed_IFetch(missed_IFetch),
         .msrxxx_carry(msrxxx_carry),
@@ -10321,43 +10195,42 @@ module blockdesign_microblaze_0_0_Decode
         .mtsmsr_write_i_reg(PreFetch_Buffer_I_n_39),
         .mtsmsr_write_i_reg_0(mtsmsr_write_i_reg_n_0),
         .mul_Executing(mul_Executing),
-        .mul_Executing0(mul_Executing0),
-        .mul_Executing_reg(of_PipeRun),
-        .mul_first(mul_first),
+        .mul_Executing_reg(PreFetch_Buffer_I_n_48),
+        .mul_Executing_reg_0(of_PipeRun),
         .mul_first136_in(mul_first136_in),
         .mul_first38_out(mul_first38_out),
-        .nonvalid_IFetch_n_reg(PreFetch_Buffer_I_n_123),
+        .nonvalid_IFetch_n_reg(PreFetch_Buffer_I_n_125),
         .nonvalid_IFetch_n_reg_0(nonvalid_IFetch_n_reg_n_0),
         .of_Valid_Raw(of_Valid_Raw),
         .of_mbar_decode(of_mbar_decode),
-        .ok_To_Stop(ok_To_Stop),
+        .p_47_out(p_47_out),
         .p_49_out(p_49_out),
         .p_50_out(p_50_out),
         .p_51_out(p_51_out),
         .p_54_out(p_54_out),
         .reset_BIP_I9_out(reset_BIP_I9_out),
-        .select_ALU_Carry_reg(PreFetch_Buffer_I_n_115),
+        .select_ALU_Carry_reg(PreFetch_Buffer_I_n_114),
         .sync_reset(sync_reset),
         .take_Intr_Now_II(take_Intr_Now_II),
-        .trace_jump_taken_i_reg(PreFetch_Buffer_I_n_122),
+        .take_Intr_Now_III(take_Intr_Now_III),
+        .trace_jump_taken_i_reg(PreFetch_Buffer_I_n_124),
         .use_Reg_Neg_DI_i40_out(use_Reg_Neg_DI_i40_out),
         .use_Reg_Neg_S_i42_out(use_Reg_Neg_S_i42_out),
-        .using_Imm_reg(PreFetch_Buffer_I_n_129),
+        .using_Imm_reg(PreFetch_Buffer_I_n_128),
         .using_Imm_reg_0(use_Imm_Reg),
-        .\write_Addr_I_reg[0] ({p_1_in[4],PreFetch_Buffer_I_n_112,PreFetch_Buffer_I_n_113,p_1_in[0]}),
-        .write_Carry_I_reg(PreFetch_Buffer_I_n_47),
-        .write_Carry_I_reg_0(PreFetch_Buffer_I_n_49),
-        .write_Reg_reg(PreFetch_Buffer_I_n_130),
+        .\write_Addr_I_reg[0] ({p_1_in[4],PreFetch_Buffer_I_n_116,PreFetch_Buffer_I_n_117,PreFetch_Buffer_I_n_118,p_1_in[0]}),
+        .write_Carry_I_reg(PreFetch_Buffer_I_n_110),
+        .write_Reg_reg(PreFetch_Buffer_I_n_129),
         .write_Reg_reg_0(write_Reg_reg_n_0),
         .writing_reg(PreFetch_Buffer_I_n_131));
-  (* SOFT_HLUTNM = "soft_lutpair36" *) 
+  (* SOFT_HLUTNM = "soft_lutpair40" *) 
   LUT4 #(
-    .INIT(16'h0400)) 
+    .INIT(16'h0020)) 
     Read_Strobe_INST_0
-       (.I0(writing_reg_n_0),
-        .I1(load_Store_i),
-        .I2(\Using_FPGA.Native_18 ),
-        .I3(ex_Valid),
+       (.I0(ex_Valid),
+        .I1(\Using_FPGA.Native_18 ),
+        .I2(load_Store_i),
+        .I3(writing_reg_n_0),
         .O(D[3]));
   FDRE \Result_Sel_reg[0] 
        (.C(Clk),
@@ -10377,6 +10250,14 @@ module blockdesign_microblaze_0_0_Decode
         .D(Select_Logic0),
         .Q(Select_Logic),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'h888B)) 
+    \Serial_Dbg_Intf.dbg_wakeup_i_i_2 
+       (.I0(Scan_Reset),
+        .I1(Scan_Reset_Sel),
+        .I2(Sleep_Decode),
+        .I3(Sleep_Out),
+        .O(no_sleeping));
   FDRE Sext16_reg
        (.C(Clk),
         .CE(1'b1),
@@ -10396,13 +10277,13 @@ module blockdesign_microblaze_0_0_Decode
         .Q(shift_Carry_In),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'hFFFF08FFFFFF0800)) 
+    .INIT(64'hFFFF40FFFFFF4000)) 
     Sign_Extend_i_1
-       (.I0(imm_Value[10]),
+       (.I0(imm_Value[8]),
         .I1(imm_Value[9]),
-        .I2(imm_Value[8]),
+        .I2(imm_Value[10]),
         .I3(of_PipeRun),
-        .I4(\Using_FPGA.of_PipeRun_MuxCY_1_n_9 ),
+        .I4(\Using_FPGA.of_PipeRun_MuxCY_1_n_11 ),
         .I5(Shift_Oper),
         .O(Sign_Extend_i_1_n_0));
   FDRE Sign_Extend_reg
@@ -10411,28 +10292,22 @@ module blockdesign_microblaze_0_0_Decode
         .D(Sign_Extend_i_1_n_0),
         .Q(Shift_Oper),
         .R(sync_reset));
-  LUT2 #(
-    .INIT(4'hE)) 
-    Sleep_INST_0
-       (.I0(Sleep_Decode),
-        .I1(Sleep_Out),
-        .O(Sleep));
-  (* SOFT_HLUTNM = "soft_lutpair30" *) 
+  (* SOFT_HLUTNM = "soft_lutpair32" *) 
   LUT5 #(
     .INIT(32'hA2A2A280)) 
     Trace_Reg_Write_INST_0
        (.I0(trace_reg_write_novalid),
         .I1(jump2_I_1),
         .I2(Blocked_Valid_Instr),
-        .I3(mul_Executing_done),
-        .I4(trace_valid_instr_part1),
+        .I3(trace_valid_instr_part1),
+        .I4(mul_Executing_done),
         .O(D[0]));
-  (* SOFT_HLUTNM = "soft_lutpair30" *) 
+  (* SOFT_HLUTNM = "soft_lutpair32" *) 
   LUT4 #(
     .INIT(16'hF0EE)) 
     Trace_Valid_Instr_INST_0
-       (.I0(trace_valid_instr_part1),
-        .I1(mul_Executing_done),
+       (.I0(mul_Executing_done),
+        .I1(trace_valid_instr_part1),
         .I2(Blocked_Valid_Instr),
         .I3(jump2_I_1),
         .O(D[1]));
@@ -10441,7 +10316,7 @@ module blockdesign_microblaze_0_0_Decode
         .CE(of_PipeRun),
         .D(imm_Value[14]),
         .Q(Unsigned_Op),
-        .R(\Using_FPGA.of_PipeRun_MuxCY_1_n_12 ));
+        .R(\Using_FPGA.of_PipeRun_MuxCY_1_n_10 ));
   FDRE \Use_The_PCMP_instr.CLZ_Instr_reg 
        (.C(Clk),
         .CE(of_PipeRun),
@@ -10469,7 +10344,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE \Using_Barrel_Shifter.Not_Barrel_Op_reg 
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_110),
+        .D(PreFetch_Buffer_I_n_73),
         .Q(Not_Barrel_Op),
         .R(1'b0));
   LUT6 #(
@@ -10492,8 +10367,8 @@ module blockdesign_microblaze_0_0_Decode
        (.correct_Carry(correct_Carry),
         .correct_Carry_I(correct_Carry_I),
         .correct_Carry_Select(correct_Carry_Select),
-        .lopt(lopt_12),
-        .lopt_1(lopt_13),
+        .lopt(lopt_11),
+        .lopt_1(lopt_12),
         .lopt_2(load_Store_i2),
         .sub_Carry(sub_Carry));
   blockdesign_microblaze_0_0_MB_FDRE_59 \Using_FPGA.ALU_OP0_FDRE 
@@ -10504,19 +10379,19 @@ module blockdesign_microblaze_0_0_Decode
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_60 \Using_FPGA.ALU_OP1_FDRE 
        (.Clk(Clk),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (PreFetch_Buffer_I_n_65),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (PreFetch_Buffer_I_n_63),
         .alu_Op(alu_Op[1]),
         .mul_Executing_reg(of_PipeRun),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_MUXCY_61 \Using_FPGA.Correct_Carry_MUXCY 
-       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_22 [1]),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_18 ),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_18 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_24 [1]),
         .\Using_LWX_SWX_instr.reservation_reg (\Using_LWX_SWX_instr.reservation_reg_n_0 ),
         .\Using_MSR_Instr.msrxxx_write_carry_reg (\Using_MSR_Instr.msrxxx_write_carry_reg_n_0 ),
         .correct_Carry(correct_Carry),
         .ex_Valid(ex_Valid),
+        .ex_Valid_reg(\Using_FPGA.Native_i_3__2_n_0 ),
         .is_swx_I_reg(is_swx_I_reg_n_0),
-        .load_Store_i_reg(\Using_FPGA.Native_i_3__0_n_0 ),
         .lopt(\^lopt_1 ),
         .lopt_1(\^lopt_2 ),
         .lopt_2(\^lopt_3 ),
@@ -10532,7 +10407,7 @@ module blockdesign_microblaze_0_0_Decode
   blockdesign_microblaze_0_0_MB_FDRE_63 \Using_FPGA.Force2_FDRE 
        (.Clk(Clk),
         .R(R),
-        .\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_59),
+        .\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_67),
         .force2(force2),
         .mul_Executing_reg(of_PipeRun));
   blockdesign_microblaze_0_0_MB_FDRE_64 \Using_FPGA.Force_Val1_FDRE 
@@ -10543,23 +10418,23 @@ module blockdesign_microblaze_0_0_Decode
         .mul_Executing_reg(of_PipeRun));
   blockdesign_microblaze_0_0_MB_FDRSE_65 \Using_FPGA.Force_Val2_FDRSE 
        (.Clk(Clk),
-        .\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_125),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
-        .force_Val2_N(force_Val2_N));
+        .force_Val2_N(force_Val2_N),
+        .inHibit_EX_reg(\Using_FPGA.MUXCY_JUMP_CARRY3_n_12 ));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized9 \Using_FPGA.I_correct_Carry_Select 
-       (.\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_67),
-        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_66),
-        .\Using_FPGA.Native_2 (PreFetch_Buffer_I_n_118),
+       (.\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_64),
+        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_65),
+        .\Using_FPGA.Native_2 (PreFetch_Buffer_I_n_123),
         .correct_Carry_Select(correct_Carry_Select));
   blockdesign_microblaze_0_0_MB_MUXCY_66 \Using_FPGA.Intr_Carry_MUXCY 
        (.correct_Carry_I(correct_Carry_I),
         .correct_Carry_II(correct_Carry_II),
         .load_Store_i2(load_Store_i2),
-        .lopt(lopt_12),
-        .lopt_1(lopt_13));
+        .lopt(lopt_11),
+        .lopt_1(lopt_12));
   blockdesign_microblaze_0_0_MB_MULT_AND \Using_FPGA.MULT_AND_I 
-       (.\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_67),
-        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_66),
+       (.\Using_FPGA.Native_0 (PreFetch_Buffer_I_n_64),
+        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_65),
         .sub_Carry(sub_Carry));
   blockdesign_microblaze_0_0_MB_MUXCY_67 \Using_FPGA.MUXCY_JUMP_CARRY 
        (.Reg_zero(Reg_zero),
@@ -10572,42 +10447,55 @@ module blockdesign_microblaze_0_0_Decode
         .force_jump2(force_jump2),
         .jump_Carry1(jump_Carry1),
         .jump_Carry2(jump_Carry2),
-        .lopt(lopt_14),
-        .lopt_1(lopt_15),
-        .lopt_2(PreFetch_Buffer_I_n_122),
-        .lopt_3(lopt_16),
-        .lopt_4(lopt_17),
+        .lopt(lopt_13),
+        .lopt_1(lopt_14),
+        .lopt_2(PreFetch_Buffer_I_n_124),
+        .lopt_3(lopt_15),
+        .lopt_4(lopt_16),
         .lopt_5(buffer_Full),
-        .lopt_6(lopt_18),
-        .lopt_7(lopt_19),
+        .lopt_6(lopt_17),
+        .lopt_7(lopt_18),
         .lopt_8(\Use_Async_Reset.sync_reset_reg ));
   blockdesign_microblaze_0_0_MB_MUXCY_69 \Using_FPGA.MUXCY_JUMP_CARRY3 
-       (.Interrupt(Interrupt),
-        .PC_Write(PC_Write),
+       (.PC_Write(PC_Write),
         .R(R),
         .R_0(R_0),
         .S105_out(S105_out),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_17 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_22 [2]),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_19 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.MUXCY_JUMP_CARRY3_n_12 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_17 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_18 ),
+        .\Using_FPGA.Native_3 (PreFetch_Buffer_I_n_52),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_24 [2]),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_19 ),
+        .\Using_FPGA.Native_6 (PreFetch_Buffer_I_n_43),
+        .\Using_FPGA.Native_7 (PreFetch_Buffer_I_n_56),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (take_Intr_Now_III),
         .branch_with_delay(branch_with_delay),
         .break_Pipe_i_reg0(break_Pipe_i_reg0),
-        .dbg_pause_reg(PreFetch_Buffer_I_n_122),
-        .ex_Valid_reg(break_Pipe_i_i_2_n_0),
-        .iFetch_In_Progress_reg(D[5]),
+        .dbg_pause_reg(PreFetch_Buffer_I_n_124),
+        .ex_Valid(ex_Valid),
+        .ex_Valid_reg(\Using_FPGA.MUXCY_JUMP_CARRY3_n_11 ),
+        .ex_Valid_reg_0(break_Pipe_i_i_2_n_0),
+        .force_Val2_N(force_Val2_N),
         .inHibit_EX(inHibit_EX),
+        .inHibit_EX_reg(PreFetch_Buffer_I_n_48),
+        .internal_interrupt(internal_interrupt),
         .jump2_I_reg(jump2_I_reg_n_0),
         .jump_Carry2(jump_Carry2),
-        .lopt(lopt_14),
-        .lopt_1(lopt_15),
+        .lopt(lopt_13),
+        .lopt_1(lopt_14),
+        .mbar_decode_I_reg(D[5]),
+        .mbar_first(mbar_first),
+        .mbar_sleep_reg(mbar_first_i_2_n_0),
+        .mul_Executing0(mul_Executing0),
         .mul_Executing_reg(of_PipeRun),
+        .mul_first(mul_first),
         .nonvalid_IFetch_n_reg(\Using_FPGA.MUXCY_JUMP_CARRY3_n_2 ),
         .ok_To_Stop(ok_To_Stop),
         .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .trace_jump_taken_i_reg(jump));
-  (* SOFT_HLUTNM = "soft_lutpair34" *) 
+  (* SOFT_HLUTNM = "soft_lutpair37" *) 
   LUT3 #(
     .INIT(8'h08)) 
     \Using_FPGA.Native_i_1__119 
@@ -10660,20 +10548,20 @@ module blockdesign_microblaze_0_0_Decode
        (.I0(pcmp_instr),
         .I1(\Using_FPGA.Native_18 ),
         .O(\Using_FPGA.Native_12 ));
-  (* SOFT_HLUTNM = "soft_lutpair31" *) 
+  (* SOFT_HLUTNM = "soft_lutpair34" *) 
   LUT3 #(
     .INIT(8'h54)) 
     \Using_FPGA.Native_i_1__134 
        (.I0(BitField_Extract),
         .I1(\trace_instruction_i_reg[0] [10]),
         .I2(BitField_Insert),
-        .O(\C_reg[31] ));
+        .O(\C_reg[28] ));
   LUT6 #(
     .INIT(64'hBFFFB0F0BFFF8000)) 
-    \Using_FPGA.Native_i_1__5 
-       (.I0(\Using_FPGA.Native_23 ),
+    \Using_FPGA.Native_i_1__6 
+       (.I0(\Using_FPGA.Native_20 ),
         .I1(MSRclr_Instr),
-        .I2(I_AS_INST_0_i_2_n_0),
+        .I2(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
         .I3(MSRxxx_Instr_i),
         .I4(sync_reset),
         .I5(\Using_FPGA.reset_BIP_I_reg_n_0 ),
@@ -10685,16 +10573,6 @@ module blockdesign_microblaze_0_0_Decode
         .I1(pcmp_instr),
         .I2(\trace_instruction_i_reg[0] [27]),
         .O(Enable_2));
-  (* SOFT_HLUTNM = "soft_lutpair28" *) 
-  LUT5 #(
-    .INIT(32'hAEAAA2AA)) 
-    \Using_FPGA.Native_i_1__7 
-       (.I0(\Using_FPGA.Native_21 ),
-        .I1(MSRxxx_Instr_i),
-        .I2(\Using_FPGA.Native_18 ),
-        .I3(ex_Valid),
-        .I4(shift_Carry_In),
-        .O(Op1_Shift));
   LUT6 #(
     .INIT(64'hEC20EC20EC20EF20)) 
     \Using_FPGA.Native_i_1__70 
@@ -10705,7 +10583,7 @@ module blockdesign_microblaze_0_0_Decode
         .I4(pcmp_instr),
         .I5(clz_instr),
         .O(data_Read_Mask[0]));
-  (* SOFT_HLUTNM = "soft_lutpair34" *) 
+  (* SOFT_HLUTNM = "soft_lutpair37" *) 
   LUT4 #(
     .INIT(16'hFB08)) 
     \Using_FPGA.Native_i_1__71 
@@ -10714,7 +10592,7 @@ module blockdesign_microblaze_0_0_Decode
         .I2(\Using_FPGA.Native_18 ),
         .I3(\Using_FPGA.Native_i_3__4_n_0 ),
         .O(data_Read_Mask[1]));
-  (* SOFT_HLUTNM = "soft_lutpair37" *) 
+  (* SOFT_HLUTNM = "soft_lutpair38" *) 
   LUT4 #(
     .INIT(16'hA0A2)) 
     \Using_FPGA.Native_i_1__75 
@@ -10723,7 +10601,7 @@ module blockdesign_microblaze_0_0_Decode
         .I2(\Using_FPGA.Native_18 ),
         .I3(pcmp_instr),
         .O(\Using_FPGA.Native_3 [0]));
-  (* SOFT_HLUTNM = "soft_lutpair37" *) 
+  (* SOFT_HLUTNM = "soft_lutpair38" *) 
   LUT4 #(
     .INIT(16'hA0A2)) 
     \Using_FPGA.Native_i_1__76 
@@ -10732,29 +10610,38 @@ module blockdesign_microblaze_0_0_Decode
         .I2(\Using_FPGA.Native_18 ),
         .I3(pcmp_instr),
         .O(\Using_FPGA.Native_3 [1]));
+  LUT5 #(
+    .INIT(32'hAEAAA2AA)) 
+    \Using_FPGA.Native_i_1__8 
+       (.I0(\Using_FPGA.Native_21 ),
+        .I1(MSRxxx_Instr_i),
+        .I2(\Using_FPGA.Native_18 ),
+        .I3(ex_Valid),
+        .I4(shift_Carry_In),
+        .O(Op1_Shift));
   LUT4 #(
     .INIT(16'h00E2)) 
     \Using_FPGA.Native_i_1__93 
-       (.I0(\Using_FPGA.Native_24 ),
+       (.I0(\Using_FPGA.Native_22 ),
         .I1(\trace_instruction_i_reg[0] [5]),
         .I2(shift_Carry_In),
         .I3(\trace_instruction_i_reg[0] [6]),
         .O(Shifted));
   LUT6 #(
-    .INIT(64'h4555455545554545)) 
+    .INIT(64'h1515151155555555)) 
     \Using_FPGA.Native_i_2 
        (.I0(reset_delay),
-        .I1(trace_reg_write_novalid_i_3_n_0),
-        .I2(I_AS_INST_0_i_2_n_0),
-        .I3(write_Reg_reg_n_0),
-        .I4(writing_reg_n_0),
-        .I5(mem_access_completed_reg),
+        .I1(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
+        .I2(write_Reg_reg_n_0),
+        .I3(writing_reg_n_0),
+        .I4(mem_access_completed_reg),
+        .I5(\Using_FPGA.Native_i_3__6_n_0 ),
         .O(\Using_BitField.mem_Rd_reg[9] ));
-  (* SOFT_HLUTNM = "soft_lutpair29" *) 
+  (* SOFT_HLUTNM = "soft_lutpair33" *) 
   LUT5 #(
     .INIT(32'hAEAAA2AA)) 
-    \Using_FPGA.Native_i_2__1 
-       (.I0(\Using_FPGA.Native_24 ),
+    \Using_FPGA.Native_i_2__0 
+       (.I0(\Using_FPGA.Native_22 ),
         .I1(MSRxxx_Instr_i),
         .I2(\Using_FPGA.Native_18 ),
         .I3(ex_Valid),
@@ -10762,9 +10649,9 @@ module blockdesign_microblaze_0_0_Decode
         .O(\Using_FPGA.Native_0 ));
   LUT6 #(
     .INIT(64'hEEFEEEEEEEAEEEEE)) 
-    \Using_FPGA.Native_i_2__54 
+    \Using_FPGA.Native_i_2__53 
        (.I0(\Data_Flow_I/MSR_Reg_I/MSR_Set ),
-        .I1(\Using_FPGA.Native_22 [2]),
+        .I1(\Using_FPGA.Native_24 [2]),
         .I2(ex_Valid),
         .I3(\Using_FPGA.Native_18 ),
         .I4(mtsmsr_write_i_reg_n_0),
@@ -10772,71 +10659,72 @@ module blockdesign_microblaze_0_0_Decode
         .O(\Using_FPGA.Native_13 ));
   LUT6 #(
     .INIT(64'hFFFFFF202020FF20)) 
-    \Using_FPGA.Native_i_2__55 
+    \Using_FPGA.Native_i_2__54 
        (.I0(ex_Valid),
         .I1(\Using_FPGA.Native_18 ),
         .I2(write_Carry_I_reg_n_0),
-        .I3(\Using_FPGA.Native_22 [1]),
-        .I4(\Using_FPGA.Native_i_3_n_0 ),
+        .I3(\Using_FPGA.Native_24 [1]),
+        .I4(\Using_FPGA.Native_i_3__1_n_0 ),
         .I5(\Using_FPGA.Native_i_4_n_0 ),
         .O(\Using_FPGA.Native_14 ));
   LUT6 #(
     .INIT(64'hEEFEEEEEEEAEEEEE)) 
-    \Using_FPGA.Native_i_2__56 
-       (.I0(\Using_FPGA.Native_i_3__1_n_0 ),
-        .I1(\Using_FPGA.Native_22 [0]),
+    \Using_FPGA.Native_i_2__55 
+       (.I0(\Using_FPGA.Native_i_3_n_0 ),
+        .I1(\Using_FPGA.Native_24 [0]),
         .I2(ex_Valid),
         .I3(\Using_FPGA.Native_18 ),
         .I4(mtsmsr_write_i_reg_n_0),
         .I5(Op1_Low[0]),
         .O(\Using_FPGA.Native_15 ));
-  (* SOFT_HLUTNM = "soft_lutpair38" *) 
+  (* SOFT_HLUTNM = "soft_lutpair41" *) 
   LUT3 #(
     .INIT(8'h20)) 
-    \Using_FPGA.Native_i_2__9 
+    \Using_FPGA.Native_i_2__8 
        (.I0(\trace_instruction_i_reg[0] [27]),
         .I1(\Using_FPGA.Native_18 ),
         .I2(pcmp_instr),
         .O(I3));
   LUT6 #(
-    .INIT(64'hAAFAAAFAAAEAAAAA)) 
-    \Using_FPGA.Native_i_3 
-       (.I0(\Using_FPGA.Native_i_3__0_n_0 ),
-        .I1(\Using_FPGA.Native_20 ),
-        .I2(ex_Valid),
-        .I3(\Using_FPGA.Native_18 ),
-        .I4(MSRxxx_Instr_i),
-        .I5(mtsmsr_write_i_reg_n_0),
-        .O(\Using_FPGA.Native_i_3_n_0 ));
-  LUT5 #(
-    .INIT(32'h20202000)) 
-    \Using_FPGA.Native_i_3__0 
-       (.I0(load_Store_i),
-        .I1(\Using_FPGA.Native_18 ),
-        .I2(ex_Valid),
-        .I3(is_lwx_I),
-        .I4(is_swx_I_reg_n_0),
-        .O(\Using_FPGA.Native_i_3__0_n_0 ));
-  LUT6 #(
     .INIT(64'h00E000F000200000)) 
-    \Using_FPGA.Native_i_3__1 
+    \Using_FPGA.Native_i_3 
        (.I0(Op2_Low),
         .I1(MSRclr_Instr),
         .I2(ex_Valid),
         .I3(\Using_FPGA.Native_18 ),
         .I4(MSRxxx_Instr_i),
         .I5(\Using_FPGA.enable_Interrupts_I_reg_n_0 ),
-        .O(\Using_FPGA.Native_i_3__1_n_0 ));
+        .O(\Using_FPGA.Native_i_3_n_0 ));
   LUT6 #(
     .INIT(64'h00E000F000200000)) 
-    \Using_FPGA.Native_i_3__2 
-       (.I0(\Using_FPGA.Native_23 ),
+    \Using_FPGA.Native_i_3__0 
+       (.I0(\Using_FPGA.Native_20 ),
         .I1(MSRclr_Instr),
         .I2(ex_Valid),
         .I3(\Using_FPGA.Native_18 ),
         .I4(MSRxxx_Instr_i),
         .I5(\Using_FPGA.set_BIP_I_reg_n_0 ),
         .O(\Data_Flow_I/MSR_Reg_I/MSR_Set ));
+  LUT6 #(
+    .INIT(64'hAAFAAAFAAAEAAAAA)) 
+    \Using_FPGA.Native_i_3__1 
+       (.I0(\Using_FPGA.Native_i_3__2_n_0 ),
+        .I1(\Using_FPGA.Native_23 ),
+        .I2(ex_Valid),
+        .I3(\Using_FPGA.Native_18 ),
+        .I4(MSRxxx_Instr_i),
+        .I5(mtsmsr_write_i_reg_n_0),
+        .O(\Using_FPGA.Native_i_3__1_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair31" *) 
+  LUT5 #(
+    .INIT(32'h20202000)) 
+    \Using_FPGA.Native_i_3__2 
+       (.I0(ex_Valid),
+        .I1(\Using_FPGA.Native_18 ),
+        .I2(load_Store_i),
+        .I3(is_lwx_I),
+        .I4(is_swx_I_reg_n_0),
+        .O(\Using_FPGA.Native_i_3__2_n_0 ));
   LUT6 #(
     .INIT(64'hF808F808F808FB08)) 
     \Using_FPGA.Native_i_3__4 
@@ -10847,32 +10735,34 @@ module blockdesign_microblaze_0_0_Decode
         .I4(clz_instr),
         .I5(pcmp_instr),
         .O(\Using_FPGA.Native_i_3__4_n_0 ));
-  LUT6 #(
-    .INIT(64'hF704F7F7F7040404)) 
-    \Using_FPGA.Native_i_4 
-       (.I0(MSRclr_Instr),
-        .I1(\Using_FPGA.Native_20 ),
-        .I2(\Using_FPGA.Native_i_5_n_0 ),
-        .I3(\Using_FPGA.Native_i_6__0_n_0 ),
-        .I4(\Using_FPGA.Native_i_3__0_n_0 ),
-        .I5(\Using_FPGA.Native_21 ),
-        .O(\Using_FPGA.Native_i_4_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair38" *) 
+  (* SOFT_HLUTNM = "soft_lutpair41" *) 
   LUT3 #(
     .INIT(8'hCD)) 
-    \Using_FPGA.Native_i_4__1 
+    \Using_FPGA.Native_i_3__5 
        (.I0(pcmp_instr),
         .I1(\Using_FPGA.Native_18 ),
         .I2(clz_instr),
         .O(\Using_FPGA.Native_4 ));
-  (* SOFT_HLUTNM = "soft_lutpair39" *) 
-  LUT2 #(
-    .INIT(4'h2)) 
-    \Using_FPGA.Native_i_4__2 
-       (.I0(clz_instr),
-        .I1(\Using_FPGA.Native_18 ),
-        .O(\Using_FPGA.Native_5 ));
-  (* SOFT_HLUTNM = "soft_lutpair28" *) 
+  LUT5 #(
+    .INIT(32'hFFFFFFFE)) 
+    \Using_FPGA.Native_i_3__6 
+       (.I0(Q[4]),
+        .I1(Q[3]),
+        .I2(Q[0]),
+        .I3(Q[1]),
+        .I4(Q[2]),
+        .O(\Using_FPGA.Native_i_3__6_n_0 ));
+  LUT6 #(
+    .INIT(64'hF704F7F7F7040404)) 
+    \Using_FPGA.Native_i_4 
+       (.I0(MSRclr_Instr),
+        .I1(\Using_FPGA.Native_23 ),
+        .I2(\Using_FPGA.Native_i_5_n_0 ),
+        .I3(\Using_FPGA.Native_i_6__1_n_0 ),
+        .I4(\Using_FPGA.Native_i_3__2_n_0 ),
+        .I5(\Using_FPGA.Native_21 ),
+        .O(\Using_FPGA.Native_i_4_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair33" *) 
   LUT3 #(
     .INIT(8'hDF)) 
     \Using_FPGA.Native_i_5 
@@ -10880,20 +10770,27 @@ module blockdesign_microblaze_0_0_Decode
         .I1(\Using_FPGA.Native_18 ),
         .I2(ex_Valid),
         .O(\Using_FPGA.Native_i_5_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair33" *) 
+  (* SOFT_HLUTNM = "soft_lutpair42" *) 
   LUT2 #(
     .INIT(4'h2)) 
     \Using_FPGA.Native_i_5__1 
-       (.I0(pcmp_instr),
+       (.I0(clz_instr),
         .I1(\Using_FPGA.Native_18 ),
-        .O(PCMP_Instr2_out));
-  (* SOFT_HLUTNM = "soft_lutpair35" *) 
+        .O(\Using_FPGA.Native_5 ));
+  (* SOFT_HLUTNM = "soft_lutpair36" *) 
   LUT2 #(
     .INIT(4'h2)) 
     \Using_FPGA.Native_i_6__0 
+       (.I0(pcmp_instr),
+        .I1(\Using_FPGA.Native_18 ),
+        .O(PCMP_Instr2_out));
+  (* SOFT_HLUTNM = "soft_lutpair39" *) 
+  LUT2 #(
+    .INIT(4'h2)) 
+    \Using_FPGA.Native_i_6__1 
        (.I0(is_swx_I_reg_n_0),
         .I1(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
-        .O(\Using_FPGA.Native_i_6__0_n_0 ));
+        .O(\Using_FPGA.Native_i_6__1_n_0 ));
   blockdesign_microblaze_0_0_MB_MUXCY_70 \Using_FPGA.New_Carry_MUXCY 
        (.LO(LO),
         .Op1_Low(Op1_Low[1]),
@@ -10983,16 +10880,16 @@ module blockdesign_microblaze_0_0_Decode
         .use_Reg_Neg_S(use_Reg_Neg_S),
         .use_Reg_Neg_S_i42_out(use_Reg_Neg_S_i42_out));
   blockdesign_microblaze_0_0_MB_MUXCY_79 \Using_FPGA.Using_Breakable_Pipe.OpSel1_SPR_MUXCY_1 
-       (.\Using_FPGA.take_Intr_2nd_Phase_reg (take_Intr_Now_III),
-        .opsel1_SPR(opsel1_SPR),
-        .opsel1_SPR_Select(opsel1_SPR_Select));
+       (.opsel1_SPR(opsel1_SPR),
+        .opsel1_SPR_Select(opsel1_SPR_Select),
+        .take_Intr_Now_III(take_Intr_Now_III));
   blockdesign_microblaze_0_0_MB_MUXCY_80 \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_1 
        (.\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
         .inHibit_EX(inHibit_EX),
         .jump2_I_reg(jump2_I_reg_n_0),
-        .lopt(lopt_20),
-        .lopt_1(lopt_21),
-        .lopt_2(lopt_22),
+        .lopt(lopt_19),
+        .lopt_1(lopt_20),
+        .lopt_2(lopt_21),
         .mul_Executing_reg(of_PipeRun),
         .take_Intr_Now_I(take_Intr_Now_I),
         .using_Imm_reg(use_Imm_Reg));
@@ -11001,34 +10898,41 @@ module blockdesign_microblaze_0_0_Decode
         .\Using_MSR_Instr.write_MSR_I_reg (\Using_MSR_Instr.write_MSR_I_reg_n_0 ),
         .break_Pipe_i_reg__0(break_Pipe_i_reg__0),
         .ex_Valid(ex_Valid),
-        .lopt(lopt_23),
-        .lopt_1(lopt_24),
-        .lopt_2(lopt_25),
+        .lopt(lopt_22),
+        .lopt_1(lopt_23),
+        .lopt_2(lopt_24),
         .take_Intr_Now_I(take_Intr_Now_I),
         .take_Intr_Now_II(take_Intr_Now_II));
   blockdesign_microblaze_0_0_MB_MUXCY_82 \Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3 
-       (.D(\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_6 ),
-        .MSRclr_Instr(MSRclr_Instr),
+       (.MSRclr_Instr(MSRclr_Instr),
         .MSRxxx_Instr_i(MSRxxx_Instr_i),
         .Op2_Low(Op2_Low),
+        .SR(MSRclr_Instr_i),
+        .Select_Logic0(Select_Logic0),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (instr_OF[7]),
+        .\Using_FPGA.interrupt_taken_no_fsl_reg (\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_8 ),
+        .\Using_FPGA.set_BIP_I_reg (\Using_LWX_SWX_instr.reservation_i_4_n_0 ),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
-        .\Using_LWX_SWX_instr.reservation_reg (\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_3 ),
-        .ex_Valid_reg(I_AS_INST_0_i_2_n_0),
+        .\Using_LWX_SWX_instr.reservation_reg (\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_2 ),
+        .\Using_LWX_SWX_instr.reservation_reg_0 (\Using_LWX_SWX_instr.reservation_reg_n_0 ),
+        .ex_Valid_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_5 ),
+        .ex_Valid_reg_0(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
         .inHibit_EX(inHibit_EX),
         .inHibit_EX1(inHibit_EX1),
         .inHibit_EX_reg(\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_1 ),
-        .inHibit_EX_reg_0(PreFetch_Buffer_I_n_56),
+        .inHibit_EX_reg_0(PreFetch_Buffer_I_n_46),
+        .instr_OF(instr_OF[3]),
+        .is_lwx_I(is_lwx_I),
+        .is_swx_I_reg(is_swx_I_reg_n_0),
         .load_Store_i2(load_Store_i2),
-        .lopt(lopt_26),
-        .lopt_1(lopt_27),
-        .lopt_2(lopt_28),
+        .lopt(lopt_25),
+        .lopt_1(lopt_26),
+        .lopt_2(lopt_27),
         .mul_Executing_reg(of_PipeRun),
         .nonvalid_IFetch_n_reg(inHibit_EX_i_3_n_0),
         .sync_reset(sync_reset),
         .take_Intr_Now_II(take_Intr_Now_II),
-        .\write_Addr_I_reg[1] (take_Intr_Now_III));
+        .take_Intr_Now_III(take_Intr_Now_III));
   FDRE \Using_FPGA.Valid_Instr_reg 
        (.C(Clk),
         .CE(1'b1),
@@ -11042,11 +10946,11 @@ module blockdesign_microblaze_0_0_Decode
         .lopt_1(of_PipeRun),
         .lopt_2(S1_out),
         .lopt_3(\^lopt_6 ),
-        .lopt_4(\^lopt_7 ),
-        .lopt_5(lopt_8),
-        .lopt_6(lopt_9),
-        .lopt_7(lopt_10),
-        .lopt_8(lopt_11),
+        .lopt_4(S0_out),
+        .lopt_5(\^lopt_7 ),
+        .lopt_6(lopt_8),
+        .lopt_7(lopt_9),
+        .lopt_8(lopt_10),
         .nonvalid_IFetch_n_reg(nonvalid_IFetch_n_reg_n_0));
   FDRE \Using_FPGA.enable_Interrupts_I_reg 
        (.C(Clk),
@@ -11078,8 +10982,8 @@ module blockdesign_microblaze_0_0_Decode
        (.buffer_Full(buffer_Full),
         .dbg_pause_reg(jump),
         .ifetch_carry1(ifetch_carry1),
-        .lopt(lopt_16),
-        .lopt_1(lopt_17));
+        .lopt(lopt_15),
+        .lopt_1(lopt_16));
   blockdesign_microblaze_0_0_MB_MUXCY_87 \Using_FPGA.iFetch_MuxCY_2 
        (.IReady(IReady_0),
         .I_AS(D[5]),
@@ -11087,13 +10991,13 @@ module blockdesign_microblaze_0_0_Decode
         .\Serial_Dbg_Intf.if_debug_ready_i_reg_0 (\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
         .\Use_Async_Reset.sync_reset_reg (\Use_Async_Reset.sync_reset_reg ),
         .dbg_pause_reg(jump),
-        .ex_Valid_reg(I_AS_INST_0_i_2_n_0),
+        .ex_Valid_reg(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
         .iFetch_In_Progress(iFetch_In_Progress),
         .iFetch_In_Progress_reg(\Using_FPGA.iFetch_MuxCY_2_n_3 ),
         .ifetch_carry1(ifetch_carry1),
         .ifetch_carry2(ifetch_carry2),
-        .lopt(lopt_18),
-        .lopt_1(lopt_19),
+        .lopt(lopt_17),
+        .lopt_1(lopt_18),
         .mbar_decode_I(mbar_decode_I),
         .mbar_hold_I_reg(\Using_FPGA.iFetch_MuxCY_2_n_1 ),
         .mbar_hold_I_reg_0(mbar_hold_I_reg_n_0),
@@ -11107,65 +11011,68 @@ module blockdesign_microblaze_0_0_Decode
        (.D(D[6]),
         .iFetch_In_Progress(iFetch_In_Progress),
         .ifetch_carry2(ifetch_carry2));
+  FDRE \Using_FPGA.interrupt_taken_no_fsl_reg 
+       (.C(Clk),
+        .CE(1'b1),
+        .D(\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_8 ),
+        .Q(interrupt_Taken_i),
+        .R(sync_reset));
   blockdesign_microblaze_0_0_MB_MUXCY_89 \Using_FPGA.of_PipeRun_MuxCY_1 
        (.Blocked_Valid_Instr0(Blocked_Valid_Instr0),
-        .Buffer_Addr(Buffer_Addr[0]),
+        .Buffer_Addr(Buffer_Addr[1:0]),
         .D(imm_Value[15]),
         .DReady(DReady),
         .DReady0_out(DReady0_out),
         .E(\Using_FPGA.of_PipeRun_MuxCY_1_n_8 ),
         .MEM_DAXI_Data_Strobe(MEM_DAXI_Data_Strobe),
         .OF_PipeRun(OF_PipeRun),
-        .S(S1_out),
+        .S(S0_out),
         .S105_out(S105_out),
-        .SR(MSRclr_Instr_i),
-        .Sext16_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_9 ),
+        .Sext16_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_11 ),
         .Sext16_reg_0(\Using_FPGA.of_PipeRun_MuxCY_1_n_16 ),
         .Sext16_reg_1(sext16),
         .Sext8_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_17 ),
         .Sext8_reg_0(sext8),
-        .Unsigned_Op_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_12 ),
-        .\Use_Async_Reset.sync_reset_reg (\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_3 ),
+        .Unsigned_Op_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_10 ),
         .\Using_FPGA.Native_0 (of_PipeRun),
-        .\Using_FPGA.Native_1 (PreFetch_Buffer_I_n_129),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_17 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_18 ),
-        .\Using_FPGA.Native_4 (PreFetch_Buffer_I_n_47),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_27 ),
-        .\Using_FPGA.Native_6 (PreFetch_Buffer_I_n_109),
-        .\Using_FPGA.set_BIP_I_reg (\Using_LWX_SWX_instr.reservation_i_4_n_0 ),
+        .\Using_FPGA.Native_1 (S1_out),
+        .\Using_FPGA.Native_2 (PreFetch_Buffer_I_n_128),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_17 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_18 ),
+        .\Using_FPGA.Native_5 (PreFetch_Buffer_I_n_61),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_27 ),
+        .\Using_FPGA.Native_7 (PreFetch_Buffer_I_n_108),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (exception_kind),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (take_Intr_Now_III),
-        .\Using_LWX_SWX_instr.reservation_reg (\Using_FPGA.of_PipeRun_MuxCY_1_n_4 ),
+        .\Using_LWX_SWX_instr.reservation_reg (\Using_FPGA.of_PipeRun_MuxCY_1_n_5 ),
         .\Using_LWX_SWX_instr.reservation_reg_0 (\Using_LWX_SWX_instr.reservation_reg_n_0 ),
         .Valid_Instr0(Valid_Instr0),
         .break_Pipe_i_reg__0(break_Pipe_i_reg__0),
         .check_srx15_in(check_srx15_in),
         .dbg_pause_reg(jump),
         .ex_Valid(ex_Valid),
-        .ex_Valid_1st_cycle4_out(ex_Valid_1st_cycle4_out),
+        .ex_Valid_1st_cycle_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_15 ),
         .inHibit_EX(inHibit_EX),
-        .is_lwx_I(is_lwx_I),
         .is_swx_I(is_swx_I),
         .is_swx_I_reg(is_swx_I_reg_n_0),
         .jump2_I_reg(jump2_I_reg_n_0),
         .load_Store_i(load_Store_i),
-        .load_Store_i_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_15 ),
-        .lopt(lopt_20),
-        .lopt_1(lopt_21),
-        .lopt_2(lopt_22),
-        .lopt_3(lopt_23),
-        .lopt_4(lopt_24),
-        .lopt_5(lopt_25),
-        .lopt_6(lopt_26),
-        .lopt_7(lopt_27),
-        .lopt_8(lopt_28),
+        .load_Store_i_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_14 ),
+        .lopt(lopt_19),
+        .lopt_1(lopt_20),
+        .lopt_2(lopt_21),
+        .lopt_3(lopt_22),
+        .lopt_4(lopt_23),
+        .lopt_5(lopt_24),
+        .lopt_6(lopt_25),
+        .lopt_7(lopt_26),
+        .lopt_8(lopt_27),
         .mem_access_completed_reg(mem_access_completed_reg),
         .of_PipeRun_Select(of_PipeRun_Select),
         .of_PipeRun_without_dready(of_PipeRun_without_dready),
         .swx_ready(swx_ready),
-        .swx_ready_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_6 ),
+        .swx_ready_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_7 ),
         .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .take_intr_2nd_cycle_reg(\Using_FPGA.of_PipeRun_MuxCY_1_n_1 ),
         .take_intr_2nd_cycle_reg_0(take_intr_2nd_cycle_reg_n_0),
         .take_intr_Done(take_intr_Done),
@@ -11205,7 +11112,7 @@ module blockdesign_microblaze_0_0_Decode
         .D(inHibit_EX1),
         .Q(exception_kind),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair36" *) 
+  (* SOFT_HLUTNM = "soft_lutpair40" *) 
   LUT3 #(
     .INIT(8'h20)) 
     \Using_LWX_SWX_instr.reservation_i_4 
@@ -11216,7 +11123,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE \Using_LWX_SWX_instr.reservation_reg 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_4 ),
+        .D(\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_2 ),
         .Q(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
         .R(1'b0));
   FDRE \Using_MSR_Instr.MSRclr_Instr_i_reg 
@@ -11228,7 +11135,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE \Using_MSR_Instr.MSRxxx_Instr_i_reg 
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_38),
+        .D(p_47_out),
         .Q(MSRxxx_Instr_i),
         .R(MSRclr_Instr_i));
   FDRE \Using_MSR_Instr.msrxxx_carry_reg 
@@ -11252,24 +11159,24 @@ module blockdesign_microblaze_0_0_Decode
   FDRE \Using_Mul_Instr.ex_not_mul_op_i_reg 
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_51),
+        .D(PreFetch_Buffer_I_n_111),
         .Q(ex_not_mul_op),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair32" *) 
+  (* SOFT_HLUTNM = "soft_lutpair35" *) 
   LUT4 #(
     .INIT(16'hAABA)) 
     \Using_dynamic_instr_Address.Interrupt_Ack[0]_i_1 
        (.I0(\Using_FPGA.enable_Interrupts_I_reg_n_0 ),
         .I1(old_IE_value),
-        .I2(\Using_FPGA.Native_22 [0]),
+        .I2(\Using_FPGA.Native_24 [0]),
         .I3(\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ),
         .O(\Using_dynamic_instr_Address.Interrupt_Ack[0]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair32" *) 
+  (* SOFT_HLUTNM = "soft_lutpair35" *) 
   LUT5 #(
     .INIT(32'h04FF0404)) 
     \Using_dynamic_instr_Address.Interrupt_Ack[1]_i_1 
        (.I0(old_IE_value),
-        .I1(\Using_FPGA.Native_22 [0]),
+        .I1(\Using_FPGA.Native_24 [0]),
         .I2(\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ),
         .I3(\Using_FPGA.enable_Interrupts_I_reg_n_0 ),
         .I4(take_intr_2nd_cycle_reg_n_0),
@@ -11293,23 +11200,23 @@ module blockdesign_microblaze_0_0_Decode
         .Q(old_IE_value),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'h2020002000000000)) 
+    .INIT(64'h00D0000000000000)) 
     Write_Strobe_INST_0
-       (.I0(ex_Valid),
-        .I1(\Using_FPGA.Native_18 ),
+       (.I0(is_swx_I_reg_n_0),
+        .I1(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
         .I2(load_Store_i),
-        .I3(is_swx_I_reg_n_0),
-        .I4(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
+        .I3(\Using_FPGA.Native_18 ),
+        .I4(ex_Valid),
         .I5(writing_reg_n_0),
         .O(D[2]));
   LUT5 #(
     .INIT(32'hFEFEFE00)) 
     active_wakeup_i_1
-       (.I0(Suspend),
-        .I1(Hibernate),
+       (.I0(Hibernate),
+        .I1(Suspend),
         .I2(Sleep_Decode),
-        .I3(wakeup_i[1]),
-        .I4(wakeup_i[0]),
+        .I3(wakeup_i[0]),
+        .I4(wakeup_i[1]),
         .O(active_wakeup0));
   FDRE active_wakeup_reg
        (.C(Clk),
@@ -11332,7 +11239,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE byte_i_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_128),
+        .D(PreFetch_Buffer_I_n_132),
         .Q(isbyte),
         .R(1'b0));
   FDRE d_AS_I_reg
@@ -11360,19 +11267,19 @@ module blockdesign_microblaze_0_0_Decode
   FDRE doublet_i_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_132),
+        .D(PreFetch_Buffer_I_n_130),
         .Q(isdoublet),
         .R(1'b0));
   FDRE ex_Valid_1st_cycle_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(ex_Valid_1st_cycle4_out),
+        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_15 ),
         .Q(ex_Valid_1st_cycle_reg_n_0),
         .R(1'b0));
   FDRE ex_Valid_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_124),
+        .D(\Using_FPGA.MUXCY_JUMP_CARRY3_n_11 ),
         .Q(ex_Valid),
         .R(sync_reset));
   FDRE ex_first_cycle_reg
@@ -11413,8 +11320,8 @@ module blockdesign_microblaze_0_0_Decode
     .INIT(8'h54)) 
     inHibit_EX_i_3
        (.I0(nonvalid_IFetch_n_reg_n_0),
-        .I1(\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
-        .I2(IReady_0),
+        .I1(IReady_0),
+        .I2(\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
         .O(inHibit_EX_i_3_n_0));
   FDRE inHibit_EX_reg
        (.C(Clk),
@@ -11635,23 +11542,23 @@ module blockdesign_microblaze_0_0_Decode
   FDRE jump2_I_reg
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_50),
+        .D(PreFetch_Buffer_I_n_45),
         .Q(jump2_I_reg_n_0),
         .R(sync_reset));
   FDRE load_Store_i_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_15 ),
+        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_14 ),
         .Q(load_Store_i),
         .R(1'b0));
-  (* SOFT_HLUTNM = "soft_lutpair33" *) 
+  (* SOFT_HLUTNM = "soft_lutpair36" *) 
   LUT4 #(
-    .INIT(16'hEEEF)) 
+    .INIT(16'hFFF1)) 
     mask_reset_inferred_i_1
-       (.I0(Not_Barrel_Op),
-        .I1(\Using_FPGA.Native_18 ),
-        .I2(BitField_Extract),
-        .I3(BitField_Insert),
+       (.I0(BitField_Insert),
+        .I1(BitField_Extract),
+        .I2(Not_Barrel_Op),
+        .I3(\Using_FPGA.Native_18 ),
         .O(in0));
   FDRE mbar_decode_I_reg
        (.C(Clk),
@@ -11693,7 +11600,7 @@ module blockdesign_microblaze_0_0_Decode
     .INIT(64'h00000000EAAAAAAA)) 
     mbar_sleep_i_1
        (.I0(mbar_sleep),
-        .I1(I_AS_INST_0_i_2_n_0),
+        .I1(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
         .I2(mbar_decode_I),
         .I3(mbar_is_sleep),
         .I4(ex_first_cycle),
@@ -11723,7 +11630,7 @@ module blockdesign_microblaze_0_0_Decode
         .D(mul_Executing),
         .Q(mul_Executing_delayed),
         .R(sync_reset));
-  (* SOFT_HLUTNM = "soft_lutpair39" *) 
+  (* SOFT_HLUTNM = "soft_lutpair42" *) 
   LUT3 #(
     .INIT(8'h04)) 
     mul_Executing_done_i_1
@@ -11754,7 +11661,7 @@ module blockdesign_microblaze_0_0_Decode
   FDSE nonvalid_IFetch_n_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_123),
+        .D(PreFetch_Buffer_I_n_125),
         .Q(nonvalid_IFetch_n_reg_n_0),
         .S(sync_reset));
   LUT5 #(
@@ -11783,7 +11690,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE select_ALU_Carry_reg
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_115),
+        .D(PreFetch_Buffer_I_n_114),
         .Q(select_ALU_Carry),
         .R(MSRclr_Instr_i));
   LUT6 #(
@@ -11828,7 +11735,7 @@ module blockdesign_microblaze_0_0_Decode
   FDRE swx_ready_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_6 ),
+        .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_7 ),
         .Q(swx_ready),
         .R(1'b0));
   FDRE take_intr_2nd_cycle_reg
@@ -11844,41 +11751,32 @@ module blockdesign_microblaze_0_0_Decode
         .Q(take_intr_Done),
         .R(sync_reset));
   LUT5 #(
-    .INIT(32'h00B00000)) 
+    .INIT(32'h20002020)) 
     trace_data_access_i_i_1
-       (.I0(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
-        .I1(is_swx_I_reg_n_0),
+       (.I0(ex_Valid),
+        .I1(\Using_FPGA.Native_18 ),
         .I2(load_Store_i),
-        .I3(\Using_FPGA.Native_18 ),
-        .I4(ex_Valid),
+        .I3(\Using_LWX_SWX_instr.reservation_reg_n_0 ),
+        .I4(is_swx_I_reg_n_0),
         .O(\Serial_Dbg_Intf.status_reg_reg[22] ));
   LUT6 #(
-    .INIT(64'hFFFFFFFF0000F100)) 
+    .INIT(64'hFFFFFFFFAA020000)) 
     trace_reg_write_novalid_i_1
-       (.I0(mem_access_completed_reg),
-        .I1(writing_reg_n_0),
-        .I2(write_Reg_reg_n_0),
-        .I3(I_AS_INST_0_i_2_n_0),
-        .I4(trace_reg_write_novalid_i_3_n_0),
+       (.I0(\Using_FPGA.Native_i_3__6_n_0 ),
+        .I1(mem_access_completed_reg),
+        .I2(writing_reg_n_0),
+        .I3(write_Reg_reg_n_0),
+        .I4(\LOCKSTEP_Master_Out[1]_INST_0_i_1_n_0 ),
         .I5(reset_delay),
         .O(reg_Write_I));
-  LUT5 #(
-    .INIT(32'h00000001)) 
-    trace_reg_write_novalid_i_3
-       (.I0(Q[1]),
-        .I1(Q[0]),
-        .I2(Q[4]),
-        .I3(Q[3]),
-        .I4(Q[2]),
-        .O(trace_reg_write_novalid_i_3_n_0));
   LUT6 #(
     .INIT(64'hAAAAAAAAAAAAAABA)) 
     trace_valid_instr_part1_i_1
        (.I0(trace_valid_instr_part1_i_2_n_0),
         .I1(mul_Executing),
         .I2(ex_Valid_1st_cycle_reg_n_0),
-        .I3(\Using_FPGA.Native_18 ),
-        .I4(take_intr_Done),
+        .I3(take_intr_Done),
+        .I4(\Using_FPGA.Native_18 ),
         .I5(load_Store_i),
         .O(trace_valid_instr_part10));
   LUT5 #(
@@ -11887,8 +11785,8 @@ module blockdesign_microblaze_0_0_Decode
        (.I0(\Using_FPGA.Native_18 ),
         .I1(load_Store_i),
         .I2(swx_ready),
-        .I3(DReady),
-        .I4(MEM_DAXI_Data_Strobe),
+        .I3(MEM_DAXI_Data_Strobe),
+        .I4(DReady),
         .O(trace_valid_instr_part1_i_2_n_0));
   FDRE trace_valid_instr_part1_reg
        (.C(Clk),
@@ -11902,7 +11800,7 @@ module blockdesign_microblaze_0_0_Decode
         .D(\Using_FPGA.of_PipeRun_MuxCY_1_n_2 ),
         .Q(use_Imm_Reg),
         .R(1'b0));
-  (* SOFT_HLUTNM = "soft_lutpair31" *) 
+  (* SOFT_HLUTNM = "soft_lutpair34" *) 
   LUT5 #(
     .INIT(32'hF1000000)) 
     \void_bit16[15]_i_1 
@@ -11910,7 +11808,7 @@ module blockdesign_microblaze_0_0_Decode
         .I1(\trace_instruction_i_reg[0] [10]),
         .I2(BitField_Extract),
         .I3(\trace_instruction_i_reg[0] [9]),
-        .I4(\Using_FPGA.Native_24 ),
+        .I4(\Using_FPGA.Native_22 ),
         .O(void_bit));
   FDRE \write_Addr_I_reg[0] 
        (.C(Clk),
@@ -11921,19 +11819,19 @@ module blockdesign_microblaze_0_0_Decode
   FDRE \write_Addr_I_reg[1] 
        (.C(Clk),
         .CE(\Using_FPGA.of_PipeRun_MuxCY_1_n_8 ),
-        .D(\Using_FPGA.Using_Breakable_Pipe.Take_Intr_MUXCY_3_n_6 ),
+        .D(PreFetch_Buffer_I_n_116),
         .Q(Q[3]),
         .R(1'b0));
   FDRE \write_Addr_I_reg[2] 
        (.C(Clk),
         .CE(\Using_FPGA.of_PipeRun_MuxCY_1_n_8 ),
-        .D(PreFetch_Buffer_I_n_112),
+        .D(PreFetch_Buffer_I_n_117),
         .Q(Q[2]),
         .R(1'b0));
   FDRE \write_Addr_I_reg[3] 
        (.C(Clk),
         .CE(\Using_FPGA.of_PipeRun_MuxCY_1_n_8 ),
-        .D(PreFetch_Buffer_I_n_113),
+        .D(PreFetch_Buffer_I_n_118),
         .Q(Q[1]),
         .R(1'b0));
   FDRE \write_Addr_I_reg[4] 
@@ -11945,19 +11843,19 @@ module blockdesign_microblaze_0_0_Decode
   FDRE write_Carry_I_reg
        (.C(Clk),
         .CE(of_PipeRun),
-        .D(PreFetch_Buffer_I_n_49),
+        .D(PreFetch_Buffer_I_n_110),
         .Q(write_Carry_I_reg_n_0),
         .R(MSRclr_Instr_i));
   blockdesign_microblaze_0_0_MB_LUT4 write_Reg_I_LUT
        (.DReady0_out(DReady0_out),
-        .Q(Q),
+        .\write_Addr_I_reg[0] (\Using_FPGA.Native_i_3__6_n_0 ),
         .write_Reg_I_S(write_Reg_I_S),
         .write_Reg_reg(write_Reg_reg_n_0),
         .writing_reg(writing_reg_n_0));
   FDRE write_Reg_reg
        (.C(Clk),
         .CE(1'b1),
-        .D(PreFetch_Buffer_I_n_130),
+        .D(PreFetch_Buffer_I_n_129),
         .Q(write_Reg_reg_n_0),
         .R(1'b0));
   FDRE writing_reg
@@ -11968,7 +11866,6 @@ module blockdesign_microblaze_0_0_Decode
         .R(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "MB_DSP48E1" *) 
 module blockdesign_microblaze_0_0_MB_DSP48E1
    (P,
     \Using_FPGA.DSP48E1_I1_0 ,
@@ -12542,7 +12439,6 @@ module blockdesign_microblaze_0_0_MB_DSP48E1__parameterized3
         .UNDERFLOW(\Using_FPGA.DSP48E1_I1_n_5 ));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FD" *) 
 module blockdesign_microblaze_0_0_MB_FD
    (\LOCKSTEP_Out_reg[3016] ,
     ex_Result,
@@ -12567,7 +12463,6 @@ module blockdesign_microblaze_0_0_MB_FD
         .R(1'b0));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE
    (\trace_pc_i_reg[9] ,
     OF_PipeRun,
@@ -13508,15 +13403,15 @@ module blockdesign_microblaze_0_0_MB_FDE_798
   input D_23;
   input Clk;
   input \Using_FPGA.Native_0 ;
-  input [1:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_1 ;
+  input [1:0]\Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
 
   wire Clk;
   wire D_23;
   wire \Using_FPGA.Native_0 ;
-  wire [1:0]\Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_1 ;
+  wire [1:0]\Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_3 ;
   wire of_PipeRun;
@@ -13537,9 +13432,9 @@ module blockdesign_microblaze_0_0_MB_FDE_798
     \Using_FPGA.Native_i_1__86 
        (.I0(op2_C),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 [1]),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_1 [0]),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 [1]),
+        .I4(\Using_FPGA.Native_2 [0]),
         .I5(\Using_FPGA.Native_3 ),
         .O(\Using_FPGA.The_Compare[0].sel_reg_3 ));
 endmodule
@@ -13547,28 +13442,16 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_802
    (op2_C,
-    \Using_FPGA.The_Compare[2].sel_reg ,
     of_PipeRun,
     D_24,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 );
+    Clk);
   output [0:0]op2_C;
-  output \Using_FPGA.The_Compare[2].sel_reg ;
   input of_PipeRun;
   input D_24;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input [0:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
 
   wire Clk;
   wire D_24;
-  wire \Using_FPGA.Native_0 ;
-  wire [0:0]\Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.The_Compare[2].sel_reg ;
   wire of_PipeRun;
   wire [0:0]op2_C;
 
@@ -13582,14 +13465,6 @@ module blockdesign_microblaze_0_0_MB_FDE_802
         .D(D_24),
         .Q(op2_C),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'h9009)) 
-    \Using_FPGA.Native_i_1__82 
-       (.I0(op2_C),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 ),
-        .O(\Using_FPGA.The_Compare[2].sel_reg ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -13651,31 +13526,16 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_814
    (op2_C,
-    S_0,
     of_PipeRun,
     D_27,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    Clk);
   output [0:0]op2_C;
-  output S_0;
   input of_PipeRun;
   input D_27;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input [1:0]\Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire Clk;
   wire D_27;
-  wire S_0;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire [1:0]\Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
   wire of_PipeRun;
   wire [0:0]op2_C;
 
@@ -13689,16 +13549,6 @@ module blockdesign_microblaze_0_0_MB_FDE_814
         .D(D_27),
         .Q(op2_C),
         .R(1'b0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__83 
-       (.I0(op2_C),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 [0]),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_2 [1]),
-        .O(S_0));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -13732,40 +13582,31 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_822
    (\Using_FPGA.DSP48E1_I1 ,
-    \Using_FPGA.The_Compare[2].sel_reg_7 ,
     \C_reg[30] ,
     of_PipeRun,
     D_0,
     Clk,
-    Op1_Logic,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     void_bit,
     A,
-    \Using_FPGA.Native_2 );
+    B,
+    \Using_FPGA.Native_0 );
   output \Using_FPGA.DSP48E1_I1 ;
-  output \Using_FPGA.The_Compare[2].sel_reg_7 ;
   output [0:0]\C_reg[30] ;
   input of_PipeRun;
   input D_0;
   input Clk;
-  input Op1_Logic;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
   input void_bit;
   input [1:0]A;
-  input \Using_FPGA.Native_2 ;
+  input [0:0]B;
+  input \Using_FPGA.Native_0 ;
 
   wire [1:0]A;
+  wire [0:0]B;
   wire [0:0]\C_reg[30] ;
   wire Clk;
   wire D_0;
-  wire Op1_Logic;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.The_Compare[2].sel_reg_7 ;
   wire of_PipeRun;
   wire void_bit;
 
@@ -13775,9 +13616,9 @@ module blockdesign_microblaze_0_0_MB_FDE_822
        (.I0(void_bit),
         .I1(A[1]),
         .I2(\Using_FPGA.DSP48E1_I1 ),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(B),
         .I4(A[0]),
-        .I5(\Using_FPGA.Native_2 ),
+        .I5(\Using_FPGA.Native_0 ),
         .O(\C_reg[30] ));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
@@ -13789,102 +13630,156 @@ module blockdesign_microblaze_0_0_MB_FDE_822
         .D(D_0),
         .Q(\Using_FPGA.DSP48E1_I1 ),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'h9009)) 
-    \Using_FPGA.Native_i_1__90 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(Op1_Logic),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(\Using_FPGA.Native_1 ),
-        .O(\Using_FPGA.The_Compare[2].sel_reg_7 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_826
    (\Using_FPGA.DSP48E1_I1 ,
     \C_reg[27] ,
-    \C_reg[23] ,
+    \C_reg[27]_0 ,
+    \Using_BitField.mem_mask0_reg[5] ,
+    \Using_BitField.mem_mask0_reg[17] ,
     of_PipeRun,
     D_1,
     Clk,
     A,
-    \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     void_bit,
+    \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 );
+    BitField_Insert,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 );
   output \Using_FPGA.DSP48E1_I1 ;
-  output [1:0]\C_reg[27] ;
-  output \C_reg[23] ;
+  output [0:0]\C_reg[27] ;
+  output \C_reg[27]_0 ;
+  output [4:0]\Using_BitField.mem_mask0_reg[5] ;
+  output \Using_BitField.mem_mask0_reg[17] ;
   input of_PipeRun;
   input D_1;
   input Clk;
   input [0:0]A;
-  input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \instr_EX_i_reg[22] ;
-  input \Using_FPGA.Native_0 ;
+  input [2:0]\Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input [1:0]\Using_FPGA.Native_2 ;
   input void_bit;
+  input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
 
   wire [0:0]A;
-  wire \C[27]_i_2_n_0 ;
-  wire \C_reg[23] ;
-  wire [1:0]\C_reg[27] ;
+  wire BitField_Insert;
+  wire [0:0]\C_reg[27] ;
+  wire \C_reg[27]_0 ;
   wire Clk;
   wire D_1;
-  wire \Using_Barrel_Shifter.BitField_Extract_reg ;
+  wire \Using_BitField.mem_mask0[5]_i_2_n_0 ;
+  wire \Using_BitField.mem_mask0_reg[17] ;
+  wire [4:0]\Using_BitField.mem_mask0_reg[5] ;
   wire \Using_FPGA.DSP48E1_I1 ;
-  wire \Using_FPGA.Native_0 ;
+  wire [2:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire [1:0]\Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \instr_EX_i_reg[22] ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire of_PipeRun;
   wire void_bit;
 
   LUT6 #(
-    .INIT(64'hFD01FDFDFDFDFDFD)) 
-    \C[19]_i_2 
-       (.I0(A),
-        .I1(\Using_FPGA.DSP48E1_I1 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .I4(\instr_EX_i_reg[22] ),
-        .I5(\Using_FPGA.Native_0 ),
-        .O(\C_reg[23] ));
-  LUT6 #(
-    .INIT(64'hFE02F000FE02FF0F)) 
+    .INIT(64'hFEF0FEFF0400040F)) 
     \C[27]_i_1 
-       (.I0(A),
-        .I1(\C[27]_i_2_n_0 ),
-        .I2(\Using_FPGA.Native_2 [1]),
-        .I3(void_bit),
-        .I4(\Using_FPGA.Native_2 [0]),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(\C_reg[27] [1]));
+       (.I0(\C_reg[27]_0 ),
+        .I1(A),
+        .I2(\Using_FPGA.Native_0 [1]),
+        .I3(\Using_FPGA.Native_0 [0]),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(void_bit),
+        .O(\C_reg[27] ));
   LUT2 #(
     .INIT(4'hE)) 
     \C[27]_i_2 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_4 ),
-        .O(\C[27]_i_2_n_0 ));
+        .I1(\Using_FPGA.Native_5 ),
+        .O(\C_reg[27]_0 ));
   LUT6 #(
-    .INIT(64'h2E2222220F000000)) 
-    \C[31]_i_1 
-       (.I0(A),
-        .I1(\C[27]_i_2_n_0 ),
-        .I2(\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .I3(\instr_EX_i_reg[22] ),
-        .I4(\Using_FPGA.Native_0 ),
-        .I5(\Using_FPGA.Native_1 ),
-        .O(\C_reg[27] [0]));
+    .INIT(64'h33337F7F22006E4C)) 
+    \Using_BitField.mem_mask0[17]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[17] ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_0 [1]),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(\Using_FPGA.Native_0 [2]),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[5] [3]));
+  LUT6 #(
+    .INIT(64'h00000000B8308800)) 
+    \Using_BitField.mem_mask0[1]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_7 ),
+        .O(\Using_BitField.mem_mask0_reg[17] ));
+  LUT6 #(
+    .INIT(64'h33337F7F22006E4C)) 
+    \Using_BitField.mem_mask0[21]_i_1 
+       (.I0(\Using_BitField.mem_mask0[5]_i_2_n_0 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_0 [1]),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(\Using_FPGA.Native_0 [2]),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[5] [2]));
+  LUT6 #(
+    .INIT(64'h00FF05FF00EE05EE)) 
+    \Using_BitField.mem_mask0[25]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[17] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_0 [2]),
+        .I3(BitField_Insert),
+        .I4(\Using_FPGA.Native_0 [1]),
+        .I5(\Using_FPGA.Native_2 ),
+        .O(\Using_BitField.mem_mask0_reg[5] [1]));
+  LUT6 #(
+    .INIT(64'h00FF05FF00EE05EE)) 
+    \Using_BitField.mem_mask0[29]_i_1 
+       (.I0(\Using_BitField.mem_mask0[5]_i_2_n_0 ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_0 [2]),
+        .I3(BitField_Insert),
+        .I4(\Using_FPGA.Native_0 [1]),
+        .I5(\Using_FPGA.Native_2 ),
+        .O(\Using_BitField.mem_mask0_reg[5] [0]));
+  LUT6 #(
+    .INIT(64'h7777A000FFFFA000)) 
+    \Using_BitField.mem_mask0[5]_i_1 
+       (.I0(\Using_BitField.mem_mask0[5]_i_2_n_0 ),
+        .I1(\Using_FPGA.Native_0 [1]),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(BitField_Insert),
+        .I5(\Using_FPGA.Native_0 [2]),
+        .O(\Using_BitField.mem_mask0_reg[5] [4]));
+  LUT6 #(
+    .INIT(64'hB8308800FFFFFFFF)) 
+    \Using_BitField.mem_mask0[5]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_7 ),
+        .O(\Using_BitField.mem_mask0[5]_i_2_n_0 ));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
@@ -13928,68 +13823,105 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_834
    (\Using_FPGA.DSP48E1_I1 ,
+    \C_reg[28] ,
+    \Using_BitField.mem_mask0_reg[17] ,
     \C_reg[30] ,
     \Using_BitField.mem_mask0_reg[19] ,
     of_PipeRun,
     D_2,
     Clk,
     \Using_FPGA.Native_0 ,
-    BitField_Insert,
     \Using_FPGA.Native_1 ,
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_2 ,
+    BitField_Insert,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 );
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 );
   output \Using_FPGA.DSP48E1_I1 ;
+  output [0:0]\C_reg[28] ;
+  output \Using_BitField.mem_mask0_reg[17] ;
   output \C_reg[30] ;
   output [1:0]\Using_BitField.mem_mask0_reg[19] ;
   input of_PipeRun;
   input D_2;
   input Clk;
-  input [0:0]\Using_FPGA.Native_0 ;
-  input BitField_Insert;
-  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_0 ;
+  input [0:0]\Using_FPGA.Native_1 ;
+  input \Using_Barrel_Shifter.BitField_Extract_reg ;
+  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_2 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
 
   wire BitField_Insert;
+  wire [0:0]\C_reg[28] ;
   wire \C_reg[30] ;
   wire Clk;
   wire D_2;
+  wire \Using_Barrel_Shifter.BitField_Extract_reg ;
+  wire \Using_BitField.mem_mask0_reg[17] ;
   wire [1:0]\Using_BitField.mem_mask0_reg[19] ;
   wire \Using_FPGA.DSP48E1_I1 ;
-  wire [0:0]\Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_0 ;
+  wire [0:0]\Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
 
+  LUT6 #(
+    .INIT(64'h01FD010101010101)) 
+    \C[28]_i_1 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.DSP48E1_I1 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_Barrel_Shifter.BitField_Extract_reg ),
+        .I4(\instr_EX_i_reg[22] ),
+        .I5(\Using_FPGA.Native_2 ),
+        .O(\C_reg[28] ));
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
   LUT2 #(
     .INIT(4'h1)) 
     \C[30]_i_2 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_1 ),
         .O(\C_reg[30] ));
   LUT6 #(
     .INIT(64'hCCCC74CC33333333)) 
     \Using_BitField.mem_mask0[19]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(BitField_Insert),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
         .O(\Using_BitField.mem_mask0_reg[19] [1]));
+  (* SOFT_HLUTNM = "soft_lutpair5" *) 
+  LUT3 #(
+    .INIT(8'h47)) 
+    \Using_BitField.mem_mask0[1]_i_3 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[17] ));
   LUT6 #(
     .INIT(64'h3374333333333333)) 
     \Using_BitField.mem_mask0[31]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(BitField_Insert),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
         .O(\Using_BitField.mem_mask0_reg[19] [0]));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
@@ -14006,54 +13938,67 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_838
    (\Using_FPGA.DSP48E1_I1 ,
+    S_8,
     \C_reg[23] ,
-    \Using_BitField.mem_mask0_reg[21] ,
-    \Using_BitField.mem_mask0_reg[21]_0 ,
+    \Using_BitField.mem_mask0_reg[1] ,
+    \Using_BitField.mem_mask0_reg[2] ,
     of_PipeRun,
     D_3,
     Clk,
     \Using_FPGA.Native_0 ,
-    void_bit,
-    B,
     \Using_FPGA.Native_1 ,
+    B,
     \Using_FPGA.Native_2 ,
-    BitField_Insert,
     \Using_FPGA.Native_3 ,
+    void_bit,
     \Using_FPGA.Native_4 ,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
+    BitField_Insert,
     \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 );
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 );
   output \Using_FPGA.DSP48E1_I1 ;
+  output S_8;
   output [0:0]\C_reg[23] ;
-  output \Using_BitField.mem_mask0_reg[21] ;
-  output [2:0]\Using_BitField.mem_mask0_reg[21]_0 ;
+  output [4:0]\Using_BitField.mem_mask0_reg[1] ;
+  output \Using_BitField.mem_mask0_reg[2] ;
   input of_PipeRun;
   input D_3;
   input Clk;
   input \Using_FPGA.Native_0 ;
-  input void_bit;
-  input [1:0]B;
   input \Using_FPGA.Native_1 ;
+  input [2:0]B;
   input \Using_FPGA.Native_2 ;
-  input BitField_Insert;
   input \Using_FPGA.Native_3 ;
+  input void_bit;
   input \Using_FPGA.Native_4 ;
+  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
 
-  wire [1:0]B;
+  wire [2:0]B;
   wire BitField_Insert;
   wire [0:0]\C_reg[23] ;
   wire Clk;
   wire D_3;
-  wire \Using_BitField.mem_mask0_reg[21] ;
-  wire [2:0]\Using_BitField.mem_mask0_reg[21]_0 ;
+  wire S_8;
+  wire [4:0]\Using_BitField.mem_mask0_reg[1] ;
+  wire \Using_BitField.mem_mask0_reg[2] ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -14061,57 +14006,80 @@ module blockdesign_microblaze_0_0_MB_FDE_838
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
   wire void_bit;
 
   LUT6 #(
     .INIT(64'hC005CF05C0F5CFF5)) 
     \C[23]_i_1 
-       (.I0(\Using_FPGA.Native_0 ),
+       (.I0(\Using_FPGA.Native_3 ),
         .I1(void_bit),
         .I2(\Using_FPGA.DSP48E1_I1 ),
-        .I3(B[0]),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_2 ),
+        .I3(B[1]),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\instr_EX_i_reg[22] ),
         .O(\C_reg[23] ));
-  (* SOFT_HLUTNM = "soft_lutpair5" *) 
-  LUT3 #(
-    .INIT(8'hB8)) 
-    \Using_BitField.mem_mask0[1]_i_3 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Insert),
-        .I2(\Using_FPGA.Native_3 ),
-        .O(\Using_BitField.mem_mask0_reg[21] ));
   LUT6 #(
-    .INIT(64'h5A5A7A700F0F0F0F)) 
-    \Using_BitField.mem_mask0[21]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[21] ),
-        .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_7 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[21]_0 [2]));
-  LUT6 #(
-    .INIT(64'h7A705A5A0F0F0F0F)) 
-    \Using_BitField.mem_mask0[23]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[21] ),
-        .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[21]_0 [1]));
-  (* SOFT_HLUTNM = "soft_lutpair5" *) 
-  LUT5 #(
-    .INIT(32'h33307774)) 
-    \Using_BitField.mem_mask0[24]_i_1 
+    .INIT(64'h55C0FFC0FF00FF00)) 
+    \Using_BitField.mem_mask0[1]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Insert),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_8 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(BitField_Insert),
+        .I4(B[2]),
+        .I5(\Using_FPGA.Native_9 ),
+        .O(\Using_BitField.mem_mask0_reg[1] [4]));
+  LUT6 #(
+    .INIT(64'h55C0FFC000FF00FF)) 
+    \Using_BitField.mem_mask0[20]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_6 ),
+        .I3(BitField_Insert),
         .I4(B[1]),
-        .O(\Using_BitField.mem_mask0_reg[21]_0 [0]));
+        .I5(\Using_FPGA.Native_10 ),
+        .O(\Using_BitField.mem_mask0_reg[1] [2]));
+  LUT6 #(
+    .INIT(64'h5555FF770050AA72)) 
+    \Using_BitField.mem_mask0[22]_i_1 
+       (.I0(BitField_Insert),
+        .I1(\Using_FPGA.DSP48E1_I1 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_11 ),
+        .I4(B[2]),
+        .I5(\Using_FPGA.Native_8 ),
+        .O(\Using_BitField.mem_mask0_reg[1] [1]));
+  LUT6 #(
+    .INIT(64'h00FC55FC00FF00FF)) 
+    \Using_BitField.mem_mask0[28]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_6 ),
+        .I3(BitField_Insert),
+        .I4(B[1]),
+        .I5(\Using_FPGA.Native_10 ),
+        .O(\Using_BitField.mem_mask0_reg[1] [0]));
+  LUT6 #(
+    .INIT(64'h5F5F8800FFFF8800)) 
+    \Using_BitField.mem_mask0[2]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[2] ),
+        .I1(\Using_FPGA.Native_5 ),
+        .I2(B[0]),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(BitField_Insert),
+        .I5(B[1]),
+        .O(\Using_BitField.mem_mask0_reg[1] [3]));
+  LUT5 #(
+    .INIT(32'hAAC000C0)) 
+    \Using_BitField.mem_mask0[2]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(BitField_Insert),
+        .I4(B[2]),
+        .O(\Using_BitField.mem_mask0_reg[2] ));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
@@ -14122,82 +14090,188 @@ module blockdesign_microblaze_0_0_MB_FDE_838
         .D(D_3),
         .Q(\Using_FPGA.DSP48E1_I1 ),
         .R(1'b0));
+  LUT6 #(
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__91 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(B[1]),
+        .O(S_8));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_842
-   (B,
-    S_8,
-    \Using_BitField.mem_mask0_reg[30] ,
-    \Using_BitField.mem_mask0_reg[30]_0 ,
+   (\Using_FPGA.DSP48E1_I1 ,
+    \Using_BitField.mem_mask0_reg[3] ,
+    \Using_BitField.mem_mask0_reg[3]_0 ,
     of_PipeRun,
     D_4,
     Clk,
     \Using_FPGA.Native_0 ,
+    BitField_Insert,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    Op1_Shift,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
-    BitField_Insert,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
-  output [0:0]B;
-  output S_8;
-  output \Using_BitField.mem_mask0_reg[30] ;
-  output [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 );
+  output \Using_FPGA.DSP48E1_I1 ;
+  output [10:0]\Using_BitField.mem_mask0_reg[3] ;
+  output \Using_BitField.mem_mask0_reg[3]_0 ;
   input of_PipeRun;
   input D_4;
   input Clk;
-  input \Using_FPGA.Native_0 ;
+  input [1:0]\Using_FPGA.Native_0 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_1 ;
-  input [1:0]\Using_FPGA.Native_2 ;
-  input Op1_Shift;
+  input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
-  input BitField_Insert;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
 
-  wire [0:0]B;
   wire BitField_Insert;
   wire Clk;
   wire D_4;
-  wire Op1_Shift;
-  wire S_8;
-  wire \Using_BitField.mem_mask0_reg[30] ;
-  wire [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
-  wire \Using_FPGA.Native_0 ;
+  wire [10:0]\Using_BitField.mem_mask0_reg[3] ;
+  wire \Using_BitField.mem_mask0_reg[3]_0 ;
+  wire \Using_FPGA.DSP48E1_I1 ;
+  wire [1:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire [1:0]\Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire of_PipeRun;
 
-  LUT5 #(
-    .INIT(32'h00035503)) 
-    \Using_BitField.mem_mask0[26]_i_2 
-       (.I0(B),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_2 [1]),
-        .O(\Using_BitField.mem_mask0_reg[30] ));
   LUT6 #(
-    .INIT(64'h0000FFDD0A0AFFDD)) 
-    \Using_BitField.mem_mask0[30]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[30] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_7 ),
+    .INIT(64'h747474FC744474CC)) 
+    \Using_BitField.mem_mask0[10]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_8 ),
+        .I4(\Using_FPGA.Native_0 [1]),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [5]));
+  LUT6 #(
+    .INIT(64'hAAAA5550BBBB5550)) 
+    \Using_BitField.mem_mask0[12]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_0 [1]),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_1 ),
         .I4(BitField_Insert),
-        .I5(\Using_FPGA.Native_2 [0]),
-        .O(\Using_BitField.mem_mask0_reg[30]_0 ));
+        .I5(\Using_FPGA.Native_0 [0]),
+        .O(\Using_BitField.mem_mask0_reg[3] [4]));
+  LUT6 #(
+    .INIT(64'hAA55AA55AB55AB44)) 
+    \Using_BitField.mem_mask0[13]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_0 [0]),
+        .I3(BitField_Insert),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(\Using_FPGA.Native_2 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [3]));
+  LUT6 #(
+    .INIT(64'h74FC44CC74747474)) 
+    \Using_BitField.mem_mask0[14]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_0 [1]),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [2]));
+  LUT6 #(
+    .INIT(64'hA5A5B5B0A5A5A5A5)) 
+    \Using_BitField.mem_mask0[15]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_0 [0]),
+        .I2(BitField_Insert),
+        .I3(\Using_FPGA.Native_1 ),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [1]));
+  LUT3 #(
+    .INIT(8'h74)) 
+    \Using_BitField.mem_mask0[16]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [0]));
+  LUT6 #(
+    .INIT(64'hF0F0F0F0B5B0F0F0)) 
+    \Using_BitField.mem_mask0[3]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_0 [0]),
+        .I2(BitField_Insert),
+        .I3(\Using_FPGA.Native_1 ),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [10]));
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  LUT3 #(
+    .INIT(8'h47)) 
+    \Using_BitField.mem_mask0[3]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .O(\Using_BitField.mem_mask0_reg[3]_0 ));
+  LUT6 #(
+    .INIT(64'hBBBB5000FFFF5000)) 
+    \Using_BitField.mem_mask0[4]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_0 [1]),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_1 ),
+        .I4(BitField_Insert),
+        .I5(\Using_FPGA.Native_0 [0]),
+        .O(\Using_BitField.mem_mask0_reg[3] [9]));
+  LUT6 #(
+    .INIT(64'hBBFB4444BBFB0404)) 
+    \Using_BitField.mem_mask0[7]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[3]_0 ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_0 [0]),
+        .I4(BitField_Insert),
+        .I5(\Using_FPGA.Native_1 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [8]));
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  LUT5 #(
+    .INIT(32'h7444FCCC)) 
+    \Using_BitField.mem_mask0[8]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_0 [1]),
+        .O(\Using_BitField.mem_mask0_reg[3] [7]));
+  LUT6 #(
+    .INIT(64'h747474FC744474CC)) 
+    \Using_BitField.mem_mask0[9]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(BitField_Insert),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_0 [1]),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_BitField.mem_mask0_reg[3] [6]));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
@@ -14206,18 +14280,8 @@ module blockdesign_microblaze_0_0_MB_FDE_842
        (.C(Clk),
         .CE(of_PipeRun),
         .D(D_4),
-        .Q(B),
+        .Q(\Using_FPGA.DSP48E1_I1 ),
         .R(1'b0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__91 
-       (.I0(B),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 [0]),
-        .I4(\Using_FPGA.Native_2 [1]),
-        .I5(Op1_Shift),
-        .O(S_8));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -14251,19 +14315,79 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_850
    (\Using_FPGA.DSP48E1_I1 ,
+    \Using_BitField.mem_mask0_reg[11] ,
+    \Using_BitField.mem_mask0_reg[11]_0 ,
+    \Using_BitField.mem_mask0_reg[13] ,
     of_PipeRun,
     D_6,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_0 ,
+    B,
+    BitField_Insert,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 );
   output \Using_FPGA.DSP48E1_I1 ;
+  output [0:0]\Using_BitField.mem_mask0_reg[11] ;
+  output \Using_BitField.mem_mask0_reg[11]_0 ;
+  output \Using_BitField.mem_mask0_reg[13] ;
   input of_PipeRun;
   input D_6;
   input Clk;
+  input \Using_FPGA.Native_0 ;
+  input [1:0]B;
+  input BitField_Insert;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
 
+  wire [1:0]B;
+  wire BitField_Insert;
   wire Clk;
   wire D_6;
+  wire [0:0]\Using_BitField.mem_mask0_reg[11] ;
+  wire \Using_BitField.mem_mask0_reg[11]_0 ;
+  wire \Using_BitField.mem_mask0_reg[13] ;
   wire \Using_FPGA.DSP48E1_I1 ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
   wire of_PipeRun;
 
+  LUT6 #(
+    .INIT(64'hFF00FF0023DD23CC)) 
+    \Using_BitField.mem_mask0[11]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[11]_0 ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(B[1]),
+        .I3(BitField_Insert),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(\Using_FPGA.Native_2 ),
+        .O(\Using_BitField.mem_mask0_reg[11] ));
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  LUT5 #(
+    .INIT(32'hCCA000A0)) 
+    \Using_BitField.mem_mask0[13]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(BitField_Insert),
+        .I4(B[0]),
+        .O(\Using_BitField.mem_mask0_reg[13] ));
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  LUT5 #(
+    .INIT(32'h00053305)) 
+    \Using_BitField.mem_mask0[3]_i_4 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(BitField_Insert),
+        .I4(B[0]),
+        .O(\Using_BitField.mem_mask0_reg[11]_0 ));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
@@ -14280,11 +14404,8 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDE_854
    (\Using_FPGA.DSP48E1_I1 ,
     D,
-    \Using_BitField.mem_mask0_reg[2] ,
-    \Using_BitField.mem_mask0_reg[11] ,
-    \Using_BitField.mem_mask0_reg[5] ,
-    \Using_BitField.mem_mask0_reg[6] ,
-    \Using_BitField.mem_mask0_reg[2]_0 ,
+    \Using_BitField.mem_mask0_reg[18] ,
+    \Using_BitField.mem_mask0_reg[18]_0 ,
     of_PipeRun,
     D_7,
     Clk,
@@ -14293,20 +14414,13 @@ module blockdesign_microblaze_0_0_MB_FDE_854
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
     B,
     BitField_Insert,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 );
+    \Using_FPGA.Native_4 );
   output \Using_FPGA.DSP48E1_I1 ;
   output [0:0]D;
-  output [6:0]\Using_BitField.mem_mask0_reg[2] ;
-  output \Using_BitField.mem_mask0_reg[11] ;
-  output \Using_BitField.mem_mask0_reg[5] ;
-  output \Using_BitField.mem_mask0_reg[6] ;
-  output \Using_BitField.mem_mask0_reg[2]_0 ;
+  output \Using_BitField.mem_mask0_reg[18] ;
+  output [1:0]\Using_BitField.mem_mask0_reg[18]_0 ;
   input of_PipeRun;
   input D_7;
   input Clk;
@@ -14315,147 +14429,55 @@ module blockdesign_microblaze_0_0_MB_FDE_854
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input [2:0]B;
+  input [3:0]B;
   input BitField_Insert;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_4 ;
 
-  wire [2:0]B;
+  wire [3:0]B;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Clk;
   wire [0:0]D;
   wire D_7;
-  wire \Using_BitField.mem_mask0_reg[11] ;
-  wire [6:0]\Using_BitField.mem_mask0_reg[2] ;
-  wire \Using_BitField.mem_mask0_reg[2]_0 ;
-  wire \Using_BitField.mem_mask0_reg[5] ;
-  wire \Using_BitField.mem_mask0_reg[6] ;
+  wire \Using_BitField.mem_mask0_reg[18] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[18]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
   wire of_PipeRun;
 
-  LUT6 #(
-    .INIT(64'hFF00FF0023DD23CC)) 
-    \Using_BitField.mem_mask0[11]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[11] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(B[0]),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [3]));
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT5 #(
     .INIT(32'hCCA000A0)) 
-    \Using_BitField.mem_mask0[1]_i_4 
+    \Using_BitField.mem_mask0[10]_i_2 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_0 ),
+        .I1(B[0]),
+        .I2(\Using_FPGA.Native_1 ),
         .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_7 ),
-        .O(\Using_BitField.mem_mask0_reg[5] ));
+        .I4(B[1]),
+        .O(\Using_BitField.mem_mask0_reg[18] ));
   LUT6 #(
-    .INIT(64'h0F0F0F0F58F80F0F)) 
-    \Using_BitField.mem_mask0[25]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[5] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(BitField_Insert),
-        .I3(B[0]),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_4 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [2]));
+    .INIT(64'h33337F7F22006E4C)) 
+    \Using_BitField.mem_mask0[18]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[18] ),
+        .I1(BitField_Insert),
+        .I2(B[2]),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(B[3]),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_BitField.mem_mask0_reg[18]_0 [1]));
   LUT6 #(
     .INIT(64'h33A0FFA000FF00FF)) 
     \Using_BitField.mem_mask0[26]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(BitField_Insert),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [1]));
-  LUT6 #(
-    .INIT(64'h0F0F1F1A0F0F0F0F)) 
-    \Using_BitField.mem_mask0[29]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[5] ),
         .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [0]));
-  LUT6 #(
-    .INIT(64'h5F88FF885F00FF00)) 
-    \Using_BitField.mem_mask0[2]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[2]_0 ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(B[1]),
-        .I3(BitField_Insert),
-        .I4(B[2]),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [6]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT5 #(
-    .INIT(32'hCCA000A0)) 
-    \Using_BitField.mem_mask0[2]_i_2 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_6 ),
         .I2(\Using_FPGA.Native_1 ),
         .I3(BitField_Insert),
-        .I4(B[0]),
-        .O(\Using_BitField.mem_mask0_reg[2]_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
-  LUT5 #(
-    .INIT(32'h00053305)) 
-    \Using_BitField.mem_mask0[3]_i_2 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_7 ),
-        .O(\Using_BitField.mem_mask0_reg[11] ));
-  LUT6 #(
-    .INIT(64'hF0F0F0F00E5EF0F0)) 
-    \Using_BitField.mem_mask0[5]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[5] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(BitField_Insert),
-        .I3(B[0]),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [5]));
-  LUT6 #(
-    .INIT(64'hAF44FF44AF00FF00)) 
-    \Using_BitField.mem_mask0[6]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[6] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(B[1]),
-        .I3(BitField_Insert),
-        .I4(B[2]),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(\Using_BitField.mem_mask0_reg[2] [4]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
-  LUT5 #(
-    .INIT(32'h00053305)) 
-    \Using_BitField.mem_mask0[6]_i_2 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(BitField_Insert),
-        .I4(B[0]),
-        .O(\Using_BitField.mem_mask0_reg[6] ));
+        .I4(B[1]),
+        .I5(\Using_FPGA.Native_4 ),
+        .O(\Using_BitField.mem_mask0_reg[18]_0 [0]));
   LUT6 #(
     .INIT(64'h000000000004FFFB)) 
     \Using_BitField.mem_mask1[23]_i_1 
@@ -14482,44 +14504,49 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDE_858
    (\Using_FPGA.DSP48E1_I1 ,
     D,
-    \Using_BitField.mem_mask0_reg[27] ,
+    \Using_BitField.mem_mask0_reg[6] ,
+    \Using_BitField.mem_mask0_reg[22] ,
     of_PipeRun,
     D_8,
     Clk,
     \Using_FPGA.Native_0 ,
-    BitField_Extract,
     \Using_FPGA.Native_1 ,
+    BitField_Extract,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    BitField_Insert,
     B,
+    BitField_Insert,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 );
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 );
   output \Using_FPGA.DSP48E1_I1 ;
-  output [1:0]D;
-  output [0:0]\Using_BitField.mem_mask0_reg[27] ;
+  output [0:0]D;
+  output [1:0]\Using_BitField.mem_mask0_reg[6] ;
+  output \Using_BitField.mem_mask0_reg[22] ;
   input of_PipeRun;
   input D_8;
   input Clk;
   input \Using_FPGA.Native_0 ;
-  input BitField_Extract;
   input \Using_FPGA.Native_1 ;
+  input BitField_Extract;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input [1:0]B;
   input BitField_Insert;
-  input [0:0]B;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
 
-  wire [0:0]B;
+  wire [1:0]B;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Clk;
-  wire [1:0]D;
+  wire [0:0]D;
   wire D_8;
-  wire [0:0]\Using_BitField.mem_mask0_reg[27] ;
+  wire \Using_BitField.mem_mask0_reg[22] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[6] ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -14528,38 +14555,48 @@ module blockdesign_microblaze_0_0_MB_FDE_858
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire of_PipeRun;
 
+  LUT5 #(
+    .INIT(32'h00053305)) 
+    \Using_BitField.mem_mask0[14]_i_2 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(B[1]),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(BitField_Insert),
+        .I4(B[0]),
+        .O(\Using_BitField.mem_mask0_reg[22] ));
   LUT6 #(
     .INIT(64'h33333333CC2E3333)) 
     \Using_BitField.mem_mask0[27]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(BitField_Insert),
-        .I2(B),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[27] ));
+        .I2(B[1]),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_7 ),
+        .O(\Using_BitField.mem_mask0_reg[6] [0]));
   LUT6 #(
-    .INIT(64'h0000000000007567)) 
+    .INIT(64'h00FA33FAFF00FF00)) 
+    \Using_BitField.mem_mask0[6]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(B[1]),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(BitField_Insert),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_4 ),
+        .O(\Using_BitField.mem_mask0_reg[6] [1]));
+  LUT6 #(
+    .INIT(64'h0000000000007657)) 
     \Using_BitField.mem_mask1[26]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(BitField_Extract),
-        .I3(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(BitField_Extract),
         .I4(\Using_FPGA.Native_2 ),
         .I5(\Using_FPGA.Native_3 ),
-        .O(D[0]));
-  LUT6 #(
-    .INIT(64'h0010FFFFFFFFFFEF)) 
-    \Using_BitField.mem_mask1[7]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(BitField_Extract),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(\Using_FPGA.Native_2 ),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(D[1]));
+        .O(D));
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
@@ -14576,7 +14613,8 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDE_862
    (\Using_FPGA.DSP48E1_I1 ,
     D,
-    \Using_BitField.mem_mask0_reg[18] ,
+    \Using_BitField.mem_mask0_reg[23] ,
+    \Using_BitField.mem_mask0_reg[23]_0 ,
     of_PipeRun,
     D_9,
     Clk,
@@ -14585,14 +14623,14 @@ module blockdesign_microblaze_0_0_MB_FDE_862
     BitField_Extract,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    BitField_Insert,
     B,
+    BitField_Insert,
     \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 );
+    \Using_FPGA.Native_5 );
   output \Using_FPGA.DSP48E1_I1 ;
   output [0:0]D;
-  output [3:0]\Using_BitField.mem_mask0_reg[18] ;
+  output \Using_BitField.mem_mask0_reg[23] ;
+  output [1:0]\Using_BitField.mem_mask0_reg[23]_0 ;
   input of_PipeRun;
   input D_9;
   input Clk;
@@ -14601,11 +14639,10 @@ module blockdesign_microblaze_0_0_MB_FDE_862
   input BitField_Extract;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
-  input BitField_Insert;
   input [2:0]B;
+  input BitField_Insert;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
 
   wire [2:0]B;
   wire BitField_Extract;
@@ -14613,7 +14650,8 @@ module blockdesign_microblaze_0_0_MB_FDE_862
   wire Clk;
   wire [0:0]D;
   wire D_9;
-  wire [3:0]\Using_BitField.mem_mask0_reg[18] ;
+  wire \Using_BitField.mem_mask0_reg[23] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[23]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -14621,49 +14659,36 @@ module blockdesign_microblaze_0_0_MB_FDE_862
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
   wire of_PipeRun;
 
   LUT6 #(
-    .INIT(64'h333322003FFF2ECC)) 
-    \Using_BitField.mem_mask0[18]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Insert),
-        .I2(B[1]),
-        .I3(\Using_FPGA.Native_5 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(B[2]),
-        .O(\Using_BitField.mem_mask0_reg[18] [3]));
-  LUT6 #(
-    .INIT(64'h33A0FFA000FF00FF)) 
-    \Using_BitField.mem_mask0[20]_i_1 
+    .INIT(64'h5DAA5D2200FF00FF)) 
+    \Using_BitField.mem_mask0[23]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[23] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(B[0]),
+        .I3(BitField_Insert),
+        .I4(\Using_FPGA.Native_0 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_BitField.mem_mask0_reg[23]_0 [1]));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT5 #(
+    .INIT(32'h0F3F0A3A)) 
+    \Using_BitField.mem_mask0[24]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(B[1]),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(BitField_Insert),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[18] [2]));
-  LUT6 #(
-    .INIT(64'h33330022FF3FCC2E)) 
-    \Using_BitField.mem_mask0[22]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Insert),
-        .I2(B[1]),
-        .I3(\Using_FPGA.Native_4 ),
+        .I2(BitField_Insert),
+        .I3(B[2]),
         .I4(\Using_FPGA.Native_3 ),
-        .I5(B[2]),
-        .O(\Using_BitField.mem_mask0_reg[18] [1]));
-  LUT6 #(
-    .INIT(64'h00FA33FA00FF00FF)) 
-    \Using_BitField.mem_mask0[28]_i_1 
+        .O(\Using_BitField.mem_mask0_reg[23]_0 [0]));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  LUT3 #(
+    .INIT(8'hCA)) 
+    \Using_BitField.mem_mask0[3]_i_3 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(B[1]),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(BitField_Insert),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[18] [0]));
+        .I2(BitField_Insert),
+        .O(\Using_BitField.mem_mask0_reg[23] ));
   LUT6 #(
     .INIT(64'h0000000011111411)) 
     \Using_BitField.mem_mask1[27]_i_1 
@@ -14690,8 +14715,8 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDE_866
    (\Using_FPGA.DSP48E1_I1 ,
     D,
-    \Using_BitField.mem_mask0_reg[1] ,
-    \Using_BitField.mem_mask0_reg[4] ,
+    \Using_BitField.mem_mask0_reg[30] ,
+    \Using_BitField.mem_mask0_reg[30]_0 ,
     of_PipeRun,
     D_10,
     Clk,
@@ -14701,16 +14726,11 @@ module blockdesign_microblaze_0_0_MB_FDE_866
     BitField_Extract,
     \Using_FPGA.Native_3 ,
     B,
-    BitField_Insert,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 );
+    BitField_Insert);
   output \Using_FPGA.DSP48E1_I1 ;
-  output [26:0]D;
-  output [12:0]\Using_BitField.mem_mask0_reg[1] ;
-  output \Using_BitField.mem_mask0_reg[4] ;
+  output [27:0]D;
+  output \Using_BitField.mem_mask0_reg[30] ;
+  output [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
   input of_PipeRun;
   input D_10;
   input Clk;
@@ -14719,169 +14739,43 @@ module blockdesign_microblaze_0_0_MB_FDE_866
   input \Using_FPGA.Native_2 ;
   input BitField_Extract;
   input \Using_FPGA.Native_3 ;
-  input [2:0]B;
+  input [3:0]B;
   input BitField_Insert;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
 
-  wire [2:0]B;
+  wire [3:0]B;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Clk;
-  wire [26:0]D;
+  wire [27:0]D;
   wire D_10;
-  wire [12:0]\Using_BitField.mem_mask0_reg[1] ;
-  wire \Using_BitField.mem_mask0_reg[4] ;
+  wire \Using_BitField.mem_mask0_reg[30] ;
+  wire [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
   wire of_PipeRun;
 
-  LUT6 #(
-    .INIT(64'h3A3A3A3A3A30FAF0)) 
-    \Using_BitField.mem_mask0[10]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(B[2]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [6]));
-  LUT6 #(
-    .INIT(64'hAAAA5544AFAF5544)) 
-    \Using_BitField.mem_mask0[12]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(B[1]),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(BitField_Insert),
-        .I5(B[0]),
-        .O(\Using_BitField.mem_mask0_reg[1] [5]));
-  LUT6 #(
-    .INIT(64'hAA55AA55AB55AB44)) 
-    \Using_BitField.mem_mask0[13]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(B[0]),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_4 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [4]));
-  LUT6 #(
-    .INIT(64'h3A30FAF03A3A3A3A)) 
-    \Using_BitField.mem_mask0[14]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(B[2]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [3]));
-  LUT6 #(
-    .INIT(64'hA5A5B5B0A5A5A5A5)) 
-    \Using_BitField.mem_mask0[15]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [2]));
-  LUT3 #(
-    .INIT(8'h3A)) 
-    \Using_BitField.mem_mask0[16]_i_1 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(B[2]),
-        .I2(BitField_Insert),
-        .O(\Using_BitField.mem_mask0_reg[1] [1]));
-  LUT6 #(
-    .INIT(64'h2F25A5A5A5A5A5A5)) 
-    \Using_BitField.mem_mask0[17]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [0]));
-  LUT6 #(
-    .INIT(64'hBBFFFFFF40400000)) 
-    \Using_BitField.mem_mask0[1]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(B[0]),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(BitField_Insert),
-        .O(\Using_BitField.mem_mask0_reg[1] [12]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
-  LUT3 #(
-    .INIT(8'h35)) 
-    \Using_BitField.mem_mask0[1]_i_2 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(B[2]),
-        .I2(BitField_Insert),
-        .O(\Using_BitField.mem_mask0_reg[4] ));
-  LUT6 #(
-    .INIT(64'hF0F0F0F0B5B0F0F0)) 
-    \Using_BitField.mem_mask0[3]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(B[0]),
-        .I2(BitField_Insert),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [11]));
-  LUT6 #(
-    .INIT(64'hAFAF4400FFFF4400)) 
-    \Using_BitField.mem_mask0[4]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(B[1]),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(BitField_Insert),
-        .I5(B[0]),
-        .O(\Using_BitField.mem_mask0_reg[1] [10]));
-  LUT6 #(
-    .INIT(64'hBF44BF00BB44BB44)) 
-    \Using_BitField.mem_mask0[7]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(B[0]),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [9]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT5 #(
-    .INIT(32'h3AFA30F0)) 
-    \Using_BitField.mem_mask0[8]_i_1 
+    .INIT(32'h00300535)) 
+    \Using_BitField.mem_mask0[26]_i_2 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(B[2]),
+        .I1(B[3]),
         .I2(BitField_Insert),
-        .I3(B[1]),
+        .I3(B[2]),
         .I4(\Using_FPGA.Native_0 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [8]));
+        .O(\Using_BitField.mem_mask0_reg[30] ));
   LUT6 #(
-    .INIT(64'hAB55AB44BB44BB44)) 
-    \Using_BitField.mem_mask0[9]_i_1 
-       (.I0(\Using_BitField.mem_mask0_reg[4] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(B[0]),
-        .I3(BitField_Insert),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_BitField.mem_mask0_reg[1] [7]));
+    .INIT(64'h0000FFDD0A0AFFDD)) 
+    \Using_BitField.mem_mask0[30]_i_1 
+       (.I0(\Using_BitField.mem_mask0_reg[30] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(B[1]),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(BitField_Insert),
+        .I5(B[0]),
+        .O(\Using_BitField.mem_mask0_reg[30]_0 ));
   LUT6 #(
     .INIT(64'hFFFF7FFFFFFEFFFF)) 
     \Using_BitField.mem_mask1[0]_i_1 
@@ -14891,15 +14785,15 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I3(\Using_FPGA.Native_2 ),
         .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_3 ),
-        .O(D[26]));
+        .O(D[27]));
   LUT6 #(
-    .INIT(64'h555555557F777E7F)) 
+    .INIT(64'h555555557F7E777F)) 
     \Using_BitField.mem_mask1[10]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(\Using_FPGA.Native_1 ),
         .I2(\Using_FPGA.Native_3 ),
-        .I3(BitField_Extract),
-        .I4(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_0 ),
         .O(D[17]));
   LUT6 #(
@@ -14923,23 +14817,23 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I5(\Using_FPGA.Native_0 ),
         .O(D[15]));
   LUT6 #(
-    .INIT(64'h5555555555757767)) 
+    .INIT(64'h5555555555555DFB)) 
     \Using_BitField.mem_mask1[13]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(BitField_Extract),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_1 ),
+        .I1(BitField_Extract),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(\Using_FPGA.Native_0 ),
         .O(D[14]));
   LUT6 #(
-    .INIT(64'h5555555555557567)) 
+    .INIT(64'h5555555557565557)) 
     \Using_BitField.mem_mask1[14]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(BitField_Extract),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_3 ),
         .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_1 ),
+        .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_0 ),
         .O(D[13]));
   LUT6 #(
@@ -15001,7 +14895,7 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I3(\Using_FPGA.Native_2 ),
         .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_3 ),
-        .O(D[25]));
+        .O(D[26]));
   LUT6 #(
     .INIT(64'h1111011155545555)) 
     \Using_BitField.mem_mask1[20]_i_1 
@@ -15013,34 +14907,34 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I5(\Using_FPGA.Native_0 ),
         .O(D[7]));
   LUT6 #(
-    .INIT(64'h0000045555555551)) 
+    .INIT(64'h1115111115141515)) 
     \Using_BitField.mem_mask1[21]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Extract),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(BitField_Extract),
+        .I5(\Using_FPGA.Native_3 ),
         .O(D[6]));
   LUT6 #(
-    .INIT(64'h0000101155555545)) 
+    .INIT(64'h0101000155545555)) 
     \Using_BitField.mem_mask1[22]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(BitField_Extract),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_3 ),
         .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_1 ),
+        .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_0 ),
         .O(D[5]));
   LUT6 #(
-    .INIT(64'h0000000051555545)) 
+    .INIT(64'h1111011111101111)) 
     \Using_BitField.mem_mask1[24]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(BitField_Extract),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
         .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_0 ),
+        .I4(BitField_Extract),
+        .I5(\Using_FPGA.Native_2 ),
         .O(D[4]));
   LUT6 #(
     .INIT(64'h0000000010555545)) 
@@ -15063,14 +14957,14 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I5(\Using_FPGA.Native_3 ),
         .O(D[2]));
   LUT6 #(
-    .INIT(64'h0000000000101101)) 
+    .INIT(64'h0000000000000451)) 
     \Using_BitField.mem_mask1[29]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(BitField_Extract),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_1 ),
+        .I1(BitField_Extract),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(\Using_FPGA.Native_0 ),
         .O(D[1]));
   LUT6 #(
     .INIT(64'h7F7F7F7FFFFE7FFF)) 
@@ -15081,7 +14975,7 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I3(\Using_FPGA.Native_2 ),
         .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_3 ),
-        .O(D[24]));
+        .O(D[25]));
   LUT6 #(
     .INIT(64'h0000000001000001)) 
     \Using_BitField.mem_mask1[30]_i_1 
@@ -15101,7 +14995,7 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I3(BitField_Extract),
         .I4(\Using_FPGA.Native_2 ),
         .I5(\Using_FPGA.Native_0 ),
-        .O(D[23]));
+        .O(D[24]));
   LUT6 #(
     .INIT(64'h77775777FFFEFFFF)) 
     \Using_BitField.mem_mask1[4]_i_1 
@@ -15111,20 +15005,30 @@ module blockdesign_microblaze_0_0_MB_FDE_866
         .I3(\Using_FPGA.Native_2 ),
         .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_0 ),
-        .O(D[22]));
+        .O(D[23]));
   LUT6 #(
-    .INIT(64'h55555DFFFFFFFFFB)) 
+    .INIT(64'h777F77777F7E7F7F)) 
     \Using_BitField.mem_mask1[5]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(BitField_Extract),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_1 ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(BitField_Extract),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(D[22]));
+  LUT6 #(
+    .INIT(64'h57575557FFFEFFFF)) 
+    \Using_BitField.mem_mask1[6]_i_1 
+       (.I0(\Using_FPGA.DSP48E1_I1 ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(BitField_Extract),
         .I5(\Using_FPGA.Native_0 ),
         .O(D[21]));
   LUT6 #(
-    .INIT(64'h55557577FFFFFFEF)) 
-    \Using_BitField.mem_mask1[6]_i_1 
+    .INIT(64'h55555575FFFFFFEF)) 
+    \Using_BitField.mem_mask1[7]_i_1 
        (.I0(\Using_FPGA.DSP48E1_I1 ),
         .I1(\Using_FPGA.Native_3 ),
         .I2(BitField_Extract),
@@ -15195,31 +15099,16 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_874
    (op2_C,
-    \Using_FPGA.The_Compare[0].sel_reg ,
     of_PipeRun,
     D_30,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    Clk);
   output [0:0]op2_C;
-  output \Using_FPGA.The_Compare[0].sel_reg ;
   input of_PipeRun;
   input D_30;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input [1:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire Clk;
   wire D_30;
-  wire \Using_FPGA.Native_0 ;
-  wire [1:0]\Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.The_Compare[0].sel_reg ;
   wire of_PipeRun;
   wire [0:0]op2_C;
 
@@ -15233,16 +15122,6 @@ module blockdesign_microblaze_0_0_MB_FDE_874
         .D(D_30),
         .Q(op2_C),
         .R(1'b0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__81 
-       (.I0(op2_C),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 [0]),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_1 [1]),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(\Using_FPGA.The_Compare[0].sel_reg ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -15304,32 +15183,17 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_886
    (B,
-    \Using_FPGA.The_Compare[0].sel_reg_6 ,
     of_PipeRun,
     D_14,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    Clk);
   output [0:0]B;
-  output \Using_FPGA.The_Compare[0].sel_reg_6 ;
   input of_PipeRun;
   input D_14;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input [1:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire [0:0]B;
   wire Clk;
   wire D_14;
-  wire \Using_FPGA.Native_0 ;
-  wire [1:0]\Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.The_Compare[0].sel_reg_6 ;
   wire of_PipeRun;
 
   (* XILINX_LEGACY_PRIM = "FDE" *) 
@@ -15342,32 +15206,37 @@ module blockdesign_microblaze_0_0_MB_FDE_886
         .D(D_14),
         .Q(B),
         .R(1'b0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__89 
-       (.I0(B),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 [0]),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_1 [1]),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(\Using_FPGA.The_Compare[0].sel_reg_6 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_890
    (B,
+    \Using_FPGA.The_Compare[0].sel_reg_6 ,
     of_PipeRun,
     D_15,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 );
   output [0:0]B;
+  output \Using_FPGA.The_Compare[0].sel_reg_6 ;
   input of_PipeRun;
   input D_15;
   input Clk;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input [1:0]\Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
 
   wire [0:0]B;
   wire Clk;
   wire D_15;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire [1:0]\Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.The_Compare[0].sel_reg_6 ;
   wire of_PipeRun;
 
   (* XILINX_LEGACY_PRIM = "FDE" *) 
@@ -15380,35 +15249,33 @@ module blockdesign_microblaze_0_0_MB_FDE_890
         .D(D_15),
         .Q(B),
         .R(1'b0));
+  LUT6 #(
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__89 
+       (.I0(B),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 [1]),
+        .I4(\Using_FPGA.Native_2 [0]),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(\Using_FPGA.The_Compare[0].sel_reg_6 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_894
    (B,
-    \Using_FPGA.The_Compare[2].sel_reg_1 ,
     of_PipeRun,
     D_16,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    op2_C,
-    \Using_FPGA.Native_1 );
+    Clk);
   output [0:0]B;
-  output \Using_FPGA.The_Compare[2].sel_reg_1 ;
   input of_PipeRun;
   input D_16;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input [0:0]op2_C;
-  input \Using_FPGA.Native_1 ;
 
   wire [0:0]B;
   wire Clk;
   wire D_16;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.The_Compare[2].sel_reg_1 ;
   wire of_PipeRun;
-  wire [0:0]op2_C;
 
   (* XILINX_LEGACY_PRIM = "FDE" *) 
   (* box_type = "PRIMITIVE" *) 
@@ -15420,14 +15287,6 @@ module blockdesign_microblaze_0_0_MB_FDE_894
         .D(D_16),
         .Q(B),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'h9009)) 
-    \Using_FPGA.Native_i_1__84 
-       (.I0(B),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(op2_C),
-        .I3(\Using_FPGA.Native_1 ),
-        .O(\Using_FPGA.The_Compare[2].sel_reg_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -15517,31 +15376,16 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_910
    (op2_C,
-    S_2,
     of_PipeRun,
     D_20,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    Clk);
   output [0:0]op2_C;
-  output S_2;
   input of_PipeRun;
   input D_20;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input [1:0]\Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire Clk;
   wire D_20;
-  wire S_2;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire [1:0]\Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
   wire of_PipeRun;
   wire [0:0]op2_C;
 
@@ -15555,16 +15399,6 @@ module blockdesign_microblaze_0_0_MB_FDE_910
         .D(D_20),
         .Q(op2_C),
         .R(1'b0));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__85 
-       (.I0(op2_C),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Using_FPGA.Native_2 [0]),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_2 [1]),
-        .O(S_2));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDE" *) 
@@ -15598,32 +15432,17 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDE" *) 
 module blockdesign_microblaze_0_0_MB_FDE_918
    (\Using_FPGA.DSP48E1_I1 ,
-    S,
-    \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ,
     of_PipeRun,
     D_31,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    compare_Instr);
+    Clk);
   output \Using_FPGA.DSP48E1_I1 ;
-  output S;
-  output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
   input of_PipeRun;
   input D_31;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input compare_Instr;
 
-  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
   wire Clk;
   wire D_31;
-  wire S;
   wire \Using_FPGA.DSP48E1_I1 ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire compare_Instr;
   wire of_PipeRun;
 
   (* XILINX_LEGACY_PRIM = "FDE" *) 
@@ -15636,114 +15455,108 @@ module blockdesign_microblaze_0_0_MB_FDE_918
         .D(D_31),
         .Q(\Using_FPGA.DSP48E1_I1 ),
         .R(1'b0));
-  LUT4 #(
-    .INIT(16'hF9FF)) 
-    \Using_FPGA.Native_i_1__122 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(compare_Instr),
-        .O(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ));
-  LUT4 #(
-    .INIT(16'hF9FF)) 
-    \Using_FPGA.Native_i_1__80 
-       (.I0(\Using_FPGA.DSP48E1_I1 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(compare_Instr),
-        .O(S));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDR" *) 
 module blockdesign_microblaze_0_0_MB_FDR
    (\Size_17to32.imm_Reg_reg[15] ,
+    DI,
+    buffer_Full,
+    ex_Valid_reg,
     E,
     trace_jump_taken_i_reg,
     nonvalid_IFetch_n_reg,
-    ex_Valid_reg,
     R,
     D_33,
     Clk,
-    jump_Carry2,
-    mul_Executing_reg,
-    mul_Executing,
-    mem_access_completed_reg,
-    I2106_out,
-    dbg_pause,
-    instr_OF,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    ex_Valid,
     \Using_FPGA.Native_0 ,
+    mbar_hold_I_reg,
+    \Using_FPGA.Native_1 ,
+    missed_IFetch,
+    jump_Carry2,
+    mem_access_completed_reg,
+    load_Store_i,
+    mul_Executing,
+    dbg_pause,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    take_Intr_Now_III,
+    \Using_FPGA.Native_4 ,
     jump2_I_reg,
     \Serial_Dbg_Intf.if_debug_ready_i_reg ,
     inHibit_EX,
-    iFetch_In_Progress_reg,
-    nonvalid_IFetch_n_reg_0,
-    inHibit_EX_reg,
-    \Using_FPGA.Native_1 ,
-    ex_Valid);
+    mbar_decode_I_reg,
+    nonvalid_IFetch_n_reg_0);
   output \Size_17to32.imm_Reg_reg[15] ;
+  output DI;
+  output buffer_Full;
+  output ex_Valid_reg;
   output [0:0]E;
   output trace_jump_taken_i_reg;
   output nonvalid_IFetch_n_reg;
-  output ex_Valid_reg;
   input R;
   input D_33;
   input Clk;
-  input jump_Carry2;
-  input mul_Executing_reg;
-  input mul_Executing;
-  input mem_access_completed_reg;
-  input I2106_out;
-  input dbg_pause;
-  input [1:0]instr_OF;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input ex_Valid;
   input \Using_FPGA.Native_0 ;
+  input mbar_hold_I_reg;
+  input \Using_FPGA.Native_1 ;
+  input missed_IFetch;
+  input jump_Carry2;
+  input mem_access_completed_reg;
+  input load_Store_i;
+  input mul_Executing;
+  input dbg_pause;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input take_Intr_Now_III;
+  input \Using_FPGA.Native_4 ;
   input jump2_I_reg;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
   input inHibit_EX;
-  input iFetch_In_Progress_reg;
+  input mbar_decode_I_reg;
   input nonvalid_IFetch_n_reg_0;
-  input inHibit_EX_reg;
-  input \Using_FPGA.Native_1 ;
-  input ex_Valid;
 
   wire Clk;
+  wire DI;
   wire D_33;
   wire [0:0]E;
-  wire I2106_out;
   wire R;
   wire \Serial_Dbg_Intf.if_debug_ready_i_reg ;
   wire \Size_17to32.imm_Reg_reg[15] ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire buffer_Full;
   wire dbg_pause;
   wire ex_Valid;
-  wire ex_Valid_i_2_n_0;
-  wire ex_Valid_i_3_n_0;
+  wire ex_Valid_i_4_n_0;
   wire ex_Valid_reg;
-  wire iFetch_In_Progress_reg;
   wire inHibit_EX;
-  wire inHibit_EX_reg;
-  wire [1:0]instr_OF;
   wire jump2_I_reg;
   wire jump_Carry2;
+  wire load_Store_i;
+  wire mbar_decode_I_reg;
+  wire mbar_hold_I_reg;
   wire mem_access_completed_reg;
+  wire missed_IFetch;
   wire mul_Executing;
-  wire mul_Executing_reg;
   wire nonvalid_IFetch_n_reg;
   wire nonvalid_IFetch_n_reg_0;
+  wire take_Intr_Now_III;
   wire trace_jump_taken_i_reg;
 
   LUT6 #(
-    .INIT(64'h0000000400000000)) 
+    .INIT(64'h0000000000000004)) 
     \Size_17to32.imm_Reg[0]_i_1 
        (.I0(dbg_pause),
         .I1(\Size_17to32.imm_Reg_reg[15] ),
-        .I2(instr_OF[1]),
-        .I3(instr_OF[0]),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I5(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(take_Intr_Now_III),
+        .I5(\Using_FPGA.Native_4 ),
         .O(E));
   (* XILINX_LEGACY_PRIM = "FDR" *) 
   (* box_type = "PRIMITIVE" *) 
@@ -15755,6 +15568,22 @@ module blockdesign_microblaze_0_0_MB_FDR
         .D(D_33),
         .Q(\Size_17to32.imm_Reg_reg[15] ),
         .R(R));
+  LUT6 #(
+    .INIT(64'h0000000000DFDFDF)) 
+    \Using_FPGA.Native_i_1__0 
+       (.I0(ex_Valid),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(mbar_hold_I_reg),
+        .I3(\Size_17to32.imm_Reg_reg[15] ),
+        .I4(\Using_FPGA.Native_1 ),
+        .I5(missed_IFetch),
+        .O(DI));
+  LUT2 #(
+    .INIT(4'h8)) 
+    \Using_FPGA.Native_i_1__1 
+       (.I0(\Size_17to32.imm_Reg_reg[15] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .O(buffer_Full));
   LUT3 #(
     .INIT(8'h4F)) 
     \Using_FPGA.Native_i_1__121 
@@ -15763,32 +15592,22 @@ module blockdesign_microblaze_0_0_MB_FDR
         .I2(jump2_I_reg),
         .O(trace_jump_taken_i_reg));
   LUT6 #(
-    .INIT(64'hA2FFA2AAA200A2AA)) 
-    ex_Valid_i_1
-       (.I0(ex_Valid_i_2_n_0),
-        .I1(inHibit_EX_reg),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I3(mul_Executing_reg),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(ex_Valid),
-        .O(ex_Valid_reg));
-  LUT6 #(
-    .INIT(64'hFFFFFFF4FFF4FFF4)) 
-    ex_Valid_i_2
-       (.I0(ex_Valid_i_3_n_0),
+    .INIT(64'hFFFFFFFF44F44444)) 
+    ex_Valid_i_3
+       (.I0(ex_Valid_i_4_n_0),
         .I1(jump_Carry2),
-        .I2(mul_Executing_reg),
-        .I3(mul_Executing),
-        .I4(mem_access_completed_reg),
-        .I5(I2106_out),
-        .O(ex_Valid_i_2_n_0));
+        .I2(mem_access_completed_reg),
+        .I3(\Using_FPGA.Native_0 ),
+        .I4(load_Store_i),
+        .I5(mul_Executing),
+        .O(ex_Valid_reg));
   LUT3 #(
     .INIT(8'h4F)) 
-    ex_Valid_i_3
+    ex_Valid_i_4
        (.I0(dbg_pause),
         .I1(\Size_17to32.imm_Reg_reg[15] ),
         .I2(jump2_I_reg),
-        .O(ex_Valid_i_3_n_0));
+        .O(ex_Valid_i_4_n_0));
   LUT6 #(
     .INIT(64'h00F3FFFF55555555)) 
     nonvalid_IFetch_n_i_1
@@ -15796,12 +15615,11 @@ module blockdesign_microblaze_0_0_MB_FDR
         .I1(\Size_17to32.imm_Reg_reg[15] ),
         .I2(dbg_pause),
         .I3(inHibit_EX),
-        .I4(iFetch_In_Progress_reg),
+        .I4(mbar_decode_I_reg),
         .I5(nonvalid_IFetch_n_reg_0),
         .O(nonvalid_IFetch_n_reg));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE
    (carry_In,
     sync_reset,
@@ -16167,39 +15985,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_792
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 );
+    Clk);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ;
-  output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ;
   wire Clk;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -16216,24 +16013,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_792
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .R(sync_reset));
-  LUT6 #(
-    .INIT(64'h1111111111110001)) 
-    \Using_FPGA.Native_i_5__2 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_FPGA.Native_0 ));
-  LUT4 #(
-    .INIT(16'h0001)) 
-    \Using_FPGA.Native_i_8 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16272,36 +16051,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_796
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ,
-    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    Clk);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ;
-  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ;
   wire Clk;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -16318,16 +16079,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_796
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
         .R(sync_reset));
-  LUT6 #(
-    .INIT(64'h4544454545444544)) 
-    \Using_FPGA.Native_i_7__0 
-       (.I0(\Using_FPGA.Native_1 ),
-        .I1(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16366,20 +16117,32 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_800
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ,
+    \Using_FPGA.The_Compare[2].sel_reg ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    op2_C,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ;
+  output \Using_FPGA.The_Compare[2].sel_reg ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input [0:0]op2_C;
+  input \Using_FPGA.Native_0 ;
+  input [0:0]\Using_FPGA.Native_1 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire [0:0]\Using_FPGA.Native_1 ;
+  wire \Using_FPGA.The_Compare[2].sel_reg ;
   wire of_PipeRun;
   wire op1_I;
+  wire [0:0]op2_C;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -16394,6 +16157,14 @@ module blockdesign_microblaze_0_0_MB_FDRE_800
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'h9009)) 
+    \Using_FPGA.Native_i_1__82 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ),
+        .I1(op2_C),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(\Using_FPGA.Native_1 ),
+        .O(\Using_FPGA.The_Compare[2].sel_reg ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16498,18 +16269,40 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_808
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_i_9_n_0 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -16526,6 +16319,26 @@ module blockdesign_microblaze_0_0_MB_FDRE_808
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
         .R(sync_reset));
+  LUT6 #(
+    .INIT(64'h00000000AAAA00A2)) 
+    \Using_FPGA.Native_i_4__3 
+       (.I0(\Using_FPGA.Native_i_9_n_0 ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_FPGA.Native_0 ));
+  LUT6 #(
+    .INIT(64'hBBBBBBBBFFFFBBFB)) 
+    \Using_FPGA.Native_i_9 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_FPGA.Native_i_9_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16564,45 +16377,35 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_812
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ,
-    \Using_FPGA.Native_0 ,
+    S_0,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
+    op2_C,
+    \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
+    \Using_FPGA.Native_2 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ;
-  output \Using_FPGA.Native_0 ;
+  output S_0;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_1 ;
+  input [0:0]op2_C;
+  input \Using_FPGA.Native_0 ;
+  input [1:0]\Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ;
   wire Clk;
+  wire S_0;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
+  wire [1:0]\Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_i_8__0_n_0 ;
   wire of_PipeRun;
   wire op1_I;
+  wire [0:0]op2_C;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -16618,22 +16421,15 @@ module blockdesign_microblaze_0_0_MB_FDRE_812
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'h000000000000FF0D)) 
-    \Using_FPGA.Native_i_4__4 
-       (.I0(\Using_FPGA.Native_i_8__0_n_0 ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_0 ));
-  LUT3 #(
-    .INIT(8'hBA)) 
-    \Using_FPGA.Native_i_8__0 
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__83 
        (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_7 ),
-        .O(\Using_FPGA.Native_i_8__0_n_0 ));
+        .I1(op2_C),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(\Using_FPGA.Native_1 [1]),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(\Using_FPGA.Native_1 [0]),
+        .O(S_0));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16738,18 +16534,30 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_820
    (Op1_Logic,
+    \Using_FPGA.The_Compare[2].sel_reg_7 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    B);
   output Op1_Logic;
+  output \Using_FPGA.The_Compare[2].sel_reg_7 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input [0:0]B;
 
+  wire [0:0]B;
   wire Clk;
   wire Op1_Logic;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.The_Compare[2].sel_reg_7 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -16766,6 +16574,14 @@ module blockdesign_microblaze_0_0_MB_FDRE_820
         .D(op1_I),
         .Q(Op1_Logic),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'h9009)) 
+    \Using_FPGA.Native_i_1__90 
+       (.I0(Op1_Logic),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(B),
+        .O(\Using_FPGA.The_Compare[2].sel_reg_7 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -16882,46 +16698,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_828
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ,
-    I0,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    Shift_Logic_Res,
-    PCMP_Instr2_out,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 );
+    Clk);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ;
-  output I0;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input Shift_Logic_Res;
-  input PCMP_Instr2_out;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ;
   wire Clk;
-  wire I0;
-  wire PCMP_Instr2_out;
-  wire Shift_Logic_Res;
-  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_i_2__50_n_0 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -16938,25 +16726,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_828
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
         .R(sync_reset));
-  LUT6 #(
-    .INIT(64'hEA00EA00EAFFEA00)) 
-    \Using_FPGA.Native_i_1__67 
-       (.I0(\Using_FPGA.Native_i_2__50_n_0 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
-        .I3(\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .I4(Shift_Logic_Res),
-        .I5(PCMP_Instr2_out),
-        .O(I0));
-  LUT5 #(
-    .INIT(32'h00000001)) 
-    \Using_FPGA.Native_i_2__50 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_0 ),
-        .O(\Using_FPGA.Native_i_2__50_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17060,19 +16829,19 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_836
-   (Op1_Shift,
+   (\Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk);
-  output Op1_Shift;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
 
   wire Clk;
-  wire Op1_Shift;
+  wire \Using_FPGA.Native_0 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -17087,7 +16856,7 @@ module blockdesign_microblaze_0_0_MB_FDRE_836
        (.C(Clk),
         .CE(of_PipeRun),
         .D(op1_I),
-        .Q(Op1_Shift),
+        .Q(\Using_FPGA.Native_0 ),
         .R(sync_reset));
 endmodule
 
@@ -17127,20 +16896,67 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_840
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ,
+    I0,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    clz_instr,
+    \Using_FPGA.Native_0 ,
+    Shift_Logic_Res,
+    pcmp_instr,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ;
+  output I0;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input clz_instr;
+  input \Using_FPGA.Native_0 ;
+  input Shift_Logic_Res;
+  input pcmp_instr;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ;
   wire Clk;
+  wire I0;
+  wire Shift_Logic_Res;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire \Using_FPGA.Native_i_2__49_n_0 ;
+  wire \Using_FPGA.Native_i_3__12_n_0 ;
+  wire clz_instr;
   wire of_PipeRun;
   wire op1_I;
+  wire pcmp_instr;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -17155,6 +16971,35 @@ module blockdesign_microblaze_0_0_MB_FDRE_840
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
         .R(sync_reset));
+  LUT5 #(
+    .INIT(32'hF808FB08)) 
+    \Using_FPGA.Native_i_1__67 
+       (.I0(\Using_FPGA.Native_i_2__49_n_0 ),
+        .I1(clz_instr),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(Shift_Logic_Res),
+        .I4(pcmp_instr),
+        .O(I0));
+  LUT6 #(
+    .INIT(64'h888888888888888B)) 
+    \Using_FPGA.Native_i_2__49 
+       (.I0(\Using_FPGA.Native_i_3__12_n_0 ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_FPGA.Native_i_2__49_n_0 ));
+  LUT6 #(
+    .INIT(64'hFF10FFFFFF100000)) 
+    \Using_FPGA.Native_i_3__12 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_8 ),
+        .I4(\Using_FPGA.Native_9 ),
+        .I5(\Using_FPGA.Native_10 ),
+        .O(\Using_FPGA.Native_i_3__12_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17193,36 +17038,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_844
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ,
-    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    Clk);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ;
-  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ;
   wire Clk;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -17239,16 +17066,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_844
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
         .R(sync_reset));
-  LUT6 #(
-    .INIT(64'hFFFFFFFFFFFFFEFF)) 
-    \Using_FPGA.Native_i_7 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17288,75 +17105,42 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDRE_848
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.The_Compare[0].sel_reg_9 ,
-    \Using_FPGA.Native_1 ,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
-    clz_instr,
+    \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    Select_Logic_reg,
-    pcmp_instr,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    B,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
     \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 ,
-    \Using_FPGA.Native_12 ,
-    \Using_FPGA.Native_13 ,
-    \Using_FPGA.Native_14 ,
-    \Using_FPGA.Native_15 ,
-    \Using_FPGA.Native_16 ,
-    \Using_FPGA.Native_17 );
+    \Using_FPGA.Native_10 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
   output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.The_Compare[0].sel_reg_9 ;
-  output \Using_FPGA.Native_1 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input clz_instr;
+  input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
-  input Select_Logic_reg;
-  input pcmp_instr;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input [0:0]B;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
   input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
-  input \Using_FPGA.Native_12 ;
-  input \Using_FPGA.Native_13 ;
-  input \Using_FPGA.Native_14 ;
-  input \Using_FPGA.Native_15 ;
-  input \Using_FPGA.Native_16 ;
-  input \Using_FPGA.Native_17 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
-  wire [0:0]B;
   wire Clk;
-  wire Select_Logic_reg;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_12 ;
-  wire \Using_FPGA.Native_13 ;
-  wire \Using_FPGA.Native_14 ;
-  wire \Using_FPGA.Native_15 ;
-  wire \Using_FPGA.Native_16 ;
-  wire \Using_FPGA.Native_17 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -17365,14 +17149,9 @@ module blockdesign_microblaze_0_0_MB_FDRE_848
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.Native_i_2__49_n_0 ;
-  wire \Using_FPGA.Native_i_3__11_n_0 ;
-  wire \Using_FPGA.Native_i_7__1_n_0 ;
-  wire \Using_FPGA.The_Compare[0].sel_reg_9 ;
-  wire clz_instr;
+  wire \Using_FPGA.Native_i_11_n_0 ;
   wire of_PipeRun;
   wire op1_I;
-  wire pcmp_instr;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -17387,62 +17166,26 @@ module blockdesign_microblaze_0_0_MB_FDRE_848
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
         .R(sync_reset));
-  LUT5 #(
-    .INIT(32'hF808FB08)) 
-    \Using_FPGA.Native_i_1__68 
-       (.I0(\Using_FPGA.Native_i_2__49_n_0 ),
-        .I1(clz_instr),
+  LUT6 #(
+    .INIT(64'h5054505550545054)) 
+    \Using_FPGA.Native_i_11 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_8 ),
+        .I4(\Using_FPGA.Native_9 ),
+        .I5(\Using_FPGA.Native_10 ),
+        .O(\Using_FPGA.Native_i_11_n_0 ));
+  LUT6 #(
+    .INIT(64'h01010101000000FF)) 
+    \Using_FPGA.Native_i_8 
+       (.I0(\Using_FPGA.Native_i_11_n_0 ),
+        .I1(\Using_FPGA.Native_1 ),
         .I2(\Using_FPGA.Native_2 ),
-        .I3(Select_Logic_reg),
-        .I4(pcmp_instr),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
         .O(\Using_FPGA.Native_0 ));
-  LUT6 #(
-    .INIT(64'h9009000000009009)) 
-    \Using_FPGA.Native_i_1__92 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.Native_5 ),
-        .I4(B),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_FPGA.The_Compare[0].sel_reg_9 ));
-  LUT6 #(
-    .INIT(64'hEFE0FFFFEFE00000)) 
-    \Using_FPGA.Native_i_2__49 
-       (.I0(\Using_FPGA.Native_i_3__11_n_0 ),
-        .I1(\Using_FPGA.Native_7 ),
-        .I2(\Using_FPGA.Native_8 ),
-        .I3(\Using_FPGA.Native_9 ),
-        .I4(\Using_FPGA.Native_10 ),
-        .I5(\Using_FPGA.Native_11 ),
-        .O(\Using_FPGA.Native_i_2__49_n_0 ));
-  LUT5 #(
-    .INIT(32'hAAAAAA02)) 
-    \Using_FPGA.Native_i_3__11 
-       (.I0(\Using_FPGA.Native_i_7__1_n_0 ),
-        .I1(\Using_FPGA.Native_12 ),
-        .I2(\Using_FPGA.Native_13 ),
-        .I3(\Using_FPGA.Native_14 ),
-        .I4(\Using_FPGA.Native_6 ),
-        .O(\Using_FPGA.Native_i_3__11_n_0 ));
-  LUT4 #(
-    .INIT(16'h0010)) 
-    \Using_FPGA.Native_i_7__1 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
-        .I1(\Using_FPGA.Native_16 ),
-        .I2(\Using_FPGA.Native_17 ),
-        .I3(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_i_7__1_n_0 ));
-  LUT6 #(
-    .INIT(64'hAFABAFABAFAAAFAB)) 
-    \Using_FPGA.Native_i_9 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
-        .I1(\Using_FPGA.Native_13 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_14 ),
-        .I4(\Using_FPGA.Native_15 ),
-        .I5(\Using_FPGA.Native_12 ),
-        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17481,20 +17224,88 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_852
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.The_Compare[0].sel_reg_9 ,
+    \Using_FPGA.Native_1 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    clz_instr,
+    \Using_FPGA.Native_2 ,
+    Select_Logic_reg,
+    pcmp_instr,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    B,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 ,
+    \Using_FPGA.Native_15 ,
+    \Using_FPGA.Native_16 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
+  output \Using_FPGA.Native_0 ;
+  output \Using_FPGA.The_Compare[0].sel_reg_9 ;
+  output \Using_FPGA.Native_1 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input clz_instr;
+  input \Using_FPGA.Native_2 ;
+  input Select_Logic_reg;
+  input pcmp_instr;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input [0:0]B;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_13 ;
+  input \Using_FPGA.Native_14 ;
+  input \Using_FPGA.Native_15 ;
+  input \Using_FPGA.Native_16 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
+  wire [0:0]B;
   wire Clk;
+  wire Select_Logic_reg;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
+  wire \Using_FPGA.Native_13 ;
+  wire \Using_FPGA.Native_14 ;
+  wire \Using_FPGA.Native_15 ;
+  wire \Using_FPGA.Native_16 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire \Using_FPGA.Native_i_2__48_n_0 ;
+  wire \Using_FPGA.Native_i_3__13_n_0 ;
+  wire \Using_FPGA.The_Compare[0].sel_reg_9 ;
+  wire clz_instr;
   wire of_PipeRun;
   wire op1_I;
+  wire pcmp_instr;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -17509,6 +17320,52 @@ module blockdesign_microblaze_0_0_MB_FDRE_852
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
         .R(sync_reset));
+  LUT5 #(
+    .INIT(32'hF808FB08)) 
+    \Using_FPGA.Native_i_1__68 
+       (.I0(\Using_FPGA.Native_i_2__48_n_0 ),
+        .I1(clz_instr),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(Select_Logic_reg),
+        .I4(pcmp_instr),
+        .O(\Using_FPGA.Native_0 ));
+  LUT6 #(
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__92 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(B),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\Using_FPGA.The_Compare[0].sel_reg_9 ));
+  LUT6 #(
+    .INIT(64'hEFE0FFFFEFE00000)) 
+    \Using_FPGA.Native_i_2__48 
+       (.I0(\Using_FPGA.Native_i_3__13_n_0 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_10 ),
+        .I5(\Using_FPGA.Native_11 ),
+        .O(\Using_FPGA.Native_i_2__48_n_0 ));
+  LUT5 #(
+    .INIT(32'hA8A8A8AA)) 
+    \Using_FPGA.Native_i_3__13 
+       (.I0(\Using_FPGA.Native_1 ),
+        .I1(\Using_FPGA.Native_12 ),
+        .I2(\Using_FPGA.Native_6 ),
+        .I3(\Using_FPGA.Native_13 ),
+        .I4(\Using_FPGA.Native_14 ),
+        .O(\Using_FPGA.Native_i_3__13_n_0 ));
+  LUT4 #(
+    .INIT(16'h0004)) 
+    \Using_FPGA.Native_i_4__2 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .I1(\Using_FPGA.Native_15 ),
+        .I2(\Using_FPGA.Native_16 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17633,36 +17490,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_860
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ,
-    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    Clk);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ;
-  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ;
   wire Clk;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -17679,16 +17518,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_860
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ),
         .R(sync_reset));
-  LUT6 #(
-    .INIT(64'h00000000FFFF00F2)) 
-    \Using_FPGA.Native_i_6__3 
-       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -17733,8 +17562,8 @@ module blockdesign_microblaze_0_0_MB_FDRE_864
     op1_I,
     Clk,
     \Using_FPGA.Native_0 ,
-    B,
     \Using_FPGA.Native_1 ,
+    B,
     \Using_FPGA.Native_2 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ;
   output S_5;
@@ -17743,8 +17572,8 @@ module blockdesign_microblaze_0_0_MB_FDRE_864
   input op1_I;
   input Clk;
   input \Using_FPGA.Native_0 ;
-  input [1:0]B;
   input \Using_FPGA.Native_1 ;
+  input [1:0]B;
   input \Using_FPGA.Native_2 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ;
@@ -17775,10 +17604,10 @@ module blockdesign_microblaze_0_0_MB_FDRE_864
     \Using_FPGA.Native_i_1__88 
        (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(B[0]),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(B[0]),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(B[1]),
         .O(S_5));
 endmodule
 
@@ -17884,38 +17713,47 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_872
    (\C_reg[30] ,
+    \Using_FPGA.The_Compare[0].sel_reg ,
     \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
+    op2_C,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 );
   output \C_reg[30] ;
+  output \Using_FPGA.The_Compare[0].sel_reg ;
   output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input [0:0]op2_C;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
+  input [1:0]\Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
 
   wire \C_reg[30] ;
   wire Clk;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
+  wire [1:0]\Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.The_Compare[0].sel_reg ;
   wire of_PipeRun;
   wire op1_I;
+  wire [0:0]op2_C;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -17931,14 +17769,24 @@ module blockdesign_microblaze_0_0_MB_FDRE_872
         .Q(\C_reg[30] ),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'h1111111111110001)) 
-    \Using_FPGA.Native_i_6__2 
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__81 
        (.I0(\C_reg[30] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
+        .I1(op2_C),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 [0]),
+        .I4(\Using_FPGA.Native_3 ),
+        .I5(\Using_FPGA.Native_2 [1]),
+        .O(\Using_FPGA.The_Compare[0].sel_reg ));
+  LUT6 #(
+    .INIT(64'h1111111111110001)) 
+    \Using_FPGA.Native_i_6__3 
+       (.I0(\C_reg[30] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_1 ),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -17978,18 +17826,24 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_876
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_1 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_1 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -18006,6 +17860,12 @@ module blockdesign_microblaze_0_0_MB_FDRE_876
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
         .R(sync_reset));
+  LUT2 #(
+    .INIT(4'h1)) 
+    \Using_FPGA.Native_i_7__0 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18044,18 +17904,33 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_880
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -18072,6 +17947,15 @@ module blockdesign_microblaze_0_0_MB_FDRE_880
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
         .R(sync_reset));
+  LUT5 #(
+    .INIT(32'h00000001)) 
+    \Using_FPGA.Native_i_5__3 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18110,18 +17994,48 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_884
    (\C_reg[30] ,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 );
   output \C_reg[30] ;
+  output \Using_FPGA.Native_0 ;
+  output \Using_FPGA.Native_1 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
 
   wire \C_reg[30] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -18138,6 +18052,26 @@ module blockdesign_microblaze_0_0_MB_FDRE_884
         .D(op1_I),
         .Q(\C_reg[30] ),
         .R(sync_reset));
+  LUT6 #(
+    .INIT(64'h5555555500004544)) 
+    \Using_FPGA.Native_i_12 
+       (.I0(\C_reg[30] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_7 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_9 ),
+        .O(\Using_FPGA.Native_1 ));
+  LUT6 #(
+    .INIT(64'h0000000101010101)) 
+    \Using_FPGA.Native_i_4__1 
+       (.I0(\C_reg[30] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18176,62 +18110,28 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_888
    (\C_reg[30] ,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     Sext,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
     sext16,
-    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_0 ,
     sext8);
   output \C_reg[30] ;
-  output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
   output Sext;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
   input sext16;
-  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_0 ;
   input sext8;
 
   wire \C_reg[30] ;
   wire Clk;
   wire Sext;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.Native_i_6__1_n_0 ;
   wire of_PipeRun;
   wire op1_I;
   wire sext16;
@@ -18255,35 +18155,9 @@ module blockdesign_microblaze_0_0_MB_FDRE_888
     \Using_FPGA.Native_i_1__120 
        (.I0(\C_reg[30] ),
         .I1(sext16),
-        .I2(\Using_FPGA.Native_11 ),
+        .I2(\Using_FPGA.Native_0 ),
         .I3(sext8),
         .O(Sext));
-  LUT6 #(
-    .INIT(64'h02FFFFFF02FF0000)) 
-    \Using_FPGA.Native_i_3__10 
-       (.I0(\Using_FPGA.Native_i_6__1_n_0 ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(\Using_FPGA.Native_0 ));
-  LUT5 #(
-    .INIT(32'hAAAAAA02)) 
-    \Using_FPGA.Native_i_4__3 
-       (.I0(\Using_FPGA.Native_i_6__1_n_0 ),
-        .I1(\Using_FPGA.Native_7 ),
-        .I2(\Using_FPGA.Native_8 ),
-        .I3(\Using_FPGA.Native_2 ),
-        .I4(\Using_FPGA.Native_3 ),
-        .O(\Using_FPGA.Native_1 ));
-  LUT3 #(
-    .INIT(8'h01)) 
-    \Using_FPGA.Native_i_6__1 
-       (.I0(\Using_FPGA.Native_9 ),
-        .I1(\C_reg[30] ),
-        .I2(\Using_FPGA.Native_10 ),
-        .O(\Using_FPGA.Native_i_6__1_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18322,20 +18196,32 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_892
    (\C_reg[30] ,
+    \Using_FPGA.The_Compare[2].sel_reg_1 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    B,
+    \Using_FPGA.Native_0 ,
+    op2_C);
   output \C_reg[30] ;
+  output \Using_FPGA.The_Compare[2].sel_reg_1 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input [0:0]B;
+  input \Using_FPGA.Native_0 ;
+  input [0:0]op2_C;
 
+  wire [0:0]B;
   wire \C_reg[30] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.The_Compare[2].sel_reg_1 ;
   wire of_PipeRun;
   wire op1_I;
+  wire [0:0]op2_C;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -18350,6 +18236,14 @@ module blockdesign_microblaze_0_0_MB_FDRE_892
         .D(op1_I),
         .Q(\C_reg[30] ),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'h9009)) 
+    \Using_FPGA.Native_i_1__84 
+       (.I0(\C_reg[30] ),
+        .I1(B),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(op2_C),
+        .O(\Using_FPGA.The_Compare[2].sel_reg_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18521,28 +18415,73 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDRE_904
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ,
     \Using_FPGA.Native_0 ,
+    S_2,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 );
+    \Using_FPGA.Native_2 ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    Select_Logic_reg,
+    PCMP_Instr2_out,
+    op2_C,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ;
   output \Using_FPGA.Native_0 ;
+  output S_2;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input Select_Logic_reg;
+  input PCMP_Instr2_out;
+  input [0:0]op2_C;
+  input \Using_FPGA.Native_3 ;
+  input [1:0]\Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ;
   wire Clk;
+  wire PCMP_Instr2_out;
+  wire S_2;
+  wire Select_Logic_reg;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire [1:0]\Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire \Using_FPGA.Native_i_10_n_0 ;
+  wire \Using_FPGA.Native_i_3__11_n_0 ;
+  wire \Using_FPGA.Native_i_7_n_0 ;
   wire of_PipeRun;
   wire op1_I;
+  wire [0:0]op2_C;
   wire sync_reset;
 
   (* box_type = "PRIMITIVE" *) 
@@ -18561,9 +18500,43 @@ module blockdesign_microblaze_0_0_MB_FDRE_904
     .INIT(8'hBA)) 
     \Using_FPGA.Native_i_10 
        (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ),
+        .I1(\Using_FPGA.Native_5 ),
+        .I2(\Using_FPGA.Native_11 ),
+        .O(\Using_FPGA.Native_i_10_n_0 ));
+  LUT6 #(
+    .INIT(64'hB800B800B8FFB800)) 
+    \Using_FPGA.Native_i_1__69 
+       (.I0(\Using_FPGA.Native_i_3__11_n_0 ),
         .I1(\Using_FPGA.Native_1 ),
         .I2(\Using_FPGA.Native_2 ),
+        .I3(\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .I4(Select_Logic_reg),
+        .I5(PCMP_Instr2_out),
         .O(\Using_FPGA.Native_0 ));
+  LUT6 #(
+    .INIT(64'h9009000000009009)) 
+    \Using_FPGA.Native_i_1__85 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ),
+        .I1(op2_C),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 [1]),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_4 [0]),
+        .O(S_2));
+  MUXF7 \Using_FPGA.Native_i_3__11 
+       (.I0(\Using_FPGA.Native_i_7_n_0 ),
+        .I1(\Using_FPGA.Native_7 ),
+        .O(\Using_FPGA.Native_i_3__11_n_0 ),
+        .S(\Using_FPGA.Native_6 ));
+  LUT5 #(
+    .INIT(32'h00FF0031)) 
+    \Using_FPGA.Native_i_7 
+       (.I0(\Using_FPGA.Native_i_10_n_0 ),
+        .I1(\Using_FPGA.Native_8 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_10 ),
+        .O(\Using_FPGA.Native_i_7_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18602,18 +18575,36 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_908
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -18630,6 +18621,16 @@ module blockdesign_microblaze_0_0_MB_FDRE_908
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
         .R(sync_reset));
+  LUT6 #(
+    .INIT(64'h000000000000EEEF)) 
+    \Using_FPGA.Native_i_5__2 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18668,18 +18669,30 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_912
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     op1_I,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ;
   wire Clk;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
@@ -18696,6 +18709,14 @@ module blockdesign_microblaze_0_0_MB_FDRE_912
         .D(op1_I),
         .Q(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'h0001)) 
+    \Using_FPGA.Native_i_6__2 
+       (.I0(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18733,64 +18754,104 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
 module blockdesign_microblaze_0_0_MB_FDRE_916
-   (\C_reg[28] ,
-    \C_reg[28]_0 ,
+   (\C_reg[31] ,
+    S,
+    \C_reg[29] ,
+    \C_reg[23] ,
+    \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ,
     sync_reset,
     of_PipeRun,
     op1_I,
     Clk,
-    \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
+    compare_Instr,
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
-  output \C_reg[28] ;
-  output [1:0]\C_reg[28]_0 ;
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    A,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 );
+  output \C_reg[31] ;
+  output S;
+  output [1:0]\C_reg[29] ;
+  output \C_reg[23] ;
+  output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
   input sync_reset;
   input of_PipeRun;
   input op1_I;
   input Clk;
-  input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
+  input compare_Instr;
+  input \Using_Barrel_Shifter.BitField_Extract_reg ;
+  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input [0:0]A;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
 
-  wire \C_reg[28] ;
-  wire [1:0]\C_reg[28]_0 ;
+  wire [0:0]A;
+  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
+  wire \C_reg[23] ;
+  wire [1:0]\C_reg[29] ;
+  wire \C_reg[31] ;
   wire Clk;
+  wire S;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire compare_Instr;
   wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
   wire op1_I;
   wire sync_reset;
 
   LUT6 #(
-    .INIT(64'h40404040404000FF)) 
-    \C[28]_i_1 
+    .INIT(64'hBFBFBF00BFBFBFFF)) 
+    \C[19]_i_2 
        (.I0(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I1(\instr_EX_i_reg[22] ),
-        .I2(\C_reg[28] ),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_2 ),
-        .O(\C_reg[28]_0 [1]));
+        .I2(\C_reg[31] ),
+        .I3(\Using_FPGA.Native_7 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(A),
+        .O(\C_reg[23] ));
   LUT6 #(
     .INIT(64'h40404040404000FF)) 
     \C[29]_i_1 
        (.I0(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I1(\instr_EX_i_reg[22] ),
-        .I2(\C_reg[28] ),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(\Using_FPGA.Native_2 ),
-        .O(\C_reg[28]_0 [0]));
+        .I2(\C_reg[31] ),
+        .I3(\Using_FPGA.Native_2 ),
+        .I4(\Using_FPGA.Native_3 ),
+        .I5(\Using_FPGA.Native_4 ),
+        .O(\C_reg[29] [1]));
+  LUT6 #(
+    .INIT(64'h40FF400040404040)) 
+    \C[31]_i_1 
+       (.I0(\Using_Barrel_Shifter.BitField_Extract_reg ),
+        .I1(\instr_EX_i_reg[22] ),
+        .I2(\C_reg[31] ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(A),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\C_reg[29] [0]));
   (* box_type = "PRIMITIVE" *) 
   FDRE #(
     .INIT(1'b0),
@@ -18801,8 +18862,24 @@ module blockdesign_microblaze_0_0_MB_FDRE_916
        (.C(Clk),
         .CE(of_PipeRun),
         .D(op1_I),
-        .Q(\C_reg[28] ),
+        .Q(\C_reg[31] ),
         .R(sync_reset));
+  LUT4 #(
+    .INIT(16'hF9FF)) 
+    \Using_FPGA.Native_i_1__122 
+       (.I0(\C_reg[31] ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(compare_Instr),
+        .O(\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ));
+  LUT4 #(
+    .INIT(16'hF9FF)) 
+    \Using_FPGA.Native_i_1__80 
+       (.I0(\C_reg[31] ),
+        .I1(\Using_FPGA.Native_0 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(compare_Instr),
+        .O(S));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRE" *) 
@@ -18838,7 +18915,6 @@ module blockdesign_microblaze_0_0_MB_FDRE_917
         .R(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDRSE" *) 
 module blockdesign_microblaze_0_0_MB_FDRSE
    (\void_bit16_reg[15] ,
     SR,
@@ -18848,14 +18924,14 @@ module blockdesign_microblaze_0_0_MB_FDRSE
     Clk,
     Not_Barrel_Op,
     Q,
-    \Serial_Dbg_Intf.continue_from_brk_reg ,
     start_single_step_reg,
+    \Serial_Dbg_Intf.continue_from_brk_reg ,
     sync_reset,
     saved_reset_mode_sleep,
     dbg_halt_reset_mode_reg,
     S,
     Dbg_Clean_Stop_reg,
-    \Area_Debug_Control.normal_stop_cmd_hold_reg ,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
     reset_delay_reg,
     clz_instr,
     Is_Equal,
@@ -18869,21 +18945,20 @@ module blockdesign_microblaze_0_0_MB_FDRSE
   input Clk;
   input Not_Barrel_Op;
   input [0:0]Q;
-  input \Serial_Dbg_Intf.continue_from_brk_reg ;
   input start_single_step_reg;
+  input \Serial_Dbg_Intf.continue_from_brk_reg ;
   input sync_reset;
   input saved_reset_mode_sleep;
   input dbg_halt_reset_mode_reg;
   input S;
   input Dbg_Clean_Stop_reg;
-  input \Area_Debug_Control.normal_stop_cmd_hold_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   input reset_delay_reg;
   input clz_instr;
   input Is_Equal;
   input [0:1]Reset_Mode;
   input start_dbg_exec_reg;
 
-  wire \Area_Debug_Control.normal_stop_cmd_hold_reg ;
   wire Clk;
   wire Dbg_Clean_Stop_reg;
   wire Is_Equal;
@@ -18894,10 +18969,11 @@ module blockdesign_microblaze_0_0_MB_FDRSE
   wire S;
   wire [0:0]SR;
   wire \Serial_Dbg_Intf.continue_from_brk_reg ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_i_1__136_n_0 ;
-  wire \Using_FPGA.Native_i_2__58_n_0 ;
+  wire \Using_FPGA.Native_i_2__57_n_0 ;
   wire clz_instr;
   wire dbg_halt_reset_mode_reg;
   wire reset_delay_reg;
@@ -18907,7 +18983,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE
   wire sync_reset;
   wire \void_bit16_reg[15] ;
 
-  (* SOFT_HLUTNM = "soft_lutpair40" *) 
+  (* SOFT_HLUTNM = "soft_lutpair43" *) 
   LUT2 #(
     .INIT(4'hE)) 
     \C[0]_i_1 
@@ -18925,7 +19001,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE
     \Using_FPGA.Native 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_i_2__58_n_0 ),
+        .D(\Using_FPGA.Native_i_2__57_n_0 ),
         .Q(\void_bit16_reg[15] ),
         .R(\Using_FPGA.Native_i_1__136_n_0 ));
   LUT2 #(
@@ -18945,30 +19021,30 @@ module blockdesign_microblaze_0_0_MB_FDRSE
         .O(\Using_FPGA.Native_i_1__136_n_0 ));
   LUT4 #(
     .INIT(16'hFEAE)) 
-    \Using_FPGA.Native_i_2__58 
+    \Using_FPGA.Native_i_2__57 
        (.I0(S),
         .I1(\void_bit16_reg[15] ),
         .I2(Dbg_Clean_Stop_reg),
-        .I3(\Area_Debug_Control.normal_stop_cmd_hold_reg ),
-        .O(\Using_FPGA.Native_i_2__58_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair40" *) 
-  LUT3 #(
-    .INIT(8'h40)) 
-    \Using_FPGA.Native_i_3__18 
-       (.I0(\void_bit16_reg[15] ),
-        .I1(clz_instr),
-        .I2(Is_Equal),
-        .O(\Using_FPGA.Native_1 ));
+        .I3(\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
+        .O(\Using_FPGA.Native_i_2__57_n_0 ));
   LUT6 #(
     .INIT(64'h00000000000000FD)) 
-    \Using_FPGA.Native_i_3__6 
+    \Using_FPGA.Native_i_3__7 
        (.I0(Q),
-        .I1(\Serial_Dbg_Intf.continue_from_brk_reg ),
-        .I2(start_single_step_reg),
+        .I1(start_single_step_reg),
+        .I2(\Serial_Dbg_Intf.continue_from_brk_reg ),
         .I3(sync_reset),
         .I4(saved_reset_mode_sleep),
         .I5(dbg_halt_reset_mode_reg),
         .O(\Using_FPGA.Native_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair43" *) 
+  LUT3 #(
+    .INIT(8'h40)) 
+    \Using_FPGA.Native_i_4__5 
+       (.I0(\void_bit16_reg[15] ),
+        .I1(clz_instr),
+        .I2(Is_Equal),
+        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRSE" *) 
@@ -18983,7 +19059,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_17
     \Area_Debug_Control.dbg_stop_Detected_reg_0 ,
     S,
     Dbg_Clean_Stop_reg,
-    \Area_Debug_Control.normal_stop_cmd_hold_reg ,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
     Reset_Mode,
     sync_reset,
     \Serial_Dbg_Intf.control_reg_reg[0] ,
@@ -18998,7 +19074,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_17
   input \Area_Debug_Control.dbg_stop_Detected_reg_0 ;
   input S;
   input Dbg_Clean_Stop_reg;
-  input \Area_Debug_Control.normal_stop_cmd_hold_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   input [0:1]Reset_Mode;
   input sync_reset;
   input \Serial_Dbg_Intf.control_reg_reg[0] ;
@@ -19006,17 +19082,17 @@ module blockdesign_microblaze_0_0_MB_FDRSE_17
 
   wire \Area_Debug_Control.dbg_stop_Detected_reg ;
   wire \Area_Debug_Control.dbg_stop_Detected_reg_0 ;
-  wire \Area_Debug_Control.normal_stop_cmd_hold_reg ;
   wire Clk;
   wire Dbg_Clean_Stop_reg;
   wire Dbg_Stop;
   wire [0:1]Reset_Mode;
   wire S;
   wire \Serial_Dbg_Intf.control_reg_reg[0] ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   wire \Serial_Dbg_Intf.new_dbg_instr_shifting_CLK_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_i_1__135_n_0 ;
-  wire \Using_FPGA.Native_i_2__57_n_0 ;
+  wire \Using_FPGA.Native_i_2__56_n_0 ;
   wire dbg_stop_1;
   wire sync_reset;
   wire trig_out_0_synced;
@@ -19043,7 +19119,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_17
     \Using_FPGA.Native 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_i_2__57_n_0 ),
+        .D(\Using_FPGA.Native_i_2__56_n_0 ),
         .Q(\Using_FPGA.Native_0 ),
         .R(\Using_FPGA.Native_i_1__135_n_0 ));
   LUT5 #(
@@ -19057,12 +19133,12 @@ module blockdesign_microblaze_0_0_MB_FDRSE_17
         .O(\Using_FPGA.Native_i_1__135_n_0 ));
   LUT4 #(
     .INIT(16'hFEAE)) 
-    \Using_FPGA.Native_i_2__57 
+    \Using_FPGA.Native_i_2__56 
        (.I0(S),
         .I1(\Using_FPGA.Native_0 ),
         .I2(Dbg_Clean_Stop_reg),
-        .I3(\Area_Debug_Control.normal_stop_cmd_hold_reg ),
-        .O(\Using_FPGA.Native_i_2__57_n_0 ));
+        .I3(\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
+        .O(\Using_FPGA.Native_i_2__56_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDRSE" *) 
@@ -19070,7 +19146,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
    (\Single_Synchronize.use_async_reset.sync_reg ,
     \Using_FPGA.Native_0 ,
     S,
-    \LOCKSTEP_Out_reg[3] ,
+    iFetch_In_Progress_reg,
     \Area_Debug_Control.mb_halted_i_reg ,
     E,
     \data_rd_reg_reg[32] ,
@@ -19079,35 +19155,35 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
     Clk,
     ok_To_Stop,
     dbg_clean_stop,
-    force_stop_cmd_i,
-    force_stop_cmd_hold,
+    \Area_Debug_Control.force_stop_cmd_hold_reg ,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
     normal_stop_cmd_i,
     normal_stop_cmd_hold,
     \Area_Debug_Control.dbg_stop_Detected_reg ,
-    saved_reset_mode_sleep,
     sleep_reset_mode_reg,
+    saved_reset_mode_sleep,
     dbg_halt_reset_mode_reg,
     saved_reset_mode_dbg_halt,
     sync_reset,
     Reset_Mode,
     \Serial_Dbg_Intf.control_reg_reg[0] ,
     saved_reset_mode_sleep_1,
-    read_register_MSR_1_reg,
     read_register_PC_1_reg,
+    read_register_MSR_1_reg,
     \Area_Optimized.register_write_reg ,
     \Serial_Dbg_Intf.if_debug_ready_i_reg ,
     \Using_FPGA.Native_1 ,
     Valid_Instr_i,
-    trace_valid_instr_part1_reg,
+    mul_Executing_done_reg,
     \Using_FPGA.Native_2 ,
-    \Area_Debug_Control.normal_stop_cmd_hold_reg ,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg_0 ,
     \Serial_Dbg_Intf.sample_synced_1_reg[6] ,
     \Area_Debug_Control.force_stop_i_reg ,
     exception_reg_0);
   output \Single_Synchronize.use_async_reset.sync_reg ;
   output \Using_FPGA.Native_0 ;
   output S;
-  output \LOCKSTEP_Out_reg[3] ;
+  output iFetch_In_Progress_reg;
   output \Area_Debug_Control.mb_halted_i_reg ;
   output [0:0]E;
   output \data_rd_reg_reg[32] ;
@@ -19116,44 +19192,45 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   input Clk;
   input ok_To_Stop;
   input dbg_clean_stop;
-  input force_stop_cmd_i;
-  input force_stop_cmd_hold;
+  input \Area_Debug_Control.force_stop_cmd_hold_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   input normal_stop_cmd_i;
   input normal_stop_cmd_hold;
   input \Area_Debug_Control.dbg_stop_Detected_reg ;
-  input saved_reset_mode_sleep;
   input sleep_reset_mode_reg;
+  input saved_reset_mode_sleep;
   input dbg_halt_reset_mode_reg;
   input saved_reset_mode_dbg_halt;
   input sync_reset;
   input [0:1]Reset_Mode;
   input \Serial_Dbg_Intf.control_reg_reg[0] ;
   input saved_reset_mode_sleep_1;
-  input read_register_MSR_1_reg;
   input read_register_PC_1_reg;
+  input read_register_MSR_1_reg;
   input \Area_Optimized.register_write_reg ;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
   input \Using_FPGA.Native_1 ;
   input Valid_Instr_i;
-  input [30:0]trace_valid_instr_part1_reg;
+  input [30:0]mul_Executing_done_reg;
   input [28:0]\Using_FPGA.Native_2 ;
-  input \Area_Debug_Control.normal_stop_cmd_hold_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg_0 ;
   input \Serial_Dbg_Intf.sample_synced_1_reg[6] ;
   input \Area_Debug_Control.force_stop_i_reg ;
   input [0:0]exception_reg_0;
 
   wire \Area_Debug_Control.dbg_stop_Detected_reg ;
+  wire \Area_Debug_Control.force_stop_cmd_hold_reg ;
   wire \Area_Debug_Control.force_stop_i_reg ;
   wire \Area_Debug_Control.mb_halted_i_reg ;
-  wire \Area_Debug_Control.normal_stop_cmd_hold_reg ;
   wire \Area_Optimized.register_write_reg ;
   wire Clk;
   wire [28:0]D;
   wire [0:0]E;
-  wire \LOCKSTEP_Out_reg[3] ;
   wire [0:1]Reset_Mode;
   wire S;
   wire \Serial_Dbg_Intf.control_reg_reg[0] ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg_0 ;
   wire \Serial_Dbg_Intf.if_debug_ready_i_reg ;
   wire \Serial_Dbg_Intf.sample_synced_1_reg[6] ;
   wire \Single_Synchronize.use_async_reset.sync_reg ;
@@ -19161,15 +19238,15 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   wire \Using_FPGA.Native_1 ;
   wire [28:0]\Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_i_1__77_n_0 ;
-  wire \Using_FPGA.Native_i_2__59_n_0 ;
+  wire \Using_FPGA.Native_i_2__58_n_0 ;
   wire Valid_Instr_i;
   wire \data_rd_reg_reg[32] ;
   wire dbg_clean_stop;
   wire dbg_halt_reset_mode_reg;
   wire exception_reg;
   wire [0:0]exception_reg_0;
-  wire force_stop_cmd_hold;
-  wire force_stop_cmd_i;
+  wire iFetch_In_Progress_reg;
+  wire [30:0]mul_Executing_done_reg;
   wire normal_stop_cmd_hold;
   wire normal_stop_cmd_i;
   wire ok_To_Stop;
@@ -19180,7 +19257,6 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   wire saved_reset_mode_sleep_1;
   wire sleep_reset_mode_reg;
   wire sync_reset;
-  wire [30:0]trace_valid_instr_part1_reg;
 
   LUT5 #(
     .INIT(32'h20202F20)) 
@@ -19202,7 +19278,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
     \Using_FPGA.Native 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_i_2__59_n_0 ),
+        .D(\Using_FPGA.Native_i_2__58_n_0 ),
         .Q(\Single_Synchronize.use_async_reset.sync_reg ),
         .R(\Using_FPGA.Native_i_1__77_n_0 ));
   LUT2 #(
@@ -19210,7 +19286,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
     \Using_FPGA.Native_i_1__64 
        (.I0(sync_reset),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
-        .O(\LOCKSTEP_Out_reg[3] ));
+        .O(iFetch_In_Progress_reg));
   LUT4 #(
     .INIT(16'hFF90)) 
     \Using_FPGA.Native_i_1__77 
@@ -19221,20 +19297,20 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
         .O(\Using_FPGA.Native_i_1__77_n_0 ));
   LUT5 #(
     .INIT(32'hFEFEFEAE)) 
-    \Using_FPGA.Native_i_2__59 
+    \Using_FPGA.Native_i_2__58 
        (.I0(S),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Using_FPGA.Native_0 ),
-        .I3(\Area_Debug_Control.normal_stop_cmd_hold_reg ),
+        .I3(\Serial_Dbg_Intf.force_stop_cmd_i_reg_0 ),
         .I4(\Serial_Dbg_Intf.sample_synced_1_reg[6] ),
-        .O(\Using_FPGA.Native_i_2__59_n_0 ));
+        .O(\Using_FPGA.Native_i_2__58_n_0 ));
   LUT6 #(
     .INIT(64'hFFFFF888F888F888)) 
     \Using_FPGA.Native_i_4__0 
        (.I0(ok_To_Stop),
         .I1(\Area_Debug_Control.dbg_stop_Detected_reg ),
-        .I2(saved_reset_mode_sleep),
-        .I3(sleep_reset_mode_reg),
+        .I2(sleep_reset_mode_reg),
+        .I3(saved_reset_mode_sleep),
         .I4(dbg_halt_reset_mode_reg),
         .I5(saved_reset_mode_dbg_halt),
         .O(S));
@@ -19243,23 +19319,23 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
     \Using_FPGA.Native_i_5__0 
        (.I0(ok_To_Stop),
         .I1(dbg_clean_stop),
-        .I2(force_stop_cmd_i),
-        .I3(force_stop_cmd_hold),
+        .I2(\Area_Debug_Control.force_stop_cmd_hold_reg ),
+        .I3(\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
         .I4(normal_stop_cmd_i),
         .I5(normal_stop_cmd_hold),
         .O(\Using_FPGA.Native_0 ));
   LUT4 #(
     .INIT(16'hFEEE)) 
     \data_rd_reg[0]_i_1 
-       (.I0(read_register_MSR_1_reg),
-        .I1(read_register_PC_1_reg),
+       (.I0(read_register_PC_1_reg),
+        .I1(read_register_MSR_1_reg),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Single_Synchronize.use_async_reset.sync_reg ),
         .O(E));
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[0]_i_2 
-       (.I0(trace_valid_instr_part1_reg[29]),
+       (.I0(mul_Executing_done_reg[29]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [28]),
@@ -19268,7 +19344,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[10]_i_1 
-       (.I0(trace_valid_instr_part1_reg[19]),
+       (.I0(mul_Executing_done_reg[19]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [18]),
@@ -19277,7 +19353,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[11]_i_1 
-       (.I0(trace_valid_instr_part1_reg[18]),
+       (.I0(mul_Executing_done_reg[18]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [17]),
@@ -19286,7 +19362,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[12]_i_1 
-       (.I0(trace_valid_instr_part1_reg[17]),
+       (.I0(mul_Executing_done_reg[17]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [16]),
@@ -19295,7 +19371,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[13]_i_1 
-       (.I0(trace_valid_instr_part1_reg[16]),
+       (.I0(mul_Executing_done_reg[16]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [15]),
@@ -19304,7 +19380,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[14]_i_1 
-       (.I0(trace_valid_instr_part1_reg[15]),
+       (.I0(mul_Executing_done_reg[15]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [14]),
@@ -19313,7 +19389,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[15]_i_1 
-       (.I0(trace_valid_instr_part1_reg[14]),
+       (.I0(mul_Executing_done_reg[14]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [13]),
@@ -19322,7 +19398,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[16]_i_1 
-       (.I0(trace_valid_instr_part1_reg[13]),
+       (.I0(mul_Executing_done_reg[13]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [12]),
@@ -19331,7 +19407,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[17]_i_1 
-       (.I0(trace_valid_instr_part1_reg[12]),
+       (.I0(mul_Executing_done_reg[12]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [11]),
@@ -19340,7 +19416,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[18]_i_1 
-       (.I0(trace_valid_instr_part1_reg[11]),
+       (.I0(mul_Executing_done_reg[11]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [10]),
@@ -19349,7 +19425,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[19]_i_1 
-       (.I0(trace_valid_instr_part1_reg[10]),
+       (.I0(mul_Executing_done_reg[10]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [9]),
@@ -19358,7 +19434,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[1]_i_1 
-       (.I0(trace_valid_instr_part1_reg[28]),
+       (.I0(mul_Executing_done_reg[28]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [27]),
@@ -19367,7 +19443,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[20]_i_1 
-       (.I0(trace_valid_instr_part1_reg[9]),
+       (.I0(mul_Executing_done_reg[9]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [8]),
@@ -19376,7 +19452,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[21]_i_1 
-       (.I0(trace_valid_instr_part1_reg[8]),
+       (.I0(mul_Executing_done_reg[8]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [7]),
@@ -19385,7 +19461,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[22]_i_1 
-       (.I0(trace_valid_instr_part1_reg[7]),
+       (.I0(mul_Executing_done_reg[7]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [6]),
@@ -19394,7 +19470,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[23]_i_1 
-       (.I0(trace_valid_instr_part1_reg[6]),
+       (.I0(mul_Executing_done_reg[6]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [5]),
@@ -19403,7 +19479,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[24]_i_1 
-       (.I0(trace_valid_instr_part1_reg[5]),
+       (.I0(mul_Executing_done_reg[5]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [4]),
@@ -19412,7 +19488,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[25]_i_1 
-       (.I0(trace_valid_instr_part1_reg[4]),
+       (.I0(mul_Executing_done_reg[4]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [3]),
@@ -19421,7 +19497,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[26]_i_1 
-       (.I0(trace_valid_instr_part1_reg[3]),
+       (.I0(mul_Executing_done_reg[3]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [2]),
@@ -19430,7 +19506,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[27]_i_1 
-       (.I0(trace_valid_instr_part1_reg[2]),
+       (.I0(mul_Executing_done_reg[2]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [1]),
@@ -19439,7 +19515,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[2]_i_1 
-       (.I0(trace_valid_instr_part1_reg[27]),
+       (.I0(mul_Executing_done_reg[27]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [26]),
@@ -19448,26 +19524,26 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[31]_i_1 
-       (.I0(trace_valid_instr_part1_reg[1]),
+       (.I0(mul_Executing_done_reg[1]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [0]),
         .I4(read_register_MSR_1_reg),
         .O(D[0]));
   LUT6 #(
-    .INIT(64'hBFBFBFBFBFBFBFA0)) 
+    .INIT(64'hBFBFBFBFBFBFBF88)) 
     \data_rd_reg[32]_i_2 
        (.I0(\Area_Optimized.register_write_reg ),
-        .I1(\Serial_Dbg_Intf.if_debug_ready_i_reg ),
-        .I2(\Single_Synchronize.use_async_reset.sync_reg ),
+        .I1(\Single_Synchronize.use_async_reset.sync_reg ),
+        .I2(\Serial_Dbg_Intf.if_debug_ready_i_reg ),
         .I3(\Using_FPGA.Native_1 ),
-        .I4(Valid_Instr_i),
-        .I5(read_register_MSR_1_reg),
+        .I4(read_register_MSR_1_reg),
+        .I5(Valid_Instr_i),
         .O(\data_rd_reg_reg[32] ));
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[3]_i_1 
-       (.I0(trace_valid_instr_part1_reg[26]),
+       (.I0(mul_Executing_done_reg[26]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [25]),
@@ -19476,7 +19552,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[4]_i_1 
-       (.I0(trace_valid_instr_part1_reg[25]),
+       (.I0(mul_Executing_done_reg[25]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [24]),
@@ -19485,7 +19561,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[5]_i_1 
-       (.I0(trace_valid_instr_part1_reg[24]),
+       (.I0(mul_Executing_done_reg[24]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [23]),
@@ -19494,7 +19570,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[6]_i_1 
-       (.I0(trace_valid_instr_part1_reg[23]),
+       (.I0(mul_Executing_done_reg[23]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [22]),
@@ -19503,7 +19579,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[7]_i_1 
-       (.I0(trace_valid_instr_part1_reg[22]),
+       (.I0(mul_Executing_done_reg[22]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [21]),
@@ -19512,7 +19588,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[8]_i_1 
-       (.I0(trace_valid_instr_part1_reg[21]),
+       (.I0(mul_Executing_done_reg[21]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [20]),
@@ -19521,7 +19597,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8080BF80)) 
     \data_rd_reg[9]_i_1 
-       (.I0(trace_valid_instr_part1_reg[20]),
+       (.I0(mul_Executing_done_reg[20]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
         .I2(\Area_Optimized.register_write_reg ),
         .I3(\Using_FPGA.Native_2 [19]),
@@ -19530,9 +19606,9 @@ module blockdesign_microblaze_0_0_MB_FDRSE_18
   LUT5 #(
     .INIT(32'h8F008000)) 
     exception_i_1
-       (.I0(trace_valid_instr_part1_reg[0]),
+       (.I0(mul_Executing_done_reg[0]),
         .I1(\Single_Synchronize.use_async_reset.sync_reg ),
-        .I2(trace_valid_instr_part1_reg[30]),
+        .I2(mul_Executing_done_reg[30]),
         .I3(\Area_Debug_Control.force_stop_i_reg ),
         .I4(exception_reg_0),
         .O(exception_reg));
@@ -19542,17 +19618,17 @@ endmodule
 module blockdesign_microblaze_0_0_MB_FDRSE_65
    (force_Val2_N,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.Native_0 ,
+    inHibit_EX_reg,
     Clk);
   output force_Val2_N;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.Native_0 ;
+  input inHibit_EX_reg;
   input Clk;
 
   wire Clk;
-  wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire force_Val2_N;
+  wire inHibit_EX_reg;
 
   (* IS_CE_INVERTED = "1'b0" *) 
   (* IS_S_INVERTED = "1'b0" *) 
@@ -19565,7 +19641,7 @@ module blockdesign_microblaze_0_0_MB_FDRSE_65
     \Using_FPGA.Native 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_0 ),
+        .D(inHibit_EX_reg),
         .Q(force_Val2_N),
         .R(\Using_FPGA.take_Intr_2nd_Phase_reg ));
 endmodule
@@ -19575,19 +19651,19 @@ module blockdesign_microblaze_0_0_MB_FDRSE_921
    (msr_I,
     I3_2,
     \Using_dynamic_instr_Address.old_IE_value_reg ,
-    \Use_Async_Reset.sync_reset_reg ,
     \Using_FPGA.Native_0 ,
-    Clk,
     \Using_FPGA.Native_1 ,
+    Clk,
+    \Using_FPGA.Native_2 ,
     Address,
     \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg );
   output [0:0]msr_I;
   output I3_2;
   output \Using_dynamic_instr_Address.old_IE_value_reg ;
-  input \Use_Async_Reset.sync_reset_reg ;
   input \Using_FPGA.Native_0 ;
-  input Clk;
   input \Using_FPGA.Native_1 ;
+  input Clk;
+  input \Using_FPGA.Native_2 ;
   input [0:0]Address;
   input \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
 
@@ -19595,9 +19671,9 @@ module blockdesign_microblaze_0_0_MB_FDRSE_921
   wire Clk;
   wire I3_2;
   wire \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
-  wire \Use_Async_Reset.sync_reset_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire \Using_dynamic_instr_Address.old_IE_value_reg ;
   wire [0:0]msr_I;
 
@@ -19612,15 +19688,15 @@ module blockdesign_microblaze_0_0_MB_FDRSE_921
     \Using_FPGA.Native 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_0 ),
+        .D(\Using_FPGA.Native_1 ),
         .Q(msr_I),
-        .R(\Use_Async_Reset.sync_reset_reg ));
+        .R(\Using_FPGA.Native_0 ));
   (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__21 
        (.I0(msr_I),
-        .I1(\Using_FPGA.Native_1 ),
+        .I1(\Using_FPGA.Native_2 ),
         .I2(Address),
         .O(I3_2));
   (* SOFT_HLUTNM = "soft_lutpair1" *) 
@@ -19740,47 +19816,25 @@ module blockdesign_microblaze_0_0_MB_FDRSE_923
         .O(I3_0));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDS" *) 
 module blockdesign_microblaze_0_0_MB_FDS
    (\instr_EX_i_reg[9] ,
-    DI,
-    buffer_Full,
     S_34,
     R,
     buffer_Addr_S_I_2,
     Clk,
-    ex_Valid,
-    \Using_FPGA.Native_0 ,
-    mbar_hold_I_reg,
-    \Using_FPGA.Native_1 ,
-    missed_IFetch,
     mul_Executing_reg);
   output \instr_EX_i_reg[9] ;
-  output DI;
-  output buffer_Full;
   output S_34;
   input R;
   input buffer_Addr_S_I_2;
   input Clk;
-  input ex_Valid;
-  input \Using_FPGA.Native_0 ;
-  input mbar_hold_I_reg;
-  input \Using_FPGA.Native_1 ;
-  input missed_IFetch;
   input mul_Executing_reg;
 
   wire Clk;
-  wire DI;
   wire R;
   wire S_34;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
   wire buffer_Addr_S_I_2;
-  wire buffer_Full;
-  wire ex_Valid;
   wire \instr_EX_i_reg[9] ;
-  wire mbar_hold_I_reg;
-  wire missed_IFetch;
   wire mul_Executing_reg;
 
   (* XILINX_LEGACY_PRIM = "FDS" *) 
@@ -19799,25 +19853,8 @@ module blockdesign_microblaze_0_0_MB_FDS
        (.I0(\instr_EX_i_reg[9] ),
         .I1(mul_Executing_reg),
         .O(S_34));
-  LUT6 #(
-    .INIT(64'h0000000000DFDFDF)) 
-    \Using_FPGA.Native_i_1__0 
-       (.I0(ex_Valid),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(mbar_hold_I_reg),
-        .I3(\instr_EX_i_reg[9] ),
-        .I4(\Using_FPGA.Native_1 ),
-        .I5(missed_IFetch),
-        .O(DI));
-  LUT2 #(
-    .INIT(4'h8)) 
-    \Using_FPGA.Native_i_1__1 
-       (.I0(\instr_EX_i_reg[9] ),
-        .I1(\Using_FPGA.Native_1 ),
-        .O(buffer_Full));
 endmodule
 
-(* ORIG_REF_NAME = "MB_FDSE" *) 
 module blockdesign_microblaze_0_0_MB_FDSE
    (Reg_Test_Equal,
     R,
@@ -20843,24 +20880,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_FDS" *) 
 module blockdesign_microblaze_0_0_MB_FDS_90
    (\instr_EX_i_reg[9] ,
-    S,
     R,
     O,
-    Clk,
-    mul_Executing_reg);
+    Clk);
   output \instr_EX_i_reg[9] ;
-  output S;
   input R;
   input O;
   input Clk;
-  input mul_Executing_reg;
 
   wire Clk;
   wire O;
   wire R;
-  wire S;
   wire \instr_EX_i_reg[9] ;
-  wire mul_Executing_reg;
 
   (* XILINX_LEGACY_PRIM = "FDS" *) 
   (* box_type = "PRIMITIVE" *) 
@@ -20872,12 +20903,6 @@ module blockdesign_microblaze_0_0_MB_FDS_90
         .D(O),
         .Q(\instr_EX_i_reg[9] ),
         .S(R));
-  LUT2 #(
-    .INIT(4'h6)) 
-    \Using_FPGA.Native_I1_i_1 
-       (.I0(\instr_EX_i_reg[9] ),
-        .I1(mul_Executing_reg),
-        .O(S));
 endmodule
 
 (* ORIG_REF_NAME = "MB_FDS" *) 
@@ -21767,7 +21792,6 @@ module blockdesign_microblaze_0_0_MB_FD_452
         .R(1'b0));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT2" *) 
 module blockdesign_microblaze_0_0_MB_LUT2
    (shift_Logic_Result,
     I0,
@@ -21813,55 +21837,49 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT2" *) 
 module blockdesign_microblaze_0_0_MB_LUT2__parameterized2
-   (\Using_FPGA.Native_0 ,
-    extend_Data_Read,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
+   (extend_Data_Read,
     byte_selects_0,
     isbyte,
-    \WB_DAXI_Read_Data_reg[17] ,
+    \WB_DAXI_Read_Data_reg[16] ,
     Data_Read0_out,
     byte_i_reg,
+    \WB_DAXI_Read_Data_reg[19] ,
+    \WB_DAXI_Read_Data_reg[21] ,
     Q,
     DReady,
     Data_Read);
-  output \Using_FPGA.Native_0 ;
-  output [2:0]extend_Data_Read;
-  output \Using_FPGA.Native_1 ;
-  output \Using_FPGA.Native_2 ;
-  output \Using_FPGA.Native_3 ;
-  output \Using_FPGA.Native_4 ;
-  output \Using_FPGA.Native_5 ;
+  output [7:0]extend_Data_Read;
   input byte_selects_0;
   input isbyte;
-  input [2:0]\WB_DAXI_Read_Data_reg[17] ;
-  input [2:0]Data_Read0_out;
+  input [5:0]\WB_DAXI_Read_Data_reg[16] ;
+  input [9:0]Data_Read0_out;
   input byte_i_reg;
+  input \WB_DAXI_Read_Data_reg[19] ;
+  input \WB_DAXI_Read_Data_reg[21] ;
   input [7:0]Q;
   input DReady;
   input [7:0]Data_Read;
 
   wire DReady;
   wire [7:0]Data_Read;
-  wire [2:0]Data_Read0_out;
+  wire [9:0]Data_Read0_out;
   wire [7:0]Q;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_i_2__50_n_0 ;
   wire \Using_FPGA.Native_i_2__51_n_0 ;
-  wire \Using_FPGA.Native_i_3__14_n_0 ;
+  wire \Using_FPGA.Native_i_2__52_n_0 ;
   wire \Using_FPGA.Native_i_3__15_n_0 ;
-  wire [2:0]\WB_DAXI_Read_Data_reg[17] ;
+  wire \Using_FPGA.Native_i_3__16_n_0 ;
+  wire \Using_FPGA.Native_i_3__17_n_0 ;
+  wire \Using_FPGA.Native_i_4__4_n_0 ;
+  wire \Using_FPGA.Native_i_5__5_n_0 ;
+  wire [5:0]\WB_DAXI_Read_Data_reg[16] ;
+  wire \WB_DAXI_Read_Data_reg[19] ;
+  wire \WB_DAXI_Read_Data_reg[21] ;
   wire byte_i_reg;
   wire byte_selects_0;
-  wire [2:0]extend_Data_Read;
+  wire [7:0]extend_Data_Read;
   wire isbyte;
+  wire [0:0]sel_LSB;
 
   (* box_type = "PRIMITIVE" *) 
   LUT2 #(
@@ -21869,109 +21887,155 @@ module blockdesign_microblaze_0_0_MB_LUT2__parameterized2
     \Using_FPGA.Native 
        (.I0(byte_selects_0),
         .I1(isbyte),
-        .O(\Using_FPGA.Native_0 ));
-  LUT5 #(
-    .INIT(32'hFFFF0ACA)) 
-    \Using_FPGA.Native_i_1__110 
-       (.I0(\WB_DAXI_Read_Data_reg[17] [0]),
-        .I1(Data_Read0_out[0]),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(byte_i_reg),
-        .I4(\Using_FPGA.Native_i_2__51_n_0 ),
-        .O(extend_Data_Read[0]));
-  LUT5 #(
-    .INIT(32'hFFFF0ACA)) 
-    \Using_FPGA.Native_i_2__43 
-       (.I0(\WB_DAXI_Read_Data_reg[17] [2]),
-        .I1(Data_Read0_out[2]),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(byte_i_reg),
-        .I4(\Using_FPGA.Native_i_3__15_n_0 ),
+        .O(sel_LSB));
+  LUT6 #(
+    .INIT(64'hAAEEFFFAAAEEAAFA)) 
+    \Using_FPGA.Native_i_1__105 
+       (.I0(\Using_FPGA.Native_i_2__52_n_0 ),
+        .I1(\WB_DAXI_Read_Data_reg[21] ),
+        .I2(Data_Read0_out[8]),
+        .I3(sel_LSB),
+        .I4(byte_i_reg),
+        .I5(Data_Read0_out[2]),
         .O(extend_Data_Read[2]));
   LUT5 #(
     .INIT(32'hFFFF0ACA)) 
-    \Using_FPGA.Native_i_2__44 
-       (.I0(\WB_DAXI_Read_Data_reg[17] [1]),
+    \Using_FPGA.Native_i_1__107 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [1]),
         .I1(Data_Read0_out[1]),
-        .I2(\Using_FPGA.Native_0 ),
+        .I2(sel_LSB),
         .I3(byte_i_reg),
-        .I4(\Using_FPGA.Native_i_3__14_n_0 ),
+        .I4(\Using_FPGA.Native_i_2__51_n_0 ),
         .O(extend_Data_Read[1]));
   LUT5 #(
+    .INIT(32'hFFFF0ACA)) 
+    \Using_FPGA.Native_i_1__110 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [0]),
+        .I1(Data_Read0_out[0]),
+        .I2(sel_LSB),
+        .I3(byte_i_reg),
+        .I4(\Using_FPGA.Native_i_2__50_n_0 ),
+        .O(extend_Data_Read[0]));
+  LUT5 #(
+    .INIT(32'hFFFF0ACA)) 
+    \Using_FPGA.Native_i_2__41 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [5]),
+        .I1(Data_Read0_out[7]),
+        .I2(sel_LSB),
+        .I3(byte_i_reg),
+        .I4(\Using_FPGA.Native_i_3__17_n_0 ),
+        .O(extend_Data_Read[7]));
+  LUT5 #(
+    .INIT(32'hFFFF0ACA)) 
+    \Using_FPGA.Native_i_2__42 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [4]),
+        .I1(Data_Read0_out[6]),
+        .I2(sel_LSB),
+        .I3(byte_i_reg),
+        .I4(\Using_FPGA.Native_i_3__16_n_0 ),
+        .O(extend_Data_Read[6]));
+  LUT5 #(
+    .INIT(32'hFFFF0ACA)) 
+    \Using_FPGA.Native_i_2__43 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [3]),
+        .I1(Data_Read0_out[5]),
+        .I2(sel_LSB),
+        .I3(byte_i_reg),
+        .I4(\Using_FPGA.Native_i_3__15_n_0 ),
+        .O(extend_Data_Read[5]));
+  LUT6 #(
+    .INIT(64'hAAEEFFFAAAEEAAFA)) 
+    \Using_FPGA.Native_i_2__44 
+       (.I0(\Using_FPGA.Native_i_4__4_n_0 ),
+        .I1(\WB_DAXI_Read_Data_reg[19] ),
+        .I2(Data_Read0_out[9]),
+        .I3(sel_LSB),
+        .I4(byte_i_reg),
+        .I5(Data_Read0_out[4]),
+        .O(extend_Data_Read[4]));
+  LUT5 #(
+    .INIT(32'hFFFF0ACA)) 
+    \Using_FPGA.Native_i_2__45 
+       (.I0(\WB_DAXI_Read_Data_reg[16] [2]),
+        .I1(Data_Read0_out[3]),
+        .I2(sel_LSB),
+        .I3(byte_i_reg),
+        .I4(\Using_FPGA.Native_i_5__5_n_0 ),
+        .O(extend_Data_Read[3]));
+  LUT5 #(
     .INIT(32'hE2000000)) 
-    \Using_FPGA.Native_i_2__51 
+    \Using_FPGA.Native_i_2__50 
        (.I0(Q[0]),
         .I1(DReady),
         .I2(Data_Read[0]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(sel_LSB),
+        .I4(byte_i_reg),
+        .O(\Using_FPGA.Native_i_2__50_n_0 ));
+  LUT5 #(
+    .INIT(32'hE2000000)) 
+    \Using_FPGA.Native_i_2__51 
+       (.I0(Q[1]),
+        .I1(DReady),
+        .I2(Data_Read[1]),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
         .O(\Using_FPGA.Native_i_2__51_n_0 ));
   LUT5 #(
     .INIT(32'hE2000000)) 
     \Using_FPGA.Native_i_2__52 
-       (.I0(Q[1]),
-        .I1(DReady),
-        .I2(Data_Read[1]),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_1 ));
-  LUT5 #(
-    .INIT(32'hE2000000)) 
-    \Using_FPGA.Native_i_2__53 
        (.I0(Q[2]),
         .I1(DReady),
         .I2(Data_Read[2]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_2 ));
-  LUT5 #(
-    .INIT(32'hE2000000)) 
-    \Using_FPGA.Native_i_3__14 
-       (.I0(Q[5]),
-        .I1(DReady),
-        .I2(Data_Read[5]),
-        .I3(\Using_FPGA.Native_0 ),
-        .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_i_3__14_n_0 ));
+        .O(\Using_FPGA.Native_i_2__52_n_0 ));
   LUT5 #(
     .INIT(32'hE2000000)) 
     \Using_FPGA.Native_i_3__15 
-       (.I0(Q[6]),
+       (.I0(Q[5]),
         .I1(DReady),
-        .I2(Data_Read[6]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I2(Data_Read[5]),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
         .O(\Using_FPGA.Native_i_3__15_n_0 ));
   LUT5 #(
     .INIT(32'hE2000000)) 
     \Using_FPGA.Native_i_3__16 
+       (.I0(Q[6]),
+        .I1(DReady),
+        .I2(Data_Read[6]),
+        .I3(sel_LSB),
+        .I4(byte_i_reg),
+        .O(\Using_FPGA.Native_i_3__16_n_0 ));
+  LUT5 #(
+    .INIT(32'hE2000000)) 
+    \Using_FPGA.Native_i_3__17 
        (.I0(Q[7]),
         .I1(DReady),
         .I2(Data_Read[7]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_5 ));
+        .O(\Using_FPGA.Native_i_3__17_n_0 ));
   LUT5 #(
     .INIT(32'hE2000000)) 
-    \Using_FPGA.Native_i_4__6 
+    \Using_FPGA.Native_i_4__4 
        (.I0(Q[4]),
         .I1(DReady),
         .I2(Data_Read[4]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_4 ));
+        .O(\Using_FPGA.Native_i_4__4_n_0 ));
   LUT5 #(
     .INIT(32'hE2000000)) 
-    \Using_FPGA.Native_i_5__4 
+    \Using_FPGA.Native_i_5__5 
        (.I0(Q[3]),
         .I1(DReady),
         .I2(Data_Read[3]),
-        .I3(\Using_FPGA.Native_0 ),
+        .I3(sel_LSB),
         .I4(byte_i_reg),
-        .O(\Using_FPGA.Native_3 ));
+        .O(\Using_FPGA.Native_i_5__5_n_0 ));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT3" *) 
 module blockdesign_microblaze_0_0_MB_LUT3
    (opsel1_SPR_Select_2_2,
     instr_OF,
@@ -22170,23 +22234,21 @@ module blockdesign_microblaze_0_0_MB_LUT3__parameterized9
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT4" *) 
 module blockdesign_microblaze_0_0_MB_LUT4
    (write_Reg_I_S,
     DReady0_out,
     write_Reg_reg,
-    Q,
+    \write_Addr_I_reg[0] ,
     writing_reg);
   output write_Reg_I_S;
   input DReady0_out;
   input write_Reg_reg;
-  input [4:0]Q;
+  input \write_Addr_I_reg[0] ;
   input writing_reg;
 
   wire DReady0_out;
   wire I196_in;
-  wire [4:0]Q;
-  wire \Using_FPGA.Native_i_3__5_n_0 ;
+  wire \write_Addr_I_reg[0] ;
   wire write_Reg_I_S;
   wire write_Reg_reg;
   wire writing_reg;
@@ -22198,22 +22260,13 @@ module blockdesign_microblaze_0_0_MB_LUT4
        (.I0(DReady0_out),
         .I1(I196_in),
         .I2(write_Reg_reg),
-        .I3(\Using_FPGA.Native_i_3__5_n_0 ),
+        .I3(\write_Addr_I_reg[0] ),
         .O(write_Reg_I_S));
   LUT1 #(
     .INIT(2'h1)) 
-    \Using_FPGA.Native_i_2__10 
+    \Using_FPGA.Native_i_2__9 
        (.I0(writing_reg),
         .O(I196_in));
-  LUT5 #(
-    .INIT(32'hFFFFFFFE)) 
-    \Using_FPGA.Native_i_3__5 
-       (.I0(Q[2]),
-        .I1(Q[3]),
-        .I2(Q[4]),
-        .I3(Q[0]),
-        .I4(Q[1]),
-        .O(\Using_FPGA.Native_i_3__5_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT4" *) 
@@ -22595,16 +22648,16 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized15_267
    (logic_Res_i,
     B,
-    \Using_FPGA.Native_0 ,
+    Op1_Shift,
     Logic_Oper);
   output logic_Res_i;
   input [0:0]B;
-  input \Using_FPGA.Native_0 ;
+  input Op1_Shift;
   input [0:1]Logic_Oper;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
-  wire \Using_FPGA.Native_0 ;
+  wire Op1_Shift;
   wire logic_Res_i;
 
   (* box_type = "PRIMITIVE" *) 
@@ -22612,7 +22665,7 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized15_267
     .INIT(16'h468E)) 
     \Using_FPGA.Native 
        (.I0(B),
-        .I1(\Using_FPGA.Native_0 ),
+        .I1(Op1_Shift),
         .I2(Logic_Oper[1]),
         .I3(Logic_Oper[0]),
         .O(logic_Res_i));
@@ -22946,16 +22999,16 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized15_306
    (logic_Res_i,
     B,
-    Op1_Shift,
+    \Using_FPGA.Native_0 ,
     Logic_Oper);
   output logic_Res_i;
   input [0:0]B;
-  input Op1_Shift;
+  input \Using_FPGA.Native_0 ;
   input [0:1]Logic_Oper;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
-  wire Op1_Shift;
+  wire \Using_FPGA.Native_0 ;
   wire logic_Res_i;
 
   (* box_type = "PRIMITIVE" *) 
@@ -22963,7 +23016,7 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized15_306
     .INIT(16'h468E)) 
     \Using_FPGA.Native 
        (.I0(B),
-        .I1(Op1_Shift),
+        .I1(\Using_FPGA.Native_0 ),
         .I2(Logic_Oper[1]),
         .I3(Logic_Oper[0]),
         .O(logic_Res_i));
@@ -23455,25 +23508,25 @@ endmodule
 (* ORIG_REF_NAME = "MB_LUT4" *) 
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_265
    (shift_Res,
+    Op1_Shift,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     Shift_Oper);
   output shift_Res;
+  input Op1_Shift;
   input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
   input Shift_Oper;
 
+  wire Op1_Shift;
   wire Shift_Oper;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
   LUT4 #(
     .INIT(16'hFCAA)) 
     \Using_FPGA.Native 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_1 ),
+       (.I0(Op1_Shift),
+        .I1(\Using_FPGA.Native_0 ),
         .I2(1'b0),
         .I3(Shift_Oper),
         .O(shift_Res));
@@ -23483,16 +23536,16 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_268
    (shift_Res,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
+    Op1_Shift,
     Shift_Oper);
   output shift_Res;
   input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
+  input Op1_Shift;
   input Shift_Oper;
 
+  wire Op1_Shift;
   wire Shift_Oper;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
@@ -23500,7 +23553,7 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_268
     .INIT(16'hFCAA)) 
     \Using_FPGA.Native 
        (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_1 ),
+        .I1(Op1_Shift),
         .I2(1'b0),
         .I3(Shift_Oper),
         .O(shift_Res));
@@ -23827,28 +23880,28 @@ endmodule
 (* ORIG_REF_NAME = "MB_LUT4" *) 
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_304
    (shift_Res,
-    Op1_Shift,
     \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
     Sext,
     Shift_Oper);
   output shift_Res;
-  input Op1_Shift;
   input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
   input Sext;
   input Shift_Oper;
 
-  wire Op1_Shift;
   wire Sext;
   wire Shift_Oper;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
   LUT4 #(
     .INIT(16'hFCAA)) 
     \Using_FPGA.Native 
-       (.I0(Op1_Shift),
-        .I1(\Using_FPGA.Native_0 ),
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_1 ),
         .I2(Sext),
         .I3(Shift_Oper),
         .O(shift_Res));
@@ -23858,19 +23911,19 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_307
    (shift_Res,
     \Using_FPGA.Native_0 ,
-    Op1_Shift,
+    \Using_FPGA.Native_1 ,
     Sext,
     Shift_Oper);
   output shift_Res;
   input \Using_FPGA.Native_0 ;
-  input Op1_Shift;
+  input \Using_FPGA.Native_1 ;
   input Sext;
   input Shift_Oper;
 
-  wire Op1_Shift;
   wire Sext;
   wire Shift_Oper;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
@@ -23878,7 +23931,7 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized17_307
     .INIT(16'hFCAA)) 
     \Using_FPGA.Native 
        (.I0(\Using_FPGA.Native_0 ),
-        .I1(Op1_Shift),
+        .I1(\Using_FPGA.Native_1 ),
         .I2(Sext),
         .I3(Shift_Oper),
         .O(shift_Res));
@@ -24217,18 +24270,18 @@ endmodule
 (* ORIG_REF_NAME = "MB_LUT4" *) 
 module blockdesign_microblaze_0_0_MB_LUT4__parameterized27
    (shift_Logic_Result,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    \Using_FPGA.Native_0 ,
     res_00_0,
     res_1x,
     I3);
   output [0:0]shift_Logic_Result;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input \Using_FPGA.Native_0 ;
   input res_00_0;
   input res_1x;
   input I3;
 
   wire I3;
-  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  wire \Using_FPGA.Native_0 ;
   wire res_00_0;
   wire res_1x;
   wire [0:0]shift_Logic_Result;
@@ -24237,7 +24290,7 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized27
   LUT4 #(
     .INIT(16'hF0EE)) 
     \Using_FPGA.Native 
-       (.I0(\Use_The_PCMP_instr.CLZ_Instr_reg ),
+       (.I0(\Using_FPGA.Native_0 ),
         .I1(res_00_0),
         .I2(res_1x),
         .I3(I3),
@@ -27004,7 +27057,6 @@ module blockdesign_microblaze_0_0_MB_LUT4__parameterized9
         .O(correct_Carry_Select));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT5" *) 
 module blockdesign_microblaze_0_0_MB_LUT5
    (of_PipeRun_Select,
     mul_Executing,
@@ -27084,7 +27136,6 @@ module blockdesign_microblaze_0_0_MB_LUT5__parameterized1
         .O(I2106_out));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT6" *) 
 module blockdesign_microblaze_0_0_MB_LUT6
    (alu_AddSub_1,
     op2_C,
@@ -27113,7 +27164,6 @@ module blockdesign_microblaze_0_0_MB_LUT6
         .O(alu_AddSub_1));
 endmodule
 
-(* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2
    (op1_Reg,
     op1_I,
@@ -29971,79 +30021,93 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_132
-   (A,
+   (\C_reg[12] ,
     D,
-    \C_reg[11] ,
+    \C_reg[12]_0 ,
+    \C_reg[0] ,
+    \Using_FPGA.Native_0 ,
     Op1_Logic,
     Shifted,
-    \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_Barrel_Shifter.BitField_Extract_reg ,
     \Using_FPGA.Native_2 ,
-    B,
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
     \Using_FPGA.Native_3 ,
+    B,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 );
-  output [1:0]A;
+  output [0:0]\C_reg[12] ;
   output [0:0]D;
-  output \C_reg[11] ;
+  output \C_reg[12]_0 ;
+  output \C_reg[0] ;
+  input [5:0]\Using_FPGA.Native_0 ;
   input Op1_Logic;
   input Shifted;
-  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input \Using_FPGA.Native_2 ;
-  input [3:0]B;
+  input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input \Using_FPGA.Native_3 ;
+  input [3:0]B;
   input \Using_FPGA.Native_4 ;
-  input [2:0]\Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_5 ;
 
-  wire [1:0]A;
+  wire [0:0]A;
   wire [3:0]B;
-  wire \C_reg[11] ;
+  wire \C_reg[0] ;
+  wire [0:0]\C_reg[12] ;
+  wire \C_reg[12]_0 ;
   wire [0:0]D;
   wire Op1_Logic;
   wire Shifted;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
-  wire \Using_FPGA.Native_0 ;
+  wire [5:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire [2:0]\Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_5 ;
 
   LUT6 #(
-    .INIT(64'h30503F50305F3F5F)) 
-    \C[11]_i_1 
-       (.I0(\C_reg[11] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(B[2]),
-        .I3(B[3]),
-        .I4(\Using_FPGA.Native_3 ),
-        .I5(\Using_FPGA.Native_4 ),
-        .O(D));
-  LUT6 #(
-    .INIT(64'h00550F33FF550F33)) 
-    \C[3]_i_5 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_5 [2]),
-        .I2(\Using_FPGA.Native_5 [1]),
+    .INIT(64'h00330F55FF330F55)) 
+    \C[0]_i_5 
+       (.I0(A),
+        .I1(\Using_FPGA.Native_0 [5]),
+        .I2(\Using_FPGA.Native_0 [4]),
         .I3(B[1]),
         .I4(B[0]),
-        .I5(\Using_FPGA.Native_5 [0]),
-        .O(\C_reg[11] ));
+        .I5(\Using_FPGA.Native_0 [3]),
+        .O(\C_reg[0] ));
+  LUT6 #(
+    .INIT(64'h00530F53F053FF53)) 
+    \C[12]_i_1 
+       (.I0(\C_reg[12]_0 ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(B[2]),
+        .I3(B[3]),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(D));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[4]_i_2 
+       (.I0(\C_reg[12] ),
+        .I1(\Using_FPGA.Native_0 [2]),
+        .I2(\Using_FPGA.Native_0 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_0 [0]),
+        .O(\C_reg[12]_0 ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
     \Using_FPGA.Native 
        (.I0(Op1_Logic),
         .I1(Shifted),
-        .I2(\Using_FPGA.Native_0 ),
-        .I3(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_1 ),
+        .I3(\Using_FPGA.Native_2 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(A[1]),
-        .O6(A[0]));
+        .O5(A),
+        .O6(\C_reg[12] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -30121,124 +30185,139 @@ endmodule
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_135
    (A,
-    \C_reg[14] ,
     D,
+    \C_reg[26] ,
     \C_reg[6] ,
-    \C_reg[13] ,
-    \C_reg[3] ,
+    \C_reg[4] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \Using_FPGA.Native_4 ,
     B,
+    \Using_FPGA.Native_4 ,
+    void_bit,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
     \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 );
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 );
   output [1:0]A;
-  output \C_reg[14] ;
-  output [1:0]D;
+  output [3:0]D;
+  output \C_reg[26] ;
   output \C_reg[6] ;
-  output \C_reg[13] ;
-  output \C_reg[3] ;
+  output \C_reg[4] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input [9:0]\Using_FPGA.Native_4 ;
   input [3:0]B;
+  input \Using_FPGA.Native_4 ;
+  input void_bit;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
+  input [7:0]\Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
   input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
 
   wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[13] ;
-  wire \C_reg[14] ;
-  wire \C_reg[3] ;
+  wire \C_reg[26] ;
+  wire \C_reg[4] ;
   wire \C_reg[6] ;
-  wire [1:0]D;
+  wire [3:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
-  wire [9:0]\Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
+  wire [7:0]\Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
+  wire void_bit;
 
   LUT6 #(
-    .INIT(64'h0F0055330FFF5533)) 
-    \C[13]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_4 [3]),
-        .I2(\Using_FPGA.Native_4 [1]),
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[0]_i_6 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_7 [5]),
+        .I2(\Using_FPGA.Native_7 [7]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(\Using_FPGA.Native_4 [2]),
-        .O(\C_reg[13] ));
+        .I5(\Using_FPGA.Native_7 [6]),
+        .O(\C_reg[4] ));
   LUT6 #(
-    .INIT(64'h33000F5533FF0F55)) 
+    .INIT(64'h00330F55FF330F55)) 
     \C[14]_i_2 
        (.I0(A[0]),
-        .I1(\Using_FPGA.Native_4 [0]),
-        .I2(\Using_FPGA.Native_4 [2]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_4 [1]),
-        .O(\C_reg[14] ));
+        .I1(\Using_FPGA.Native_7 [2]),
+        .I2(\Using_FPGA.Native_7 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_7 [0]),
+        .O(\C_reg[26] ));
   LUT6 #(
-    .INIT(64'h33000F5533FF0F55)) 
-    \C[2]_i_4 
+    .INIT(64'h00530F53F053FF53)) 
+    \C[18]_i_1 
+       (.I0(\C_reg[26] ),
+        .I1(\Using_FPGA.Native_5 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_4 ),
+        .O(D[1]));
+  LUT5 #(
+    .INIT(32'hCDFD0131)) 
+    \C[26]_i_1 
+       (.I0(\C_reg[26] ),
+        .I1(B[3]),
+        .I2(B[2]),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(void_bit),
+        .O(D[0]));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[2]_i_3 
        (.I0(A[1]),
-        .I1(\Using_FPGA.Native_4 [4]),
-        .I2(\Using_FPGA.Native_4 [6]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_4 [5]),
+        .I1(\Using_FPGA.Native_7 [5]),
+        .I2(\Using_FPGA.Native_7 [4]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_7 [3]),
         .O(\C_reg[6] ));
   LUT6 #(
     .INIT(64'h00530F53F053FF53)) 
-    \C[3]_i_1 
-       (.I0(\C_reg[3] ),
-        .I1(\Using_FPGA.Native_8 ),
+    \C[4]_i_1 
+       (.I0(\C_reg[4] ),
+        .I1(\Using_FPGA.Native_10 ),
         .I2(B[2]),
         .I3(B[3]),
-        .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[1]));
+        .I4(\Using_FPGA.Native_11 ),
+        .I5(\Using_FPGA.Native_12 ),
+        .O(D[3]));
   LUT6 #(
-    .INIT(64'h55330F0055330FFF)) 
-    \C[3]_i_2 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_4 [7]),
-        .I2(\Using_FPGA.Native_4 [8]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_4 [9]),
-        .O(\C_reg[3] ));
-  LUT6 #(
-    .INIT(64'h30503F50305F3F5F)) 
+    .INIT(64'h0530053FF530F53F)) 
     \C[6]_i_1 
        (.I0(\C_reg[6] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(B[2]),
-        .I3(B[3]),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(\Using_FPGA.Native_7 ),
-        .O(D[0]));
+        .I1(\Using_FPGA.Native_8 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_9 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(D[2]));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -30330,9 +30409,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_138
    (\C_reg[7] ,
     \C_reg[19] ,
     D,
-    \C_reg[5] ,
-    \C_reg[4] ,
     \C_reg[7]_0 ,
+    \C_reg[9] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
@@ -30343,112 +30421,81 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_138
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 );
+    \Using_FPGA.Native_7 );
   output [1:0]\C_reg[7] ;
   output \C_reg[19] ;
-  output [1:0]D;
-  output \C_reg[5] ;
-  output \C_reg[4] ;
+  output [0:0]D;
   output \C_reg[7]_0 ;
+  output \C_reg[9] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input [7:0]A;
+  input [6:0]A;
   input [3:0]B;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
 
-  wire [7:0]A;
+  wire [6:0]A;
   wire [3:0]B;
   wire \C_reg[19] ;
-  wire \C_reg[4] ;
-  wire \C_reg[5] ;
   wire [1:0]\C_reg[7] ;
   wire \C_reg[7]_0 ;
-  wire [1:0]D;
+  wire \C_reg[9] ;
+  wire [0:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
 
-  LUT6 #(
-    .INIT(64'h55330F0055330FFF)) 
-    \C[0]_i_6 
-       (.I0(\C_reg[7] [1]),
-        .I1(A[5]),
-        .I2(A[6]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[7]),
-        .O(\C_reg[4] ));
   LUT6 #(
     .INIT(64'h00330F55FF330F55)) 
     \C[15]_i_2 
        (.I0(\C_reg[7] [0]),
-        .I1(A[0]),
-        .I2(A[1]),
-        .I3(B[0]),
-        .I4(B[1]),
+        .I1(A[1]),
+        .I2(A[0]),
+        .I3(B[1]),
+        .I4(B[0]),
         .I5(\Using_FPGA.Native_4 ),
         .O(\C_reg[19] ));
   LUT6 #(
-    .INIT(64'h0F5533000F5533FF)) 
-    \C[1]_i_5 
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[1]_i_3 
        (.I0(\C_reg[7] [1]),
-        .I1(A[5]),
-        .I2(A[4]),
+        .I1(A[4]),
+        .I2(A[6]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(A[6]),
-        .O(\C_reg[5] ));
+        .I5(A[5]),
+        .O(\C_reg[9] ));
   LUT6 #(
-    .INIT(64'h33000F5533FF0F55)) 
-    \C[3]_i_4 
+    .INIT(64'h00330F55FF330F55)) 
+    \C[3]_i_5 
        (.I0(\C_reg[7] [1]),
-        .I1(A[2]),
-        .I2(A[4]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[3]),
+        .I1(A[4]),
+        .I2(A[3]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(A[2]),
         .O(\C_reg[7]_0 ));
   LUT6 #(
-    .INIT(64'h00F055CCFFF055CC)) 
-    \C[4]_i_1 
-       (.I0(\C_reg[4] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(\Using_FPGA.Native_9 ),
-        .I3(B[2]),
-        .I4(B[3]),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[1]));
-  LUT6 #(
     .INIT(64'h00530F53F053FF53)) 
-    \C[5]_i_1 
-       (.I0(\C_reg[5] ),
+    \C[7]_i_1 
+       (.I0(\C_reg[7]_0 ),
         .I1(\Using_FPGA.Native_5 ),
         .I2(B[2]),
         .I3(B[3]),
         .I4(\Using_FPGA.Native_6 ),
         .I5(\Using_FPGA.Native_7 ),
-        .O(D[0]));
+        .O(D));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -30565,25 +30612,50 @@ endmodule
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_141
    (A,
+    \C_reg[24] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     Op1_Shift,
-    \Using_Barrel_Shifter.BitField_Extract_reg );
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    B,
+    \Using_FPGA.Native_5 );
   output [1:0]A;
+  output \C_reg[24] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input Op1_Shift;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
+  input [0:0]\Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input [1:0]B;
+  input \Using_FPGA.Native_5 ;
 
   wire [1:0]A;
+  wire [1:0]B;
+  wire \C_reg[24] ;
   wire Op1_Shift;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
+  wire [0:0]\Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
 
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[16]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\C_reg[24] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -30674,162 +30746,93 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_144
    (A,
     D,
-    \C_reg[17] ,
-    \C_reg[24] ,
-    \C_reg[1] ,
+    \C_reg[8] ,
+    \C_reg[13] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    B,
-    void_bit,
     \Using_FPGA.Native_4 ,
+    B,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 ,
-    \Using_FPGA.Native_12 ,
-    \Using_FPGA.Native_13 ,
-    \Using_FPGA.Native_14 );
+    \Using_FPGA.Native_9 );
   output [1:0]A;
-  output [5:0]D;
-  output \C_reg[17] ;
-  output \C_reg[24] ;
-  output \C_reg[1] ;
+  output [1:0]D;
+  output \C_reg[8] ;
+  output \C_reg[13] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input [3:0]B;
-  input void_bit;
   input \Using_FPGA.Native_4 ;
+  input [3:0]B;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
+  input [3:0]\Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input [3:0]\Using_FPGA.Native_11 ;
-  input \Using_FPGA.Native_12 ;
-  input \Using_FPGA.Native_13 ;
-  input \Using_FPGA.Native_14 ;
 
   wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[17] ;
-  wire \C_reg[1] ;
-  wire \C_reg[24] ;
-  wire [5:0]D;
+  wire \C_reg[13] ;
+  wire \C_reg[8] ;
+  wire [1:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire [3:0]\Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_12 ;
-  wire \Using_FPGA.Native_13 ;
-  wire \Using_FPGA.Native_14 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
+  wire [3:0]\Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
-  wire void_bit;
 
   LUT6 #(
-    .INIT(64'h00550F33FF550F33)) 
-    \C[16]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_11 [0]),
-        .I2(\Using_FPGA.Native_7 ),
-        .I3(B[1]),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(\C_reg[24] ));
-  LUT6 #(
-    .INIT(64'h5533000F5533FF0F)) 
-    \C[17]_i_1 
-       (.I0(\C_reg[17] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(B[2]),
-        .I4(B[3]),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(D[4]));
-  LUT6 #(
-    .INIT(64'h50035F0350F35FF3)) 
-    \C[17]_i_2 
-       (.I0(void_bit),
-        .I1(A[0]),
-        .I2(B[1]),
-        .I3(B[0]),
-        .I4(\Using_FPGA.Native_7 ),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(\C_reg[17] ));
-  LUT6 #(
     .INIT(64'h5300530F53F053FF)) 
-    \C[1]_i_1 
-       (.I0(\C_reg[1] ),
-        .I1(\Using_FPGA.Native_12 ),
-        .I2(B[3]),
-        .I3(B[2]),
-        .I4(\Using_FPGA.Native_13 ),
-        .I5(\Using_FPGA.Native_14 ),
-        .O(D[5]));
-  LUT6 #(
-    .INIT(64'h00330F55FF330F55)) 
-    \C[1]_i_2 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_11 [2]),
-        .I2(\Using_FPGA.Native_11 [3]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_11 [1]),
-        .O(\C_reg[1] ));
-  LUT6 #(
-    .INIT(64'hC050C05FCF50CF5F)) 
-    \C[20]_i_1 
-       (.I0(\C_reg[24] ),
-        .I1(void_bit),
+    \C[0]_i_2 
+       (.I0(\C_reg[8] ),
+        .I1(\Using_FPGA.Native_8 ),
         .I2(B[3]),
         .I3(B[2]),
         .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[3]));
-  LUT6 #(
-    .INIT(64'hCC55000FCC55FF0F)) 
-    \C[21]_i_1 
-       (.I0(\C_reg[17] ),
-        .I1(void_bit),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(B[2]),
-        .I4(B[3]),
-        .I5(\Using_FPGA.Native_4 ),
-        .O(D[2]));
-  LUT5 #(
-    .INIT(32'hD1C0D1F3)) 
-    \C[24]_i_1 
-       (.I0(\C_reg[24] ),
-        .I1(B[3]),
-        .I2(void_bit),
-        .I3(B[2]),
-        .I4(\Using_FPGA.Native_10 ),
+        .I5(\Using_FPGA.Native_5 ),
         .O(D[1]));
-  LUT5 #(
-    .INIT(32'hD1C0D1F3)) 
-    \C[25]_i_1 
-       (.I0(\C_reg[17] ),
-        .I1(B[3]),
-        .I2(void_bit),
+  LUT6 #(
+    .INIT(64'h00550F33FF550F33)) 
+    \C[0]_i_3 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_7 [3]),
+        .I2(\Using_FPGA.Native_7 [2]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_7 [1]),
+        .O(\C_reg[8] ));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[1]_i_5 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_7 [2]),
+        .I2(\Using_FPGA.Native_7 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_7 [0]),
+        .O(\C_reg[13] ));
+  LUT6 #(
+    .INIT(64'h0530053FF530F53F)) 
+    \C[8]_i_1 
+       (.I0(\C_reg[8] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(B[3]),
         .I3(B[2]),
-        .I4(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
         .O(D[0]));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
@@ -30922,7 +30925,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_147
    (\C_reg[10] ,
     \C_reg[30] ,
     D,
-    \C_reg[8] ,
+    \C_reg[21] ,
+    \C_reg[22] ,
     \C_reg[10]_0 ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
@@ -30930,22 +30934,19 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_147
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
     B,
-    void_bit,
     \Using_FPGA.Native_4 ,
+    void_bit,
     \Using_FPGA.Native_5 ,
+    A,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 ,
-    A,
-    \Using_FPGA.Native_12 ,
-    \Using_FPGA.Native_13 );
+    \Using_FPGA.Native_9 );
   output [0:0]\C_reg[10] ;
   output \C_reg[30] ;
-  output [5:0]D;
-  output \C_reg[8] ;
+  output [2:0]D;
+  output \C_reg[21] ;
+  output \C_reg[22] ;
   output \C_reg[10]_0 ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
@@ -30953,84 +30954,56 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_147
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input [3:0]B;
-  input void_bit;
   input \Using_FPGA.Native_4 ;
+  input void_bit;
   input \Using_FPGA.Native_5 ;
+  input [3:0]A;
   input \Using_FPGA.Native_6 ;
-  input [0:0]\Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
-  input [4:0]A;
-  input \Using_FPGA.Native_12 ;
-  input \Using_FPGA.Native_13 ;
 
-  wire [4:0]A;
+  wire [3:0]A;
   wire [3:0]B;
-  wire \C[18]_i_2_n_0 ;
   wire [0:0]\C_reg[10] ;
   wire \C_reg[10]_0 ;
+  wire \C_reg[21] ;
+  wire \C_reg[22] ;
   wire \C_reg[30] ;
-  wire \C_reg[8] ;
-  wire [5:0]D;
+  wire [2:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_12 ;
-  wire \Using_FPGA.Native_13 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire [0:0]\Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
   wire void_bit;
 
   LUT6 #(
-    .INIT(64'hAC00AC0FACF0ACFF)) 
-    \C[0]_i_2 
-       (.I0(\C_reg[8] ),
-        .I1(\Using_FPGA.Native_12 ),
-        .I2(B[3]),
-        .I3(B[2]),
-        .I4(\Using_FPGA.Native_13 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[5]));
-  LUT6 #(
-    .INIT(64'hF0AAFFCCF0AA00CC)) 
-    \C[0]_i_3 
-       (.I0(\C_reg[10] ),
-        .I1(A[4]),
-        .I2(A[2]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[3]),
-        .O(\C_reg[8] ));
-  LUT6 #(
-    .INIT(64'h3500350F35F035FF)) 
+    .INIT(64'h0530053FF530F53F)) 
     \C[10]_i_1 
        (.I0(\C_reg[10]_0 ),
-        .I1(\Using_FPGA.Native_5 ),
+        .I1(\Using_FPGA.Native_7 ),
         .I2(B[3]),
         .I3(B[2]),
-        .I4(\Using_FPGA.Native_11 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(D[3]));
-  LUT6 #(
-    .INIT(64'h55000F3355FF0F33)) 
-    \C[18]_i_1 
-       (.I0(\C[18]_i_2_n_0 ),
-        .I1(\Using_FPGA.Native_6 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(B[2]),
-        .I4(B[3]),
-        .I5(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_9 ),
         .O(D[2]));
+  LUT6 #(
+    .INIT(64'h5300530F53F053FF)) 
+    \C[17]_i_2 
+       (.I0(void_bit),
+        .I1(\C_reg[30] ),
+        .I2(B[1]),
+        .I3(B[0]),
+        .I4(A[0]),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\C_reg[21] ));
   LUT5 #(
     .INIT(32'h550355F3)) 
     \C[18]_i_2 
@@ -31038,47 +31011,37 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_147
         .I1(\C_reg[30] ),
         .I2(B[0]),
         .I3(B[1]),
-        .I4(\Using_FPGA.Native_7 ),
-        .O(\C[18]_i_2_n_0 ));
+        .I4(\Using_FPGA.Native_6 ),
+        .O(\C_reg[22] ));
   LUT6 #(
-    .INIT(64'hCC55000FCC55FF0F)) 
-    \C[22]_i_1 
-       (.I0(\C[18]_i_2_n_0 ),
+    .INIT(64'hC050C05FCF50CF5F)) 
+    \C[21]_i_1 
+       (.I0(\C_reg[21] ),
         .I1(void_bit),
-        .I2(\Using_FPGA.Native_5 ),
+        .I2(B[3]),
         .I3(B[2]),
-        .I4(B[3]),
+        .I4(\Using_FPGA.Native_5 ),
         .I5(\Using_FPGA.Native_4 ),
         .O(D[1]));
   LUT5 #(
-    .INIT(32'hD1C0D1F3)) 
-    \C[26]_i_1 
-       (.I0(\C[18]_i_2_n_0 ),
+    .INIT(32'hDCDF1013)) 
+    \C[25]_i_1 
+       (.I0(\C_reg[21] ),
         .I1(B[3]),
-        .I2(void_bit),
-        .I3(B[2]),
-        .I4(\Using_FPGA.Native_4 ),
+        .I2(B[2]),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(void_bit),
         .O(D[0]));
   LUT6 #(
-    .INIT(64'h33000F5533FF0F55)) 
+    .INIT(64'h00330F55FF330F55)) 
     \C[2]_i_5 
        (.I0(\C_reg[10] ),
-        .I1(A[0]),
+        .I1(A[3]),
         .I2(A[2]),
-        .I3(B[0]),
-        .I4(B[1]),
+        .I3(B[1]),
+        .I4(B[0]),
         .I5(A[1]),
         .O(\C_reg[10]_0 ));
-  LUT6 #(
-    .INIT(64'h30A03FA030AF3FAF)) 
-    \C[8]_i_1 
-       (.I0(\C_reg[8] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(B[2]),
-        .I3(B[3]),
-        .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[4]));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -31196,27 +31159,46 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_150
    (A,
     \C_reg[30] ,
+    \C_reg[11] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Shifted,
     Op1_Logic,
-    \Using_Barrel_Shifter.BitField_Extract_reg );
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
+    \Using_FPGA.Native_2 ,
+    B);
   output [0:0]A;
   output [0:0]\C_reg[30] ;
+  output \C_reg[11] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Shifted;
   input Op1_Logic;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
+  input [2:0]\Using_FPGA.Native_2 ;
+  input [1:0]B;
 
   wire [0:0]A;
+  wire [1:0]B;
+  wire \C_reg[11] ;
   wire [0:0]\C_reg[30] ;
   wire Op1_Logic;
   wire Shifted;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire [2:0]\Using_FPGA.Native_2 ;
 
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[3]_i_4 
+       (.I0(A),
+        .I1(\Using_FPGA.Native_2 [2]),
+        .I2(\Using_FPGA.Native_2 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_2 [0]),
+        .O(\C_reg[11] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -31319,20 +31301,20 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_153
-   (A,
+   (\C_reg[1] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg );
-  output [1:0]A;
+  output [1:0]\C_reg[1] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
 
-  wire [1:0]A;
+  wire [1:0]\C_reg[1] ;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -31349,8 +31331,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_153
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(A[1]),
-        .O6(A[0]));
+        .O5(\C_reg[1] [1]),
+        .O6(\C_reg[1] [0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -31427,10 +31409,9 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156
-   (A,
+   (\C_reg[1] ,
     D,
-    \C_reg[13] ,
-    \C_reg[0] ,
+    \C_reg[5] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
@@ -31440,11 +31421,10 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156
     B,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
-  output [1:0]A;
-  output [0:0]D;
-  output \C_reg[13] ;
-  output \C_reg[0] ;
+    A);
+  output [1:0]\C_reg[1] ;
+  output [1:0]D;
+  output \C_reg[5] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
@@ -31454,13 +31434,14 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156
   input [3:0]B;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input [5:0]\Using_FPGA.Native_7 ;
+  input [5:0]A;
 
-  wire [1:0]A;
+  wire [5:0]A;
   wire [3:0]B;
-  wire \C_reg[0] ;
-  wire \C_reg[13] ;
-  wire [0:0]D;
+  wire \C[1]_i_2_n_0 ;
+  wire [1:0]\C_reg[1] ;
+  wire \C_reg[5] ;
+  wire [1:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -31469,38 +31450,47 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire [5:0]\Using_FPGA.Native_7 ;
 
   LUT6 #(
-    .INIT(64'h0F5533000F5533FF)) 
-    \C[0]_i_5 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [4]),
-        .I2(\Using_FPGA.Native_7 [3]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 [5]),
-        .O(\C_reg[0] ));
-  LUT6 #(
-    .INIT(64'h00530F53F053FF53)) 
-    \C[13]_i_1 
-       (.I0(\C_reg[13] ),
+    .INIT(64'h00350F35F035FF35)) 
+    \C[1]_i_1 
+       (.I0(\C[1]_i_2_n_0 ),
         .I1(\Using_FPGA.Native_4 ),
-        .I2(B[2]),
-        .I3(B[3]),
+        .I2(B[3]),
+        .I3(B[2]),
         .I4(\Using_FPGA.Native_5 ),
         .I5(\Using_FPGA.Native_6 ),
-        .O(D));
+        .O(D[1]));
   LUT6 #(
-    .INIT(64'h0F0055330FFF5533)) 
+    .INIT(64'h00550F33FF550F33)) 
+    \C[1]_i_2 
+       (.I0(\C_reg[1] [1]),
+        .I1(A[5]),
+        .I2(A[4]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(A[3]),
+        .O(\C[1]_i_2_n_0 ));
+  LUT6 #(
+    .INIT(64'h5300530F53F053FF)) 
+    \C[5]_i_1 
+       (.I0(\C_reg[5] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(D[0]));
+  LUT6 #(
+    .INIT(64'h00550F33FF550F33)) 
     \C[5]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_7 [2]),
-        .I2(\Using_FPGA.Native_7 [0]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 [1]),
-        .O(\C_reg[13] ));
+       (.I0(\C_reg[1] [0]),
+        .I1(A[2]),
+        .I2(A[1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(A[0]),
+        .O(\C_reg[5] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -31511,8 +31501,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(A[1]),
-        .O6(A[0]));
+        .O5(\C_reg[1] [1]),
+        .O6(\C_reg[1] [0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -31589,37 +31579,36 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_159
-   (\C_reg[3] ,
+   (A,
     D,
-    \C_reg[12] ,
+    \C_reg[15] ,
     Op1_Shift,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
     B,
+    \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    A);
-  output [1:0]\C_reg[3] ;
+    \Using_FPGA.Native_6 );
+  output [1:0]A;
   output [0:0]D;
-  output \C_reg[12] ;
+  output \C_reg[15] ;
   input Op1_Shift;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
   input [3:0]B;
+  input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input [2:0]A;
+  input [2:0]\Using_FPGA.Native_6 ;
 
-  wire [2:0]A;
+  wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[12] ;
-  wire [1:0]\C_reg[3] ;
+  wire \C_reg[15] ;
   wire [0:0]D;
   wire Op1_Shift;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
@@ -31629,27 +31618,28 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_159
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
+  wire [2:0]\Using_FPGA.Native_6 ;
 
   LUT6 #(
-    .INIT(64'h335500F03355FFF0)) 
-    \C[12]_i_1 
-       (.I0(\C_reg[12] ),
+    .INIT(64'h0530053FF530F53F)) 
+    \C[15]_i_1 
+       (.I0(\C_reg[15] ),
         .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(B[3]),
-        .I4(B[2]),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_4 ),
         .I5(\Using_FPGA.Native_5 ),
         .O(D));
   LUT6 #(
-    .INIT(64'h55330F0055330FFF)) 
-    \C[4]_i_2 
-       (.I0(\C_reg[3] [0]),
-        .I1(A[0]),
-        .I2(A[1]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[2]),
-        .O(\C_reg[12] ));
+    .INIT(64'h00330F55FF330F55)) 
+    \C[7]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_6 [2]),
+        .I2(\Using_FPGA.Native_6 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_6 [0]),
+        .O(\C_reg[15] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -31660,8 +31650,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_159
         .I3(\Using_FPGA.Native_2 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(\C_reg[3] [1]),
-        .O6(\C_reg[3] [0]));
+        .O5(A[1]),
+        .O6(A[0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -31767,16 +31757,17 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_162
    (A,
     D,
-    \C_reg[16] ,
-    \C_reg[15] ,
-    \C_reg[1] ,
+    \C_reg[20] ,
+    \C_reg[14] ,
+    \C_reg[0] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \Using_FPGA.Native_4 ,
+    void_bit,
     B,
+    \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
@@ -31786,36 +31777,38 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_162
     \Using_FPGA.Native_11 ,
     \Using_FPGA.Native_12 );
   output [1:0]A;
-  output [2:0]D;
-  output \C_reg[16] ;
-  output \C_reg[15] ;
-  output \C_reg[1] ;
+  output [3:0]D;
+  output \C_reg[20] ;
+  output \C_reg[14] ;
+  output \C_reg[0] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \Using_FPGA.Native_4 ;
+  input void_bit;
   input [3:0]B;
+  input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input [6:0]\Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
+  input [9:0]\Using_FPGA.Native_10 ;
   input \Using_FPGA.Native_11 ;
   input \Using_FPGA.Native_12 ;
 
   wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[15] ;
-  wire \C_reg[16] ;
-  wire \C_reg[1] ;
-  wire [2:0]D;
+  wire \C[2]_i_2_n_0 ;
+  wire \C_reg[0] ;
+  wire \C_reg[14] ;
+  wire \C_reg[20] ;
+  wire [3:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
+  wire [9:0]\Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_12 ;
   wire \Using_FPGA.Native_2 ;
@@ -31823,70 +31816,91 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_162
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire [6:0]\Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
+  wire void_bit;
 
   LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[0]_i_4 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_10 [7]),
+        .I2(\Using_FPGA.Native_10 [6]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_10 [5]),
+        .O(\C_reg[0] ));
+  LUT6 #(
     .INIT(64'h00530F53F053FF53)) 
-    \C[15]_i_1 
-       (.I0(\C_reg[15] ),
-        .I1(\Using_FPGA.Native_8 ),
+    \C[14]_i_1 
+       (.I0(\C_reg[14] ),
+        .I1(\Using_FPGA.Native_7 ),
         .I2(B[2]),
         .I3(B[3]),
-        .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(D[1]));
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_9 ),
+        .O(D[2]));
   LUT6 #(
     .INIT(64'h00530F53F053FF53)) 
     \C[16]_i_1 
-       (.I0(\C_reg[16] ),
-        .I1(\Using_FPGA.Native_4 ),
+       (.I0(\C_reg[20] ),
+        .I1(\Using_FPGA.Native_6 ),
         .I2(B[2]),
         .I3(B[3]),
         .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_4 ),
+        .O(D[1]));
+  LUT6 #(
+    .INIT(64'hA003AF03A0F3AFF3)) 
+    \C[20]_i_1 
+       (.I0(void_bit),
+        .I1(\C_reg[20] ),
+        .I2(B[2]),
+        .I3(B[3]),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
         .O(D[0]));
   LUT6 #(
-    .INIT(64'h55330F0055330FFF)) 
-    \C[1]_i_4 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [5]),
-        .I2(\Using_FPGA.Native_7 [4]),
-        .I3(B[1]),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [6]),
-        .O(\C_reg[1] ));
-  LUT6 #(
-    .INIT(64'h50035F0350F35FF3)) 
-    \C[7]_i_1 
-       (.I0(\C_reg[15] ),
+    .INIT(64'h00350F35F035FF35)) 
+    \C[2]_i_1 
+       (.I0(\C[2]_i_2_n_0 ),
         .I1(\Using_FPGA.Native_11 ),
         .I2(B[3]),
         .I3(B[2]),
         .I4(\Using_FPGA.Native_12 ),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(D[2]));
+        .I5(\Using_FPGA.Native_7 ),
+        .O(D[3]));
   LUT6 #(
-    .INIT(64'h00550F33FF550F33)) 
-    \C[7]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_7 [3]),
-        .I2(\Using_FPGA.Native_7 [2]),
-        .I3(B[1]),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [1]),
-        .O(\C_reg[15] ));
-  LUT6 #(
-    .INIT(64'h33000F5533FF0F55)) 
-    \C[8]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_7 [0]),
-        .I2(\Using_FPGA.Native_7 [2]),
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[2]_i_2 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_10 [7]),
+        .I2(\Using_FPGA.Native_10 [9]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 [1]),
-        .O(\C_reg[16] ));
+        .I5(\Using_FPGA.Native_10 [8]),
+        .O(\C[2]_i_2_n_0 ));
+  LUT6 #(
+    .INIT(64'h33550F0033550FFF)) 
+    \C[6]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_10 [2]),
+        .I2(\Using_FPGA.Native_10 [3]),
+        .I3(B[0]),
+        .I4(B[1]),
+        .I5(\Using_FPGA.Native_10 [4]),
+        .O(\C_reg[14] ));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[8]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_10 [2]),
+        .I2(\Using_FPGA.Native_10 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_10 [0]),
+        .O(\C_reg[20] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -31975,11 +31989,10 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_165
-   (A,
+   (\C_reg[3] ,
     D,
-    \C_reg[14] ,
-    \C_reg[2] ,
-    \C_reg[0] ,
+    \C_reg[17] ,
+    \C_reg[5] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
@@ -31989,12 +32002,16 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_165
     B,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
-  output [1:0]A;
-  output [0:0]D;
-  output \C_reg[14] ;
-  output \C_reg[2] ;
-  output \C_reg[0] ;
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    A,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 );
+  output [1:0]\C_reg[3] ;
+  output [2:0]D;
+  output \C_reg[17] ;
+  output \C_reg[5] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
@@ -32004,64 +32021,94 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_165
   input [3:0]B;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input [7:0]\Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input [7:0]A;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
 
-  wire [1:0]A;
+  wire [7:0]A;
   wire [3:0]B;
-  wire \C_reg[0] ;
-  wire \C_reg[14] ;
-  wire \C_reg[2] ;
-  wire [0:0]D;
+  wire \C[3]_i_2_n_0 ;
+  wire \C_reg[17] ;
+  wire [1:0]\C_reg[3] ;
+  wire \C_reg[5] ;
+  wire [2:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire [7:0]\Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
 
   LUT6 #(
-    .INIT(64'hF0FFAACCF000AACC)) 
-    \C[0]_i_4 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [5]),
-        .I2(\Using_FPGA.Native_7 [3]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 [4]),
-        .O(\C_reg[0] ));
-  LUT6 #(
     .INIT(64'h0530053FF530F53F)) 
-    \C[14]_i_1 
-       (.I0(\C_reg[14] ),
+    \C[17]_i_1 
+       (.I0(\C_reg[17] ),
         .I1(\Using_FPGA.Native_4 ),
         .I2(B[3]),
         .I3(B[2]),
         .I4(\Using_FPGA.Native_5 ),
         .I5(\Using_FPGA.Native_6 ),
-        .O(D));
+        .O(D[0]));
   LUT6 #(
-    .INIT(64'h55000F3355FF0F33)) 
-    \C[2]_i_3 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [7]),
-        .I2(\Using_FPGA.Native_7 [5]),
+    .INIT(64'h00330F55FF330F55)) 
+    \C[1]_i_4 
+       (.I0(\C_reg[3] [1]),
+        .I1(A[5]),
+        .I2(A[4]),
         .I3(B[1]),
         .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [6]),
-        .O(\C_reg[2] ));
+        .I5(A[3]),
+        .O(\C_reg[5] ));
   LUT6 #(
-    .INIT(64'h5533000F5533FF0F)) 
-    \C[6]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_7 [0]),
-        .I2(\Using_FPGA.Native_7 [2]),
+    .INIT(64'h0305F30503F5F3F5)) 
+    \C[3]_i_1 
+       (.I0(\C[3]_i_2_n_0 ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_10 ),
+        .I5(\Using_FPGA.Native_11 ),
+        .O(D[2]));
+  LUT6 #(
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[3]_i_2 
+       (.I0(\C_reg[3] [1]),
+        .I1(A[5]),
+        .I2(A[7]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(\Using_FPGA.Native_7 [1]),
-        .O(\C_reg[14] ));
+        .I5(A[6]),
+        .O(\C[3]_i_2_n_0 ));
+  LUT6 #(
+    .INIT(64'h5300530F53F053FF)) 
+    \C[9]_i_1 
+       (.I0(\C_reg[17] ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(D[1]));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[9]_i_2 
+       (.I0(\C_reg[3] [0]),
+        .I1(A[2]),
+        .I2(A[1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(A[0]),
+        .O(\C_reg[17] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -32072,8 +32119,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_165
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(A[1]),
-        .O6(A[0]));
+        .O5(\C_reg[3] [1]),
+        .O6(\C_reg[3] [0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -32152,40 +32199,34 @@ endmodule
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_168
    (A,
     D,
-    \C_reg[9] ,
-    \C_reg[3] ,
-    \C_reg[1] ,
+    \C_reg[22] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \Using_FPGA.Native_4 ,
+    void_bit,
     B,
+    \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
+    \Using_FPGA.Native_6 );
   output [1:0]A;
   output [0:0]D;
-  output \C_reg[9] ;
-  output \C_reg[3] ;
-  output \C_reg[1] ;
+  output \C_reg[22] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \Using_FPGA.Native_4 ;
+  input void_bit;
   input [3:0]B;
+  input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input [7:0]\Using_FPGA.Native_7 ;
+  input [2:0]\Using_FPGA.Native_6 ;
 
   wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[1] ;
-  wire \C_reg[3] ;
-  wire \C_reg[9] ;
+  wire \C_reg[22] ;
   wire [0:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
@@ -32194,49 +32235,29 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_168
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire [7:0]\Using_FPGA.Native_7 ;
+  wire [2:0]\Using_FPGA.Native_6 ;
+  wire void_bit;
 
   LUT6 #(
-    .INIT(64'h00550F33FF550F33)) 
-    \C[1]_i_3 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [5]),
-        .I2(\Using_FPGA.Native_7 [4]),
+    .INIT(64'h00330F55FF330F55)) 
+    \C[10]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_6 [2]),
+        .I2(\Using_FPGA.Native_6 [1]),
         .I3(B[1]),
         .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [3]),
-        .O(\C_reg[1] ));
+        .I5(\Using_FPGA.Native_6 [0]),
+        .O(\C_reg[22] ));
   LUT6 #(
-    .INIT(64'h55000F3355FF0F33)) 
-    \C[3]_i_3 
-       (.I0(A[1]),
-        .I1(\Using_FPGA.Native_7 [7]),
-        .I2(\Using_FPGA.Native_7 [5]),
-        .I3(B[1]),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [6]),
-        .O(\C_reg[3] ));
-  LUT6 #(
-    .INIT(64'h50035F0350F35FF3)) 
-    \C[9]_i_1 
-       (.I0(\C_reg[9] ),
-        .I1(\Using_FPGA.Native_4 ),
+    .INIT(64'hC005CF05C0F5CFF5)) 
+    \C[22]_i_1 
+       (.I0(\C_reg[22] ),
+        .I1(void_bit),
         .I2(B[3]),
         .I3(B[2]),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
         .O(D));
-  LUT6 #(
-    .INIT(64'h00550F33FF550F33)) 
-    \C[9]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_7 [2]),
-        .I2(\Using_FPGA.Native_7 [1]),
-        .I3(B[1]),
-        .I4(B[0]),
-        .I5(\Using_FPGA.Native_7 [0]),
-        .O(\C_reg[9] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -32325,45 +32346,83 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_171
-   (\C_reg[2] ,
-    \C_reg[14] ,
+   (A,
+    D,
+    \C_reg[11] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    A,
-    B);
-  output [1:0]\C_reg[2] ;
-  output \C_reg[14] ;
+    \Using_FPGA.Native_4 ,
+    B,
+    \instr_EX_i_reg[22] ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 );
+  output [1:0]A;
+  output [1:0]D;
+  output \C_reg[11] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input [2:0]A;
-  input [1:0]B;
+  input \Using_FPGA.Native_4 ;
+  input [3:0]B;
+  input \instr_EX_i_reg[22] ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input [2:0]\Using_FPGA.Native_8 ;
 
-  wire [2:0]A;
-  wire [1:0]B;
-  wire \C_reg[14] ;
-  wire [1:0]\C_reg[2] ;
+  wire [1:0]A;
+  wire [3:0]B;
+  wire \C_reg[11] ;
+  wire [1:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire [2:0]\Using_FPGA.Native_8 ;
+  wire \instr_EX_i_reg[22] ;
 
   LUT6 #(
-    .INIT(64'h0F0055330FFF5533)) 
-    \C[10]_i_2 
-       (.I0(\C_reg[2] [0]),
-        .I1(A[2]),
-        .I2(A[0]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[1]),
-        .O(\C_reg[14] ));
+    .INIT(64'h5300530F53F053FF)) 
+    \C[11]_i_1 
+       (.I0(\C_reg[11] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(D[1]));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[11]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_8 [2]),
+        .I2(\Using_FPGA.Native_8 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_8 [0]),
+        .O(\C_reg[11] ));
+  LUT6 #(
+    .INIT(64'h0530F530053FF53F)) 
+    \C[19]_i_1 
+       (.I0(\C_reg[11] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\instr_EX_i_reg[22] ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(D[0]));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -32374,8 +32433,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_171
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(\C_reg[2] [1]),
-        .O6(\C_reg[2] [0]));
+        .O5(A[1]),
+        .O6(A[0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -32452,99 +32511,76 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_174
-   (\C_reg[2] ,
+   (A,
     D,
-    \C_reg[19] ,
-    \C_reg[2]_0 ,
+    \C_reg[24] ,
+    \C_reg[2] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \Using_FPGA.Native_4 ,
     B,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    A);
-  output [1:0]\C_reg[2] ;
-  output [1:0]D;
-  output \C_reg[19] ;
-  output \C_reg[2]_0 ;
+    \Using_FPGA.Native_4 ,
+    void_bit,
+    \Using_FPGA.Native_5 );
+  output [1:0]A;
+  output [0:0]D;
+  output \C_reg[24] ;
+  output \C_reg[2] ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \Using_FPGA.Native_4 ;
   input [3:0]B;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
-  input [5:0]A;
+  input \Using_FPGA.Native_4 ;
+  input void_bit;
+  input [5:0]\Using_FPGA.Native_5 ;
 
-  wire [5:0]A;
+  wire [1:0]A;
   wire [3:0]B;
-  wire \C_reg[19] ;
-  wire [1:0]\C_reg[2] ;
-  wire \C_reg[2]_0 ;
-  wire [1:0]D;
+  wire \C_reg[24] ;
+  wire \C_reg[2] ;
+  wire [0:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
+  wire [5:0]\Using_FPGA.Native_5 ;
+  wire void_bit;
 
   LUT6 #(
-    .INIT(64'h0F0055330FFF5533)) 
-    \C[11]_i_2 
-       (.I0(\C_reg[2] [0]),
-        .I1(A[2]),
-        .I2(A[0]),
+    .INIT(64'h00330F55FF330F55)) 
+    \C[12]_i_2 
+       (.I0(A[0]),
+        .I1(\Using_FPGA.Native_5 [2]),
+        .I2(\Using_FPGA.Native_5 [1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(\Using_FPGA.Native_5 [0]),
+        .O(\C_reg[24] ));
+  LUT5 #(
+    .INIT(32'hCDFD0131)) 
+    \C[24]_i_1 
+       (.I0(\C_reg[24] ),
+        .I1(B[3]),
+        .I2(B[2]),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(void_bit),
+        .O(D));
+  LUT6 #(
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[2]_i_4 
+       (.I0(A[1]),
+        .I1(\Using_FPGA.Native_5 [3]),
+        .I2(\Using_FPGA.Native_5 [5]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(A[1]),
-        .O(\C_reg[19] ));
-  LUT6 #(
-    .INIT(64'h00530F53F053FF53)) 
-    \C[19]_i_1 
-       (.I0(\C_reg[19] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(B[2]),
-        .I3(B[3]),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_6 ),
-        .O(D[0]));
-  LUT6 #(
-    .INIT(64'h00530F53F053FF53)) 
-    \C[2]_i_1 
-       (.I0(\C_reg[2]_0 ),
-        .I1(\Using_FPGA.Native_7 ),
-        .I2(B[2]),
-        .I3(B[3]),
-        .I4(\Using_FPGA.Native_8 ),
-        .I5(\Using_FPGA.Native_9 ),
-        .O(D[1]));
-  LUT6 #(
-    .INIT(64'h0F5500330F55FF33)) 
-    \C[2]_i_2 
-       (.I0(\C_reg[2] [1]),
-        .I1(A[5]),
-        .I2(A[3]),
-        .I3(B[0]),
-        .I4(B[1]),
-        .I5(A[4]),
-        .O(\C_reg[2]_0 ));
+        .I5(\Using_FPGA.Native_5 [4]),
+        .O(\C_reg[2] ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -32555,8 +32591,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_174
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(\C_reg[2] [1]),
-        .O6(\C_reg[2] [0]));
+        .O5(A[1]),
+        .O6(A[0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -32633,45 +32669,80 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
 module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_177
-   (A,
-    \C_reg[16] ,
+   (\C_reg[3] ,
+    D,
+    \C_reg[13] ,
+    \C_reg[3]_0 ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
     \Using_FPGA.Native_4 ,
-    B);
-  output [1:0]A;
-  output \C_reg[16] ;
+    B,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    A);
+  output [1:0]\C_reg[3] ;
+  output [0:0]D;
+  output \C_reg[13] ;
+  output \C_reg[3]_0 ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input [2:0]\Using_FPGA.Native_4 ;
-  input [1:0]B;
+  input \Using_FPGA.Native_4 ;
+  input [3:0]B;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input [5:0]A;
 
-  wire [1:0]A;
-  wire [1:0]B;
-  wire \C_reg[16] ;
+  wire [5:0]A;
+  wire [3:0]B;
+  wire \C_reg[13] ;
+  wire [1:0]\C_reg[3] ;
+  wire \C_reg[3]_0 ;
+  wire [0:0]D;
   wire \Using_Barrel_Shifter.BitField_Extract_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
-  wire [2:0]\Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
 
   LUT6 #(
-    .INIT(64'h0F0055330FFF5533)) 
-    \C[12]_i_2 
-       (.I0(A[0]),
-        .I1(\Using_FPGA.Native_4 [2]),
-        .I2(\Using_FPGA.Native_4 [0]),
+    .INIT(64'h5300530F53F053FF)) 
+    \C[13]_i_1 
+       (.I0(\C_reg[13] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(B[3]),
+        .I3(B[2]),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(D));
+  LUT6 #(
+    .INIT(64'h00330F55FF330F55)) 
+    \C[13]_i_2 
+       (.I0(\C_reg[3] [0]),
+        .I1(A[2]),
+        .I2(A[1]),
+        .I3(B[1]),
+        .I4(B[0]),
+        .I5(A[0]),
+        .O(\C_reg[13] ));
+  LUT6 #(
+    .INIT(64'h3355000F3355FF0F)) 
+    \C[3]_i_3 
+       (.I0(\C_reg[3] [1]),
+        .I1(A[3]),
+        .I2(A[5]),
         .I3(B[0]),
         .I4(B[1]),
-        .I5(\Using_FPGA.Native_4 [1]),
-        .O(\C_reg[16] ));
+        .I5(A[4]),
+        .O(\C_reg[3]_0 ));
   (* box_type = "PRIMITIVE" *) 
   LUT6_2 #(
     .INIT(64'hFF00F0F0CCCCAAAA)) 
@@ -32682,8 +32753,8 @@ module blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_177
         .I3(\Using_FPGA.Native_3 ),
         .I4(\Using_Barrel_Shifter.BitField_Extract_reg ),
         .I5(1'b1),
-        .O5(A[1]),
-        .O6(A[0]));
+        .O5(\C_reg[3] [1]),
+        .O6(\C_reg[3] [0]));
 endmodule
 
 (* ORIG_REF_NAME = "MB_LUT6_2" *) 
@@ -34130,7 +34201,6 @@ module blockdesign_microblaze_0_0_MB_LUT6__parameterized1_451
         .O(ex_Result));
 endmodule
 
-(* ORIG_REF_NAME = "MB_MULT_AND" *) 
 module blockdesign_microblaze_0_0_MB_MULT_AND
    (sub_Carry,
     \Using_FPGA.Native_0 ,
@@ -34178,7 +34248,6 @@ module blockdesign_microblaze_0_0_MB_MULT_AND_1016
         .O(DI));
 endmodule
 
-(* ORIG_REF_NAME = "MB_MUXCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY
    (carry_7,
     SRL16_Sel_7,
@@ -34738,147 +34807,25 @@ endmodule
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY_223
    (\Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    shift_Logic_Result,
     \Using_FPGA.The_Compare[0].sel_reg_5 ,
     carry_2,
-    \Using_FPGA.Native_2 ,
-    clz_instr,
-    \Using_FPGA.Native_3 ,
-    Shift_Logic_Res,
-    pcmp_instr,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Use_The_PCMP_instr.PCMP_Instr_reg ,
-    Select_Logic_reg,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    Select_Logic_reg_0,
-    Select_Logic_reg_1,
-    Op1_Shift,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 ,
     lopt,
     lopt_1);
   output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
-  output [2:0]shift_Logic_Result;
   input \Using_FPGA.The_Compare[0].sel_reg_5 ;
   input carry_2;
-  input \Using_FPGA.Native_2 ;
-  input clz_instr;
-  input \Using_FPGA.Native_3 ;
-  input Shift_Logic_Res;
-  input pcmp_instr;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  input Select_Logic_reg;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input Select_Logic_reg_0;
-  input Select_Logic_reg_1;
-  input Op1_Shift;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
   input lopt;
   output lopt_1;
 
   wire \<const0> ;
-  wire Op1_Shift;
-  wire Select_Logic_reg;
-  wire Select_Logic_reg_0;
-  wire Select_Logic_reg_1;
-  wire Shift_Logic_Res;
-  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.Native_i_3__9_n_0 ;
-  wire \Using_FPGA.Native_i_5__5_n_0 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_5 ;
   wire carry_2;
-  wire clz_instr;
-  wire pcmp_instr;
-  wire [2:0]shift_Logic_Result;
 
   assign \Using_FPGA.Native_0  = lopt;
   assign lopt_1 = \<const0> ;
   GND GND
        (.G(\<const0> ));
-  LUT6 #(
-    .INIT(64'hFFE000E0FFEF00E0)) 
-    \Using_FPGA.Native_i_1__69 
-       (.I0(\Using_FPGA.Native_i_3__9_n_0 ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(clz_instr),
-        .I3(\Using_FPGA.Native_3 ),
-        .I4(Shift_Logic_Res),
-        .I5(pcmp_instr),
-        .O(\Using_FPGA.Native_1 ));
-  LUT6 #(
-    .INIT(64'hFFFF2F002F002F00)) 
-    \Using_FPGA.Native_i_1__72 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(\Using_FPGA.Native_6 ),
-        .I4(\Use_The_PCMP_instr.PCMP_Instr_reg ),
-        .I5(Select_Logic_reg),
-        .O(shift_Logic_Result[0]));
-  LUT5 #(
-    .INIT(32'hFF707070)) 
-    \Using_FPGA.Native_i_1__73 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .I3(\Use_The_PCMP_instr.PCMP_Instr_reg ),
-        .I4(Select_Logic_reg_0),
-        .O(shift_Logic_Result[1]));
-  LUT5 #(
-    .INIT(32'hFF808080)) 
-    \Using_FPGA.Native_i_1__74 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .I3(\Use_The_PCMP_instr.PCMP_Instr_reg ),
-        .I4(Select_Logic_reg_1),
-        .O(shift_Logic_Result[2]));
-  LUT6 #(
-    .INIT(64'h00000000AAAB0000)) 
-    \Using_FPGA.Native_i_3__9 
-       (.I0(\Using_FPGA.Native_i_5__5_n_0 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(Op1_Shift),
-        .I3(\Using_FPGA.Native_7 ),
-        .I4(\Using_FPGA.Native_8 ),
-        .I5(\Using_FPGA.Native_9 ),
-        .O(\Using_FPGA.Native_i_3__9_n_0 ));
-  LUT5 #(
-    .INIT(32'h0400FFFF)) 
-    \Using_FPGA.Native_i_5__5 
-       (.I0(\Using_FPGA.Native_10 ),
-        .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.Native_11 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native_i_5__5_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -35020,25 +34967,45 @@ endmodule
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY_228
    (\Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
     \Using_FPGA.The_Compare[0].sel_reg_2 ,
     carry_2,
+    \Using_FPGA.Native_2 ,
+    clz_instr,
+    \Using_FPGA.Native_3 ,
     lopt,
     lopt_1);
   output \Using_FPGA.Native_0 ;
+  output \Using_FPGA.Native_1 ;
   input \Using_FPGA.The_Compare[0].sel_reg_2 ;
   input carry_2;
+  input \Using_FPGA.Native_2 ;
+  input clz_instr;
+  input \Using_FPGA.Native_3 ;
   input lopt;
   output lopt_1;
 
   wire \<const0> ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_2 ;
   wire carry_2;
+  wire clz_instr;
 
   assign \Using_FPGA.Native_0  = lopt;
   assign lopt_1 = \<const0> ;
   GND GND
        (.G(\<const0> ));
+  LUT4 #(
+    .INIT(16'hFF7F)) 
+    \Using_FPGA.Native_i_3__10 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(clz_instr),
+        .I3(\Using_FPGA.Native_3 ),
+        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -35180,45 +35147,25 @@ endmodule
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY_233
    (\Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     \Using_FPGA.The_Compare[0].sel_reg ,
     carry_2,
-    clz_instr,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
     lopt,
     lopt_1);
   output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
   input \Using_FPGA.The_Compare[0].sel_reg ;
   input carry_2;
-  input clz_instr;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
   input lopt;
   output lopt_1;
 
   wire \<const0> ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.The_Compare[0].sel_reg ;
   wire carry_2;
-  wire clz_instr;
 
   assign \Using_FPGA.Native_0  = lopt;
   assign lopt_1 = \<const0> ;
   GND GND
        (.G(\<const0> ));
-  LUT4 #(
-    .INIT(16'h0800)) 
-    \Using_FPGA.Native_i_3__17 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(clz_instr),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
-        .O(\Using_FPGA.Native_1 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -35516,28 +35463,28 @@ module blockdesign_microblaze_0_0_MB_MUXCY_46
     \Using_FPGA.Native_0 ,
     Single_Step_N,
     carry_0,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
+    \Area_Debug_Control.force_stop_cmd_hold_reg ,
     normal_stop_cmd_hold,
     normal_stop_cmd_i,
-    force_stop_cmd_hold,
-    force_stop_cmd_i,
     \Serial_Dbg_Intf.control_reg_reg[8] );
   output Hit;
   output \Using_FPGA.Native_0 ;
   input Single_Step_N;
   input carry_0;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
+  input \Area_Debug_Control.force_stop_cmd_hold_reg ;
   input normal_stop_cmd_hold;
   input normal_stop_cmd_i;
-  input force_stop_cmd_hold;
-  input force_stop_cmd_i;
   input \Serial_Dbg_Intf.control_reg_reg[8] ;
 
+  wire \Area_Debug_Control.force_stop_cmd_hold_reg ;
   wire Hit;
   wire \Serial_Dbg_Intf.control_reg_reg[8] ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   wire Single_Step_N;
   wire \Using_FPGA.Native_0 ;
   wire carry_0;
-  wire force_stop_cmd_hold;
-  wire force_stop_cmd_i;
   wire normal_stop_cmd_hold;
   wire normal_stop_cmd_i;
   wire [3:1]\NLW_Using_FPGA.Native_CARRY4_CO_UNCONNECTED ;
@@ -35558,11 +35505,11 @@ module blockdesign_microblaze_0_0_MB_MUXCY_46
   LUT6 #(
     .INIT(64'hFFFFFFFFFFFFFFFE)) 
     \Using_FPGA.Native_i_6 
-       (.I0(Hit),
-        .I1(normal_stop_cmd_hold),
-        .I2(normal_stop_cmd_i),
-        .I3(force_stop_cmd_hold),
-        .I4(force_stop_cmd_i),
+       (.I0(\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
+        .I1(\Area_Debug_Control.force_stop_cmd_hold_reg ),
+        .I2(Hit),
+        .I3(normal_stop_cmd_hold),
+        .I4(normal_stop_cmd_i),
         .I5(\Serial_Dbg_Intf.control_reg_reg[8] ),
         .O(\Using_FPGA.Native_0 ));
 endmodule
@@ -35615,42 +35562,42 @@ endmodule
 module blockdesign_microblaze_0_0_MB_MUXCY_61
    (correct_Carry,
     new_Carry,
+    write_Carry_I_reg,
+    \Using_FPGA.Native_0 ,
+    ex_Valid,
     msrxxx_carry,
     \Using_MSR_Instr.msrxxx_write_carry_reg ,
     is_swx_I_reg,
     \Using_LWX_SWX_instr.reservation_reg ,
-    load_Store_i_reg,
-    \Using_FPGA.Native_0 ,
-    write_Carry_I_reg,
+    ex_Valid_reg,
     \Using_FPGA.Native_1 ,
-    ex_Valid,
     lopt,
     lopt_1,
     lopt_2);
   output correct_Carry;
   input new_Carry;
+  input write_Carry_I_reg;
+  input \Using_FPGA.Native_0 ;
+  input ex_Valid;
   input msrxxx_carry;
   input \Using_MSR_Instr.msrxxx_write_carry_reg ;
   input is_swx_I_reg;
   input \Using_LWX_SWX_instr.reservation_reg ;
-  input load_Store_i_reg;
-  input [0:0]\Using_FPGA.Native_0 ;
-  input write_Carry_I_reg;
-  input \Using_FPGA.Native_1 ;
-  input ex_Valid;
+  input ex_Valid_reg;
+  input [0:0]\Using_FPGA.Native_1 ;
   input lopt;
   output lopt_1;
   output lopt_2;
 
   wire DI_0;
-  wire [0:0]\Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_0 ;
+  wire [0:0]\Using_FPGA.Native_1 ;
   wire \Using_LWX_SWX_instr.reservation_reg ;
   wire \Using_MSR_Instr.msrxxx_write_carry_reg ;
   wire correct_Carry;
   wire ex_Valid;
+  wire ex_Valid_reg;
   wire is_swx_I_reg;
-  wire load_Store_i_reg;
   wire msrxxx_carry;
   wire new_Carry;
   wire write_Carry;
@@ -35661,20 +35608,20 @@ module blockdesign_microblaze_0_0_MB_MUXCY_61
   assign lopt_2 = write_Carry;
   LUT3 #(
     .INIT(8'h20)) 
-    \Using_FPGA.Native_i_1__9 
+    \Using_FPGA.Native_i_1__10 
        (.I0(write_Carry_I_reg),
-        .I1(\Using_FPGA.Native_1 ),
+        .I1(\Using_FPGA.Native_0 ),
         .I2(ex_Valid),
         .O(write_Carry));
   LUT6 #(
     .INIT(64'h88B8BBBB88B88888)) 
-    \Using_FPGA.Native_i_2__0 
+    \Using_FPGA.Native_i_2__1 
        (.I0(msrxxx_carry),
         .I1(\Using_MSR_Instr.msrxxx_write_carry_reg ),
         .I2(is_swx_I_reg),
         .I3(\Using_LWX_SWX_instr.reservation_reg ),
-        .I4(load_Store_i_reg),
-        .I5(\Using_FPGA.Native_0 ),
+        .I4(ex_Valid_reg),
+        .I5(\Using_FPGA.Native_1 ),
         .O(DI_0));
 endmodule
 
@@ -35794,89 +35741,121 @@ module blockdesign_microblaze_0_0_MB_MUXCY_69
     R_0,
     nonvalid_IFetch_n_reg,
     PC_Write,
-    R,
+    mul_Executing0,
+    mbar_first,
     ok_To_Stop,
+    R,
     S105_out,
     break_Pipe_i_reg0,
     branch_with_delay,
+    ex_Valid_reg,
+    \Using_FPGA.Native_0 ,
     dbg_pause_reg,
     jump_Carry2,
+    \Using_FPGA.Native_1 ,
     sync_reset,
-    \Using_FPGA.Native_0 ,
-    iFetch_In_Progress_reg,
+    mbar_decode_I_reg,
+    mul_first,
+    \Using_FPGA.Native_2 ,
+    inHibit_EX_reg,
+    mbar_sleep_reg,
+    \Using_FPGA.Native_3 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
     inHibit_EX,
     mul_Executing_reg,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
+    take_Intr_Now_III,
     jump2_I_reg,
-    Interrupt,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    ex_Valid_reg,
+    internal_interrupt,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    ex_Valid_reg_0,
+    \Using_FPGA.Native_6 ,
+    ex_Valid,
+    force_Val2_N,
+    \Using_FPGA.Native_7 ,
     lopt,
     lopt_1);
   output trace_jump_taken_i_reg;
   output R_0;
   output nonvalid_IFetch_n_reg;
   output PC_Write;
-  output R;
+  output mul_Executing0;
+  output mbar_first;
   output ok_To_Stop;
+  output R;
   output S105_out;
   output break_Pipe_i_reg0;
   output branch_with_delay;
+  output ex_Valid_reg;
+  output \Using_FPGA.Native_0 ;
   input dbg_pause_reg;
   input jump_Carry2;
+  input \Using_FPGA.Native_1 ;
   input sync_reset;
-  input \Using_FPGA.Native_0 ;
-  input iFetch_In_Progress_reg;
+  input mbar_decode_I_reg;
+  input mul_first;
+  input \Using_FPGA.Native_2 ;
+  input inHibit_EX_reg;
+  input mbar_sleep_reg;
+  input \Using_FPGA.Native_3 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input inHibit_EX;
   input mul_Executing_reg;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  input take_Intr_Now_III;
   input jump2_I_reg;
-  input Interrupt;
-  input [0:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input ex_Valid_reg;
+  input internal_interrupt;
+  input [0:0]\Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input ex_Valid_reg_0;
+  input \Using_FPGA.Native_6 ;
+  input ex_Valid;
+  input force_Val2_N;
+  input \Using_FPGA.Native_7 ;
   input lopt;
   output lopt_1;
 
   wire \<const0> ;
-  wire Interrupt;
   wire PC_Write;
   wire R;
   wire R_0;
   wire S105_out;
   wire \Using_FPGA.Native_0 ;
-  wire [0:0]\Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire [0:0]\Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   wire branch_with_delay;
   wire break_Pipe_i_reg0;
   wire dbg_pause_reg;
+  wire ex_Valid;
   wire ex_Valid_reg;
-  wire iFetch_In_Progress_reg;
+  wire ex_Valid_reg_0;
+  wire force_Val2_N;
   wire inHibit_EX;
+  wire inHibit_EX_reg;
+  wire internal_interrupt;
   wire jump2_I_reg;
   wire jump_Carry2;
+  wire mbar_decode_I_reg;
+  wire mbar_first;
+  wire mbar_sleep_reg;
+  wire mul_Executing0;
   wire mul_Executing_reg;
+  wire mul_first;
   wire nonvalid_IFetch_n_reg;
   wire ok_To_Stop;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire trace_jump_taken_i_reg;
 
   assign lopt_1 = \<const0> ;
   assign trace_jump_taken_i_reg = lopt;
   GND GND
        (.G(\<const0> ));
-  (* SOFT_HLUTNM = "soft_lutpair21" *) 
-  LUT2 #(
-    .INIT(4'hE)) 
-    \Using_FPGA.Native_i_1__10 
-       (.I0(trace_jump_taken_i_reg),
-        .I1(iFetch_In_Progress_reg),
-        .O(PC_Write));
   LUT3 #(
     .INIT(8'hEA)) 
     \Using_FPGA.Native_i_1__13 
@@ -35884,54 +35863,92 @@ module blockdesign_microblaze_0_0_MB_MUXCY_69
         .I1(inHibit_EX),
         .I2(trace_jump_taken_i_reg),
         .O(R));
-  (* SOFT_HLUTNM = "soft_lutpair21" *) 
+  LUT6 #(
+    .INIT(64'hFFF8FFF8FFF888F8)) 
+    \Using_FPGA.Native_i_1__131 
+       (.I0(inHibit_EX),
+        .I1(trace_jump_taken_i_reg),
+        .I2(force_Val2_N),
+        .I3(mul_Executing_reg),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(take_Intr_Now_III),
+        .O(\Using_FPGA.Native_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair23" *) 
   LUT3 #(
     .INIT(8'hFE)) 
     \Using_FPGA.Native_i_1__2 
        (.I0(trace_jump_taken_i_reg),
-        .I1(sync_reset),
-        .I2(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_1 ),
+        .I2(sync_reset),
         .O(R_0));
+  (* SOFT_HLUTNM = "soft_lutpair23" *) 
+  LUT2 #(
+    .INIT(4'hE)) 
+    \Using_FPGA.Native_i_1__5 
+       (.I0(trace_jump_taken_i_reg),
+        .I1(mbar_decode_I_reg),
+        .O(PC_Write));
   LUT6 #(
     .INIT(64'h0000000000700000)) 
     break_Pipe_i_i_1
        (.I0(trace_jump_taken_i_reg),
         .I1(jump2_I_reg),
-        .I2(Interrupt),
-        .I3(\Using_FPGA.Native_1 ),
-        .I4(\Using_FPGA.Native_2 ),
-        .I5(ex_Valid_reg),
+        .I2(internal_interrupt),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(ex_Valid_reg_0),
         .O(break_Pipe_i_reg0));
-  (* SOFT_HLUTNM = "soft_lutpair22" *) 
   LUT2 #(
     .INIT(4'h8)) 
     delay_slot_instr_i_1
        (.I0(trace_jump_taken_i_reg),
         .I1(jump2_I_reg),
         .O(branch_with_delay));
-  (* SOFT_HLUTNM = "soft_lutpair20" *) 
+  LUT6 #(
+    .INIT(64'hDDFFDDF0DD00DDF0)) 
+    ex_Valid_i_1
+       (.I0(S105_out),
+        .I1(take_Intr_Now_III),
+        .I2(\Using_FPGA.Native_6 ),
+        .I3(mul_Executing_reg),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(ex_Valid),
+        .O(ex_Valid_reg));
+  (* SOFT_HLUTNM = "soft_lutpair24" *) 
+  LUT2 #(
+    .INIT(4'h8)) 
+    ex_Valid_i_2
+       (.I0(trace_jump_taken_i_reg),
+        .I1(inHibit_EX),
+        .O(S105_out));
+  MUXF7 mbar_first_reg_i_1
+       (.I0(mbar_sleep_reg),
+        .I1(\Using_FPGA.Native_3 ),
+        .O(mbar_first),
+        .S(ok_To_Stop));
+  LUT4 #(
+    .INIT(16'hFFAE)) 
+    mul_Executing_i_1
+       (.I0(mbar_first),
+        .I1(mul_first),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(inHibit_EX_reg),
+        .O(mul_Executing0));
   LUT4 #(
     .INIT(16'h0070)) 
     mul_first_i_2
        (.I0(inHibit_EX),
         .I1(trace_jump_taken_i_reg),
         .I2(mul_Executing_reg),
-        .I3(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .I3(take_Intr_Now_III),
         .O(ok_To_Stop));
-  (* SOFT_HLUTNM = "soft_lutpair22" *) 
+  (* SOFT_HLUTNM = "soft_lutpair24" *) 
   LUT2 #(
     .INIT(4'h2)) 
     nonvalid_IFetch_n_i_2
        (.I0(trace_jump_taken_i_reg),
-        .I1(iFetch_In_Progress_reg),
+        .I1(mbar_decode_I_reg),
         .O(nonvalid_IFetch_n_reg));
-  (* SOFT_HLUTNM = "soft_lutpair20" *) 
-  LUT2 #(
-    .INIT(4'h8)) 
-    \single_step_count[1]_i_2 
-       (.I0(trace_jump_taken_i_reg),
-        .I1(inHibit_EX),
-        .O(S105_out));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -35970,7 +35987,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_70
   assign new_Carry = lopt;
   LUT5 #(
     .INIT(32'hAABAAAAA)) 
-    \Using_FPGA.Native_i_1__8 
+    \Using_FPGA.Native_i_1__9 
        (.I0(sync_reset),
         .I1(new_Carry),
         .I2(write_Carry_I_reg),
@@ -35983,14 +36000,14 @@ endmodule
 module blockdesign_microblaze_0_0_MB_MUXCY_79
    (opsel1_SPR,
     opsel1_SPR_Select,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    take_Intr_Now_III);
   output opsel1_SPR;
   input opsel1_SPR_Select;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input take_Intr_Now_III;
 
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire opsel1_SPR;
   wire opsel1_SPR_Select;
+  wire take_Intr_Now_III;
   wire [3:1]\NLW_Using_FPGA.Native_CARRY4_CO_UNCONNECTED ;
   wire [3:1]\NLW_Using_FPGA.Native_CARRY4_DI_UNCONNECTED ;
   wire [3:0]\NLW_Using_FPGA.Native_CARRY4_O_UNCONNECTED ;
@@ -36000,7 +36017,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_79
   (* XILINX_TRANSFORM_PINMAP = "LO:O" *) 
   (* box_type = "PRIMITIVE" *) 
   CARRY4 \Using_FPGA.Native_CARRY4 
-       (.CI(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+       (.CI(take_Intr_Now_III),
         .CO({\NLW_Using_FPGA.Native_CARRY4_CO_UNCONNECTED [3:1],opsel1_SPR}),
         .CYINIT(1'b0),
         .DI({\NLW_Using_FPGA.Native_CARRY4_DI_UNCONNECTED [3:1],1'b1}),
@@ -36014,8 +36031,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_80
     mul_Executing_reg,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
     inHibit_EX,
-    using_Imm_reg,
     jump2_I_reg,
+    using_Imm_reg,
     lopt,
     lopt_1,
     lopt_2);
@@ -36023,8 +36040,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_80
   input mul_Executing_reg;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input inHibit_EX;
-  input using_Imm_reg;
   input jump2_I_reg;
+  input using_Imm_reg;
   input lopt;
   output lopt_1;
   output lopt_2;
@@ -36048,8 +36065,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_80
     \Using_FPGA.Native_i_1__63 
        (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .I1(inHibit_EX),
-        .I2(using_Imm_reg),
-        .I3(jump2_I_reg),
+        .I2(jump2_I_reg),
+        .I3(using_Imm_reg),
         .O(S0_out));
 endmodule
 
@@ -36100,126 +36117,173 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY_82
-   (\write_Addr_I_reg[1] ,
+   (take_Intr_Now_III,
     inHibit_EX_reg,
-    \Using_FPGA.Native_0 ,
     \Using_LWX_SWX_instr.reservation_reg ,
+    \Using_FPGA.Native_0 ,
+    SR,
     load_Store_i2,
     inHibit_EX1,
-    D,
+    Select_Logic0,
+    \Using_FPGA.interrupt_taken_no_fsl_reg ,
     take_Intr_Now_II,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
     inHibit_EX_reg_0,
     mul_Executing_reg,
     inHibit_EX,
     nonvalid_IFetch_n_reg,
-    sync_reset,
-    MSRclr_Instr,
+    is_swx_I_reg,
+    \Using_LWX_SWX_instr.reservation_reg_0 ,
+    is_lwx_I,
     ex_Valid_reg,
-    MSRxxx_Instr_i,
+    \Using_FPGA.set_BIP_I_reg ,
     Op2_Low,
-    \Using_FPGA.Native_1 ,
+    MSRclr_Instr,
+    ex_Valid_reg_0,
+    MSRxxx_Instr_i,
+    sync_reset,
+    instr_OF,
     lopt,
     lopt_1,
     lopt_2);
-  output \write_Addr_I_reg[1] ;
+  output take_Intr_Now_III;
   output inHibit_EX_reg;
-  output \Using_FPGA.Native_0 ;
   output \Using_LWX_SWX_instr.reservation_reg ;
+  output \Using_FPGA.Native_0 ;
+  output [0:0]SR;
   output load_Store_i2;
   output inHibit_EX1;
-  output [0:0]D;
+  output Select_Logic0;
+  output \Using_FPGA.interrupt_taken_no_fsl_reg ;
   input take_Intr_Now_II;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input inHibit_EX_reg_0;
   input mul_Executing_reg;
   input inHibit_EX;
   input nonvalid_IFetch_n_reg;
-  input sync_reset;
-  input MSRclr_Instr;
+  input is_swx_I_reg;
+  input \Using_LWX_SWX_instr.reservation_reg_0 ;
+  input is_lwx_I;
   input ex_Valid_reg;
-  input MSRxxx_Instr_i;
+  input \Using_FPGA.set_BIP_I_reg ;
   input [0:0]Op2_Low;
-  input [0:0]\Using_FPGA.Native_1 ;
+  input MSRclr_Instr;
+  input ex_Valid_reg_0;
+  input MSRxxx_Instr_i;
+  input sync_reset;
+  input [0:0]instr_OF;
   input lopt;
   output lopt_1;
   output lopt_2;
 
   wire \<const0> ;
   wire \<const1> ;
-  wire [0:0]D;
   wire MSRclr_Instr;
   wire MSRxxx_Instr_i;
   wire [0:0]Op2_Low;
+  wire [0:0]SR;
+  wire Select_Logic0;
   wire \Using_FPGA.Native_0 ;
-  wire [0:0]\Using_FPGA.Native_1 ;
+  wire \Using_FPGA.interrupt_taken_no_fsl_reg ;
+  wire \Using_FPGA.set_BIP_I_reg ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_LWX_SWX_instr.reservation_i_2_n_0 ;
   wire \Using_LWX_SWX_instr.reservation_reg ;
+  wire \Using_LWX_SWX_instr.reservation_reg_0 ;
   wire ex_Valid_reg;
+  wire ex_Valid_reg_0;
   wire inHibit_EX;
   wire inHibit_EX1;
   wire inHibit_EX_reg;
   wire inHibit_EX_reg_0;
+  wire [0:0]instr_OF;
+  wire is_lwx_I;
+  wire is_swx_I_reg;
   wire load_Store_i2;
   wire mul_Executing_reg;
   wire nonvalid_IFetch_n_reg;
   wire sync_reset;
   wire take_Intr_Now_II;
-  wire \write_Addr_I_reg[1] ;
+  wire take_Intr_Now_III;
 
   assign lopt_1 = \<const0> ;
   assign lopt_2 = \<const1> ;
-  assign \write_Addr_I_reg[1]  = lopt;
+  assign take_Intr_Now_III = lopt;
+  (* SOFT_HLUTNM = "soft_lutpair25" *) 
+  LUT3 #(
+    .INIT(8'hEA)) 
+    Compare_Instr_i_1
+       (.I0(sync_reset),
+        .I1(take_Intr_Now_III),
+        .I2(mul_Executing_reg),
+        .O(SR));
   GND GND
        (.G(\<const0> ));
-  LUT6 #(
-    .INIT(64'hFEEEEEEE0EEEEEEE)) 
-    \Using_FPGA.Native_i_1__6 
-       (.I0(sync_reset),
-        .I1(\write_Addr_I_reg[1] ),
-        .I2(MSRclr_Instr),
-        .I3(ex_Valid_reg),
-        .I4(MSRxxx_Instr_i),
-        .I5(Op2_Low),
-        .O(\Using_FPGA.Native_0 ));
+  LUT2 #(
+    .INIT(4'h1)) 
+    Select_Logic_i_1
+       (.I0(take_Intr_Now_III),
+        .I1(instr_OF),
+        .O(Select_Logic0));
   LUT1 #(
     .INIT(2'h1)) 
     \Using_FPGA.Native_i_1__65 
-       (.I0(\write_Addr_I_reg[1] ),
+       (.I0(take_Intr_Now_III),
         .O(load_Store_i2));
+  LUT6 #(
+    .INIT(64'hBFFFBFFFBFFF8000)) 
+    \Using_FPGA.Native_i_1__7 
+       (.I0(Op2_Low),
+        .I1(MSRclr_Instr),
+        .I2(ex_Valid_reg_0),
+        .I3(MSRxxx_Instr_i),
+        .I4(take_Intr_Now_III),
+        .I5(sync_reset),
+        .O(\Using_FPGA.Native_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair26" *) 
+  LUT3 #(
+    .INIT(8'h40)) 
+    \Using_FPGA.interrupt_taken_no_fsl_i_1 
+       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(take_Intr_Now_III),
+        .I2(mul_Executing_reg),
+        .O(\Using_FPGA.interrupt_taken_no_fsl_reg ));
+  (* SOFT_HLUTNM = "soft_lutpair26" *) 
   LUT2 #(
     .INIT(4'h2)) 
     \Using_FPGA.take_Intr_2nd_Phase_i_1 
-       (.I0(\write_Addr_I_reg[1] ),
+       (.I0(take_Intr_Now_III),
         .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .O(inHibit_EX1));
-  (* SOFT_HLUTNM = "soft_lutpair23" *) 
-  LUT2 #(
-    .INIT(4'h1)) 
-    \Using_LWX_SWX_instr.reservation_i_3 
-       (.I0(sync_reset),
-        .I1(\write_Addr_I_reg[1] ),
+  LUT6 #(
+    .INIT(64'h0000000030301110)) 
+    \Using_LWX_SWX_instr.reservation_i_1 
+       (.I0(is_swx_I_reg),
+        .I1(\Using_LWX_SWX_instr.reservation_i_2_n_0 ),
+        .I2(\Using_LWX_SWX_instr.reservation_reg_0 ),
+        .I3(is_lwx_I),
+        .I4(ex_Valid_reg),
+        .I5(\Using_FPGA.set_BIP_I_reg ),
         .O(\Using_LWX_SWX_instr.reservation_reg ));
+  (* SOFT_HLUTNM = "soft_lutpair25" *) 
+  LUT2 #(
+    .INIT(4'hE)) 
+    \Using_LWX_SWX_instr.reservation_i_2 
+       (.I0(take_Intr_Now_III),
+        .I1(sync_reset),
+        .O(\Using_LWX_SWX_instr.reservation_i_2_n_0 ));
   VCC VCC
        (.P(\<const1> ));
   LUT6 #(
     .INIT(64'h00000000DCDDDCCC)) 
     inHibit_EX_i_1
-       (.I0(\write_Addr_I_reg[1] ),
+       (.I0(take_Intr_Now_III),
         .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .I2(inHibit_EX_reg_0),
         .I3(mul_Executing_reg),
         .I4(inHibit_EX),
         .I5(nonvalid_IFetch_n_reg),
         .O(inHibit_EX_reg));
-  (* SOFT_HLUTNM = "soft_lutpair23" *) 
-  LUT3 #(
-    .INIT(8'h54)) 
-    \write_Addr_I[1]_i_1 
-       (.I0(sync_reset),
-        .I1(\write_Addr_I_reg[1] ),
-        .I2(\Using_FPGA.Native_1 ),
-        .O(D));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -36323,13 +36387,13 @@ module blockdesign_microblaze_0_0_MB_MUXCY_87
     mul_Executing_reg,
     mbar_hold_I_reg_0,
     sync_reset,
+    ex_Valid_reg,
+    mbar_decode_I,
+    mul_Executing,
     iFetch_In_Progress,
     \Serial_Dbg_Intf.if_debug_ready_i_reg ,
-    mul_Executing,
-    mbar_decode_I,
-    ex_Valid_reg,
-    IReady,
     \Serial_Dbg_Intf.if_debug_ready_i_reg_0 ,
+    IReady,
     missed_IFetch,
     dbg_pause_reg,
     lopt,
@@ -36345,13 +36409,13 @@ module blockdesign_microblaze_0_0_MB_MUXCY_87
   input mul_Executing_reg;
   input mbar_hold_I_reg_0;
   input sync_reset;
+  input ex_Valid_reg;
+  input mbar_decode_I;
+  input mul_Executing;
   input iFetch_In_Progress;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
-  input mul_Executing;
-  input mbar_decode_I;
-  input ex_Valid_reg;
-  input IReady;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg_0 ;
+  input IReady;
   input missed_IFetch;
   input dbg_pause_reg;
   input lopt;
@@ -36384,22 +36448,24 @@ module blockdesign_microblaze_0_0_MB_MUXCY_87
   GND GND
        (.G(\<const0> ));
   LUT6 #(
-    .INIT(64'h0777777700000000)) 
+    .INIT(64'h00007F007F007F00)) 
     I_AS_INST_0
-       (.I0(iFetch_In_Progress),
-        .I1(\Serial_Dbg_Intf.if_debug_ready_i_reg ),
+       (.I0(ex_Valid_reg),
+        .I1(mbar_decode_I),
         .I2(mul_Executing),
-        .I3(mbar_decode_I),
-        .I4(ex_Valid_reg),
-        .I5(ifetch_carry2),
+        .I3(ifetch_carry2),
+        .I4(iFetch_In_Progress),
+        .I5(\Serial_Dbg_Intf.if_debug_ready_i_reg ),
         .O(I_AS));
-  LUT4 #(
-    .INIT(16'hFF10)) 
+  LUT6 #(
+    .INIT(64'h88F8F8F8F8F8F8F8)) 
     iFetch_In_Progress_i_1
-       (.I0(IReady),
-        .I1(\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
-        .I2(iFetch_In_Progress),
-        .I3(I_AS),
+       (.I0(\Serial_Dbg_Intf.if_debug_ready_i_reg ),
+        .I1(iFetch_In_Progress),
+        .I2(ifetch_carry2),
+        .I3(mul_Executing),
+        .I4(mbar_decode_I),
+        .I5(ex_Valid_reg),
         .O(iFetch_In_Progress_reg));
   LUT5 #(
     .INIT(32'h0000C5C0)) 
@@ -36413,8 +36479,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_87
   LUT5 #(
     .INIT(32'h101F1010)) 
     missed_IFetch_i_1
-       (.I0(IReady),
-        .I1(\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
+       (.I0(\Serial_Dbg_Intf.if_debug_ready_i_reg_0 ),
+        .I1(IReady),
         .I2(missed_IFetch),
         .I3(I_AS),
         .I4(dbg_pause_reg),
@@ -36431,7 +36497,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_88
   input iFetch_In_Progress;
 
   wire [0:0]D;
-  wire \Using_FPGA.Native_i_1__11_n_0 ;
+  wire \Using_FPGA.Native_i_1__12_n_0 ;
   wire iFetch_In_Progress;
   wire ifetch_carry2;
   wire [3:1]\NLW_Using_FPGA.Native_CARRY4_CO_UNCONNECTED ;
@@ -36448,12 +36514,12 @@ module blockdesign_microblaze_0_0_MB_MUXCY_88
         .CYINIT(1'b0),
         .DI({\NLW_Using_FPGA.Native_CARRY4_DI_UNCONNECTED [3:1],1'b1}),
         .O(\NLW_Using_FPGA.Native_CARRY4_O_UNCONNECTED [3:0]),
-        .S({\NLW_Using_FPGA.Native_CARRY4_S_UNCONNECTED [3:1],\Using_FPGA.Native_i_1__11_n_0 }));
+        .S({\NLW_Using_FPGA.Native_CARRY4_S_UNCONNECTED [3:1],\Using_FPGA.Native_i_1__12_n_0 }));
   LUT1 #(
     .INIT(2'h1)) 
-    \Using_FPGA.Native_i_1__11 
+    \Using_FPGA.Native_i_1__12 
        (.I0(iFetch_In_Progress),
-        .O(\Using_FPGA.Native_i_1__11_n_0 ));
+        .O(\Using_FPGA.Native_i_1__12_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXCY" *) 
@@ -36462,18 +36528,18 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
     take_intr_2nd_cycle_reg,
     using_Imm_reg,
     S,
+    \Using_FPGA.Native_1 ,
     \Using_LWX_SWX_instr.reservation_reg ,
     is_swx_I,
     swx_ready_reg,
-    SR,
     E,
-    Sext16_reg,
-    ex_Valid_1st_cycle4_out,
     Valid_Instr0,
     Unsigned_Op_reg,
+    Sext16_reg,
     OF_PipeRun,
     Blocked_Valid_Instr0,
     load_Store_i_reg,
+    ex_Valid_1st_cycle_reg,
     Sext16_reg_0,
     Sext8_reg,
     of_PipeRun_Select,
@@ -36481,33 +36547,30 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
     DReady0_out,
     break_Pipe_i_reg__0,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
+    take_Intr_Now_III,
     take_intr_2nd_cycle_reg_0,
     sync_reset,
     using_Imm_reg_0,
-    \Using_FPGA.Native_1 ,
-    S105_out,
     \Using_FPGA.Native_2 ,
-    Buffer_Addr,
-    is_swx_I_reg,
-    \Using_LWX_SWX_instr.reservation_reg_0 ,
-    is_lwx_I,
-    \Use_Async_Reset.sync_reset_reg ,
-    \Using_FPGA.set_BIP_I_reg ,
-    load_Store_i,
+    S105_out,
     \Using_FPGA.Native_3 ,
+    Buffer_Addr,
     ex_Valid,
-    DReady,
+    \Using_FPGA.Native_4 ,
+    load_Store_i,
     MEM_DAXI_Data_Strobe,
+    DReady,
     swx_ready,
     mem_access_completed_reg,
-    \Using_FPGA.Native_4 ,
-    dbg_pause_reg,
+    \Using_LWX_SWX_instr.reservation_reg_0 ,
+    is_swx_I_reg,
     inHibit_EX,
+    dbg_pause_reg,
     \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
     jump2_I_reg,
     take_intr_Done,
-    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
     Sext16_reg_1,
     check_srx15_in,
     D,
@@ -36525,18 +36588,18 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   output take_intr_2nd_cycle_reg;
   output using_Imm_reg;
   output S;
+  output \Using_FPGA.Native_1 ;
   output \Using_LWX_SWX_instr.reservation_reg ;
   output is_swx_I;
   output swx_ready_reg;
-  output [0:0]SR;
   output [0:0]E;
-  output Sext16_reg;
-  output ex_Valid_1st_cycle4_out;
   output Valid_Instr0;
   output Unsigned_Op_reg;
+  output Sext16_reg;
   output OF_PipeRun;
   output Blocked_Valid_Instr0;
   output load_Store_i_reg;
+  output ex_Valid_1st_cycle_reg;
   output Sext16_reg_0;
   output Sext8_reg;
   input of_PipeRun_Select;
@@ -36544,33 +36607,30 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   input DReady0_out;
   input break_Pipe_i_reg__0;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  input take_Intr_Now_III;
   input take_intr_2nd_cycle_reg_0;
   input sync_reset;
   input using_Imm_reg_0;
-  input \Using_FPGA.Native_1 ;
-  input S105_out;
   input \Using_FPGA.Native_2 ;
-  input [0:0]Buffer_Addr;
-  input is_swx_I_reg;
-  input \Using_LWX_SWX_instr.reservation_reg_0 ;
-  input is_lwx_I;
-  input \Use_Async_Reset.sync_reset_reg ;
-  input \Using_FPGA.set_BIP_I_reg ;
-  input load_Store_i;
+  input S105_out;
   input \Using_FPGA.Native_3 ;
+  input [1:0]Buffer_Addr;
   input ex_Valid;
-  input DReady;
+  input \Using_FPGA.Native_4 ;
+  input load_Store_i;
   input MEM_DAXI_Data_Strobe;
+  input DReady;
   input swx_ready;
   input mem_access_completed_reg;
-  input \Using_FPGA.Native_4 ;
-  input dbg_pause_reg;
+  input \Using_LWX_SWX_instr.reservation_reg_0 ;
+  input is_swx_I_reg;
   input inHibit_EX;
+  input dbg_pause_reg;
   input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
   input jump2_I_reg;
   input take_intr_Done;
-  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
   input Sext16_reg_1;
   input check_srx15_in;
   input [0:0]D;
@@ -36586,7 +36646,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   input lopt_8;
 
   wire Blocked_Valid_Instr0;
-  wire [0:0]Buffer_Addr;
+  wire [1:0]Buffer_Addr;
   wire [0:0]D;
   wire DReady;
   wire DReady0_out;
@@ -36595,14 +36655,12 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   wire OF_PipeRun;
   wire S;
   wire S105_out;
-  wire [0:0]SR;
   wire Sext16_reg;
   wire Sext16_reg_0;
   wire Sext16_reg_1;
   wire Sext8_reg;
   wire Sext8_reg_0;
   wire Unsigned_Op_reg;
-  wire \Use_Async_Reset.sync_reset_reg ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
@@ -36610,10 +36668,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.set_BIP_I_reg ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
-  wire \Using_LWX_SWX_instr.reservation_i_2_n_0 ;
   wire \Using_LWX_SWX_instr.reservation_reg ;
   wire \Using_LWX_SWX_instr.reservation_reg_0 ;
   wire Valid_Instr0;
@@ -36621,9 +36677,8 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   wire check_srx15_in;
   wire dbg_pause_reg;
   wire ex_Valid;
-  wire ex_Valid_1st_cycle4_out;
+  wire ex_Valid_1st_cycle_reg;
   wire inHibit_EX;
-  wire is_lwx_I;
   wire is_swx_I;
   wire is_swx_I_reg;
   wire jump2_I_reg;
@@ -36644,6 +36699,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   wire swx_ready;
   wire swx_ready_reg;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire take_intr_2nd_cycle_reg;
   wire take_intr_2nd_cycle_reg_0;
   wire take_intr_Done;
@@ -36660,7 +36716,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
   assign lopt_3 = \^lopt_4 ;
   assign lopt_6 = \^lopt_7 ;
   assign lopt_9 = lopt_8;
-  (* SOFT_HLUTNM = "soft_lutpair27" *) 
+  (* SOFT_HLUTNM = "soft_lutpair30" *) 
   LUT3 #(
     .INIT(8'h08)) 
     Blocked_Valid_Instr_i_1
@@ -36668,14 +36724,6 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
         .I1(\Using_FPGA.Native_0 ),
         .I2(take_intr_Done),
         .O(Blocked_Valid_Instr0));
-  (* SOFT_HLUTNM = "soft_lutpair24" *) 
-  LUT3 #(
-    .INIT(8'hF8)) 
-    Compare_Instr_i_1
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .I2(sync_reset),
-        .O(SR));
   LUT6 #(
     .INIT(64'h000000000000E222)) 
     Sext16_i_1
@@ -36696,15 +36744,15 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
         .I4(Sext16_reg),
         .I5(sync_reset),
         .O(Sext8_reg));
-  (* SOFT_HLUTNM = "soft_lutpair26" *) 
+  (* SOFT_HLUTNM = "soft_lutpair29" *) 
   LUT3 #(
-    .INIT(8'hA8)) 
+    .INIT(8'h8A)) 
     Sign_Extend_i_2
        (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I2(\Using_FPGA.Native_5 ),
         .O(Sext16_reg));
-  (* SOFT_HLUTNM = "soft_lutpair26" *) 
+  (* SOFT_HLUTNM = "soft_lutpair29" *) 
   LUT3 #(
     .INIT(8'hEA)) 
     Unsigned_Op_i_1
@@ -36724,17 +36772,24 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
         .S({lopt_9,\^lopt_6 ,\^lopt_3 ,of_PipeRun_Select}));
   LUT2 #(
     .INIT(4'h6)) 
+    \Using_FPGA.Native_I1_i_1 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(Buffer_Addr[1]),
+        .O(S));
+  LUT2 #(
+    .INIT(4'h6)) 
     \Using_FPGA.Native_I1_i_1__0 
        (.I0(\Using_FPGA.Native_0 ),
-        .I1(Buffer_Addr),
-        .O(S));
-  (* SOFT_HLUTNM = "soft_lutpair27" *) 
+        .I1(Buffer_Addr[0]),
+        .O(\Using_FPGA.Native_1 ));
+  (* SOFT_HLUTNM = "soft_lutpair30" *) 
   LUT2 #(
     .INIT(4'h2)) 
     \Using_FPGA.Native_i_1__78 
        (.I0(\Using_FPGA.Native_0 ),
-        .I1(\Using_FPGA.Native_5 ),
+        .I1(\Using_FPGA.Native_6 ),
         .O(OF_PipeRun));
+  (* SOFT_HLUTNM = "soft_lutpair27" *) 
   LUT3 #(
     .INIT(8'h2A)) 
     \Using_FPGA.Valid_Instr_i_1 
@@ -36743,41 +36798,31 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
         .I2(dbg_pause_reg),
         .O(Valid_Instr0));
   LUT6 #(
-    .INIT(64'h00000000CC540000)) 
-    \Using_LWX_SWX_instr.reservation_i_1 
-       (.I0(is_swx_I_reg),
-        .I1(\Using_LWX_SWX_instr.reservation_reg_0 ),
-        .I2(is_lwx_I),
-        .I3(\Using_LWX_SWX_instr.reservation_i_2_n_0 ),
-        .I4(\Use_Async_Reset.sync_reset_reg ),
-        .I5(\Using_FPGA.set_BIP_I_reg ),
-        .O(\Using_LWX_SWX_instr.reservation_reg ));
-  LUT6 #(
     .INIT(64'hDFDFDFDFDFDFDFFF)) 
-    \Using_LWX_SWX_instr.reservation_i_2 
-       (.I0(load_Store_i),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(ex_Valid),
-        .I3(\Using_FPGA.Native_0 ),
+    \Using_LWX_SWX_instr.reservation_i_3 
+       (.I0(ex_Valid),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(load_Store_i),
+        .I3(MEM_DAXI_Data_Strobe),
         .I4(DReady),
-        .I5(MEM_DAXI_Data_Strobe),
-        .O(\Using_LWX_SWX_instr.reservation_i_2_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair24" *) 
+        .I5(\Using_FPGA.Native_0 ),
+        .O(\Using_LWX_SWX_instr.reservation_reg ));
+  (* SOFT_HLUTNM = "soft_lutpair27" *) 
   LUT5 #(
-    .INIT(32'h40444444)) 
+    .INIT(32'h44440444)) 
     ex_Valid_1st_cycle_i_1
        (.I0(sync_reset),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .I2(inHibit_EX),
         .I3(dbg_pause_reg),
-        .I4(inHibit_EX),
-        .O(ex_Valid_1st_cycle4_out));
+        .I4(take_Intr_Now_III),
+        .O(ex_Valid_1st_cycle_reg));
   LUT6 #(
     .INIT(64'hABAAAAAAABAAABAA)) 
     is_lwx_I_i_4
        (.I0(sync_reset),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
         .I3(load_Store_i),
         .I4(swx_ready),
         .I5(mem_access_completed_reg),
@@ -36789,15 +36834,15 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
         .I1(\Using_FPGA.Native_0 ),
         .I2(dbg_pause_reg),
         .I3(inHibit_EX),
-        .I4(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_7 ),
         .I5(is_swx_I),
         .O(load_Store_i_reg));
-  (* SOFT_HLUTNM = "soft_lutpair25" *) 
+  (* SOFT_HLUTNM = "soft_lutpair28" *) 
   LUT4 #(
     .INIT(16'h0100)) 
     swx_ready_i_1
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(sync_reset),
+       (.I0(sync_reset),
+        .I1(\Using_FPGA.Native_0 ),
         .I2(\Using_LWX_SWX_instr.reservation_reg_0 ),
         .I3(is_swx_I_reg),
         .O(swx_ready_reg));
@@ -36807,7 +36852,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
        (.I0(\Using_FPGA.Native_0 ),
         .I1(break_Pipe_i_reg__0),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I3(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .I3(take_Intr_Now_III),
         .I4(take_intr_2nd_cycle_reg_0),
         .I5(sync_reset),
         .O(take_intr_2nd_cycle_reg));
@@ -36816,17 +36861,17 @@ module blockdesign_microblaze_0_0_MB_MUXCY_89
     using_Imm_i_1
        (.I0(using_Imm_reg_0),
         .I1(\Using_FPGA.Native_0 ),
-        .I2(\Using_FPGA.Native_1 ),
+        .I2(\Using_FPGA.Native_2 ),
         .I3(S105_out),
-        .I4(sync_reset),
-        .I5(\Using_FPGA.Native_2 ),
+        .I4(\Using_FPGA.Native_3 ),
+        .I5(sync_reset),
         .O(using_Imm_reg));
-  (* SOFT_HLUTNM = "soft_lutpair25" *) 
+  (* SOFT_HLUTNM = "soft_lutpair28" *) 
   LUT2 #(
     .INIT(4'hE)) 
     \write_Addr_I[0]_i_1 
-       (.I0(\Using_FPGA.Native_0 ),
-        .I1(sync_reset),
+       (.I0(sync_reset),
+        .I1(\Using_FPGA.Native_0 ),
         .O(E));
 endmodule
 
@@ -36904,7 +36949,6 @@ module blockdesign_microblaze_0_0_MB_MUXCY_924
         .S({\^lopt_9 ,\^lopt_6 ,\^lopt_3 ,control_carry}));
 endmodule
 
-(* ORIG_REF_NAME = "MB_MUXCY_XORCY" *) 
 module blockdesign_microblaze_0_0_MB_MUXCY_XORCY
    (buffer_Addr_S_I_2,
     S_34,
@@ -38604,14 +38648,14 @@ endmodule
 module blockdesign_microblaze_0_0_MB_MUXCY_XORCY_93
    (LO,
     O,
-    S,
+    \Using_FPGA.Native ,
     mul_Executing_reg,
     CI,
     lopt,
     lopt_1);
   output LO;
   output O;
-  input S;
+  input \Using_FPGA.Native ;
   input mul_Executing_reg;
   input CI;
   input lopt;
@@ -38620,7 +38664,7 @@ module blockdesign_microblaze_0_0_MB_MUXCY_XORCY_93
   wire CI;
   wire LO;
   wire O;
-  wire S;
+  wire \Using_FPGA.Native ;
   wire mul_Executing_reg;
 
   assign LO = lopt;
@@ -39508,7 +39552,6 @@ module blockdesign_microblaze_0_0_MB_MUXCY_XORCY_999
   assign EX_CarryOut = lopt;
 endmodule
 
-(* ORIG_REF_NAME = "MB_MUXF7" *) 
 module blockdesign_microblaze_0_0_MB_MUXF7
    (res_1x,
     Logic_Oper,
@@ -39726,17 +39769,17 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_MUXF7" *) 
 module blockdesign_microblaze_0_0_MB_MUXF7_260
-   (Shift_Logic_Res,
+   (\Using_FPGA.Native_0 ,
     Select_Logic,
     shift_Res,
     logic_Res_i);
-  output Shift_Logic_Res;
+  output \Using_FPGA.Native_0 ;
   input Select_Logic;
   input shift_Res;
   input logic_Res_i;
 
   wire Select_Logic;
-  wire Shift_Logic_Res;
+  wire \Using_FPGA.Native_0 ;
   wire logic_Res_i;
   wire shift_Res;
 
@@ -39744,7 +39787,7 @@ module blockdesign_microblaze_0_0_MB_MUXF7_260
   MUXF7 \Using_FPGA.Native 
        (.I0(shift_Res),
         .I1(logic_Res_i),
-        .O(Shift_Logic_Res),
+        .O(\Using_FPGA.Native_0 ),
         .S(Select_Logic));
 endmodule
 
@@ -39798,74 +39841,144 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_MUXF7" *) 
 module blockdesign_microblaze_0_0_MB_MUXF7_269
-   (Shift_Logic_Res,
+   (shift_Logic_Result,
     Select_Logic,
     shift_Res,
-    logic_Res_i);
-  output Shift_Logic_Res;
+    logic_Res_i,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 );
+  output [0:0]shift_Logic_Result;
   input Select_Logic;
   input shift_Res;
   input logic_Res_i;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
 
   wire Select_Logic;
-  wire Shift_Logic_Res;
+  wire Shift_Logic_Res29_out;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
   MUXF7 \Using_FPGA.Native 
        (.I0(shift_Res),
         .I1(logic_Res_i),
-        .O(Shift_Logic_Res),
+        .O(Shift_Logic_Res29_out),
         .S(Select_Logic));
+  LUT6 #(
+    .INIT(64'h8FFF8F8F88888888)) 
+    \Using_FPGA.Native_i_1__72 
+       (.I0(\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .I1(Shift_Logic_Res29_out),
+        .I2(\Using_FPGA.Native_0 ),
+        .I3(\Using_FPGA.Native_1 ),
+        .I4(\Using_FPGA.Native_2 ),
+        .I5(\Using_FPGA.Native_3 ),
+        .O(shift_Logic_Result));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXF7" *) 
 module blockdesign_microblaze_0_0_MB_MUXF7_272
-   (Shift_Logic_Res,
+   (shift_Logic_Result,
     Select_Logic,
     shift_Res,
-    logic_Res_i);
-  output Shift_Logic_Res;
+    logic_Res_i,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 );
+  output [0:0]shift_Logic_Result;
   input Select_Logic;
   input shift_Res;
   input logic_Res_i;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
 
   wire Select_Logic;
-  wire Shift_Logic_Res;
+  wire Shift_Logic_Res28_out;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
   MUXF7 \Using_FPGA.Native 
        (.I0(shift_Res),
         .I1(logic_Res_i),
-        .O(Shift_Logic_Res),
+        .O(Shift_Logic_Res28_out),
         .S(Select_Logic));
+  LUT5 #(
+    .INIT(32'h888F8F8F)) 
+    \Using_FPGA.Native_i_1__73 
+       (.I0(\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .I1(Shift_Logic_Res28_out),
+        .I2(\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .I3(\Using_FPGA.Native_0 ),
+        .I4(\Using_FPGA.Native_1 ),
+        .O(shift_Logic_Result));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXF7" *) 
 module blockdesign_microblaze_0_0_MB_MUXF7_275
-   (Shift_Logic_Res,
+   (shift_Logic_Result,
     Select_Logic,
     shift_Res,
-    logic_Res_i);
-  output Shift_Logic_Res;
+    logic_Res_i,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 );
+  output [0:0]shift_Logic_Result;
   input Select_Logic;
   input shift_Res;
   input logic_Res_i;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
 
   wire Select_Logic;
-  wire Shift_Logic_Res;
+  wire Shift_Logic_Res27_out;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   (* box_type = "PRIMITIVE" *) 
   MUXF7 \Using_FPGA.Native 
        (.I0(shift_Res),
         .I1(logic_Res_i),
-        .O(Shift_Logic_Res),
+        .O(Shift_Logic_Res27_out),
         .S(Select_Logic));
+  LUT5 #(
+    .INIT(32'h8F888888)) 
+    \Using_FPGA.Native_i_1__74 
+       (.I0(\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .I1(Shift_Logic_Res27_out),
+        .I2(\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .I3(\Using_FPGA.Native_0 ),
+        .I4(\Using_FPGA.Native_1 ),
+        .O(shift_Logic_Result));
 endmodule
 
 (* ORIG_REF_NAME = "MB_MUXF7" *) 
@@ -40300,7 +40413,6 @@ module blockdesign_microblaze_0_0_MB_MUXF7_329
         .S(Select_Logic));
 endmodule
 
-(* ORIG_REF_NAME = "MB_RAM32X1D" *) 
 module blockdesign_microblaze_0_0_MB_RAM32X1D
    (Reg1_Data,
     Data_Write,
@@ -40401,13 +40513,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_485
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__20 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__19 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -40512,13 +40624,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_487
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__19 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__18 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -40623,13 +40735,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_489
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__18 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__17 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -40734,13 +40846,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_491
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__17 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__16 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -40845,13 +40957,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_493
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__16 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__15 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -40956,13 +41068,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_495
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__15 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__14 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41067,13 +41179,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_497
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__14 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__13 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41178,13 +41290,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_499
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_3__8 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_3__9 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41289,13 +41401,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_501
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__41 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__40 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41400,13 +41512,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_503
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__13 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__12 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41511,13 +41623,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_505
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__40 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__39 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41622,13 +41734,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_507
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__39 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__38 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41733,13 +41845,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_509
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__38 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__37 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41844,13 +41956,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_511
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__37 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__36 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -41955,13 +42067,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_513
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__36 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__35 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42066,13 +42178,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_515
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__35 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__34 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42177,13 +42289,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_517
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__34 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__33 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42288,13 +42400,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_519
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__33 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__32 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42399,13 +42511,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_521
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__32 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__31 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42510,13 +42622,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_523
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__31 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__30 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42621,13 +42733,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_525
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__12 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__11 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42732,13 +42844,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_527
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__30 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__29 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42843,13 +42955,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_529
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__29 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__28 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -42954,13 +43066,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_531
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__28 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__27 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43065,13 +43177,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_533
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__27 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__26 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43176,13 +43288,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_535
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__26 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__25 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43287,13 +43399,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_537
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__25 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__24 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43398,13 +43510,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_539
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__24 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__23 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43509,13 +43621,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_541
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__23 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__22 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43620,13 +43732,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_543
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__22 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__21 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43731,13 +43843,13 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_545
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__21 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__20 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
@@ -43842,81 +43954,88 @@ module blockdesign_microblaze_0_0_MB_RAM32X1D_547
         .WCLK(Clk),
         .WE(Reg_Write));
   LUT5 #(
-    .INIT(32'hFECE3202)) 
-    \Using_FPGA.Native_i_2__11 
+    .INIT(32'hFE32CE02)) 
+    \Using_FPGA.Native_i_2__10 
        (.I0(reg2_Data),
         .I1(exception_kind),
         .I2(res_Forward2),
-        .I3(ex_Result),
-        .I4(Interrupt_Address),
+        .I3(Interrupt_Address),
+        .I4(ex_Result),
         .O(\Using_FPGA.Native_0 ));
 endmodule
 
-(* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E
    (\Result_Sel_reg[0] ,
-    jump2_I_reg,
-    mul_first38_out,
+    inHibit_EX_reg,
+    mul_Executing_reg,
     d_AS_I20_out,
+    \Size_17to32.imm_Reg_reg[15] ,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Size_17to32.imm_Reg_reg[15] ,
     byte_i17_out,
+    write_Carry_I_reg,
     select_ALU_Carry_reg,
     using_Imm_reg,
     writing_reg,
     CI,
     Y,
+    \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
     Clk,
+    \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
-    inHibit_EX_reg,
-    ok_To_Stop,
     \Using_FPGA.Native_9 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    dbg_pause_reg,
     inHibit_EX,
-    mul_Executing_reg,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
+    dbg_pause_reg,
+    inHibit_EX_reg_0,
+    take_Intr_Now_III,
+    mul_Executing_reg_0,
     \Using_FPGA.Native_10 ,
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 ,
     mul_first136_in);
   output \Result_Sel_reg[0] ;
-  output jump2_I_reg;
-  output mul_first38_out;
+  output inHibit_EX_reg;
+  output mul_Executing_reg;
   output d_AS_I20_out;
+  output \Size_17to32.imm_Reg_reg[15] ;
   output \Using_FPGA.Native ;
   output \Using_FPGA.Native_0 ;
-  output \Using_FPGA.Native_1 ;
-  output \Size_17to32.imm_Reg_reg[15] ;
   output byte_i17_out;
+  output write_Carry_I_reg;
   output select_ALU_Carry_reg;
   output using_Imm_reg;
   output writing_reg;
   input CI;
   input [0:0]Y;
+  input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
   input Clk;
+  input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
-  input inHibit_EX_reg;
-  input ok_To_Stop;
   input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input dbg_pause_reg;
   input inHibit_EX;
-  input mul_Executing_reg;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  input dbg_pause_reg;
+  input inHibit_EX_reg_0;
+  input take_Intr_Now_III;
+  input mul_Executing_reg_0;
   input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_13 ;
+  input \Using_FPGA.Native_14 ;
   input mul_first136_in;
 
   wire CI;
@@ -43927,6 +44046,10 @@ module blockdesign_microblaze_0_0_MB_SRL16E
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
+  wire \Using_FPGA.Native_13 ;
+  wire \Using_FPGA.Native_14 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -43936,30 +44059,31 @@ module blockdesign_microblaze_0_0_MB_SRL16E
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   wire [0:0]Y;
   wire byte_i17_out;
   wire d_AS_I20_out;
   wire dbg_pause_reg;
   wire inHibit_EX;
+  wire inHibit_EX_i_4_n_0;
   wire inHibit_EX_reg;
-  wire jump2_I_reg;
+  wire inHibit_EX_reg_0;
   wire mul_Executing_reg;
+  wire mul_Executing_reg_0;
   wire mul_first136_in;
-  wire mul_first38_out;
-  wire ok_To_Stop;
   wire select_ALU_Carry_reg;
+  wire take_Intr_Now_III;
   wire using_Imm_reg;
+  wire write_Carry_I_reg;
   wire writing_reg;
 
   (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT4 #(
-    .INIT(16'h2000)) 
+    .INIT(16'hDFFF)) 
     \Size_17to32.imm_Reg[0]_i_2 
        (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_8 ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_10 ),
         .O(\Size_17to32.imm_Reg_reg[15] ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
@@ -43968,81 +44092,78 @@ module blockdesign_microblaze_0_0_MB_SRL16E
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_2 ),
-        .A1(\Using_FPGA.Native_3 ),
-        .A2(\Using_FPGA.Native_4 ),
+       (.A0(\Using_FPGA.Native_1 ),
+        .A1(\Using_FPGA.Native_2 ),
+        .A2(\Using_FPGA.Native_3 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\Result_Sel_reg[0] ));
   LUT6 #(
-    .INIT(64'hAAAAAAAABBBBBBFB)) 
-    \Using_FPGA.Native_i_1__28 
-       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .I1(\Using_FPGA.Native_0 ),
+    .INIT(64'hAAAAAAAAFFFFABAA)) 
+    \Using_FPGA.Native_i_1__24 
+       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(\Result_Sel_reg[0] ),
         .I2(\Using_FPGA.Native_9 ),
-        .I3(\Result_Sel_reg[0] ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_11 ),
+        .I5(take_Intr_Now_III),
         .O(\Using_FPGA.Native ));
-  LUT6 #(
-    .INIT(64'hFFFFDFFFFFFFFFFF)) 
-    \Using_FPGA.Native_i_2__4 
-       (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_7 ),
-        .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(\Using_FPGA.Native_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'hDFFF)) 
-    \Using_FPGA.Native_i_2__6 
+    \Using_FPGA.Native_i_3__3 
        (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_8 ),
         .I3(\Using_FPGA.Native_7 ),
-        .O(\Using_FPGA.Native_1 ));
+        .O(\Using_FPGA.Native_0 ));
   LUT6 #(
     .INIT(64'h0040404000000000)) 
     d_AS_I_i_1
-       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+       (.I0(take_Intr_Now_III),
         .I1(\Result_Sel_reg[0] ),
-        .I2(\Using_FPGA.Native_5 ),
+        .I2(\Using_FPGA.Native_9 ),
         .I3(dbg_pause_reg),
         .I4(inHibit_EX),
-        .I5(mul_Executing_reg),
+        .I5(mul_Executing_reg_0),
         .O(d_AS_I20_out));
   LUT6 #(
-    .INIT(64'h0000000020202000)) 
-    jump2_I_i_1
-       (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_7 ),
-        .I4(\Using_FPGA.Native_8 ),
-        .I5(inHibit_EX_reg),
-        .O(jump2_I_reg));
+    .INIT(64'h202A000000000000)) 
+    inHibit_EX_i_2
+       (.I0(inHibit_EX_i_4_n_0),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(\Using_FPGA.Native_8 ),
+        .O(inHibit_EX_reg));
   (* SOFT_HLUTNM = "soft_lutpair6" *) 
-  LUT5 #(
-    .INIT(32'h00000400)) 
-    mul_first_i_1
+  LUT4 #(
+    .INIT(16'h0222)) 
+    inHibit_EX_i_4
        (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_7 ),
-        .I3(ok_To_Stop),
-        .I4(\Using_FPGA.Native_9 ),
-        .O(mul_first38_out));
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(inHibit_EX),
+        .I3(dbg_pause_reg),
+        .O(inHibit_EX_i_4_n_0));
   (* SOFT_HLUTNM = "soft_lutpair8" *) 
+  LUT4 #(
+    .INIT(16'h0020)) 
+    mul_Executing_i_2
+       (.I0(inHibit_EX_reg_0),
+        .I1(\Result_Sel_reg[0] ),
+        .I2(\Using_FPGA.Native_9 ),
+        .I3(\Using_FPGA.Native_7 ),
+        .O(mul_Executing_reg));
   LUT4 #(
     .INIT(16'h8AAA)) 
     quadlet_Read_i_i_2
-       (.I0(mul_Executing_reg),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+       (.I0(mul_Executing_reg_0),
+        .I1(take_Intr_Now_III),
         .I2(\Result_Sel_reg[0] ),
-        .I3(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_9 ),
         .O(byte_i17_out));
   (* SOFT_HLUTNM = "soft_lutpair6" *) 
   LUT1 #(
@@ -44054,28 +44175,38 @@ module blockdesign_microblaze_0_0_MB_SRL16E
     .INIT(64'hFFFFDFFFFFFFFFFF)) 
     using_Imm_i_2
        (.I0(\Result_Sel_reg[0] ),
-        .I1(\Using_FPGA.Native_5 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_8 ),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_10 ),
+        .I4(take_Intr_Now_III),
         .I5(mul_first136_in),
         .O(using_Imm_reg));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
+  LUT6 #(
+    .INIT(64'h01FFFFFF01010101)) 
+    write_Carry_I_i_1
+       (.I0(\Result_Sel_reg[0] ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_12 ),
+        .I4(\Using_FPGA.Native_13 ),
+        .I5(\Using_FPGA.Native_14 ),
+        .O(write_Carry_I_reg));
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT4 #(
     .INIT(16'h4000)) 
     writing_i_1
-       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+       (.I0(take_Intr_Now_III),
         .I1(\Result_Sel_reg[0] ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_9 ),
+        .I3(\Using_FPGA.Native_8 ),
         .O(writing_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_100
    (\instr_EX_i_reg[16] ,
-    \Using_MSR_Instr.msrxxx_carry_reg ,
-    \Using_MSR_Instr.MSRxxx_Instr_i_reg ,
+    msrxxx_write_carry,
+    \Using_FPGA.Native ,
     D_0,
     D_1,
     D_2,
@@ -44093,20 +44224,24 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
     D_14,
     D_15,
     D_16,
+    p_49_out,
     CI,
     Y,
-    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    Clk,
     \Using_FPGA.Native_2 ,
-    D,
-    mul_Executing_reg,
-    msrxxx_carry,
-    sync_reset,
+    Clk,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    dbg_pause_reg,
+    inHibit_EX,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    take_Intr_Now_III,
     \Size_17to32.imm_Reg_reg[0] ,
     using_Imm_reg,
-    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_8 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_1 ,
@@ -44124,10 +44259,10 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
     \Using_FPGA.take_Intr_2nd_Phase_reg_13 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_14 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_15 ,
-    \Using_FPGA.Native_4 );
+    \Using_FPGA.Native_9 );
   output \instr_EX_i_reg[16] ;
-  output \Using_MSR_Instr.msrxxx_carry_reg ;
-  output \Using_MSR_Instr.MSRxxx_Instr_i_reg ;
+  output msrxxx_write_carry;
+  output \Using_FPGA.Native ;
   output D_0;
   output D_1;
   output D_2;
@@ -44145,20 +44280,24 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
   output D_14;
   output D_15;
   output D_16;
+  output p_49_out;
   input CI;
   input [0:0]Y;
-  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input Clk;
   input \Using_FPGA.Native_2 ;
-  input [0:0]D;
-  input mul_Executing_reg;
-  input msrxxx_carry;
-  input sync_reset;
+  input Clk;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input dbg_pause_reg;
+  input inHibit_EX;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input take_Intr_Now_III;
   input [15:0]\Size_17to32.imm_Reg_reg[0] ;
   input using_Imm_reg;
-  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_8 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_1 ;
@@ -44176,11 +44315,10 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
   input \Using_FPGA.take_Intr_2nd_Phase_reg_13 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_14 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_15 ;
-  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_9 ;
 
   wire CI;
   wire Clk;
-  wire [0:0]D;
   wire D_0;
   wire D_1;
   wire D_10;
@@ -44205,6 +44343,11 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_1 ;
@@ -44222,13 +44365,13 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_7 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_8 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_9 ;
-  wire \Using_MSR_Instr.MSRxxx_Instr_i_reg ;
-  wire \Using_MSR_Instr.msrxxx_carry_reg ;
   wire [0:0]Y;
+  wire dbg_pause_reg;
+  wire inHibit_EX;
   wire \instr_EX_i_reg[16] ;
-  wire msrxxx_carry;
-  wire mul_Executing_reg;
-  wire sync_reset;
+  wire msrxxx_write_carry;
+  wire p_49_out;
+  wire take_Intr_Now_III;
   wire using_Imm_reg;
 
   (* box_type = "PRIMITIVE" *) 
@@ -44238,21 +44381,28 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native ),
-        .A1(\Using_FPGA.Native_0 ),
-        .A2(\Using_FPGA.Native_1 ),
+       (.A0(\Using_FPGA.Native_0 ),
+        .A1(\Using_FPGA.Native_1 ),
+        .A2(\Using_FPGA.Native_2 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[16] ));
+  (* SOFT_HLUTNM = "soft_lutpair9" *) 
+  LUT2 #(
+    .INIT(4'h8)) 
+    \Using_Barrel_Shifter.BitField_Insert_i_1 
+       (.I0(\instr_EX_i_reg[16] ),
+        .I1(\Using_FPGA.Native_9 ),
+        .O(p_49_out));
   LUT5 #(
     .INIT(32'hB8FFB800)) 
     \Using_FPGA.Native_i_1__31 
        (.I0(\Size_17to32.imm_Reg_reg[0] [15]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .O(D_0));
   LUT5 #(
@@ -44261,7 +44411,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [14]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
         .O(D_1));
   LUT5 #(
@@ -44270,7 +44420,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [13]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_1 ),
         .O(D_2));
   LUT5 #(
@@ -44279,7 +44429,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [12]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_2 ),
         .O(D_3));
   LUT5 #(
@@ -44288,7 +44438,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [11]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_3 ),
         .O(D_4));
   LUT5 #(
@@ -44297,7 +44447,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [10]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_4 ),
         .O(D_5));
   LUT5 #(
@@ -44306,7 +44456,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [9]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_5 ),
         .O(D_6));
   LUT5 #(
@@ -44315,7 +44465,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [8]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_6 ),
         .O(D_7));
   LUT5 #(
@@ -44324,7 +44474,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [7]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_7 ),
         .O(D_8));
   LUT5 #(
@@ -44333,7 +44483,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [6]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_8 ),
         .O(D_9));
   LUT5 #(
@@ -44342,7 +44492,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [5]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_9 ),
         .O(D_10));
   LUT5 #(
@@ -44351,7 +44501,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [4]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_10 ),
         .O(D_11));
   LUT5 #(
@@ -44360,7 +44510,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [3]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_11 ),
         .O(D_12));
   LUT5 #(
@@ -44369,7 +44519,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [2]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_12 ),
         .O(D_13));
   LUT5 #(
@@ -44378,7 +44528,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [1]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_13 ),
         .O(D_14));
   LUT5 #(
@@ -44387,7 +44537,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
        (.I0(\Size_17to32.imm_Reg_reg[0] [0]),
         .I1(using_Imm_reg),
         .I2(\instr_EX_i_reg[16] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_8 ),
         .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_14 ),
         .O(D_15));
   (* SOFT_HLUTNM = "soft_lutpair9" *) 
@@ -44395,32 +44545,36 @@ module blockdesign_microblaze_0_0_MB_SRL16E_100
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__47 
        (.I0(\instr_EX_i_reg[16] ),
-        .I1(\Using_FPGA.Native_3 ),
+        .I1(\Using_FPGA.Native_8 ),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg_15 ),
         .O(D_16));
-  (* SOFT_HLUTNM = "soft_lutpair9" *) 
-  LUT2 #(
-    .INIT(4'h1)) 
-    \Using_MSR_Instr.MSRxxx_Instr_i_i_1 
-       (.I0(\instr_EX_i_reg[16] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .O(\Using_MSR_Instr.MSRxxx_Instr_i_reg ));
   LUT6 #(
-    .INIT(64'h0000000028FF2800)) 
-    \Using_MSR_Instr.msrxxx_carry_i_1 
-       (.I0(\Using_MSR_Instr.MSRxxx_Instr_i_reg ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(D),
-        .I3(mul_Executing_reg),
-        .I4(msrxxx_carry),
-        .I5(sync_reset),
-        .O(\Using_MSR_Instr.msrxxx_carry_reg ));
+    .INIT(64'h00000000FDFF0000)) 
+    \Using_FPGA.Native_i_2__3 
+       (.I0(\instr_EX_i_reg[16] ),
+        .I1(\Using_FPGA.Native_5 ),
+        .I2(\Using_FPGA.Native_6 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(take_Intr_Now_III),
+        .O(\Using_FPGA.Native ));
+  LUT5 #(
+    .INIT(32'h00404040)) 
+    \Using_MSR_Instr.msrxxx_write_carry_i_1 
+       (.I0(\instr_EX_i_reg[16] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(dbg_pause_reg),
+        .I4(inHibit_EX),
+        .O(msrxxx_write_carry));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_101
    (\instr_EX_i_reg[17] ,
+    mtsmsr_write_i_reg,
     D_17,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -44428,9 +44582,21 @@ module blockdesign_microblaze_0_0_MB_SRL16E_101
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    bs_first1,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    D);
   output \instr_EX_i_reg[17] ;
+  output mtsmsr_write_i_reg;
   output D_17;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -44438,19 +44604,51 @@ module blockdesign_microblaze_0_0_MB_SRL16E_101
   input \Using_FPGA.Native_1 ;
   input Clk;
   input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input bs_first1;
+  input \Using_FPGA.Native_6 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input [0:0]D;
 
+  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
+  wire [0:0]D;
   wire D_17;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
+  wire bs_first1;
   wire \instr_EX_i_reg[17] ;
+  wire mtsmsr_write_i_reg;
 
+  LUT6 #(
+    .INIT(64'hFFFFFFFFFFFFFEFF)) 
+    \Area_Debug_Control.dbg_brki_hit_i_6 
+       (.I0(\instr_EX_i_reg[17] ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_10 ),
+        .I5(D),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[17].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -44470,15 +44668,26 @@ module blockdesign_microblaze_0_0_MB_SRL16E_101
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__48 
        (.I0(\instr_EX_i_reg[17] ),
-        .I1(\Using_FPGA.Native_2 ),
+        .I1(\Using_FPGA.Native_6 ),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .O(D_17));
+  LUT6 #(
+    .INIT(64'hFFFFFF7FFFFFFFFF)) 
+    mtsmsr_write_i_i_2
+       (.I0(\instr_EX_i_reg[17] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(bs_first1),
+        .O(mtsmsr_write_i_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_102
    (D,
     D_18,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -44486,9 +44695,13 @@ module blockdesign_microblaze_0_0_MB_SRL16E_102
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 );
   output [0:0]D;
   output D_18;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -44497,7 +44710,11 @@ module blockdesign_microblaze_0_0_MB_SRL16E_102
   input Clk;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input [0:0]\Using_FPGA.Native_5 ;
 
+  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
   wire [0:0]D;
@@ -44506,9 +44723,20 @@ module blockdesign_microblaze_0_0_MB_SRL16E_102
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire [0:0]\Using_FPGA.Native_5 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
 
+  LUT4 #(
+    .INIT(16'hFFEF)) 
+    \Area_Debug_Control.dbg_brki_hit_i_4 
+       (.I0(D),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[18].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -44594,54 +44822,78 @@ endmodule
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_104
    (\Result_Sel_reg[1] ,
-    \Using_FPGA.Native ,
+    jump2_I_reg,
     p_54_out,
+    of_mbar_decode,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
+    \Area_Debug_Control.dbg_brki_hit_reg_0 ,
+    mbar_first_reg,
     is_swx_I_reg,
     load_Store_i_reg,
-    Compare_Instr_reg,
     CI,
     Y,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     Clk,
+    S105_out,
+    \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
     D,
+    take_Intr_Now_III,
+    mul_Executing_reg,
+    dbg_brki_hit,
+    \Serial_Dbg_Intf.control_reg_reg[8] ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 );
   output \Result_Sel_reg[1] ;
-  output \Using_FPGA.Native ;
+  output jump2_I_reg;
   output p_54_out;
+  output of_mbar_decode;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
+  output \Area_Debug_Control.dbg_brki_hit_reg_0 ;
+  output mbar_first_reg;
   output is_swx_I_reg;
   output load_Store_i_reg;
-  output Compare_Instr_reg;
   input CI;
   input [0:0]Y;
+  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
   input Clk;
+  input S105_out;
+  input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
-  input [1:0]D;
+  input [0:0]D;
+  input take_Intr_Now_III;
+  input mul_Executing_reg;
+  input dbg_brki_hit;
+  input \Serial_Dbg_Intf.control_reg_reg[8] ;
   input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
 
+  wire \Area_Debug_Control.dbg_brki_hit_reg ;
+  wire \Area_Debug_Control.dbg_brki_hit_reg_0 ;
   wire CI;
   wire Clk;
-  wire Compare_Instr_reg;
-  wire [1:0]D;
+  wire [0:0]D;
   wire \Result_Sel_reg[1] ;
+  wire S105_out;
+  wire \Serial_Dbg_Intf.control_reg_reg[8] ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -44649,28 +44901,43 @@ module blockdesign_microblaze_0_0_MB_SRL16E_104
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.Native_9 ;
   wire [0:0]Y;
+  wire dbg_brki_hit;
   wire is_swx_I_reg;
+  wire jump2_I_reg;
   wire load_Store_i_reg;
+  wire mbar_decode_I_i_2_n_0;
+  wire mbar_first_reg;
+  wire mul_Executing_reg;
+  wire of_mbar_decode;
   wire p_54_out;
+  wire take_Intr_Now_III;
 
+  LUT3 #(
+    .INIT(8'hBA)) 
+    \Area_Debug_Control.dbg_brki_hit_i_1 
+       (.I0(\Area_Debug_Control.dbg_brki_hit_reg_0 ),
+        .I1(mul_Executing_reg),
+        .I2(dbg_brki_hit),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
+  LUT5 #(
+    .INIT(32'h00000002)) 
+    \Area_Debug_Control.dbg_brki_hit_i_2 
+       (.I0(mbar_decode_I_i_2_n_0),
+        .I1(\Serial_Dbg_Intf.control_reg_reg[8] ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_8 ),
+        .I4(\Using_FPGA.Native_9 ),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg_0 ));
   (* SOFT_HLUTNM = "soft_lutpair10" *) 
-  LUT4 #(
-    .INIT(16'h0010)) 
-    Compare_Instr_i_2
-       (.I0(\Result_Sel_reg[1] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(D[0]),
-        .I3(\Using_FPGA.Native_7 ),
-        .O(Compare_Instr_reg));
   LUT5 #(
     .INIT(32'h00000400)) 
     \Use_The_PCMP_instr.PCMP_Instr_i_1 
        (.I0(\Result_Sel_reg[1] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_7 ),
-        .I3(\Using_FPGA.Native_8 ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_6 ),
         .I4(\Using_FPGA.Native_5 ),
         .O(p_54_out));
   (* box_type = "PRIMITIVE" *) 
@@ -44680,40 +44947,65 @@ module blockdesign_microblaze_0_0_MB_SRL16E_104
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_0 ),
-        .A1(\Using_FPGA.Native_1 ),
-        .A2(\Using_FPGA.Native_2 ),
+       (.A0(\Using_FPGA.Native ),
+        .A1(\Using_FPGA.Native_0 ),
+        .A2(\Using_FPGA.Native_1 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\Result_Sel_reg[1] ));
-  LUT6 #(
-    .INIT(64'h1410101010101010)) 
-    \Using_FPGA.Native_i_1__29 
-       (.I0(\Result_Sel_reg[1] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.Native_5 ),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(D[1]),
-        .O(\Using_FPGA.Native ));
-  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT4 #(
     .INIT(16'h0008)) 
     is_lwx_I_i_3
        (.I0(\Result_Sel_reg[1] ),
-        .I1(\Using_FPGA.Native_3 ),
+        .I1(\Using_FPGA.Native_2 ),
         .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_10 ),
         .O(is_swx_I_reg));
+  LUT6 #(
+    .INIT(64'hEFEFEFFFFFFFFFFF)) 
+    jump2_I_i_2
+       (.I0(S105_out),
+        .I1(\Result_Sel_reg[1] ),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(jump2_I_reg));
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT3 #(
     .INIT(8'h08)) 
     load_Store_i_i_2
        (.I0(\Result_Sel_reg[1] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(take_Intr_Now_III),
         .O(load_Store_i_reg));
+  LUT3 #(
+    .INIT(8'h08)) 
+    mbar_decode_I_i_1
+       (.I0(mbar_decode_I_i_2_n_0),
+        .I1(D),
+        .I2(take_Intr_Now_III),
+        .O(of_mbar_decode));
+  LUT6 #(
+    .INIT(64'h0400000000000000)) 
+    mbar_decode_I_i_2
+       (.I0(\Result_Sel_reg[1] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_10 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_3 ),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(mbar_decode_I_i_2_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  LUT2 #(
+    .INIT(4'hB)) 
+    mbar_first_i_4
+       (.I0(\Result_Sel_reg[1] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .O(mbar_first_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
@@ -44894,6 +45186,7 @@ endmodule
 module blockdesign_microblaze_0_0_MB_SRL16E_108
    (\instr_EX_i_reg[23] ,
     D_23,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -44901,9 +45194,13 @@ module blockdesign_microblaze_0_0_MB_SRL16E_108
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    \Using_FPGA.Native_3 ,
+    \Serial_Dbg_Intf.control_reg_reg[8] ,
+    \Using_FPGA.Native_4 );
   output \instr_EX_i_reg[23] ;
   output D_23;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -44912,18 +45209,33 @@ module blockdesign_microblaze_0_0_MB_SRL16E_108
   input Clk;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_3 ;
+  input [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
+  input \Using_FPGA.Native_4 ;
 
+  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
   wire D_23;
+  wire [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[23] ;
 
+  LUT4 #(
+    .INIT(16'hFFEF)) 
+    \Area_Debug_Control.dbg_brki_hit_i_3 
+       (.I0(\instr_EX_i_reg[23] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Serial_Dbg_Intf.control_reg_reg[8] ),
+        .I3(\Using_FPGA.Native_4 ),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[23].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -44952,7 +45264,6 @@ endmodule
 module blockdesign_microblaze_0_0_MB_SRL16E_109
    (\instr_EX_i_reg[24] ,
     D_24,
-    check_srx15_in,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -44960,12 +45271,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_109
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 );
+    \Using_FPGA.take_Intr_2nd_Phase_reg );
   output \instr_EX_i_reg[24] ;
   output D_24;
-  output check_srx15_in;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -44974,8 +45282,6 @@ module blockdesign_microblaze_0_0_MB_SRL16E_109
   input Clk;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
 
   wire CI;
   wire Clk;
@@ -44984,21 +45290,10 @@ module blockdesign_microblaze_0_0_MB_SRL16E_109
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
-  wire check_srx15_in;
   wire \instr_EX_i_reg[24] ;
 
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
-  LUT3 #(
-    .INIT(8'h40)) 
-    Sext8_i_2
-       (.I0(\instr_EX_i_reg[24] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .O(check_srx15_in));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[24].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45014,7 +45309,6 @@ module blockdesign_microblaze_0_0_MB_SRL16E_109
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[24] ));
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__55 
@@ -45085,9 +45379,8 @@ endmodule
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_111
    (\instr_EX_i_reg[26] ,
-    p_51_out,
     D_26,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
+    check_srx15_in,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -45095,15 +45388,12 @@ module blockdesign_microblaze_0_0_MB_SRL16E_111
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    D);
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 );
   output \instr_EX_i_reg[26] ;
-  output p_51_out;
   output D_26;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
+  output check_srx15_in;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -45111,16 +45401,12 @@ module blockdesign_microblaze_0_0_MB_SRL16E_111
   input \Using_FPGA.Native_1 ;
   input Clk;
   input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input [2:0]D;
 
-  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
-  wire [2:0]D;
   wire D_26;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -45128,28 +45414,19 @@ module blockdesign_microblaze_0_0_MB_SRL16E_111
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
+  wire check_srx15_in;
   wire \instr_EX_i_reg[26] ;
-  wire p_51_out;
 
-  LUT4 #(
-    .INIT(16'hFFFE)) 
-    \Area_Debug_Control.dbg_brki_hit_i_5 
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  LUT3 #(
+    .INIT(8'h08)) 
+    Sext8_i_2
        (.I0(\instr_EX_i_reg[26] ),
-        .I1(D[0]),
-        .I2(D[1]),
-        .I3(D[2]),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
-  LUT4 #(
-    .INIT(16'h0080)) 
-    \Use_The_PCMP_instr.CLZ_Instr_i_1 
-       (.I0(\instr_EX_i_reg[26] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .O(p_51_out));
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .O(check_srx15_in));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[26].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45165,11 +45442,12 @@ module blockdesign_microblaze_0_0_MB_SRL16E_111
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[26] ));
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__57 
        (.I0(\instr_EX_i_reg[26] ),
-        .I1(\Using_FPGA.Native_5 ),
+        .I1(\Using_FPGA.Native_2 ),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .O(D_26));
 endmodule
@@ -45178,7 +45456,6 @@ endmodule
 module blockdesign_microblaze_0_0_MB_SRL16E_112
    (\instr_EX_i_reg[27] ,
     D_27,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -45186,13 +45463,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_112
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.Native_3 ,
-    \Serial_Dbg_Intf.control_reg_reg[8] ,
-    \Using_FPGA.Native_4 );
+    \Using_FPGA.take_Intr_2nd_Phase_reg );
   output \instr_EX_i_reg[27] ;
   output D_27;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -45201,33 +45474,18 @@ module blockdesign_microblaze_0_0_MB_SRL16E_112
   input Clk;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.Native_3 ;
-  input [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
-  input \Using_FPGA.Native_4 ;
 
-  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
   wire D_27;
-  wire [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[27] ;
 
-  LUT4 #(
-    .INIT(16'h0080)) 
-    \Area_Debug_Control.dbg_brki_hit_i_3 
-       (.I0(\instr_EX_i_reg[27] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Serial_Dbg_Intf.control_reg_reg[8] ),
-        .I3(\Using_FPGA.Native_4 ),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[27].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45314,35 +45572,73 @@ endmodule
 module blockdesign_microblaze_0_0_MB_SRL16E_114
    (\instr_EX_i_reg[29] ,
     D_29,
+    write_Reg_reg,
     CI,
     Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
+    take_Intr_Now_III,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    D,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    write_Reg_reg_0,
+    mul_Executing_reg,
+    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
+    sync_reset);
   output \instr_EX_i_reg[29] ;
   output D_29;
+  output write_Reg_reg;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
+  input take_Intr_Now_III;
   input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input [1:0]D;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input write_Reg_reg_0;
+  input mul_Executing_reg;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  input sync_reset;
 
   wire CI;
   wire Clk;
+  wire [1:0]D;
   wire D_29;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[29] ;
+  wire mul_Executing_reg;
+  wire sync_reset;
+  wire take_Intr_Now_III;
+  wire write_Reg_i_2_n_0;
+  wire write_Reg_i_3_n_0;
+  wire write_Reg_reg;
+  wire write_Reg_reg_0;
 
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
@@ -45363,48 +45659,102 @@ module blockdesign_microblaze_0_0_MB_SRL16E_114
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__60 
        (.I0(\instr_EX_i_reg[29] ),
-        .I1(\Using_FPGA.Native_2 ),
+        .I1(\Using_FPGA.Native_7 ),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .O(D_29));
+  LUT5 #(
+    .INIT(32'h00000ACA)) 
+    write_Reg_i_1
+       (.I0(write_Reg_reg_0),
+        .I1(write_Reg_i_2_n_0),
+        .I2(mul_Executing_reg),
+        .I3(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .I4(sync_reset),
+        .O(write_Reg_reg));
+  LUT5 #(
+    .INIT(32'hAAAAABBB)) 
+    write_Reg_i_2
+       (.I0(take_Intr_Now_III),
+        .I1(write_Reg_i_3_n_0),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .O(write_Reg_i_2_n_0));
+  LUT5 #(
+    .INIT(32'hE0FFE0E0)) 
+    write_Reg_i_3
+       (.I0(\instr_EX_i_reg[29] ),
+        .I1(D[0]),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(D[1]),
+        .I4(\Using_FPGA.Native_6 ),
+        .O(write_Reg_i_3_n_0));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_115
    (\instr_EX_i_reg[2] ,
-    p_49_out,
+    \Using_FPGA.Native ,
+    Compare_Instr_reg,
     p_50_out,
     CI,
     Y,
-    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    Clk,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 );
   output \instr_EX_i_reg[2] ;
-  output p_49_out;
+  output \Using_FPGA.Native ;
+  output Compare_Instr_reg;
   output p_50_out;
   input CI;
   input [0:0]Y;
-  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input Clk;
   input \Using_FPGA.Native_2 ;
+  input Clk;
   input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
 
   wire CI;
   wire Clk;
+  wire Compare_Instr_reg;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[2] ;
-  wire p_49_out;
   wire p_50_out;
 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+  LUT4 #(
+    .INIT(16'h0010)) 
+    Compare_Instr_i_2
+       (.I0(\instr_EX_i_reg[2] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .O(Compare_Instr_reg));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[2].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45412,35 +45762,37 @@ module blockdesign_microblaze_0_0_MB_SRL16E_115
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native ),
-        .A1(\Using_FPGA.Native_0 ),
-        .A2(\Using_FPGA.Native_1 ),
+       (.A0(\Using_FPGA.Native_0 ),
+        .A1(\Using_FPGA.Native_1 ),
+        .A2(\Using_FPGA.Native_2 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[2] ));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
   LUT2 #(
     .INIT(4'h8)) 
     \Using_Barrel_Shifter.BitField_Extract_i_1 
        (.I0(\instr_EX_i_reg[2] ),
-        .I1(\Using_FPGA.Native_3 ),
+        .I1(\Using_FPGA.Native_9 ),
         .O(p_50_out));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
-  LUT2 #(
-    .INIT(4'h8)) 
-    \Using_Barrel_Shifter.BitField_Insert_i_1 
+  LUT6 #(
+    .INIT(64'hFFFFF7FFF3FFFFFF)) 
+    \Using_FPGA.Native_i_2__2 
        (.I0(\instr_EX_i_reg[2] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .O(p_49_out));
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(\Using_FPGA.Native_6 ),
+        .I5(\Using_FPGA.Native_7 ),
+        .O(\Using_FPGA.Native ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_116
    (D,
     D_30,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
@@ -45448,13 +45800,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_116
     \Using_FPGA.Native_1 ,
     Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    \Using_FPGA.take_Intr_2nd_Phase_reg );
   output [0:0]D;
   output D_30;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
@@ -45463,11 +45811,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_116
   input Clk;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.Native_3 ;
-  input [0:0]\Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
-  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
   wire [0:0]D;
@@ -45476,20 +45820,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_116
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire [0:0]\Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
 
-  LUT4 #(
-    .INIT(16'h0010)) 
-    \Area_Debug_Control.dbg_brki_hit_i_4 
-       (.I0(D),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.Native_5 ),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[30].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45516,100 +45849,65 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_117
-   (D,
-    \Using_MSR_Instr.write_MSR_I_reg ,
+   (\instr_EX_i_reg[31] ,
     mtsmsr_write_i_reg,
-    \Using_FPGA.Native ,
+    \Using_MSR_Instr.write_MSR_I_reg ,
     D_31,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     Clk,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
+    \Using_FPGA.Native_2 ,
+    take_Intr_Now_III,
     mul_Executing_reg,
-    \Using_MSR_Instr.write_MSR_I_reg_0 ,
-    sync_reset,
     mtsmsr_write_i_reg_0,
+    sync_reset,
+    \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 );
-  output [0:0]D;
-  output \Using_MSR_Instr.write_MSR_I_reg ;
+    \Using_FPGA.take_Intr_2nd_Phase_reg );
+  output \instr_EX_i_reg[31] ;
   output mtsmsr_write_i_reg;
-  output \Using_FPGA.Native ;
+  output \Using_MSR_Instr.write_MSR_I_reg ;
   output D_31;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
+  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
   input Clk;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_2 ;
+  input take_Intr_Now_III;
   input mul_Executing_reg;
-  input \Using_MSR_Instr.write_MSR_I_reg_0 ;
-  input sync_reset;
   input mtsmsr_write_i_reg_0;
+  input sync_reset;
+  input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
 
-  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
-  wire [0:0]D;
   wire D_31;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
-  wire \Using_MSR_Instr.write_MSR_I_i_2_n_0 ;
   wire \Using_MSR_Instr.write_MSR_I_reg ;
-  wire \Using_MSR_Instr.write_MSR_I_reg_0 ;
   wire [0:0]Y;
+  wire \instr_EX_i_reg[31] ;
   wire mtsmsr_write_i_reg;
   wire mtsmsr_write_i_reg_0;
   wire mul_Executing_reg;
   wire sync_reset;
+  wire take_Intr_Now_III;
 
-  LUT6 #(
-    .INIT(64'hFFFFFFFFFFFFFFFE)) 
-    \Area_Debug_Control.dbg_brki_hit_i_6 
-       (.I0(D),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(\Using_FPGA.Native_9 ),
-        .I4(\Using_FPGA.Native_10 ),
-        .I5(\Using_FPGA.Native_11 ),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[31].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45617,145 +45915,105 @@ module blockdesign_microblaze_0_0_MB_SRL16E_117
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_0 ),
-        .A1(\Using_FPGA.Native_1 ),
-        .A2(\Using_FPGA.Native_2 ),
+       (.A0(\Using_FPGA.Native ),
+        .A1(\Using_FPGA.Native_0 ),
+        .A2(\Using_FPGA.Native_1 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
-        .Q(D));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+        .Q(\instr_EX_i_reg[31] ));
+  (* SOFT_HLUTNM = "soft_lutpair14" *) 
   LUT3 #(
     .INIT(8'hB8)) 
     \Using_FPGA.Native_i_1__62 
-       (.I0(D),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .O(D_31));
-  LUT6 #(
-    .INIT(64'h00000000FFEF0000)) 
-    \Using_FPGA.Native_i_2__2 
-       (.I0(D),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(\Using_FPGA.Native_6 ),
-        .I4(\Using_FPGA.Native_7 ),
-        .I5(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .O(\Using_FPGA.Native ));
-  LUT6 #(
-    .INIT(64'h000000000EFF0E00)) 
-    \Using_MSR_Instr.write_MSR_I_i_1 
-       (.I0(\Using_MSR_Instr.write_MSR_I_i_2_n_0 ),
-        .I1(\Using_FPGA.Native_3 ),
+       (.I0(\instr_EX_i_reg[31] ),
+        .I1(\Using_FPGA.Native_5 ),
         .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I3(mul_Executing_reg),
-        .I4(\Using_MSR_Instr.write_MSR_I_reg_0 ),
-        .I5(sync_reset),
-        .O(\Using_MSR_Instr.write_MSR_I_reg ));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+        .O(D_31));
+  (* SOFT_HLUTNM = "soft_lutpair14" *) 
   LUT3 #(
-    .INIT(8'h08)) 
+    .INIT(8'h80)) 
     \Using_MSR_Instr.write_MSR_I_i_2 
-       (.I0(D),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .O(\Using_MSR_Instr.write_MSR_I_i_2_n_0 ));
-  LUT5 #(
-    .INIT(32'h00002F20)) 
+       (.I0(\instr_EX_i_reg[31] ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .O(\Using_MSR_Instr.write_MSR_I_reg ));
+  LUT6 #(
+    .INIT(64'h0000000002FF0200)) 
     mtsmsr_write_i_i_1
-       (.I0(\Using_MSR_Instr.write_MSR_I_i_2_n_0 ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I2(mul_Executing_reg),
-        .I3(mtsmsr_write_i_reg_0),
-        .I4(sync_reset),
+       (.I0(\instr_EX_i_reg[31] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(take_Intr_Now_III),
+        .I3(mul_Executing_reg),
+        .I4(mtsmsr_write_i_reg_0),
+        .I5(sync_reset),
         .O(mtsmsr_write_i_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_118
    (\instr_EX_i_reg[3] ,
-    write_Reg_reg,
-    \Using_MSR_Instr.msrxxx_write_carry_reg ,
-    write_Carry_I_reg,
-    write_Carry_I_reg_0,
-    msrxxx_write_carry,
-    \Using_FPGA.Native ,
-    \Using_Barrel_Shifter.Not_Barrel_Op_reg ,
-    Select_Logic0,
+    \Using_MSR_Instr.write_MSR_I_reg ,
+    p_47_out,
+    \Using_MSR_Instr.msrxxx_carry_reg ,
     is_lwx_I_reg,
     CI,
     Y,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     Clk,
-    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_2 ,
+    take_Intr_Now_III,
+    mul_Executing_reg,
+    \Using_MSR_Instr.write_MSR_I_reg_0 ,
+    sync_reset,
     D,
+    msrxxx_carry,
+    \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
+    bs_first1,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    dbg_pause_reg,
-    inHibit_EX,
-    \Using_FPGA.Native_8 ,
-    take_Intr_Now_II,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    sync_reset,
-    mul_Executing_reg,
-    \Using_FPGA.Native_11 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     is_lwx_I,
-    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
     is_swx_I);
   output \instr_EX_i_reg[3] ;
-  output write_Reg_reg;
-  output \Using_MSR_Instr.msrxxx_write_carry_reg ;
-  output write_Carry_I_reg;
-  output write_Carry_I_reg_0;
-  output msrxxx_write_carry;
-  output \Using_FPGA.Native ;
-  output \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
-  output Select_Logic0;
+  output \Using_MSR_Instr.write_MSR_I_reg ;
+  output p_47_out;
+  output \Using_MSR_Instr.msrxxx_carry_reg ;
   output is_lwx_I_reg;
   input CI;
   input [0:0]Y;
+  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
   input Clk;
-  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_2 ;
+  input take_Intr_Now_III;
+  input mul_Executing_reg;
+  input \Using_MSR_Instr.write_MSR_I_reg_0 ;
+  input sync_reset;
   input [2:0]D;
+  input msrxxx_carry;
+  input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
+  input bs_first1;
   input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input dbg_pause_reg;
-  input inHibit_EX;
-  input \Using_FPGA.Native_8 ;
-  input take_Intr_Now_II;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input sync_reset;
-  input mul_Executing_reg;
-  input \Using_FPGA.Native_11 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input is_lwx_I;
-  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
   input is_swx_I;
 
   wire CI;
   wire Clk;
   wire [2:0]D;
-  wire Select_Logic0;
-  wire \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_12 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -45763,42 +46021,22 @@ module blockdesign_microblaze_0_0_MB_SRL16E_118
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_MSR_Instr.msrxxx_write_carry_reg ;
+  wire \Using_MSR_Instr.msrxxx_carry_reg ;
+  wire \Using_MSR_Instr.write_MSR_I_reg ;
+  wire \Using_MSR_Instr.write_MSR_I_reg_0 ;
   wire [0:0]Y;
-  wire dbg_pause_reg;
-  wire inHibit_EX;
+  wire bs_first1;
   wire \instr_EX_i_reg[3] ;
   wire is_lwx_I;
   wire is_lwx_I_i_2_n_0;
   wire is_lwx_I_reg;
   wire is_swx_I;
-  wire msrxxx_write_carry;
+  wire msrxxx_carry;
   wire mul_Executing_reg;
+  wire p_47_out;
   wire sync_reset;
-  wire take_Intr_Now_II;
-  wire write_Carry_I_reg;
-  wire write_Carry_I_reg_0;
-  wire write_Reg_reg;
+  wire take_Intr_Now_III;
 
-  (* SOFT_HLUTNM = "soft_lutpair14" *) 
-  LUT2 #(
-    .INIT(4'h1)) 
-    Select_Logic_i_1
-       (.I0(\instr_EX_i_reg[3] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .O(Select_Logic0));
-  LUT6 #(
-    .INIT(64'hFFFFFFFFFFFFFFDF)) 
-    \Use_The_PCMP_instr.CLZ_Instr_i_2 
-       (.I0(\instr_EX_i_reg[3] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_7 ),
-        .I4(\Using_FPGA.Native_10 ),
-        .I5(\Using_FPGA.Native_9 ),
-        .O(write_Carry_I_reg));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[3].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45806,151 +46044,169 @@ module blockdesign_microblaze_0_0_MB_SRL16E_118
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_0 ),
-        .A1(\Using_FPGA.Native_1 ),
-        .A2(\Using_FPGA.Native_2 ),
+       (.A0(\Using_FPGA.Native ),
+        .A1(\Using_FPGA.Native_0 ),
+        .A2(\Using_FPGA.Native_1 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[3] ));
-  LUT5 #(
-    .INIT(32'hFFFFFBFF)) 
-    \Using_Barrel_Shifter.Not_Barrel_Op_i_1 
-       (.I0(sync_reset),
-        .I1(mul_Executing_reg),
-        .I2(\instr_EX_i_reg[3] ),
-        .I3(\Using_FPGA.Native_10 ),
-        .I4(\Using_FPGA.Native_9 ),
-        .O(\Using_Barrel_Shifter.Not_Barrel_Op_reg ));
-  LUT3 #(
-    .INIT(8'h0D)) 
-    \Using_FPGA.Native_i_2__7 
-       (.I0(\Using_MSR_Instr.msrxxx_write_carry_reg ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(take_Intr_Now_II),
-        .O(\Using_FPGA.Native ));
   LUT6 #(
-    .INIT(64'hFFFFFFDFFFFFFFFF)) 
-    \Using_MSR_Instr.MSRxxx_Instr_i_i_2 
+    .INIT(64'h0000000000080000)) 
+    \Using_MSR_Instr.MSRxxx_Instr_i_i_1 
        (.I0(\instr_EX_i_reg[3] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(\Using_FPGA.Native_6 ),
-        .I3(\Using_FPGA.Native_7 ),
-        .I4(\Using_FPGA.Native_9 ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(\Using_MSR_Instr.msrxxx_write_carry_reg ));
-  LUT5 #(
-    .INIT(32'h00101010)) 
-    \Using_MSR_Instr.msrxxx_write_carry_i_1 
-       (.I0(\Using_MSR_Instr.msrxxx_write_carry_reg ),
+        .I1(\Using_FPGA.Native_3 ),
+        .I2(\Using_FPGA.Native_4 ),
+        .I3(\Using_FPGA.Native_5 ),
+        .I4(bs_first1),
+        .I5(D[1]),
+        .O(p_47_out));
+  LUT6 #(
+    .INIT(64'h0000000028FF2800)) 
+    \Using_MSR_Instr.msrxxx_carry_i_1 
+       (.I0(p_47_out),
         .I1(D[2]),
         .I2(D[0]),
-        .I3(dbg_pause_reg),
-        .I4(inHibit_EX),
-        .O(msrxxx_write_carry));
+        .I3(mul_Executing_reg),
+        .I4(msrxxx_carry),
+        .I5(sync_reset),
+        .O(\Using_MSR_Instr.msrxxx_carry_reg ));
+  LUT6 #(
+    .INIT(64'h000000000EFF0E00)) 
+    \Using_MSR_Instr.write_MSR_I_i_1 
+       (.I0(p_47_out),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(take_Intr_Now_III),
+        .I3(mul_Executing_reg),
+        .I4(\Using_MSR_Instr.write_MSR_I_reg_0 ),
+        .I5(sync_reset),
+        .O(\Using_MSR_Instr.write_MSR_I_reg ));
   LUT6 #(
     .INIT(64'h000000002E222222)) 
     is_lwx_I_i_1
        (.I0(is_lwx_I),
         .I1(mul_Executing_reg),
         .I2(is_lwx_I_i_2_n_0),
-        .I3(\Using_FPGA.Native_9 ),
-        .I4(\Using_FPGA.Native_12 ),
+        .I3(\Using_FPGA.Native_7 ),
+        .I4(\Using_FPGA.Native_8 ),
         .I5(is_swx_I),
         .O(is_lwx_I_reg));
-  (* SOFT_HLUTNM = "soft_lutpair14" *) 
   LUT2 #(
     .INIT(4'hB)) 
     is_lwx_I_i_2
        (.I0(\instr_EX_i_reg[3] ),
-        .I1(\Using_FPGA.Native_11 ),
+        .I1(\Using_FPGA.Native_6 ),
         .O(is_lwx_I_i_2_n_0));
-  LUT6 #(
-    .INIT(64'h15151515151515FF)) 
-    write_Carry_I_i_1
-       (.I0(write_Carry_I_reg),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .I3(\instr_EX_i_reg[3] ),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(\Using_FPGA.Native_7 ),
-        .O(write_Carry_I_reg_0));
-  LUT5 #(
-    .INIT(32'h2222FFF2)) 
-    write_Reg_i_4
-       (.I0(\Using_FPGA.Native_3 ),
-        .I1(\Using_MSR_Instr.msrxxx_write_carry_reg ),
-        .I2(D[1]),
-        .I3(D[0]),
-        .I4(write_Carry_I_reg),
-        .O(write_Reg_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_119
    (\instr_EX_i_reg[4] ,
-    mul_first136_in,
-    mul_Executing_reg,
-    write_Reg_reg,
+    jump2_I_reg,
+    mul_first38_out,
+    Reg_Test_Equal_N_i7_out,
     \Using_FPGA.Native ,
+    p_51_out,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    \Using_Mul_Instr.ex_not_mul_op_i_reg ,
+    \Using_FPGA.Native_0 ,
     is_swx_I_reg,
     doublet_i_reg,
+    \Using_MSR_Instr.msrxxx_write_carry_reg ,
+    byte_i_reg,
     CI,
     Y,
-    \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    Clk,
     \Using_FPGA.Native_3 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    mul_Executing_reg_0,
-    inHibit_EX_reg,
+    Clk,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
+    inHibit_EX_reg,
     \Using_FPGA.Native_7 ,
-    is_swx_I_reg_0,
     \Using_FPGA.Native_8 ,
+    inHibit_EX_reg_0,
     \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    take_Intr_Now_III,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 ,
+    \Using_FPGA.Native_15 ,
+    is_swx_I_reg_0,
+    mul_Executing_reg,
+    \Using_FPGA.Native_16 ,
+    \Using_FPGA.Native_17 ,
     is_swx_I,
     isdoublet,
     byte_i17_out,
-    sync_reset);
+    sync_reset,
+    \Using_FPGA.Native_18 ,
+    isbyte);
   output \instr_EX_i_reg[4] ;
-  output mul_first136_in;
-  output mul_Executing_reg;
-  output write_Reg_reg;
+  output jump2_I_reg;
+  output mul_first38_out;
+  output Reg_Test_Equal_N_i7_out;
   output \Using_FPGA.Native ;
+  output p_51_out;
+  output \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  output \Using_Mul_Instr.ex_not_mul_op_i_reg ;
+  output \Using_FPGA.Native_0 ;
   output is_swx_I_reg;
   output doublet_i_reg;
+  output \Using_MSR_Instr.msrxxx_write_carry_reg ;
+  output byte_i_reg;
   input CI;
   input [0:0]Y;
-  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
-  input Clk;
   input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input mul_Executing_reg_0;
-  input inHibit_EX_reg;
+  input Clk;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
+  input inHibit_EX_reg;
   input \Using_FPGA.Native_7 ;
-  input is_swx_I_reg_0;
   input \Using_FPGA.Native_8 ;
+  input inHibit_EX_reg_0;
   input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input take_Intr_Now_III;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_13 ;
+  input \Using_FPGA.Native_14 ;
+  input \Using_FPGA.Native_15 ;
+  input is_swx_I_reg_0;
+  input mul_Executing_reg;
+  input \Using_FPGA.Native_16 ;
+  input \Using_FPGA.Native_17 ;
   input is_swx_I;
   input isdoublet;
   input byte_i17_out;
   input sync_reset;
+  input \Using_FPGA.Native_18 ;
+  input isbyte;
 
   wire CI;
   wire Clk;
+  wire Reg_Test_Equal_N_i7_out;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
+  wire \Using_FPGA.Native_13 ;
+  wire \Using_FPGA.Native_14 ;
+  wire \Using_FPGA.Native_15 ;
+  wire \Using_FPGA.Native_16 ;
+  wire \Using_FPGA.Native_17 ;
+  wire \Using_FPGA.Native_18 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -45959,23 +46215,46 @@ module blockdesign_microblaze_0_0_MB_SRL16E_119
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_MSR_Instr.msrxxx_write_carry_reg ;
+  wire \Using_Mul_Instr.ex_not_mul_op_i_reg ;
   wire [0:0]Y;
   wire byte_i17_out;
+  wire byte_i_reg;
   wire doublet_i_reg;
   wire inHibit_EX_reg;
+  wire inHibit_EX_reg_0;
   wire \instr_EX_i_reg[4] ;
   wire is_swx_I;
   wire is_swx_I_i_2_n_0;
   wire is_swx_I_reg;
   wire is_swx_I_reg_0;
+  wire isbyte;
   wire isdoublet;
+  wire jump2_I_reg;
   wire mul_Executing_reg;
-  wire mul_Executing_reg_0;
-  wire mul_first136_in;
+  wire mul_first38_out;
+  wire p_51_out;
   wire sync_reset;
-  wire write_Reg_reg;
+  wire take_Intr_Now_III;
 
+  LUT4 #(
+    .INIT(16'h8000)) 
+    \Use_The_PCMP_instr.CLZ_Instr_i_1 
+       (.I0(\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .I1(\Using_FPGA.Native_13 ),
+        .I2(\Using_FPGA.Native_14 ),
+        .I3(\Using_FPGA.Native_15 ),
+        .O(p_51_out));
+  LUT6 #(
+    .INIT(64'h0001000000000000)) 
+    \Use_The_PCMP_instr.CLZ_Instr_i_2 
+       (.I0(\instr_EX_i_reg[4] ),
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_18 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_12 ),
+        .O(\Use_The_PCMP_instr.CLZ_Instr_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[4].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -45983,36 +46262,75 @@ module blockdesign_microblaze_0_0_MB_SRL16E_119
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_0 ),
-        .A1(\Using_FPGA.Native_1 ),
-        .A2(\Using_FPGA.Native_2 ),
+       (.A0(\Using_FPGA.Native_1 ),
+        .A1(\Using_FPGA.Native_2 ),
+        .A2(\Using_FPGA.Native_3 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[4] ));
-  (* SOFT_HLUTNM = "soft_lutpair15" *) 
+  LUT5 #(
+    .INIT(32'h00000014)) 
+    \Using_FPGA.Native_i_1__30 
+       (.I0(\Using_FPGA.Native ),
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_10 ),
+        .I3(take_Intr_Now_III),
+        .I4(\Using_FPGA.Native_11 ),
+        .O(Reg_Test_Equal_N_i7_out));
+  (* SOFT_HLUTNM = "soft_lutpair17" *) 
+  LUT5 #(
+    .INIT(32'hF7FFFFFF)) 
+    \Using_FPGA.Native_i_3__18 
+       (.I0(\instr_EX_i_reg[4] ),
+        .I1(\Using_FPGA.Native_12 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_8 ),
+        .I4(\Using_FPGA.Native_4 ),
+        .O(\Using_FPGA.Native ));
+  (* SOFT_HLUTNM = "soft_lutpair16" *) 
   LUT3 #(
     .INIT(8'h02)) 
-    \Using_FPGA.Native_i_3__7 
+    \Using_FPGA.Native_i_3__8 
+       (.I0(\instr_EX_i_reg[4] ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .O(\Using_FPGA.Native_0 ));
+  LUT6 #(
+    .INIT(64'h0004000000000000)) 
+    \Using_MSR_Instr.MSRclr_Instr_i_i_2 
        (.I0(\instr_EX_i_reg[4] ),
         .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_5 ),
-        .O(\Using_FPGA.Native ));
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_18 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_12 ),
+        .O(\Using_MSR_Instr.msrxxx_write_carry_reg ));
   (* SOFT_HLUTNM = "soft_lutpair15" *) 
   LUT2 #(
-    .INIT(4'h1)) 
-    doublet_Read_i_i_2
+    .INIT(4'hE)) 
+    \Using_Mul_Instr.ex_not_mul_op_i_i_1 
        (.I0(\instr_EX_i_reg[4] ),
-        .I1(\Using_FPGA.Native_3 ),
-        .O(mul_first136_in));
+        .I1(\Using_FPGA.Native_4 ),
+        .O(\Using_Mul_Instr.ex_not_mul_op_i_reg ));
+  LUT6 #(
+    .INIT(64'h000000000000222E)) 
+    byte_i_i_1
+       (.I0(isbyte),
+        .I1(mul_Executing_reg),
+        .I2(\instr_EX_i_reg[4] ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(byte_i17_out),
+        .I5(sync_reset),
+        .O(byte_i_reg));
   LUT6 #(
     .INIT(64'h0000000000002E22)) 
     doublet_i_i_1
        (.I0(isdoublet),
-        .I1(mul_Executing_reg_0),
+        .I1(mul_Executing_reg),
         .I2(\instr_EX_i_reg[4] ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
         .I4(byte_i17_out),
         .I5(sync_reset),
         .O(doublet_i_reg));
@@ -46020,38 +46338,39 @@ module blockdesign_microblaze_0_0_MB_SRL16E_119
     .INIT(64'h000000002E222222)) 
     is_swx_I_i_1
        (.I0(is_swx_I_reg_0),
-        .I1(mul_Executing_reg_0),
+        .I1(mul_Executing_reg),
         .I2(is_swx_I_i_2_n_0),
-        .I3(\Using_FPGA.Native_8 ),
-        .I4(\Using_FPGA.Native_9 ),
+        .I3(\Using_FPGA.Native_16 ),
+        .I4(\Using_FPGA.Native_17 ),
         .I5(is_swx_I),
         .O(is_swx_I_reg));
+  (* SOFT_HLUTNM = "soft_lutpair17" *) 
   LUT2 #(
     .INIT(4'h7)) 
     is_swx_I_i_2
        (.I0(\instr_EX_i_reg[4] ),
-        .I1(\Using_FPGA.Native_6 ),
+        .I1(\Using_FPGA.Native_12 ),
         .O(is_swx_I_i_2_n_0));
-  LUT6 #(
-    .INIT(64'h0000000000040000)) 
-    mul_Executing_i_2
-       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I1(mul_Executing_reg_0),
-        .I2(inHibit_EX_reg),
-        .I3(\instr_EX_i_reg[4] ),
-        .I4(\Using_FPGA.Native_4 ),
-        .I5(\Using_FPGA.Native_5 ),
-        .O(mul_Executing_reg));
-  LUT6 #(
-    .INIT(64'hF0D0F000F000F000)) 
-    write_Reg_i_3
+  (* SOFT_HLUTNM = "soft_lutpair15" *) 
+  LUT5 #(
+    .INIT(32'h0000E6C4)) 
+    jump2_I_i_1
        (.I0(\instr_EX_i_reg[4] ),
-        .I1(\Using_FPGA.Native_3 ),
+        .I1(\Using_FPGA.Native_4 ),
         .I2(\Using_FPGA.Native_5 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(\Using_FPGA.Native_7 ),
-        .O(write_Reg_reg));
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(inHibit_EX_reg),
+        .O(jump2_I_reg));
+  (* SOFT_HLUTNM = "soft_lutpair16" *) 
+  LUT5 #(
+    .INIT(32'h00000400)) 
+    mul_first_i_1
+       (.I0(\instr_EX_i_reg[4] ),
+        .I1(\Using_FPGA.Native_7 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(inHibit_EX_reg_0),
+        .I4(\Using_FPGA.Native_4 ),
+        .O(mul_first38_out));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
@@ -46059,92 +46378,80 @@ module blockdesign_microblaze_0_0_MB_SRL16E_120
    (\instr_EX_i_reg[5] ,
     \Using_FPGA.set_BIP_I_reg ,
     \Using_FPGA.set_BIP_I_reg_0 ,
-    \Using_Mul_Instr.ex_not_mul_op_i_reg ,
-    force1_i43_out,
+    write_Reg_reg,
+    D_32,
     \Using_FPGA.Native ,
     use_Reg_Neg_S_i42_out,
+    \Using_FPGA.Native_0 ,
     force_Val1_i41_out,
     use_Reg_Neg_DI_i40_out,
-    Reg_Test_Equal_N_i7_out,
-    \Using_FPGA.Native_0 ,
-    byte_i_reg,
-    write_Reg_reg,
+    \Using_Barrel_Shifter.Not_Barrel_Op_reg ,
+    \Using_FPGA.Native_1 ,
+    bs_first1,
+    mul_first136_in,
     CI,
     Y,
-    \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
     Clk,
-    set_BIP_I0,
+    \Using_FPGA.Native_5 ,
     mul_Executing_reg,
     \Using_FPGA.set_BIP_I_reg_1 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     sync_reset,
-    \Using_FPGA.Native_4 ,
-    D,
-    \Using_FPGA.Native_5 ,
+    take_Intr_Now_III,
     \Using_FPGA.Native_6 ,
     \Using_FPGA.Native_7 ,
     \Using_FPGA.Native_8 ,
     \Using_FPGA.Native_9 ,
     \Using_FPGA.Native_10 ,
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     \Using_FPGA.Native_11 ,
     \Using_FPGA.Native_12 ,
     \Using_FPGA.Native_13 ,
     \Using_FPGA.Native_14 ,
-    inHibit_EX_reg,
-    force_Val2_N,
-    isbyte,
-    byte_i17_out,
-    write_Reg_reg_0,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 );
+    take_Intr_Now_II);
   output \instr_EX_i_reg[5] ;
   output \Using_FPGA.set_BIP_I_reg ;
   output \Using_FPGA.set_BIP_I_reg_0 ;
-  output \Using_Mul_Instr.ex_not_mul_op_i_reg ;
-  output force1_i43_out;
+  output write_Reg_reg;
+  output D_32;
   output \Using_FPGA.Native ;
   output use_Reg_Neg_S_i42_out;
+  output \Using_FPGA.Native_0 ;
   output force_Val1_i41_out;
   output use_Reg_Neg_DI_i40_out;
-  output Reg_Test_Equal_N_i7_out;
-  output \Using_FPGA.Native_0 ;
-  output byte_i_reg;
-  output write_Reg_reg;
+  output \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
+  output \Using_FPGA.Native_1 ;
+  output bs_first1;
+  output mul_first136_in;
   input CI;
   input [0:0]Y;
-  input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
   input Clk;
-  input set_BIP_I0;
+  input \Using_FPGA.Native_5 ;
   input mul_Executing_reg;
   input \Using_FPGA.set_BIP_I_reg_1 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input sync_reset;
-  input \Using_FPGA.Native_4 ;
-  input [0:0]D;
-  input \Using_FPGA.Native_5 ;
+  input take_Intr_Now_III;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
   input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input \Using_FPGA.Native_11 ;
   input \Using_FPGA.Native_12 ;
   input \Using_FPGA.Native_13 ;
   input \Using_FPGA.Native_14 ;
-  input inHibit_EX_reg;
-  input force_Val2_N;
-  input isbyte;
-  input byte_i17_out;
-  input write_Reg_reg_0;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  input take_Intr_Now_II;
 
   wire CI;
   wire Clk;
-  wire [0:0]D;
-  wire Reg_Test_Equal_N_i7_out;
+  wire D_32;
+  wire \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -46161,31 +46468,22 @@ module blockdesign_microblaze_0_0_MB_SRL16E_120
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
-  wire \Using_FPGA.Native_i_2__8_n_0 ;
   wire \Using_FPGA.set_BIP_I_reg ;
   wire \Using_FPGA.set_BIP_I_reg_0 ;
   wire \Using_FPGA.set_BIP_I_reg_1 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
-  wire \Using_Mul_Instr.ex_not_mul_op_i_reg ;
   wire [0:0]Y;
   wire bs_first1;
-  wire byte_i17_out;
-  wire byte_i_reg;
-  wire force1_i43_out;
   wire force_Val1_i41_out;
-  wire force_Val2_N;
-  wire inHibit_EX_reg;
   wire \instr_EX_i_reg[5] ;
-  wire isbyte;
   wire mul_Executing_reg;
-  wire set_BIP_I0;
+  wire mul_first136_in;
   wire sync_reset;
+  wire take_Intr_Now_II;
+  wire take_Intr_Now_III;
   wire use_Reg_Neg_DI_i40_out;
   wire use_Reg_Neg_S_i42_out;
-  wire write_Reg_i_2_n_0;
   wire write_Reg_reg;
-  wire write_Reg_reg_0;
 
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
@@ -46194,159 +46492,136 @@ module blockdesign_microblaze_0_0_MB_SRL16E_120
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native_1 ),
-        .A1(\Using_FPGA.Native_2 ),
-        .A2(\Using_FPGA.Native_3 ),
+       (.A0(\Using_FPGA.Native_2 ),
+        .A1(\Using_FPGA.Native_3 ),
+        .A2(\Using_FPGA.Native_4 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[5] ));
-  LUT6 #(
-    .INIT(64'hAEFEAEFEAEFEAEAE)) 
-    \Using_FPGA.Native_i_1__131 
-       (.I0(inHibit_EX_reg),
-        .I1(force_Val2_N),
-        .I2(mul_Executing_reg),
-        .I3(\Using_FPGA.Native_i_2__8_n_0 ),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I5(\Using_FPGA.set_BIP_I_reg_0 ),
-        .O(\Using_FPGA.Native_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair19" *) 
+  LUT5 #(
+    .INIT(32'hFFFFFFDF)) 
+    \Using_Barrel_Shifter.Not_Barrel_Op_i_1 
+       (.I0(mul_Executing_reg),
+        .I1(sync_reset),
+        .I2(\instr_EX_i_reg[5] ),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .O(\Using_Barrel_Shifter.Not_Barrel_Op_reg ));
   LUT6 #(
     .INIT(64'h0040000000000000)) 
     \Using_FPGA.Native_i_1__133 
-       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+       (.I0(take_Intr_Now_III),
         .I1(\instr_EX_i_reg[5] ),
-        .I2(\Using_FPGA.Native_14 ),
-        .I3(\Using_FPGA.Native_13 ),
-        .I4(\Using_FPGA.Native_12 ),
-        .I5(\Using_FPGA.Native_8 ),
-        .O(\Using_FPGA.Native ));
-  (* SOFT_HLUTNM = "soft_lutpair17" *) 
+        .I2(\Using_FPGA.Native_10 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(\Using_FPGA.Native_0 ));
+  LUT4 #(
+    .INIT(16'h0111)) 
+    \Using_FPGA.Native_i_1__23 
+       (.I0(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(take_Intr_Now_III),
+        .I2(\Using_FPGA.set_BIP_I_reg_0 ),
+        .I3(\Using_FPGA.Native_11 ),
+        .O(D_32));
+  (* SOFT_HLUTNM = "soft_lutpair20" *) 
   LUT4 #(
     .INIT(16'h2008)) 
-    \Using_FPGA.Native_i_1__23 
-       (.I0(\Using_FPGA.Native ),
-        .I1(\Using_FPGA.Native_9 ),
-        .I2(\Using_FPGA.Native_10 ),
-        .I3(\Using_FPGA.Native_11 ),
+    \Using_FPGA.Native_i_1__26 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_12 ),
+        .I2(\Using_FPGA.Native_13 ),
+        .I3(\Using_FPGA.Native_14 ),
         .O(use_Reg_Neg_S_i42_out));
-  (* SOFT_HLUTNM = "soft_lutpair18" *) 
   LUT3 #(
     .INIT(8'h08)) 
-    \Using_FPGA.Native_i_1__24 
-       (.I0(\Using_FPGA.Native ),
-        .I1(\Using_FPGA.Native_10 ),
-        .I2(\Using_FPGA.Native_9 ),
+    \Using_FPGA.Native_i_1__27 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_13 ),
+        .I2(\Using_FPGA.Native_12 ),
         .O(force_Val1_i41_out));
-  (* SOFT_HLUTNM = "soft_lutpair17" *) 
+  (* SOFT_HLUTNM = "soft_lutpair20" *) 
   LUT4 #(
     .INIT(16'h2008)) 
-    \Using_FPGA.Native_i_1__25 
-       (.I0(\Using_FPGA.Native ),
-        .I1(\Using_FPGA.Native_10 ),
-        .I2(\Using_FPGA.Native_9 ),
-        .I3(\Using_FPGA.Native_11 ),
+    \Using_FPGA.Native_i_1__28 
+       (.I0(\Using_FPGA.Native_0 ),
+        .I1(\Using_FPGA.Native_13 ),
+        .I2(\Using_FPGA.Native_12 ),
+        .I3(\Using_FPGA.Native_14 ),
         .O(use_Reg_Neg_DI_i40_out));
   LUT6 #(
-    .INIT(64'h0000000000000220)) 
-    \Using_FPGA.Native_i_1__27 
+    .INIT(64'hFFBFFFFFFFFFFFFF)) 
+    \Using_FPGA.Native_i_2__4 
        (.I0(\instr_EX_i_reg[5] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(\Using_FPGA.Native_11 ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_8 ),
         .I3(\Using_FPGA.Native_9 ),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I5(\Using_FPGA.Native_10 ),
-        .O(Reg_Test_Equal_N_i7_out));
+        .I4(\Using_FPGA.Native_10 ),
+        .I5(\Using_FPGA.Native_11 ),
+        .O(\Using_FPGA.Native ));
   (* SOFT_HLUTNM = "soft_lutpair18" *) 
-  LUT3 #(
-    .INIT(8'h02)) 
-    \Using_FPGA.Native_i_2__3 
-       (.I0(\Using_FPGA.Native ),
-        .I1(\Using_FPGA.Native_9 ),
-        .I2(\Using_FPGA.Native_10 ),
-        .O(force1_i43_out));
-  (* SOFT_HLUTNM = "soft_lutpair16" *) 
   LUT5 #(
-    .INIT(32'hFFBFFFFF)) 
-    \Using_FPGA.Native_i_2__5 
+    .INIT(32'h00400000)) 
+    \Using_FPGA.Native_i_2__59 
        (.I0(\instr_EX_i_reg[5] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .I2(\Using_FPGA.Native_12 ),
-        .I3(\Using_FPGA.Native_13 ),
-        .I4(\Using_FPGA.Native_14 ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_8 ),
+        .I3(\Using_FPGA.Native_9 ),
+        .I4(\Using_FPGA.Native_10 ),
         .O(\Using_FPGA.set_BIP_I_reg_0 ));
   LUT6 #(
-    .INIT(64'h0000000008000000)) 
-    \Using_FPGA.Native_i_2__8 
+    .INIT(64'h00000000F2F0F0F0)) 
+    \Using_FPGA.Native_i_2__7 
        (.I0(bs_first1),
-        .I1(\Using_FPGA.Native_14 ),
-        .I2(\Using_FPGA.Native_13 ),
-        .I3(\Using_FPGA.Native_12 ),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .O(\Using_FPGA.Native_i_2__8_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair16" *) 
-  LUT2 #(
-    .INIT(4'h2)) 
-    \Using_FPGA.Native_i_3__3 
-       (.I0(\instr_EX_i_reg[5] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .O(bs_first1));
+        .I1(\Using_FPGA.Native_9 ),
+        .I2(\Using_FPGA.Native_7 ),
+        .I3(\Using_FPGA.Native_10 ),
+        .I4(\Using_FPGA.Native_8 ),
+        .I5(take_Intr_Now_II),
+        .O(\Using_FPGA.Native_1 ));
   LUT6 #(
-    .INIT(64'h000000000F004F40)) 
+    .INIT(64'h00000F0000002F20)) 
     \Using_FPGA.set_BIP_I_i_1 
        (.I0(\Using_FPGA.set_BIP_I_reg_0 ),
-        .I1(set_BIP_I0),
+        .I1(\Using_FPGA.Native_5 ),
         .I2(mul_Executing_reg),
         .I3(\Using_FPGA.set_BIP_I_reg_1 ),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I5(sync_reset),
+        .I4(sync_reset),
+        .I5(take_Intr_Now_III),
         .O(\Using_FPGA.set_BIP_I_reg ));
+  (* SOFT_HLUTNM = "soft_lutpair18" *) 
   LUT2 #(
-    .INIT(4'hE)) 
-    \Using_Mul_Instr.ex_not_mul_op_i_i_1 
+    .INIT(4'h2)) 
+    \Using_MSR_Instr.MSRxxx_Instr_i_i_2 
        (.I0(\instr_EX_i_reg[5] ),
-        .I1(\Using_FPGA.Native_8 ),
-        .O(\Using_Mul_Instr.ex_not_mul_op_i_reg ));
+        .I1(\Using_FPGA.Native_6 ),
+        .O(bs_first1));
+  (* SOFT_HLUTNM = "soft_lutpair19" *) 
+  LUT2 #(
+    .INIT(4'h1)) 
+    doublet_Read_i_i_2
+       (.I0(\instr_EX_i_reg[5] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .O(mul_first136_in));
   LUT6 #(
-    .INIT(64'h000000000000222E)) 
-    byte_i_i_1
-       (.I0(isbyte),
-        .I1(mul_Executing_reg),
-        .I2(\instr_EX_i_reg[5] ),
+    .INIT(64'hFFFFB80000000000)) 
+    write_Reg_i_4
+       (.I0(\instr_EX_i_reg[5] ),
+        .I1(\Using_FPGA.Native_6 ),
+        .I2(\Using_FPGA.Native_7 ),
         .I3(\Using_FPGA.Native_8 ),
-        .I4(byte_i17_out),
-        .I5(sync_reset),
-        .O(byte_i_reg));
-  LUT6 #(
-    .INIT(64'h0000000000AAFCAA)) 
-    write_Reg_i_1
-       (.I0(write_Reg_reg_0),
-        .I1(write_Reg_i_2_n_0),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I3(mul_Executing_reg),
-        .I4(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .I5(sync_reset),
+        .I4(\Using_FPGA.Native_9 ),
+        .I5(\Using_FPGA.Native_10 ),
         .O(write_Reg_reg));
-  LUT6 #(
-    .INIT(64'h0000000000FE00DC)) 
-    write_Reg_i_2
-       (.I0(\instr_EX_i_reg[5] ),
-        .I1(\Using_FPGA.Native_4 ),
-        .I2(D),
-        .I3(\Using_FPGA.Native_5 ),
-        .I4(\Using_FPGA.Native_6 ),
-        .I5(\Using_FPGA.Native_7 ),
-        .O(write_Reg_i_2_n_0));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_121
    (\instr_EX_i_reg[6] ,
-    mbar_is_sleep0,
-    jump2_I_reg,
-    inHibit_EX_reg,
     \write_Addr_I_reg[0] ,
     CI,
     Y,
@@ -46354,17 +46629,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_121
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
-    instr_OF,
-    \Using_FPGA.Native_2 ,
-    dbg_pause_reg,
-    inHibit_EX,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    sync_reset);
+    sync_reset,
+    take_Intr_Now_III);
   output \instr_EX_i_reg[6] ;
-  output mbar_is_sleep0;
-  output jump2_I_reg;
-  output inHibit_EX_reg;
   output [0:0]\write_Addr_I_reg[0] ;
   input CI;
   input [0:0]Y;
@@ -46372,31 +46639,18 @@ module blockdesign_microblaze_0_0_MB_SRL16E_121
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
-  input [2:0]instr_OF;
-  input \Using_FPGA.Native_2 ;
-  input dbg_pause_reg;
-  input inHibit_EX;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input sync_reset;
+  input take_Intr_Now_III;
 
   wire CI;
   wire Clk;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
-  wire dbg_pause_reg;
-  wire inHibit_EX;
-  wire inHibit_EX_reg;
   wire \instr_EX_i_reg[6] ;
-  wire [2:0]instr_OF;
-  wire jump2_I_reg;
-  wire mbar_is_sleep0;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire [0:0]\write_Addr_I_reg[0] ;
 
   (* box_type = "PRIMITIVE" *) 
@@ -46414,67 +46668,54 @@ module blockdesign_microblaze_0_0_MB_SRL16E_121
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[6] ));
-  LUT6 #(
-    .INIT(64'h0000000007000777)) 
-    inHibit_EX_i_2
-       (.I0(dbg_pause_reg),
-        .I1(inHibit_EX),
-        .I2(\instr_EX_i_reg[6] ),
-        .I3(instr_OF[1]),
-        .I4(\Using_FPGA.Native_2 ),
-        .I5(\Using_FPGA.Native_3 ),
-        .O(inHibit_EX_reg));
-  LUT6 #(
-    .INIT(64'hFFFF503F503F503F)) 
-    jump2_I_i_2
-       (.I0(\instr_EX_i_reg[6] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(instr_OF[2]),
-        .I3(instr_OF[1]),
-        .I4(dbg_pause_reg),
-        .I5(inHibit_EX),
-        .O(jump2_I_reg));
-  (* SOFT_HLUTNM = "soft_lutpair19" *) 
-  LUT2 #(
-    .INIT(4'hE)) 
-    mbar_is_sleep_i_1
-       (.I0(\instr_EX_i_reg[6] ),
-        .I1(instr_OF[0]),
-        .O(mbar_is_sleep0));
-  (* SOFT_HLUTNM = "soft_lutpair19" *) 
   LUT3 #(
     .INIT(8'h02)) 
     \write_Addr_I[0]_i_2 
        (.I0(\instr_EX_i_reg[6] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I2(sync_reset),
+        .I1(sync_reset),
+        .I2(take_Intr_Now_III),
         .O(\write_Addr_I_reg[0] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_122
    (instr_OF,
+    mbar_is_sleep0,
+    \write_Addr_I_reg[1] ,
     CI,
     Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_2 ,
+    sync_reset,
+    take_Intr_Now_III);
   output [0:0]instr_OF;
+  output mbar_is_sleep0;
+  output [0:0]\write_Addr_I_reg[1] ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
+  input \Using_FPGA.Native_2 ;
+  input sync_reset;
+  input take_Intr_Now_III;
 
   wire CI;
   wire Clk;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire [0:0]Y;
   wire [0:0]instr_OF;
+  wire mbar_is_sleep0;
+  wire sync_reset;
+  wire take_Intr_Now_III;
+  wire [0:0]\write_Addr_I_reg[1] ;
 
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
@@ -46491,11 +46732,27 @@ module blockdesign_microblaze_0_0_MB_SRL16E_122
         .CLK(Clk),
         .D(Y),
         .Q(instr_OF));
+  (* SOFT_HLUTNM = "soft_lutpair21" *) 
+  LUT2 #(
+    .INIT(4'hE)) 
+    mbar_is_sleep_i_1
+       (.I0(instr_OF),
+        .I1(\Using_FPGA.Native_2 ),
+        .O(mbar_is_sleep0));
+  (* SOFT_HLUTNM = "soft_lutpair21" *) 
+  LUT3 #(
+    .INIT(8'h54)) 
+    \write_Addr_I[1]_i_1 
+       (.I0(sync_reset),
+        .I1(instr_OF),
+        .I2(take_Intr_Now_III),
+        .O(\write_Addr_I_reg[1] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_123
    (\instr_EX_i_reg[8] ,
+    force1_i43_out,
     \write_Addr_I_reg[2] ,
     CI,
     Y,
@@ -46503,9 +46760,12 @@ module blockdesign_microblaze_0_0_MB_SRL16E_123
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
-    sync_reset,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    take_Intr_Now_III,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    sync_reset);
   output \instr_EX_i_reg[8] ;
+  output force1_i43_out;
   output [0:0]\write_Addr_I_reg[2] ;
   input CI;
   input [0:0]Y;
@@ -46513,18 +46773,23 @@ module blockdesign_microblaze_0_0_MB_SRL16E_123
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
+  input take_Intr_Now_III;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
   input sync_reset;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
 
   wire CI;
   wire Clk;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire [0:0]Y;
+  wire force1_i43_out;
   wire \instr_EX_i_reg[8] ;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire [0:0]\write_Addr_I_reg[2] ;
 
   (* box_type = "PRIMITIVE" *) 
@@ -46542,20 +46807,30 @@ module blockdesign_microblaze_0_0_MB_SRL16E_123
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[8] ));
+  (* SOFT_HLUTNM = "soft_lutpair22" *) 
+  LUT4 #(
+    .INIT(16'h0001)) 
+    \Using_FPGA.Native_i_2__6 
+       (.I0(\instr_EX_i_reg[8] ),
+        .I1(take_Intr_Now_III),
+        .I2(\Using_FPGA.Native_2 ),
+        .I3(\Using_FPGA.Native_3 ),
+        .O(force1_i43_out));
+  (* SOFT_HLUTNM = "soft_lutpair22" *) 
   LUT3 #(
     .INIT(8'h54)) 
     \write_Addr_I[2]_i_1 
        (.I0(sync_reset),
         .I1(\instr_EX_i_reg[8] ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I2(take_Intr_Now_III),
         .O(\write_Addr_I_reg[2] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_124
    (\instr_EX_i_reg[9] ,
-    Reg_Test_Equal_i,
     reset_BIP_I9_out,
+    Reg_Test_Equal_i,
     \write_Addr_I_reg[3] ,
     CI,
     Y,
@@ -46563,14 +46838,17 @@ module blockdesign_microblaze_0_0_MB_SRL16E_124
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    instr_OF,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
+    take_Intr_Now_III,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
     sync_reset);
   output \instr_EX_i_reg[9] ;
-  output Reg_Test_Equal_i;
   output reset_BIP_I9_out;
+  output Reg_Test_Equal_i;
   output [0:0]\write_Addr_I_reg[3] ;
   input CI;
   input [0:0]Y;
@@ -46578,10 +46856,13 @@ module blockdesign_microblaze_0_0_MB_SRL16E_124
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input [3:0]instr_OF;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input take_Intr_Now_III;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
   input sync_reset;
 
   wire CI;
@@ -46592,12 +46873,15 @@ module blockdesign_microblaze_0_0_MB_SRL16E_124
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[9] ;
-  wire [3:0]instr_OF;
   wire reset_BIP_I9_out;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire [0:0]\write_Addr_I_reg[3] ;
 
   (* box_type = "PRIMITIVE" *) 
@@ -46615,31 +46899,30 @@ module blockdesign_microblaze_0_0_MB_SRL16E_124
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[9] ));
-  LUT6 #(
-    .INIT(64'hFFFFFEEFFFFFFFFF)) 
-    \Using_FPGA.Native_i_1__26 
+  LUT5 #(
+    .INIT(32'hFFFFFEEF)) 
+    \Using_FPGA.Native_i_1__29 
        (.I0(\instr_EX_i_reg[9] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I2(instr_OF[1]),
-        .I3(instr_OF[0]),
-        .I4(\Using_FPGA.Native_2 ),
-        .I5(instr_OF[2]),
+        .I1(take_Intr_Now_III),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_7 ),
         .O(Reg_Test_Equal_i));
   LUT5 #(
-    .INIT(32'h00002000)) 
+    .INIT(32'h00000008)) 
     \Using_FPGA.reset_BIP_I_i_1 
        (.I0(\instr_EX_i_reg[9] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I1(\Using_FPGA.Native_2 ),
         .I2(\Using_FPGA.Native_3 ),
-        .I3(instr_OF[2]),
-        .I4(instr_OF[3]),
+        .I3(take_Intr_Now_III),
+        .I4(\Using_FPGA.Native_4 ),
         .O(reset_BIP_I9_out));
   LUT3 #(
     .INIT(8'h54)) 
     \write_Addr_I[3]_i_1 
        (.I0(sync_reset),
         .I1(\instr_EX_i_reg[9] ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .I2(take_Intr_Now_III),
         .O(\write_Addr_I_reg[3] ));
 endmodule
 
@@ -47866,9 +48149,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_94
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
+    take_Intr_Now_III,
     \Using_FPGA.Native_4 ,
     sync_reset);
   output \instr_EX_i_reg[10] ;
@@ -47880,9 +48163,9 @@ module blockdesign_microblaze_0_0_MB_SRL16E_94
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input take_Intr_Now_III;
   input \Using_FPGA.Native_4 ;
   input sync_reset;
 
@@ -47894,11 +48177,11 @@ module blockdesign_microblaze_0_0_MB_SRL16E_94
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
   wire [0:0]Y;
   wire enable_Interrupts_I;
   wire \instr_EX_i_reg[10] ;
   wire sync_reset;
+  wire take_Intr_Now_III;
   wire [0:0]\write_Addr_I_reg[4] ;
 
   (* box_type = "PRIMITIVE" *) 
@@ -47917,45 +48200,54 @@ module blockdesign_microblaze_0_0_MB_SRL16E_94
         .D(Y),
         .Q(\instr_EX_i_reg[10] ));
   LUT5 #(
-    .INIT(32'h00002000)) 
+    .INIT(32'h00000008)) 
     \Using_FPGA.enable_Interrupts_I_i_1 
        (.I0(\instr_EX_i_reg[10] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(\Using_FPGA.Native_3 ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(take_Intr_Now_III),
         .I4(\Using_FPGA.Native_4 ),
         .O(enable_Interrupts_I));
   LUT3 #(
     .INIT(8'h02)) 
     \write_Addr_I[4]_i_1 
        (.I0(\instr_EX_i_reg[10] ),
-        .I1(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I2(sync_reset),
+        .I1(sync_reset),
+        .I2(take_Intr_Now_III),
         .O(\write_Addr_I_reg[4] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_95
    (\instr_EX_i_reg[11] ,
+    \Using_FPGA.set_BIP_I_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    Clk);
+    Clk,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 );
   output \instr_EX_i_reg[11] ;
+  output \Using_FPGA.set_BIP_I_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
 
   wire CI;
   wire Clk;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.set_BIP_I_reg ;
   wire [0:0]Y;
   wire \instr_EX_i_reg[11] ;
 
@@ -47974,60 +48266,48 @@ module blockdesign_microblaze_0_0_MB_SRL16E_95
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[11] ));
+  LUT3 #(
+    .INIT(8'hBF)) 
+    \Using_FPGA.set_BIP_I_i_2 
+       (.I0(\instr_EX_i_reg[11] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .O(\Using_FPGA.set_BIP_I_reg ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_96
    (\instr_EX_i_reg[12] ,
-    D_32,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
-    \Area_Debug_Control.dbg_brki_hit_reg_0 ,
-    set_BIP_I0,
-    CI,
-    Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
+    CI,
+    Y,
     \Using_FPGA.Native_1 ,
-    Clk,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
-    mul_Executing_reg,
-    dbg_brki_hit,
-    \Serial_Dbg_Intf.control_reg_reg[8] ,
     \Using_FPGA.Native_3 ,
+    Clk,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    D);
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 );
   output \instr_EX_i_reg[12] ;
-  output D_32;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
-  output \Area_Debug_Control.dbg_brki_hit_reg_0 ;
-  output set_BIP_I0;
+  output \Using_FPGA.Native ;
+  output \Using_FPGA.Native_0 ;
   input CI;
   input [0:0]Y;
-  input \Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input Clk;
   input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
-  input mul_Executing_reg;
-  input dbg_brki_hit;
-  input \Serial_Dbg_Intf.control_reg_reg[8] ;
   input \Using_FPGA.Native_3 ;
+  input Clk;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
-  input [1:0]D;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
 
-  wire \Area_Debug_Control.dbg_brki_hit_reg ;
-  wire \Area_Debug_Control.dbg_brki_hit_reg_0 ;
   wire CI;
   wire Clk;
-  wire [1:0]D;
-  wire D_32;
-  wire \Serial_Dbg_Intf.control_reg_reg[8] ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
@@ -48035,31 +48315,12 @@ module blockdesign_microblaze_0_0_MB_SRL16E_96
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
   wire [0:0]Y;
-  wire dbg_brki_hit;
   wire \instr_EX_i_reg[12] ;
-  wire mul_Executing_reg;
-  wire set_BIP_I0;
 
-  LUT3 #(
-    .INIT(8'hBA)) 
-    \Area_Debug_Control.dbg_brki_hit_i_1 
-       (.I0(\Area_Debug_Control.dbg_brki_hit_reg_0 ),
-        .I1(mul_Executing_reg),
-        .I2(dbg_brki_hit),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
-  LUT6 #(
-    .INIT(64'h0000000000000080)) 
-    \Area_Debug_Control.dbg_brki_hit_i_2 
-       (.I0(set_BIP_I0),
-        .I1(\Serial_Dbg_Intf.control_reg_reg[8] ),
-        .I2(\Using_FPGA.Native_3 ),
-        .I3(\Using_FPGA.Native_4 ),
-        .I4(\Using_FPGA.Native_5 ),
-        .I5(\Using_FPGA.Native_2 ),
-        .O(\Area_Debug_Control.dbg_brki_hit_reg_0 ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[12].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -48067,56 +48328,89 @@ module blockdesign_microblaze_0_0_MB_SRL16E_96
     .INIT(16'h0000),
     .IS_CLK_INVERTED(1'b0)) 
     \Use_unisim.MB_SRL16E_I1 
-       (.A0(\Using_FPGA.Native ),
-        .A1(\Using_FPGA.Native_0 ),
-        .A2(\Using_FPGA.Native_1 ),
+       (.A0(\Using_FPGA.Native_1 ),
+        .A1(\Using_FPGA.Native_2 ),
+        .A2(\Using_FPGA.Native_3 ),
         .A3(1'b0),
         .CE(CI),
         .CLK(Clk),
         .D(Y),
         .Q(\instr_EX_i_reg[12] ));
-  LUT4 #(
-    .INIT(16'h000D)) 
-    \Using_FPGA.Native_i_1__30 
+  LUT6 #(
+    .INIT(64'h0303030308000000)) 
+    \Using_FPGA.Native_i_1__25 
        (.I0(\instr_EX_i_reg[12] ),
-        .I1(\Using_FPGA.Native_2 ),
-        .I2(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .I3(\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .O(D_32));
-  LUT3 #(
-    .INIT(8'h08)) 
-    \Using_FPGA.set_BIP_I_i_2 
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(\Using_FPGA.Native_8 ),
+        .O(\Using_FPGA.Native ));
+  LUT6 #(
+    .INIT(64'h0000000008000000)) 
+    \Using_FPGA.Native_i_2__5 
        (.I0(\instr_EX_i_reg[12] ),
-        .I1(D[0]),
-        .I2(D[1]),
-        .O(set_BIP_I0));
+        .I1(\Using_FPGA.Native_4 ),
+        .I2(\Using_FPGA.Native_5 ),
+        .I3(\Using_FPGA.Native_6 ),
+        .I4(\Using_FPGA.Native_7 ),
+        .I5(\Using_FPGA.Native_8 ),
+        .O(\Using_FPGA.Native_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_97
-   (D,
+   (\instr_EX_i_reg[13] ,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
     CI,
     Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    Clk);
-  output [0:0]D;
+    Clk,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    D,
+    \Using_FPGA.Native_5 );
+  output \instr_EX_i_reg[13] ;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input [0:0]D;
+  input \Using_FPGA.Native_5 ;
 
+  wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire CI;
   wire Clk;
   wire [0:0]D;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
   wire [0:0]Y;
+  wire \instr_EX_i_reg[13] ;
 
+  LUT6 #(
+    .INIT(64'hFFFFFFFFFFFFFFF7)) 
+    \Area_Debug_Control.dbg_brki_hit_i_5 
+       (.I0(\instr_EX_i_reg[13] ),
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(D),
+        .I5(\Using_FPGA.Native_5 ),
+        .O(\Area_Debug_Control.dbg_brki_hit_reg ));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers[13].SRL16E_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -48131,47 +48425,37 @@ module blockdesign_microblaze_0_0_MB_SRL16E_97
         .CE(CI),
         .CLK(Clk),
         .D(Y),
-        .Q(D));
+        .Q(\instr_EX_i_reg[13] ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E_98
    (D,
-    mul_Executing0,
-    mbar_first,
-    of_mbar_decode,
+    mbar_first_reg,
     CI,
     Y,
     \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     Clk,
-    mul_first,
     \Using_FPGA.Native_2 ,
-    inHibit_EX_reg,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
-    ok_To_Stop,
-    mbar_sleep_reg,
-    \Using_FPGA.take_Intr_2nd_Phase_reg );
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 );
   output [0:0]D;
-  output mul_Executing0;
-  output mbar_first;
-  output of_mbar_decode;
+  output mbar_first_reg;
   input CI;
   input [0:0]Y;
   input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
   input Clk;
-  input mul_first;
   input \Using_FPGA.Native_2 ;
-  input inHibit_EX_reg;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
-  input ok_To_Stop;
-  input mbar_sleep_reg;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
 
   wire CI;
   wire Clk;
@@ -48182,15 +48466,10 @@ module blockdesign_microblaze_0_0_MB_SRL16E_98
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
   wire [0:0]Y;
-  wire inHibit_EX_reg;
-  wire mbar_first;
-  wire mbar_sleep_reg;
-  wire mul_Executing0;
-  wire mul_first;
-  wire of_mbar_decode;
-  wire ok_To_Stop;
+  wire mbar_first_reg;
 
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Decode_I/PreFetch_Buffer_I/PreFetch_Buffers " *) 
@@ -48207,31 +48486,16 @@ module blockdesign_microblaze_0_0_MB_SRL16E_98
         .CLK(Clk),
         .D(Y),
         .Q(D));
-  LUT4 #(
-    .INIT(16'h0008)) 
-    mbar_decode_I_i_1
+  LUT6 #(
+    .INIT(64'h0000000000008000)) 
+    mbar_first_i_3
        (.I0(D),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .O(of_mbar_decode));
-  LUT5 #(
-    .INIT(32'h08FF0800)) 
-    mbar_first_i_1
-       (.I0(D),
-        .I1(\Using_FPGA.Native_3 ),
-        .I2(\Using_FPGA.Native_4 ),
-        .I3(ok_To_Stop),
-        .I4(mbar_sleep_reg),
-        .O(mbar_first));
-  LUT4 #(
-    .INIT(16'hFFAE)) 
-    mul_Executing_i_1
-       (.I0(mbar_first),
-        .I1(mul_first),
-        .I2(\Using_FPGA.Native_2 ),
-        .I3(inHibit_EX_reg),
-        .O(mul_Executing0));
+        .I1(\Using_FPGA.Native_2 ),
+        .I2(\Using_FPGA.Native_3 ),
+        .I3(\Using_FPGA.Native_4 ),
+        .I4(\Using_FPGA.Native_5 ),
+        .I5(\Using_FPGA.Native_6 ),
+        .O(mbar_first_reg));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
@@ -48284,7 +48548,7 @@ module blockdesign_microblaze_0_0_MB_SRL16E_99
         .D(Y),
         .Q(D));
   LUT3 #(
-    .INIT(8'h02)) 
+    .INIT(8'h20)) 
     \Using_MSR_Instr.MSRclr_Instr_i_i_1 
        (.I0(D),
         .I1(\Using_FPGA.Native_2 ),
@@ -48294,50 +48558,17 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E__parameterized10
-   (Dbg_TDO,
+   (Q0_in,
     Q,
-    Dbg_Clk,
-    \Serial_Dbg_Intf.shift_count_reg[5] ,
-    Dbg_Reg_En,
-    \Dbg_Reg_En[6] ,
-    tdo_config_word1_0);
-  output Dbg_TDO;
-  input [7:0]Q;
+    Dbg_Clk);
+  output Q0_in;
+  input [3:0]Q;
   input Dbg_Clk;
-  input \Serial_Dbg_Intf.shift_count_reg[5] ;
-  input [0:0]Dbg_Reg_En;
-  input \Dbg_Reg_En[6] ;
-  input tdo_config_word1_0;
 
   wire Dbg_Clk;
-  wire [0:0]Dbg_Reg_En;
-  wire \Dbg_Reg_En[6] ;
-  wire Dbg_TDO;
-  wire Dbg_TDO_INST_0_i_33_n_0;
-  wire [7:0]Q;
+  wire [3:0]Q;
   wire Q0_in;
-  wire \Serial_Dbg_Intf.shift_count_reg[5] ;
-  wire tdo_config_word1_0;
 
-  LUT5 #(
-    .INIT(32'hFFFF45FF)) 
-    Dbg_TDO_INST_0_i_14
-       (.I0(Dbg_TDO_INST_0_i_33_n_0),
-        .I1(Q[6]),
-        .I2(\Serial_Dbg_Intf.shift_count_reg[5] ),
-        .I3(Dbg_Reg_En),
-        .I4(\Dbg_Reg_En[6] ),
-        .O(Dbg_TDO));
-  LUT6 #(
-    .INIT(64'h88800080FFFFFFFF)) 
-    Dbg_TDO_INST_0_i_33
-       (.I0(Q[5]),
-        .I1(Q[6]),
-        .I2(Q0_in),
-        .I3(Q[4]),
-        .I4(tdo_config_word1_0),
-        .I5(Q[7]),
-        .O(Dbg_TDO_INST_0_i_33_n_0));
   (* box_type = "PRIMITIVE" *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Serial_Dbg_Intf.SRL16E_7/Use_unisim.MB_SRL16E_I1 " *) 
   SRL16E #(
@@ -48356,17 +48587,30 @@ endmodule
 
 (* ORIG_REF_NAME = "MB_SRL16E" *) 
 module blockdesign_microblaze_0_0_MB_SRL16E__parameterized10_19
-   (tdo_config_word1_0,
+   (Dbg_TDO,
     Q,
-    Dbg_Clk);
-  output tdo_config_word1_0;
-  input [3:0]Q;
+    Dbg_Clk,
+    Q0_in);
+  output Dbg_TDO;
+  input [6:0]Q;
   input Dbg_Clk;
+  input Q0_in;
 
   wire Dbg_Clk;
-  wire [3:0]Q;
+  wire Dbg_TDO;
+  wire [6:0]Q;
+  wire Q0_in;
   wire tdo_config_word1_0;
 
+  LUT5 #(
+    .INIT(32'hB8000000)) 
+    Dbg_TDO_INST_0_i_30
+       (.I0(tdo_config_word1_0),
+        .I1(Q[4]),
+        .I2(Q0_in),
+        .I3(Q[5]),
+        .I4(Q[6]),
+        .O(Dbg_TDO));
   (* box_type = "PRIMITIVE" *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Serial_Dbg_Intf.SRL16E_8/Use_unisim.MB_SRL16E_I1 " *) 
   SRL16E #(
@@ -48537,34 +48781,104 @@ module blockdesign_microblaze_0_0_MB_SRL16E__parameterized14
    (Dbg_TDO,
     Q,
     Dbg_Clk,
+    \Serial_Dbg_Intf.shift_count_reg[4] ,
+    \Serial_Dbg_Intf.shift_count_reg[3] ,
+    \Serial_Dbg_Intf.shift_count_reg[4]_0 ,
+    \Serial_Dbg_Intf.shift_count_reg[4]_1 ,
+    \Dbg_Reg_En[5] ,
+    \Serial_Dbg_Intf.instr_read_reg_reg[1] ,
+    \Dbg_Reg_En[4] ,
+    Dbg_Reg_En_0_sp_1,
+    Dbg_Reg_En,
+    \Serial_Dbg_Intf.shift_count_reg[4]_2 ,
+    \Serial_Dbg_Intf.shift_count_reg[5] ,
+    \Serial_Dbg_Intf.shift_count_reg[5]_0 ,
     Q2_in,
     Q3_in,
     Q0_out);
   output Dbg_TDO;
-  input [5:0]Q;
+  input [7:0]Q;
   input Dbg_Clk;
+  input \Serial_Dbg_Intf.shift_count_reg[4] ;
+  input \Serial_Dbg_Intf.shift_count_reg[3] ;
+  input \Serial_Dbg_Intf.shift_count_reg[4]_0 ;
+  input \Serial_Dbg_Intf.shift_count_reg[4]_1 ;
+  input \Dbg_Reg_En[5] ;
+  input \Serial_Dbg_Intf.instr_read_reg_reg[1] ;
+  input \Dbg_Reg_En[4] ;
+  input Dbg_Reg_En_0_sp_1;
+  input [1:0]Dbg_Reg_En;
+  input \Serial_Dbg_Intf.shift_count_reg[4]_2 ;
+  input \Serial_Dbg_Intf.shift_count_reg[5] ;
+  input \Serial_Dbg_Intf.shift_count_reg[5]_0 ;
   input Q2_in;
   input Q3_in;
   input Q0_out;
 
   wire Dbg_Clk;
+  wire [1:0]Dbg_Reg_En;
+  wire \Dbg_Reg_En[4] ;
+  wire \Dbg_Reg_En[5] ;
+  wire Dbg_Reg_En_0_sn_1;
   wire Dbg_TDO;
-  wire [5:0]Q;
+  wire Dbg_TDO_INST_0_i_14_n_0;
+  wire Dbg_TDO_INST_0_i_29_n_0;
+  wire Dbg_TDO_INST_0_i_2_n_0;
+  wire [7:0]Q;
   wire Q0_out;
   wire Q1_in;
   wire Q2_in;
   wire Q3_in;
+  wire \Serial_Dbg_Intf.instr_read_reg_reg[1] ;
+  wire \Serial_Dbg_Intf.shift_count_reg[3] ;
+  wire \Serial_Dbg_Intf.shift_count_reg[4] ;
+  wire \Serial_Dbg_Intf.shift_count_reg[4]_0 ;
+  wire \Serial_Dbg_Intf.shift_count_reg[4]_1 ;
+  wire \Serial_Dbg_Intf.shift_count_reg[4]_2 ;
+  wire \Serial_Dbg_Intf.shift_count_reg[5] ;
+  wire \Serial_Dbg_Intf.shift_count_reg[5]_0 ;
 
+  assign Dbg_Reg_En_0_sn_1 = Dbg_Reg_En_0_sp_1;
   LUT6 #(
-    .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    Dbg_TDO_INST_0_i_34
+    .INIT(64'h44444444FFFF44F4)) 
+    Dbg_TDO_INST_0
+       (.I0(\Serial_Dbg_Intf.shift_count_reg[4] ),
+        .I1(Dbg_TDO_INST_0_i_2_n_0),
+        .I2(\Serial_Dbg_Intf.shift_count_reg[3] ),
+        .I3(\Serial_Dbg_Intf.shift_count_reg[4]_0 ),
+        .I4(\Serial_Dbg_Intf.shift_count_reg[4]_1 ),
+        .I5(\Dbg_Reg_En[5] ),
+        .O(Dbg_TDO));
+  LUT6 #(
+    .INIT(64'h3F302F2F3F302020)) 
+    Dbg_TDO_INST_0_i_14
+       (.I0(Dbg_TDO_INST_0_i_29_n_0),
+        .I1(\Serial_Dbg_Intf.shift_count_reg[4]_2 ),
+        .I2(Q[7]),
+        .I3(\Serial_Dbg_Intf.shift_count_reg[5] ),
+        .I4(Q[6]),
+        .I5(\Serial_Dbg_Intf.shift_count_reg[5]_0 ),
+        .O(Dbg_TDO_INST_0_i_14_n_0));
+  LUT6 #(
+    .INIT(64'h0003000203030002)) 
+    Dbg_TDO_INST_0_i_2
+       (.I0(\Serial_Dbg_Intf.instr_read_reg_reg[1] ),
+        .I1(\Dbg_Reg_En[4] ),
+        .I2(Dbg_Reg_En_0_sn_1),
+        .I3(Dbg_Reg_En[0]),
+        .I4(Dbg_Reg_En[1]),
+        .I5(Dbg_TDO_INST_0_i_14_n_0),
+        .O(Dbg_TDO_INST_0_i_2_n_0));
+  LUT6 #(
+    .INIT(64'h505F3030505F3F3F)) 
+    Dbg_TDO_INST_0_i_29
        (.I0(Q1_in),
         .I1(Q2_in),
         .I2(Q[5]),
         .I3(Q3_in),
         .I4(Q[4]),
         .I5(Q0_out),
-        .O(Dbg_TDO));
+        .O(Dbg_TDO_INST_0_i_29_n_0));
   (* box_type = "PRIMITIVE" *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Serial_Dbg_Intf.SRL16E_4/Use_unisim.MB_SRL16E_I1 " *) 
   SRL16E #(
@@ -48704,88 +49018,34 @@ module blockdesign_microblaze_0_0_MB_SRL16E__parameterized8
    (Dbg_TDO,
     Q,
     Dbg_Clk,
-    \Serial_Dbg_Intf.shift_count_reg[4] ,
-    \Serial_Dbg_Intf.status_reg_reg[0] ,
-    Status_Reg_En,
-    \Serial_Dbg_Intf.shift_count_reg[4]_0 ,
-    \Serial_Dbg_Intf.shift_count_reg[3] ,
-    \Dbg_Reg_En[4] ,
-    \Serial_Dbg_Intf.instr_read_reg_reg[1] ,
-    \Serial_Dbg_Intf.shift_count_reg[6] ,
-    \Serial_Dbg_Intf.shift_count_reg[5] ,
     Q6_out,
     Q11_in,
     Q_0);
   output Dbg_TDO;
-  input [7:0]Q;
+  input [5:0]Q;
   input Dbg_Clk;
-  input \Serial_Dbg_Intf.shift_count_reg[4] ;
-  input \Serial_Dbg_Intf.status_reg_reg[0] ;
-  input Status_Reg_En;
-  input \Serial_Dbg_Intf.shift_count_reg[4]_0 ;
-  input \Serial_Dbg_Intf.shift_count_reg[3] ;
-  input \Dbg_Reg_En[4] ;
-  input \Serial_Dbg_Intf.instr_read_reg_reg[1] ;
-  input \Serial_Dbg_Intf.shift_count_reg[6] ;
-  input \Serial_Dbg_Intf.shift_count_reg[5] ;
   input Q6_out;
   input Q11_in;
   input Q_0;
 
   wire Dbg_Clk;
-  wire \Dbg_Reg_En[4] ;
   wire Dbg_TDO;
-  wire Dbg_TDO_INST_0_i_13_n_0;
-  wire Dbg_TDO_INST_0_i_2_n_0;
-  wire Dbg_TDO_INST_0_i_31_n_0;
-  wire [7:0]Q;
+  wire [5:0]Q;
   wire Q11_in;
   wire Q5_out;
   wire Q6_out;
   wire Q_0;
-  wire \Serial_Dbg_Intf.instr_read_reg_reg[1] ;
-  wire \Serial_Dbg_Intf.shift_count_reg[3] ;
-  wire \Serial_Dbg_Intf.shift_count_reg[4] ;
-  wire \Serial_Dbg_Intf.shift_count_reg[4]_0 ;
-  wire \Serial_Dbg_Intf.shift_count_reg[5] ;
-  wire \Serial_Dbg_Intf.shift_count_reg[6] ;
-  wire \Serial_Dbg_Intf.status_reg_reg[0] ;
-  wire Status_Reg_En;
 
   LUT6 #(
-    .INIT(64'hF444F444F4444444)) 
-    Dbg_TDO_INST_0
-       (.I0(\Serial_Dbg_Intf.shift_count_reg[4] ),
-        .I1(Dbg_TDO_INST_0_i_2_n_0),
-        .I2(\Serial_Dbg_Intf.status_reg_reg[0] ),
-        .I3(Status_Reg_En),
-        .I4(\Serial_Dbg_Intf.shift_count_reg[4]_0 ),
-        .I5(\Serial_Dbg_Intf.shift_count_reg[3] ),
-        .O(Dbg_TDO));
-  MUXF7 Dbg_TDO_INST_0_i_13
-       (.I0(Dbg_TDO_INST_0_i_31_n_0),
-        .I1(\Serial_Dbg_Intf.shift_count_reg[5] ),
-        .O(Dbg_TDO_INST_0_i_13_n_0),
-        .S(Q[6]));
-  LUT5 #(
-    .INIT(32'h8888AAA8)) 
-    Dbg_TDO_INST_0_i_2
-       (.I0(\Dbg_Reg_En[4] ),
-        .I1(\Serial_Dbg_Intf.instr_read_reg_reg[1] ),
-        .I2(Dbg_TDO_INST_0_i_13_n_0),
-        .I3(Q[7]),
-        .I4(\Serial_Dbg_Intf.shift_count_reg[6] ),
-        .O(Dbg_TDO_INST_0_i_2_n_0));
-  LUT6 #(
-    .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    Dbg_TDO_INST_0_i_31
+    .INIT(64'h505F3030505F3F3F)) 
+    Dbg_TDO_INST_0_i_32
        (.I0(Q5_out),
         .I1(Q6_out),
         .I2(Q[5]),
         .I3(Q11_in),
         .I4(Q[4]),
         .I5(Q_0),
-        .O(Dbg_TDO_INST_0_i_31_n_0));
+        .O(Dbg_TDO));
   (* box_type = "PRIMITIVE" *) 
   (* srl_bus_name = "U0/\MicroBlaze_Core_I/Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Serial_Dbg_Intf.The_Cache_Addresses " *) 
   (* srl_name = "U0/\MicroBlaze_Core_I/Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Serial_Dbg_Intf.The_Cache_Addresses[2].SRL16E_Cache_I/Use_unisim.MB_SRL16E_I1 " *) 
@@ -48827,8 +49087,8 @@ module blockdesign_microblaze_0_0_MB_SRL16E__parameterized8_23
   wire Q4_out;
 
   LUT6 #(
-    .INIT(64'hAFA0CFCFAFA0C0C0)) 
-    Dbg_TDO_INST_0_i_32
+    .INIT(64'h505F3030505F3F3F)) 
+    Dbg_TDO_INST_0_i_31
        (.I0(Q1_out),
         .I1(Q2_out),
         .I2(Q[5]),
@@ -48853,18 +49113,15 @@ module blockdesign_microblaze_0_0_MB_SRL16E__parameterized8_23
         .Q(Q1_out));
 endmodule
 
-(* ORIG_REF_NAME = "MB_SRLC16E" *) 
 module blockdesign_microblaze_0_0_MB_SRLC16E
    (SRL16_Sel_7,
     which_pc,
-    \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ,
     SRL16_MC15_7,
     Address,
     Dbg_Clk,
     Dbg_Reg_En);
   output SRL16_Sel_7;
   output which_pc;
-  output \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ;
   input SRL16_MC15_7;
   input [3:0]Address;
   input Dbg_Clk;
@@ -48875,7 +49132,7 @@ module blockdesign_microblaze_0_0_MB_SRLC16E
   wire [0:7]Dbg_Reg_En;
   wire SRL16_MC15_7;
   wire SRL16_Sel_7;
-  wire \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ;
+  wire \Use_unisim.MB_SRL16CE_I1_i_2_n_0 ;
   wire \Use_unisim.MB_SRL16CE_I1_n_1 ;
   wire which_pc;
 
@@ -48900,16 +49157,16 @@ module blockdesign_microblaze_0_0_MB_SRLC16E
         .I1(Dbg_Reg_En[3]),
         .I2(Dbg_Reg_En[5]),
         .I3(Dbg_Reg_En[4]),
-        .I4(\Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ),
+        .I4(\Use_unisim.MB_SRL16CE_I1_i_2_n_0 ),
         .O(which_pc));
   LUT4 #(
     .INIT(16'hFFFE)) 
     \Use_unisim.MB_SRL16CE_I1_i_2 
        (.I0(Dbg_Reg_En[7]),
-        .I1(Dbg_Reg_En[0]),
-        .I2(Dbg_Reg_En[2]),
+        .I1(Dbg_Reg_En[2]),
+        .I2(Dbg_Reg_En[0]),
         .I3(Dbg_Reg_En[6]),
-        .O(\Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ));
+        .O(\Use_unisim.MB_SRL16CE_I1_i_2_n_0 ));
 endmodule
 
 (* ORIG_REF_NAME = "MB_SRLC16E" *) 
@@ -49178,7 +49435,6 @@ module blockdesign_microblaze_0_0_MB_SRLC16E_45
         .Q15(SRL16_MC15_1));
 endmodule
 
-(* ORIG_REF_NAME = "MSR_Reg" *) 
 module blockdesign_microblaze_0_0_MSR_Reg
    (msr_I,
     I3,
@@ -49191,9 +49447,9 @@ module blockdesign_microblaze_0_0_MSR_Reg
     Clk,
     \Use_Async_Reset.sync_reset_reg ,
     ex_Valid_reg,
-    \Use_Async_Reset.sync_reset_reg_0 ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
     Address,
     \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg );
   output [2:0]msr_I;
@@ -49207,9 +49463,9 @@ module blockdesign_microblaze_0_0_MSR_Reg
   input Clk;
   input \Use_Async_Reset.sync_reset_reg ;
   input ex_Valid_reg;
-  input \Use_Async_Reset.sync_reset_reg_0 ;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
   input [3:0]Address;
   input \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
 
@@ -49222,10 +49478,10 @@ module blockdesign_microblaze_0_0_MSR_Reg
   wire MSR_Rst;
   wire \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
   wire \Use_Async_Reset.sync_reset_reg ;
-  wire \Use_Async_Reset.sync_reset_reg_0 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire \Using_dynamic_instr_Address.old_IE_value_reg ;
   wire ex_Valid_reg;
   wire [2:0]msr_I;
@@ -49236,7 +49492,7 @@ module blockdesign_microblaze_0_0_MSR_Reg
         .I3_0(I3_0),
         .MSR_Rst(MSR_Rst),
         .\Using_FPGA.Native (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
         .msr_I(msr_I[2]));
   blockdesign_microblaze_0_0_MSR_Reg_Bit_919 \MSR_Bits[29].Using_MSR_Reg_Bit.MSR_Reg_Bit_I 
        (.Address({Address[3],Address[1]}),
@@ -49244,7 +49500,7 @@ module blockdesign_microblaze_0_0_MSR_Reg
         .I3(I3),
         .I3_1(I3_1),
         .\Use_Async_Reset.sync_reset_reg (\Use_Async_Reset.sync_reset_reg ),
-        .\Using_FPGA.Native (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
         .ex_Valid_reg(ex_Valid_reg),
         .msr_I(msr_I[1]));
   blockdesign_microblaze_0_0_MSR_Reg_Bit_920 \MSR_Bits[30].Using_MSR_Reg_Bit.MSR_Reg_Bit_I 
@@ -49252,14 +49508,13 @@ module blockdesign_microblaze_0_0_MSR_Reg
         .Clk(Clk),
         .I3_2(I3_2),
         .\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg (\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ),
-        .\Use_Async_Reset.sync_reset_reg (\Use_Async_Reset.sync_reset_reg_0 ),
         .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_2 ),
         .\Using_dynamic_instr_Address.old_IE_value_reg (\Using_dynamic_instr_Address.old_IE_value_reg ),
         .msr_I(msr_I[0]));
 endmodule
 
-(* ORIG_REF_NAME = "MSR_Reg_Bit" *) 
 module blockdesign_microblaze_0_0_MSR_Reg_Bit
    (msr_I,
     I3_0,
@@ -49338,19 +49593,19 @@ module blockdesign_microblaze_0_0_MSR_Reg_Bit_920
    (msr_I,
     I3_2,
     \Using_dynamic_instr_Address.old_IE_value_reg ,
-    \Use_Async_Reset.sync_reset_reg ,
     \Using_FPGA.Native ,
-    Clk,
     \Using_FPGA.Native_0 ,
+    Clk,
+    \Using_FPGA.Native_1 ,
     Address,
     \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg );
   output [0:0]msr_I;
   output I3_2;
   output \Using_dynamic_instr_Address.old_IE_value_reg ;
-  input \Use_Async_Reset.sync_reset_reg ;
   input \Using_FPGA.Native ;
-  input Clk;
   input \Using_FPGA.Native_0 ;
+  input Clk;
+  input \Using_FPGA.Native_1 ;
   input [0:0]Address;
   input \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
 
@@ -49358,9 +49613,9 @@ module blockdesign_microblaze_0_0_MSR_Reg_Bit_920
   wire Clk;
   wire I3_2;
   wire \Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ;
-  wire \Use_Async_Reset.sync_reset_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire \Using_dynamic_instr_Address.old_IE_value_reg ;
   wire [0:0]msr_I;
 
@@ -49369,9 +49624,9 @@ module blockdesign_microblaze_0_0_MSR_Reg_Bit_920
         .Clk(Clk),
         .I3_2(I3_2),
         .\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg (\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg ),
-        .\Use_Async_Reset.sync_reset_reg (\Use_Async_Reset.sync_reset_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
         .\Using_dynamic_instr_Address.old_IE_value_reg (\Using_dynamic_instr_Address.old_IE_value_reg ),
         .msr_I(msr_I));
 endmodule
@@ -49388,14 +49643,14 @@ endmodule
 (* C_DEBUG_LATENCY_COUNTERS = "1" *) (* C_DEBUG_PROFILE_SIZE = "0" *) (* C_DEBUG_TRACE_ASYNC_RESET = "0" *) 
 (* C_DEBUG_TRACE_SIZE = "8192" *) (* C_DIV_ZERO_EXCEPTION = "0" *) (* C_DYNAMIC_BUS_SIZING = "0" *) 
 (* C_D_AXI = "1" *) (* C_D_LMB = "1" *) (* C_ECC_USE_CE_EXCEPTION = "0" *) 
-(* C_EDGE_IS_POSITIVE = "1" *) (* C_ENDIANNESS = "1" *) (* C_FAMILY = "artix7" *) 
+(* C_EDGE_IS_POSITIVE = "0" *) (* C_ENDIANNESS = "1" *) (* C_FAMILY = "artix7" *) 
 (* C_FAULT_TOLERANT = "0" *) (* C_FPU_EXCEPTION = "0" *) (* C_FREQ = "100000000" *) 
 (* C_FSL_EXCEPTION = "0" *) (* C_FSL_LINKS = "0" *) (* C_IADDR_SIZE = "32" *) 
 (* C_ICACHE_ALWAYS_USED = "0" *) (* C_ICACHE_BASEADDR = "64'b0000000000000000000000000000000000000000000000000000000000000000" *) (* C_ICACHE_DATA_WIDTH = "0" *) 
 (* C_ICACHE_FORCE_TAG_LUTRAM = "0" *) (* C_ICACHE_HIGHADDR = "64'b0000000000000000000000000000000000111111111111111111111111111111" *) (* C_ICACHE_LINE_LEN = "4" *) 
 (* C_ICACHE_STREAMS = "0" *) (* C_ICACHE_VICTIMS = "0" *) (* C_ILL_OPCODE_EXCEPTION = "0" *) 
 (* C_IMPRECISE_EXCEPTIONS = "0" *) (* C_INSTANCE = "blockdesign_microblaze_0_0" *) (* C_INSTR_SIZE = "32" *) 
-(* C_INTERCONNECT = "2" *) (* C_INTERRUPT_IS_EDGE = "0" *) (* C_I_AXI = "0" *) 
+(* C_INTERCONNECT = "2" *) (* C_INTERRUPT_IS_EDGE = "1" *) (* C_I_AXI = "0" *) 
 (* C_I_LMB = "1" *) (* C_LOCKSTEP_MASTER = "0" *) (* C_LOCKSTEP_SLAVE = "0" *) 
 (* C_M0_AXIS_DATA_WIDTH = "32" *) (* C_M10_AXIS_DATA_WIDTH = "32" *) (* C_M11_AXIS_DATA_WIDTH = "32" *) 
 (* C_M12_AXIS_DATA_WIDTH = "32" *) (* C_M13_AXIS_DATA_WIDTH = "32" *) (* C_M14_AXIS_DATA_WIDTH = "32" *) 
@@ -49430,8 +49685,7 @@ endmodule
 (* C_USE_EXT_NM_BRK = "0" *) (* C_USE_FPU = "0" *) (* C_USE_HW_MUL = "1" *) 
 (* C_USE_ICACHE = "0" *) (* C_USE_INTERRUPT = "2" *) (* C_USE_MMU = "0" *) 
 (* C_USE_MSR_INSTR = "1" *) (* C_USE_NON_SECURE = "0" *) (* C_USE_PCMP_INSTR = "1" *) 
-(* C_USE_REORDER_INSTR = "0" *) (* C_USE_STACK_PROTECTION = "0" *) (* ORIG_REF_NAME = "MicroBlaze" *) 
-(* downgradeipidentifiedwarnings = "yes" *) 
+(* C_USE_REORDER_INSTR = "0" *) (* C_USE_STACK_PROTECTION = "0" *) (* downgradeipidentifiedwarnings = "yes" *) 
 module blockdesign_microblaze_0_0_MicroBlaze
    (RAM_Static,
     RAM_To,
@@ -50318,7 +50572,6 @@ module blockdesign_microblaze_0_0_MicroBlaze
 
   wire \<const0> ;
   wire \<const1> ;
-  wire \Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Status_Reg_En ;
   wire [0:3]Byte_Enable;
   wire Clk;
   wire DReady;
@@ -50334,9 +50587,9 @@ module blockdesign_microblaze_0_0_MicroBlaze
   wire Dbg_Stop;
   wire Dbg_TDI;
   wire Dbg_TDO;
-  wire Dbg_TDO_INST_0_i_11_n_0;
-  wire Dbg_TDO_INST_0_i_15_n_0;
-  wire Dbg_TDO_INST_0_i_30_n_0;
+  wire Dbg_TDO_INST_0_i_13_n_0;
+  wire Dbg_TDO_INST_0_i_28_n_0;
+  wire Dbg_TDO_INST_0_i_6_n_0;
   wire [0:7]Dbg_Trig_Ack_In;
   wire [0:1]\^Dbg_Trig_Ack_Out ;
   wire [0:1]\^Dbg_Trig_In ;
@@ -50369,6 +50622,7 @@ module blockdesign_microblaze_0_0_MicroBlaze
   wire [3:0]M_AXI_DP_WSTRB;
   wire M_AXI_DP_WVALID;
   wire Mb_Reset;
+  wire MicroBlaze_Core_I_n_407;
   wire Pause;
   wire Pause_Ack;
   wire Read_Strobe;
@@ -75930,39 +76184,31 @@ module blockdesign_microblaze_0_0_MicroBlaze
   assign Trace_PID_Reg[5] = \<const0> ;
   assign Trace_PID_Reg[6] = \<const0> ;
   assign Trace_PID_Reg[7] = \<const0> ;
-  LUT4 #(
-    .INIT(16'h0010)) 
-    Dbg_TDO_INST_0_i_11
-       (.I0(Dbg_Reg_En[3]),
-        .I1(Dbg_Reg_En[1]),
-        .I2(Dbg_Reg_En[5]),
-        .I3(Dbg_Reg_En[4]),
-        .O(Dbg_TDO_INST_0_i_11_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair62" *) 
-  LUT3 #(
-    .INIT(8'hEF)) 
-    Dbg_TDO_INST_0_i_15
-       (.I0(Dbg_Reg_En[2]),
-        .I1(Dbg_Reg_En[0]),
-        .I2(Dbg_Reg_En[6]),
-        .O(Dbg_TDO_INST_0_i_15_n_0));
-  (* SOFT_HLUTNM = "soft_lutpair62" *) 
   LUT2 #(
     .INIT(4'hE)) 
-    Dbg_TDO_INST_0_i_30
-       (.I0(Dbg_Reg_En[0]),
-        .I1(Dbg_Reg_En[2]),
-        .O(Dbg_TDO_INST_0_i_30_n_0));
-  LUT6 #(
-    .INIT(64'h0000000000000004)) 
-    Dbg_TDO_INST_0_i_4
-       (.I0(Dbg_TDO_INST_0_i_15_n_0),
-        .I1(Dbg_Reg_En[7]),
-        .I2(Dbg_Reg_En[3]),
-        .I3(Dbg_Reg_En[1]),
-        .I4(Dbg_Reg_En[4]),
-        .I5(Dbg_Reg_En[5]),
-        .O(\Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Status_Reg_En ));
+    Dbg_TDO_INST_0_i_13
+       (.I0(Dbg_Reg_En[2]),
+        .I1(Dbg_Reg_En[0]),
+        .O(Dbg_TDO_INST_0_i_13_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair65" *) 
+  LUT4 #(
+    .INIT(16'hFFFB)) 
+    Dbg_TDO_INST_0_i_28
+       (.I0(Dbg_Reg_En[7]),
+        .I1(Dbg_Reg_En[6]),
+        .I2(Dbg_Reg_En[2]),
+        .I3(Dbg_Reg_En[0]),
+        .O(Dbg_TDO_INST_0_i_28_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair65" *) 
+  LUT5 #(
+    .INIT(32'hFFFFFDFF)) 
+    Dbg_TDO_INST_0_i_6
+       (.I0(Dbg_Reg_En[7]),
+        .I1(Dbg_Reg_En[0]),
+        .I2(Dbg_Reg_En[2]),
+        .I3(Dbg_Reg_En[6]),
+        .I4(MicroBlaze_Core_I_n_407),
+        .O(Dbg_TDO_INST_0_i_6_n_0));
   GND GND
        (.G(\<const0> ));
   FDRE \LOCKSTEP_Out_reg[0] 
@@ -78128,9 +78374,9 @@ module blockdesign_microblaze_0_0_MicroBlaze
         .Dbg_Capture(Dbg_Capture),
         .Dbg_Clk(Dbg_Clk),
         .Dbg_Reg_En(Dbg_Reg_En),
-        .Dbg_Reg_En_2_sp_1(Dbg_TDO_INST_0_i_30_n_0),
-        .Dbg_Reg_En_4_sp_1(Dbg_TDO_INST_0_i_11_n_0),
-        .Dbg_Reg_En_6_sp_1(Dbg_TDO_INST_0_i_15_n_0),
+        .\Dbg_Reg_En[0]_0 (Dbg_TDO_INST_0_i_28_n_0),
+        .Dbg_Reg_En_0_sp_1(Dbg_TDO_INST_0_i_13_n_0),
+        .Dbg_Reg_En_5_sp_1(Dbg_TDO_INST_0_i_6_n_0),
         .Dbg_Shift(Dbg_Shift),
         .Dbg_Stop(Dbg_Stop),
         .Dbg_TDI(Dbg_TDI),
@@ -78161,8 +78407,8 @@ module blockdesign_microblaze_0_0_MicroBlaze
         .Reset_Mode(Reset_Mode),
         .Scan_Reset(Scan_Reset),
         .Scan_Reset_Sel(Scan_Reset_Sel),
+        .\Serial_Dbg_Intf.command_reg_reg[1] (MicroBlaze_Core_I_n_407),
         .Sleep(Sleep),
-        .Status_Reg_En(\Area.Core/Implement_Debug_Logic.Master_Core.Debug_Area/Status_Reg_En ),
         .Suspend(Suspend),
         .\Using_FPGA.Native (\^LOCKSTEP_Master_Out [9]),
         .Wakeup(Wakeup),
@@ -78171,7 +78417,6 @@ module blockdesign_microblaze_0_0_MicroBlaze
        (.P(\<const1> ));
 endmodule
 
-(* ORIG_REF_NAME = "MicroBlaze_Area" *) 
 module blockdesign_microblaze_0_0_MicroBlaze_Area
    (D,
     \Using_FPGA.Native ,
@@ -78184,10 +78429,12 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
     Dbg_Trig_In,
     Dbg_Trig_Ack_Out,
     Dbg_TDO,
+    \Serial_Dbg_Intf.command_reg_reg[1] ,
     Interrupt_Ack,
     Clk,
     sync_reset,
     Dbg_Clk,
+    Interrupt,
     Pause,
     Dbg_Trig_Ack_In,
     Dbg_Trig_Out,
@@ -78196,24 +78443,22 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
     Dbg_Capture,
     DReady,
     M_AXI_DP_ARREADY,
-    M_AXI_DP_WREADY,
     M_AXI_DP_AWREADY,
-    M_AXI_DP_RVALID,
+    M_AXI_DP_WREADY,
     M_AXI_DP_BVALID,
+    M_AXI_DP_RVALID,
     IReady,
-    Interrupt,
     DWait,
     wakeup_i,
     Reset_Mode,
     Scan_Reset,
     Scan_Reset_Sel,
-    Status_Reg_En,
-    Dbg_Reg_En_4_sp_1,
+    Dbg_Reg_En_5_sp_1,
+    Dbg_Reg_En_0_sp_1,
     Dbg_Reg_En,
-    Dbg_Reg_En_6_sp_1,
     Dbg_Shift,
     Interrupt_Address,
-    Dbg_Reg_En_2_sp_1,
+    \Dbg_Reg_En[0]_0 ,
     Data_Read,
     Instr,
     Dbg_TDI,
@@ -78229,10 +78474,12 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   output [1:0]Dbg_Trig_In;
   output [1:0]Dbg_Trig_Ack_Out;
   output Dbg_TDO;
+  output \Serial_Dbg_Intf.command_reg_reg[1] ;
   output [0:1]Interrupt_Ack;
   input Clk;
   input sync_reset;
   input Dbg_Clk;
+  input Interrupt;
   input Pause;
   input [1:0]Dbg_Trig_Ack_In;
   input [1:0]Dbg_Trig_Out;
@@ -78241,24 +78488,22 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   input Dbg_Capture;
   input DReady;
   input M_AXI_DP_ARREADY;
-  input M_AXI_DP_WREADY;
   input M_AXI_DP_AWREADY;
-  input M_AXI_DP_RVALID;
+  input M_AXI_DP_WREADY;
   input M_AXI_DP_BVALID;
+  input M_AXI_DP_RVALID;
   input IReady;
-  input Interrupt;
   input DWait;
   input [0:1]wakeup_i;
   input [0:1]Reset_Mode;
   input Scan_Reset;
   input Scan_Reset_Sel;
-  input Status_Reg_En;
-  input Dbg_Reg_En_4_sp_1;
+  input Dbg_Reg_En_5_sp_1;
+  input Dbg_Reg_En_0_sp_1;
   input [0:7]Dbg_Reg_En;
-  input Dbg_Reg_En_6_sp_1;
   input Dbg_Shift;
   input [0:31]Interrupt_Address;
-  input Dbg_Reg_En_2_sp_1;
+  input \Dbg_Reg_En[0]_0 ;
   input [0:31]Data_Read;
   input [0:31]Instr;
   input Dbg_TDI;
@@ -78266,11 +78511,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
 
   wire BitField_Extract;
   wire BitField_Insert;
-  wire Byte_Doublet_Handle_I_n_35;
-  wire Byte_Doublet_Handle_I_n_36;
-  wire Byte_Doublet_Handle_I_n_37;
-  wire Byte_Doublet_Handle_I_n_38;
-  wire Byte_Doublet_Handle_I_n_39;
   wire Clk;
   wire [357:0]D;
   wire DReady;
@@ -78339,9 +78579,9 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire Dbg_Capture;
   wire Dbg_Clk;
   wire [0:7]Dbg_Reg_En;
-  wire Dbg_Reg_En_2_sn_1;
-  wire Dbg_Reg_En_4_sn_1;
-  wire Dbg_Reg_En_6_sn_1;
+  wire \Dbg_Reg_En[0]_0 ;
+  wire Dbg_Reg_En_0_sn_1;
+  wire Dbg_Reg_En_5_sn_1;
   wire Dbg_Shift;
   wire Dbg_Stop;
   wire Dbg_TDI;
@@ -78351,16 +78591,17 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire [1:0]Dbg_Trig_In;
   wire [1:0]Dbg_Trig_Out;
   wire Dbg_Update;
-  wire Decode_I_n_105;
+  wire Decode_I_n_104;
+  wire Decode_I_n_108;
+  wire Decode_I_n_109;
   wire Decode_I_n_110;
   wire Decode_I_n_111;
-  wire Decode_I_n_112;
-  wire Decode_I_n_113;
-  wire Decode_I_n_117;
+  wire Decode_I_n_115;
+  wire Decode_I_n_116;
   wire Decode_I_n_118;
-  wire Decode_I_n_119;
-  wire Decode_I_n_158;
-  wire Decode_I_n_160;
+  wire Decode_I_n_157;
+  wire Decode_I_n_159;
+  wire Decode_I_n_165;
   wire Decode_I_n_166;
   wire Decode_I_n_167;
   wire Decode_I_n_168;
@@ -78374,7 +78615,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire Decode_I_n_176;
   wire Decode_I_n_177;
   wire Decode_I_n_178;
-  wire Decode_I_n_179;
   wire Decode_I_n_61;
   wire Decode_I_n_62;
   wire Decode_I_n_63;
@@ -78408,14 +78648,13 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire Hibernate;
   wire IReady;
   wire IReady1_out;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_40 ;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_42 ;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_52 ;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_53 ;
+  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_43 ;
   wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_54 ;
+  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_55 ;
   wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_56 ;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_57 ;
-  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_58 ;
+  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_59 ;
+  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_60 ;
+  wire \Implement_Debug_Logic.Master_Core.Debug_Area_n_61 ;
   wire [0:31]Instr;
   wire Interrupt;
   wire [0:1]Interrupt_Ack;
@@ -78474,9 +78713,9 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire Pause_Ack;
   wire [0:1]Reset_Mode;
   wire [0:16]\Result_Mux_I/data_Read_Mask ;
-  wire S105_out;
   wire Scan_Reset;
   wire Scan_Reset_Sel;
+  wire \Serial_Dbg_Intf.command_reg_reg[1] ;
   wire \Shift_Logic_Module_I/Enable_2 ;
   wire \Shift_Logic_Module_I/I3 ;
   wire \Shift_Logic_Module_I/Is_Equal ;
@@ -78486,10 +78725,11 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire Sleep;
   wire Sleep_Decode;
   wire Sleep_Out;
-  wire Status_Reg_En;
   wire Suspend;
   wire Unsigned_Op;
   wire \Using_Barrel_Shifter.barrel_shift_I/void_bit ;
+  wire \Using_Ext_Databus.DAXI_Interface_I1_n_106 ;
+  wire \Using_Ext_Databus.DAXI_Interface_I1_n_107 ;
   wire \Using_Ext_Databus.DAXI_Interface_I1_n_73 ;
   wire \Using_FPGA.Native ;
   wire Valid_Instr_i;
@@ -78508,10 +78748,14 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire ex_not_mul_op;
   wire [30:30]exception_kind;
   wire [16:31]extend_Data_Read;
+  wire force_stop_cmd_hold;
+  wire force_stop_cmd_i;
   wire has_inhibit_EX;
   wire imm_Instr;
   wire [0:15]imm_Value;
   wire [6:7]instr_ex;
+  wire internal_interrupt;
+  wire interrupt_Taken_i;
   wire isbyte;
   wire isdoublet;
   wire jump;
@@ -78527,6 +78771,7 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire mem_access;
   wire [28:30]msr_I;
   wire [0:31]mux_Instr_Read;
+  wire no_sleeping;
   wire of_PipeRun;
   wire ok_To_Stop;
   wire opsel1_SPR;
@@ -78544,14 +78789,13 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire res_Forward1;
   wire res_Forward2;
   wire [0:1]result_Sel;
-  wire [1:0]sel_LSB;
+  wire [1:1]sel_LSB;
   wire select_Logic;
   wire sext16;
   wire sext8;
   wire [24:25]shift_Logic_Result;
   wire sign_Extend;
   wire sync_reset;
-  wire take_Intr_Now_III;
   wire trace_reg_write_novalid;
   wire use_Imm_Reg;
   wire valid_Fetch;
@@ -78559,27 +78803,23 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
   wire [0:1]wakeup_i;
   wire [0:4]write_Addr;
 
-  assign Dbg_Reg_En_2_sn_1 = Dbg_Reg_En_2_sp_1;
-  assign Dbg_Reg_En_4_sn_1 = Dbg_Reg_En_4_sp_1;
-  assign Dbg_Reg_En_6_sn_1 = Dbg_Reg_En_6_sp_1;
+  assign Dbg_Reg_En_0_sn_1 = Dbg_Reg_En_0_sp_1;
+  assign Dbg_Reg_En_5_sn_1 = Dbg_Reg_En_5_sp_1;
   blockdesign_microblaze_0_0_Byte_Doublet_Handle Byte_Doublet_Handle_I
        (.D({D[292:267],D[255:252]}),
         .DReady(DReady),
         .Data_Read({Data_Read[24],Data_Read[25],Data_Read[26],Data_Read[27],Data_Read[28],Data_Read[29],Data_Read[30],Data_Read[31]}),
-        .Data_Read0_out({Data_Read0_out[9],Data_Read0_out[10],Data_Read0_out[15]}),
+        .Data_Read0_out({Data_Read0_out[3],Data_Read0_out[5],Data_Read0_out[8],Data_Read0_out[9],Data_Read0_out[10],Data_Read0_out[11],Data_Read0_out[12],Data_Read0_out[13],Data_Read0_out[14],Data_Read0_out[15]}),
         .Op1_Low(Op1_Low),
         .Op2_Low(Op2_Low),
         .Q({WB_DAXI_Read_Data[24],WB_DAXI_Read_Data[25],WB_DAXI_Read_Data[26],WB_DAXI_Read_Data[27],WB_DAXI_Read_Data[28],WB_DAXI_Read_Data[29],WB_DAXI_Read_Data[30],WB_DAXI_Read_Data[31]}),
-        .\Using_FPGA.Native (Byte_Doublet_Handle_I_n_35),
-        .\Using_FPGA.Native_0 (Byte_Doublet_Handle_I_n_36),
-        .\Using_FPGA.Native_1 (Byte_Doublet_Handle_I_n_37),
-        .\Using_FPGA.Native_2 (Byte_Doublet_Handle_I_n_38),
-        .\Using_FPGA.Native_3 (Byte_Doublet_Handle_I_n_39),
-        .\WB_DAXI_Read_Data_reg[17] ({extend_Data_Read[17],extend_Data_Read[18],extend_Data_Read[23]}),
-        .extend_Data_Read({extend_Data_Read[25],extend_Data_Read[26],extend_Data_Read[31]}),
+        .\Using_FPGA.Native (sel_LSB),
+        .\WB_DAXI_Read_Data_reg[16] ({extend_Data_Read[16],extend_Data_Read[17],extend_Data_Read[18],extend_Data_Read[20],extend_Data_Read[22],extend_Data_Read[23]}),
+        .\WB_DAXI_Read_Data_reg[19] (\Using_Ext_Databus.DAXI_Interface_I1_n_106 ),
+        .\WB_DAXI_Read_Data_reg[21] (\Using_Ext_Databus.DAXI_Interface_I1_n_107 ),
+        .extend_Data_Read({extend_Data_Read[24],extend_Data_Read[25],extend_Data_Read[26],extend_Data_Read[27],extend_Data_Read[28],extend_Data_Read[29],extend_Data_Read[30],extend_Data_Read[31]}),
         .isbyte(isbyte),
         .isdoublet(isdoublet),
-        .sel_LSB(sel_LSB),
         .\write_Addr_I_reg[0] ({raw_Data_Write,D[266],D[265],D[264],D[263],D[262],D[261],D[260],D[259]}));
   blockdesign_microblaze_0_0_Data_Flow Data_Flow_I
        (.A(reg_neg),
@@ -78589,8 +78829,8 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Buffer_Addr({buffer_Addr[1],buffer_Addr[2],buffer_Addr[3]}),
-        .\C_reg[28] (Data_Flow_I_n_42),
         .\C_reg[30] (Data_Flow_I_n_41),
+        .\C_reg[31] (Data_Flow_I_n_42),
         .Clk(Clk),
         .D(D[15:8]),
         .DI(pc_Incr),
@@ -78640,33 +78880,32 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .MSR_Rst(\MSR_Reg_I/MSR_Rst ),
         .OF_PipeRun(\PC_Module_I/normal_piperun ),
         .Op1_Low(Op1_Low),
-        .Op1_Shift(Decode_I_n_111),
+        .Op1_Shift(Decode_I_n_109),
         .Op2_Low(Op2_Low),
         .PCMP_Instr2_out(PCMP_Instr2_out),
         .PC_Write(\PC_Module_I/pc_write_I ),
         .Q({Data_Flow_I_n_218,Data_Flow_I_n_219,Data_Flow_I_n_220,Data_Flow_I_n_221,Data_Flow_I_n_222,Data_Flow_I_n_223,Data_Flow_I_n_224,Data_Flow_I_n_225,Data_Flow_I_n_226,Data_Flow_I_n_227,Data_Flow_I_n_228,Data_Flow_I_n_229,Data_Flow_I_n_230,Data_Flow_I_n_231,Data_Flow_I_n_232,\Operand_Select_I/Imm_Reg }),
         .Reg_Test_Equal(reg_Test_Equal),
-        .Reg_Write(\Implement_Debug_Logic.Master_Core.Debug_Area_n_56 ),
+        .Reg_Write(\Implement_Debug_Logic.Master_Core.Debug_Area_n_59 ),
         .Reg_zero(reg_zero),
         .\Result_Sel_reg[0] ({result_Sel[0],result_Sel[1]}),
-        .SR(\Implement_Debug_Logic.Master_Core.Debug_Area_n_54 ),
+        .SR(\Implement_Debug_Logic.Master_Core.Debug_Area_n_56 ),
         .Select_Logic(select_Logic),
         .\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg (LOCKSTEP_Master_Out[36]),
-        .Sext(Decode_I_n_167),
+        .Sext(Decode_I_n_166),
         .Shift_Logic_Res(\Shift_Logic_Module_I/Shift_Logic_Res26_out ),
         .Shift_Oper(sign_Extend),
         .Shifted(\Shift_Logic_Module_I/Shifted ),
         .Unsigned_Op(Unsigned_Op),
-        .\Use_Async_Reset.sync_reset_reg (Decode_I_n_113),
-        .\Use_Async_Reset.sync_reset_reg_0 (Decode_I_n_110),
+        .\Use_Async_Reset.sync_reset_reg (Decode_I_n_111),
         .\Use_The_PCMP_instr.CLZ_Instr_reg ({shift_Logic_Result[24],shift_Logic_Result[25]}),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg_0 (Decode_I_n_166),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg (Decode_I_n_168),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg_0 (Decode_I_n_170),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg_1 (Decode_I_n_172),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg_2 (Decode_I_n_174),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg_3 (Decode_I_n_158),
-        .\Using_Barrel_Shifter.BitField_Extract_reg (Decode_I_n_179),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg_0 (Decode_I_n_165),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (Decode_I_n_167),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg_0 (Decode_I_n_169),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg_1 (Decode_I_n_171),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg_2 (Decode_I_n_173),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg_3 (Decode_I_n_157),
+        .\Using_Barrel_Shifter.BitField_Extract_reg (Decode_I_n_178),
         .\Using_FPGA.DSP48E1_I1 (Data_Flow_I_n_5),
         .\Using_FPGA.DSP48E1_I1_0 (Data_Flow_I_n_7),
         .\Using_FPGA.Native (Data_Flow_I_n_6),
@@ -78697,17 +78936,18 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .\Using_FPGA.Native_30 (Data_Flow_I_n_79),
         .\Using_FPGA.Native_31 (Data_Flow_I_n_80),
         .\Using_FPGA.Native_32 (\Shift_Logic_Module_I/Shift_Logic_Res24_out ),
-        .\Using_FPGA.Native_33 (Decode_I_n_169),
-        .\Using_FPGA.Native_34 (Decode_I_n_171),
-        .\Using_FPGA.Native_35 (Decode_I_n_173),
-        .\Using_FPGA.Native_36 (Decode_I_n_175),
-        .\Using_FPGA.Native_37 (Decode_I_n_177),
-        .\Using_FPGA.Native_38 (Decode_I_n_117),
-        .\Using_FPGA.Native_39 (\void_bit16_reg[15] ),
+        .\Using_FPGA.Native_33 (Decode_I_n_168),
+        .\Using_FPGA.Native_34 (Decode_I_n_170),
+        .\Using_FPGA.Native_35 (Decode_I_n_172),
+        .\Using_FPGA.Native_36 (Decode_I_n_174),
+        .\Using_FPGA.Native_37 (Decode_I_n_108),
+        .\Using_FPGA.Native_38 (Decode_I_n_176),
+        .\Using_FPGA.Native_39 (Decode_I_n_118),
         .\Using_FPGA.Native_4 (Data_Flow_I_n_53),
-        .\Using_FPGA.Native_40 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_57 ),
-        .\Using_FPGA.Native_41 (LOCKSTEP_Master_Out[34]),
-        .\Using_FPGA.Native_42 (Decode_I_n_112),
+        .\Using_FPGA.Native_40 (\void_bit16_reg[15] ),
+        .\Using_FPGA.Native_41 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_60 ),
+        .\Using_FPGA.Native_42 (LOCKSTEP_Master_Out[34]),
+        .\Using_FPGA.Native_43 (Decode_I_n_110),
         .\Using_FPGA.Native_5 (Data_Flow_I_n_54),
         .\Using_FPGA.Native_6 (Data_Flow_I_n_55),
         .\Using_FPGA.Native_7 (Data_Flow_I_n_56),
@@ -78720,12 +78960,12 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .compare_Instr(compare_Instr),
         .data_Read_Mask({\Result_Mux_I/data_Read_Mask [0],\Result_Mux_I/data_Read_Mask [16]}),
         .\data_rd_reg_reg[28] ({Data_Flow_I_n_81,Data_Flow_I_n_82,Data_Flow_I_n_83}),
-        .ex_Valid_reg(Decode_I_n_176),
+        .ex_Valid_reg(Decode_I_n_175),
         .ex_not_mul_op(ex_not_mul_op),
         .exception_kind(exception_kind),
         .extend_Data_Read({extend_Data_Read[16],extend_Data_Read[17],extend_Data_Read[18],extend_Data_Read[19],extend_Data_Read[20],extend_Data_Read[21],extend_Data_Read[22],extend_Data_Read[23],extend_Data_Read[24],extend_Data_Read[25],extend_Data_Read[26],extend_Data_Read[27],extend_Data_Read[28],extend_Data_Read[29],extend_Data_Read[30],extend_Data_Read[31]}),
         .imm_Value(imm_Value),
-        .in0(Decode_I_n_160),
+        .in0(Decode_I_n_159),
         .\instr_EX_i_reg[22] (Decode_I_n_83),
         .jump(jump),
         .lopt(lopt),
@@ -78741,7 +78981,7 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
         .pcmp_instr(pcmp_instr),
-        .read_register_MSR_1_reg(\Implement_Debug_Logic.Master_Core.Debug_Area_n_40 ),
+        .read_register_MSR_1_reg(\Implement_Debug_Logic.Master_Core.Debug_Area_n_43 ),
         .reg1_Addr(reg1_Addr),
         .reg_Test_Equal_N(reg_Test_Equal_N),
         .register_write(register_write),
@@ -78755,13 +78995,12 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .\write_Addr_I_reg[0] ({write_Addr[0],write_Addr[1],write_Addr[2],write_Addr[3],write_Addr[4]}));
   blockdesign_microblaze_0_0_Decode Decode_I
        (.A(reg_neg),
-        .\Area_Debug_Control.dbg_brki_hit_reg (Decode_I_n_118),
-        .\Area_Debug_Control.dbg_brki_hit_reg_0 (Decode_I_n_119),
-        .\Area_Debug_Control.force_stop_cmd_hold_reg (\Implement_Debug_Logic.Master_Core.Debug_Area_n_42 ),
+        .\Area_Debug_Control.dbg_brki_hit_reg (Decode_I_n_115),
+        .\Area_Debug_Control.dbg_brki_hit_reg_0 (Decode_I_n_116),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Buffer_Addr({buffer_Addr[1],buffer_Addr[2],buffer_Addr[3]}),
-        .\C_reg[31] (Decode_I_n_179),
+        .\C_reg[28] (Decode_I_n_178),
         .Clk(Clk),
         .D({D[356:355],D[258:256],D[148],D[115]}),
         .DI(pc_Incr),
@@ -78806,7 +79045,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .IReady(valid_Fetch),
         .IReady1_out(IReady1_out),
         .IReady_0(IReady),
-        .Interrupt(Interrupt),
         .Interrupt_Ack(Interrupt_Ack),
         .LO(alu_Carry),
         .LOCKSTEP_Master_Out(LOCKSTEP_Master_Out[37]),
@@ -78815,7 +79053,7 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .Not_Barrel_Op(Not_Barrel_Op),
         .OF_PipeRun(\PC_Module_I/normal_piperun ),
         .Op1_Low(Op1_Low),
-        .Op1_Shift(Decode_I_n_111),
+        .Op1_Shift(Decode_I_n_109),
         .Op2_Low(Op2_Low[0]),
         .PCMP_Instr2_out(PCMP_Instr2_out),
         .PC_Write(\PC_Module_I/pc_write_I ),
@@ -78823,57 +79061,57 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .Q({write_Addr[0],write_Addr[1],write_Addr[2],write_Addr[3],write_Addr[4]}),
         .Reg_Test_Equal(reg_Test_Equal),
         .Reg_zero(reg_zero),
-        .S105_out(S105_out),
+        .Scan_Reset(Scan_Reset),
+        .Scan_Reset_Sel(Scan_Reset_Sel),
         .Select_Logic(select_Logic),
         .Select_Logic_reg_0(\Shift_Logic_Module_I/Shift_Logic_Res24_out ),
-        .\Serial_Dbg_Intf.control_reg_reg[8] (\Implement_Debug_Logic.Master_Core.Debug_Area_n_58 ),
+        .\Serial_Dbg_Intf.control_reg_reg[8] (\Implement_Debug_Logic.Master_Core.Debug_Area_n_61 ),
         .\Serial_Dbg_Intf.dbg_disable_interrupt_i_reg (LOCKSTEP_Master_Out[36]),
-        .\Serial_Dbg_Intf.if_debug_ready_i_reg (\Implement_Debug_Logic.Master_Core.Debug_Area_n_52 ),
+        .\Serial_Dbg_Intf.if_debug_ready_i_reg (\Implement_Debug_Logic.Master_Core.Debug_Area_n_54 ),
         .\Serial_Dbg_Intf.if_debug_ready_i_reg_0 (LOCKSTEP_Master_Out[35]),
         .\Serial_Dbg_Intf.status_reg_reg[22] (mem_Strobe),
-        .Sext(Decode_I_n_167),
+        .Sext(Decode_I_n_166),
         .Shift_Logic_Res(\Shift_Logic_Module_I/Shift_Logic_Res26_out ),
         .Shift_Oper(sign_Extend),
         .Shifted(\Shift_Logic_Module_I/Shifted ),
         .\Size_17to32.imm_Reg_reg[0] ({Data_Flow_I_n_218,Data_Flow_I_n_219,Data_Flow_I_n_220,Data_Flow_I_n_221,Data_Flow_I_n_222,Data_Flow_I_n_223,Data_Flow_I_n_224,Data_Flow_I_n_225,Data_Flow_I_n_226,Data_Flow_I_n_227,Data_Flow_I_n_228,Data_Flow_I_n_229,Data_Flow_I_n_230,Data_Flow_I_n_231,Data_Flow_I_n_232,\Operand_Select_I/Imm_Reg }),
-        .Sleep(Sleep),
         .Sleep_Decode(Sleep_Decode),
         .Sleep_Out(Sleep_Out),
         .Suspend(Suspend),
         .Unsigned_Op(Unsigned_Op),
-        .\Use_Async_Reset.sync_reset_reg (\Implement_Debug_Logic.Master_Core.Debug_Area_n_53 ),
-        .\Using_BitField.mem_Rd_reg[9] (Decode_I_n_105),
-        .\Using_Ext_Databus.mem_access_reg (Decode_I_n_178),
-        .\Using_FPGA.Native (Decode_I_n_110),
-        .\Using_FPGA.Native_0 (Decode_I_n_112),
-        .\Using_FPGA.Native_1 (Decode_I_n_113),
-        .\Using_FPGA.Native_10 (Decode_I_n_172),
-        .\Using_FPGA.Native_11 (Decode_I_n_173),
-        .\Using_FPGA.Native_12 (Decode_I_n_174),
-        .\Using_FPGA.Native_13 (Decode_I_n_175),
-        .\Using_FPGA.Native_14 (Decode_I_n_176),
-        .\Using_FPGA.Native_15 (Decode_I_n_177),
+        .\Use_Async_Reset.sync_reset_reg (\Implement_Debug_Logic.Master_Core.Debug_Area_n_55 ),
+        .\Using_BitField.mem_Rd_reg[9] (Decode_I_n_104),
+        .\Using_Ext_Databus.mem_access_reg (Decode_I_n_177),
+        .\Using_FPGA.Native (Decode_I_n_108),
+        .\Using_FPGA.Native_0 (Decode_I_n_110),
+        .\Using_FPGA.Native_1 (Decode_I_n_111),
+        .\Using_FPGA.Native_10 (Decode_I_n_171),
+        .\Using_FPGA.Native_11 (Decode_I_n_172),
+        .\Using_FPGA.Native_12 (Decode_I_n_173),
+        .\Using_FPGA.Native_13 (Decode_I_n_174),
+        .\Using_FPGA.Native_14 (Decode_I_n_175),
+        .\Using_FPGA.Native_15 (Decode_I_n_176),
         .\Using_FPGA.Native_16 ({result_Sel[0],result_Sel[1]}),
         .\Using_FPGA.Native_17 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_18 (\void_bit16_reg[15] ),
         .\Using_FPGA.Native_19 (Data_Flow_I_n_48),
-        .\Using_FPGA.Native_2 (Decode_I_n_117),
-        .\Using_FPGA.Native_20 (Data_Flow_I_n_5),
+        .\Using_FPGA.Native_2 (Decode_I_n_118),
+        .\Using_FPGA.Native_20 (Data_Flow_I_n_7),
         .\Using_FPGA.Native_21 (Data_Flow_I_n_4),
-        .\Using_FPGA.Native_22 ({msr_I[28],msr_I[29],msr_I[30]}),
-        .\Using_FPGA.Native_23 (Data_Flow_I_n_7),
-        .\Using_FPGA.Native_24 (Data_Flow_I_n_42),
+        .\Using_FPGA.Native_22 (Data_Flow_I_n_42),
+        .\Using_FPGA.Native_23 (Data_Flow_I_n_5),
+        .\Using_FPGA.Native_24 ({msr_I[28],msr_I[29],msr_I[30]}),
         .\Using_FPGA.Native_25 (Data_Flow_I_n_8),
         .\Using_FPGA.Native_26 (Data_Flow_I_n_41),
         .\Using_FPGA.Native_27 (LOCKSTEP_Master_Out[34]),
         .\Using_FPGA.Native_28 (Data_Flow_I_n_6),
         .\Using_FPGA.Native_3 ({shift_Logic_Result[24],shift_Logic_Result[25]}),
-        .\Using_FPGA.Native_4 (Decode_I_n_158),
-        .\Using_FPGA.Native_5 (Decode_I_n_166),
-        .\Using_FPGA.Native_6 (Decode_I_n_168),
-        .\Using_FPGA.Native_7 (Decode_I_n_169),
-        .\Using_FPGA.Native_8 (Decode_I_n_170),
-        .\Using_FPGA.Native_9 (Decode_I_n_171),
+        .\Using_FPGA.Native_4 (Decode_I_n_157),
+        .\Using_FPGA.Native_5 (Decode_I_n_165),
+        .\Using_FPGA.Native_6 (Decode_I_n_167),
+        .\Using_FPGA.Native_7 (Decode_I_n_168),
+        .\Using_FPGA.Native_8 (Decode_I_n_169),
+        .\Using_FPGA.Native_9 (Decode_I_n_170),
         .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (Data_Flow_I_n_49),
         .\Using_FPGA.take_Intr_2nd_Phase_reg_1 (Data_Flow_I_n_50),
         .\Using_FPGA.take_Intr_2nd_Phase_reg_10 (Data_Flow_I_n_59),
@@ -78919,9 +79157,13 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .dbg_pause(dbg_pause),
         .ex_not_mul_op(ex_not_mul_op),
         .exception_kind(exception_kind),
+        .force_stop_cmd_hold(force_stop_cmd_hold),
+        .force_stop_cmd_i(force_stop_cmd_i),
         .has_inhibit_EX(has_inhibit_EX),
         .imm_Value(imm_Value),
-        .in0(Decode_I_n_160),
+        .in0(Decode_I_n_159),
+        .internal_interrupt(internal_interrupt),
+        .interrupt_Taken_i(interrupt_Taken_i),
         .isbyte(isbyte),
         .isdoublet(isdoublet),
         .jump(jump),
@@ -78935,6 +79177,7 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .lopt_7(lopt_7),
         .mem_access(mem_access),
         .mem_access_completed_reg(\Using_Ext_Databus.DAXI_Interface_I1_n_73 ),
+        .no_sleeping(no_sleeping),
         .of_PipeRun(of_PipeRun),
         .ok_To_Stop(ok_To_Stop),
         .opsel1_SPR(opsel1_SPR),
@@ -78948,7 +79191,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .sext16(sext16),
         .sext8(sext8),
         .sync_reset(sync_reset),
-        .take_Intr_Now_III(take_Intr_Now_III),
         .\trace_instruction_i_reg[0] ({Decode_I_n_61,Decode_I_n_62,Decode_I_n_63,Decode_I_n_64,Decode_I_n_65,Decode_I_n_66,instr_ex[6],instr_ex[7],Decode_I_n_69,Decode_I_n_70,Decode_I_n_71,Decode_I_n_72,Decode_I_n_73,Decode_I_n_74,Decode_I_n_75,Decode_I_n_76,Decode_I_n_77,Decode_I_n_78,Decode_I_n_79,Decode_I_n_80,Decode_I_n_81,Decode_I_n_82,Decode_I_n_83,Decode_I_n_84,Decode_I_n_85,Decode_I_n_86,Decode_I_n_87,Decode_I_n_88,Decode_I_n_89,Decode_I_n_90,Decode_I_n_91,Decode_I_n_92}),
         .trace_reg_write_novalid(trace_reg_write_novalid),
         .use_Imm_Reg(use_Imm_Reg),
@@ -78956,16 +79198,15 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .wakeup_i(wakeup_i));
   blockdesign_microblaze_0_0_Debug \Implement_Debug_Logic.Master_Core.Debug_Area 
        (.Address(PC_OF),
-        .\Area_Debug_Control.dbg_brki_hit_reg_0 (Decode_I_n_118),
-        .\Area_Debug_Control.force_stop_cmd_1_reg_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_42 ),
+        .\Area_Debug_Control.dbg_brki_hit_reg_0 (Decode_I_n_115),
         .Clk(Clk),
         .D(delay_slot_instr),
         .Dbg_Capture(Dbg_Capture),
         .Dbg_Clk(Dbg_Clk),
         .Dbg_Reg_En(Dbg_Reg_En),
-        .Dbg_Reg_En_2_sp_1(Dbg_Reg_En_2_sn_1),
-        .Dbg_Reg_En_4_sp_1(Dbg_Reg_En_4_sn_1),
-        .Dbg_Reg_En_6_sp_1(Dbg_Reg_En_6_sn_1),
+        .\Dbg_Reg_En[0]_0 (\Dbg_Reg_En[0]_0 ),
+        .Dbg_Reg_En_0_sp_1(Dbg_Reg_En_0_sn_1),
+        .Dbg_Reg_En_5_sp_1(Dbg_Reg_En_5_sn_1),
         .Dbg_Shift(Dbg_Shift),
         .Dbg_Stop(Dbg_Stop),
         .Dbg_TDI(Dbg_TDI),
@@ -78979,45 +79220,46 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .IReady1_out(IReady1_out),
         .Is_Equal(\Shift_Logic_Module_I/Is_Equal ),
         .LOCKSTEP_Master_Out(LOCKSTEP_Master_Out[36:0]),
-        .\LOCKSTEP_Out_reg[3] (\Implement_Debug_Logic.Master_Core.Debug_Area_n_52 ),
-        .\LOCKSTEP_Out_reg[3]_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_53 ),
+        .\LOCKSTEP_Out_reg[3] (\Implement_Debug_Logic.Master_Core.Debug_Area_n_54 ),
         .Not_Barrel_Op(Not_Barrel_Op),
         .OF_PipeRun(\PC_Module_I/normal_piperun ),
         .Pause(Pause),
-        .Q(\Implement_Debug_Logic.Master_Core.Debug_Area_n_58 ),
-        .Reg_Write(\Implement_Debug_Logic.Master_Core.Debug_Area_n_56 ),
+        .Q(\Implement_Debug_Logic.Master_Core.Debug_Area_n_61 ),
+        .Reg_Write(\Implement_Debug_Logic.Master_Core.Debug_Area_n_59 ),
         .Reset_Mode(Reset_Mode),
-        .S105_out(S105_out),
-        .SR(\Implement_Debug_Logic.Master_Core.Debug_Area_n_54 ),
+        .SR(\Implement_Debug_Logic.Master_Core.Debug_Area_n_56 ),
         .Scan_Reset(Scan_Reset),
         .Scan_Reset_Sel(Scan_Reset_Sel),
-        .\Serial_Dbg_Intf.control_reg_reg[8]_0 (Decode_I_n_119),
+        .\Serial_Dbg_Intf.command_reg_reg[1]_0 (\Serial_Dbg_Intf.command_reg_reg[1] ),
+        .\Serial_Dbg_Intf.control_reg_reg[8]_0 (Decode_I_n_116),
         .Sleep(Sleep),
         .Sleep_Decode(Sleep_Decode),
         .Sleep_Out(Sleep_Out),
-        .Status_Reg_En(Status_Reg_En),
         .\Using_FPGA.Native (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_57 ),
+        .\Using_FPGA.Native_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_60 ),
         .\Using_FPGA.Native_1 ({PC_EX_i[0],PC_EX_i[1],PC_EX_i[2],PC_EX_i[3],PC_EX_i[4],PC_EX_i[5],PC_EX_i[6],PC_EX_i[7],PC_EX_i[8],PC_EX_i[9],PC_EX_i[10],PC_EX_i[11],PC_EX_i[12],PC_EX_i[13],PC_EX_i[14],PC_EX_i[15],PC_EX_i[16],PC_EX_i[17],PC_EX_i[18],PC_EX_i[19],PC_EX_i[20],PC_EX_i[21],PC_EX_i[22],PC_EX_i[23],PC_EX_i[24],PC_EX_i[25],PC_EX_i[26],PC_EX_i[27],PC_EX_i[31]}),
         .\Using_FPGA.Native_2 ({Data_Flow_I_n_81,Data_Flow_I_n_82,Data_Flow_I_n_83}),
-        .\Using_LWX_SWX_instr.reservation_reg (mem_Strobe),
         .Valid_Instr_i(Valid_Instr_i),
         .branch_with_delay(branch_with_delay),
         .clz_instr(clz_instr),
-        .\data_rd_reg_reg[0]_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_40 ),
+        .\data_rd_reg_reg[0]_0 (\Implement_Debug_Logic.Master_Core.Debug_Area_n_43 ),
         .dbg_brki_hit(dbg_brki_hit),
         .dbg_clean_stop(dbg_clean_stop),
         .dbg_pause(dbg_pause),
+        .ex_Valid_reg(mem_Strobe),
+        .force_stop_cmd_hold(force_stop_cmd_hold),
+        .force_stop_cmd_i(force_stop_cmd_i),
         .has_inhibit_EX(has_inhibit_EX),
-        .iFetch_In_Progress_reg({D[356],D[148],D[106:79],D[75:74]}),
+        .iFetch_In_Progress_reg(\Implement_Debug_Logic.Master_Core.Debug_Area_n_55 ),
+        .iFetch_In_Progress_reg_0({D[356],D[148],D[106:79],D[75:74]}),
         .mb_halted_1_reg_0(D[357]),
+        .no_sleeping(no_sleeping),
         .of_PipeRun(of_PipeRun),
         .ok_To_Stop(ok_To_Stop),
         .reg_Write_dbg(reg_Write_dbg),
         .register_write(register_write),
-        .reset_delay_reg(Decode_I_n_105),
+        .reset_delay_reg(Decode_I_n_104),
         .sync_reset(sync_reset),
-        .take_Intr_Now_III(take_Intr_Now_III),
         .use_Imm_Reg(use_Imm_Reg),
         .\void_bit16_reg[15] (\void_bit16_reg[15] ),
         .wakeup_i(wakeup_i));
@@ -79039,27 +79281,30 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .M_AXI_DP_WREADY(M_AXI_DP_WREADY),
         .Q({WB_DAXI_Read_Data[24],WB_DAXI_Read_Data[25],WB_DAXI_Read_Data[26],WB_DAXI_Read_Data[27],WB_DAXI_Read_Data[28],WB_DAXI_Read_Data[29],WB_DAXI_Read_Data[30],WB_DAXI_Read_Data[31]}),
         .\Using_Ext_Databus.mem_access_reg (\Using_Ext_Databus.DAXI_Interface_I1_n_73 ),
-        .\Using_FPGA.Native ({D[322:259],D[255:252]}),
-        .\WB_DAXI_Read_Data_reg[24]_0 (Byte_Doublet_Handle_I_n_39),
-        .\WB_DAXI_Read_Data_reg[27]_0 (Byte_Doublet_Handle_I_n_38),
-        .\WB_DAXI_Read_Data_reg[28]_0 (Byte_Doublet_Handle_I_n_37),
-        .\WB_DAXI_Read_Data_reg[29]_0 (Byte_Doublet_Handle_I_n_36),
-        .\WB_DAXI_Read_Data_reg[30]_0 (Byte_Doublet_Handle_I_n_35),
-        .ex_Valid_reg(D[256]),
-        .extend_Data_Read({extend_Data_Read[16],extend_Data_Read[17],extend_Data_Read[18],extend_Data_Read[19],extend_Data_Read[20],extend_Data_Read[21],extend_Data_Read[22],extend_Data_Read[23],extend_Data_Read[24],extend_Data_Read[27],extend_Data_Read[28],extend_Data_Read[29],extend_Data_Read[30]}),
+        .\Using_FPGA.Native (\Using_Ext_Databus.DAXI_Interface_I1_n_106 ),
+        .\Using_FPGA.Native_0 (\Using_Ext_Databus.DAXI_Interface_I1_n_107 ),
+        .\Using_FPGA.Native_1 ({D[322:259],D[255:252]}),
+        .byte_i_reg(sel_LSB),
+        .extend_Data_Read({extend_Data_Read[16],extend_Data_Read[17],extend_Data_Read[18],extend_Data_Read[19],extend_Data_Read[20],extend_Data_Read[21],extend_Data_Read[22],extend_Data_Read[23]}),
+        .is_swx_I_reg(D[256]),
         .mem_access(mem_access),
-        .sel_LSB(sel_LSB),
         .sync_reset(sync_reset));
   FDRE \Using_Ext_Databus.mem_access_reg 
        (.C(Clk),
         .CE(1'b1),
-        .D(Decode_I_n_178),
+        .D(Decode_I_n_177),
         .Q(mem_access),
         .R(sync_reset));
   blockdesign_microblaze_0_0_instr_mux instr_mux_I1
        (.Instr(Instr),
         .LOCKSTEP_Master_Out({LOCKSTEP_Master_Out[35],LOCKSTEP_Master_Out[31:0]}),
         .Y(mux_Instr_Read));
+  blockdesign_microblaze_0_0_interrupt_mode_converter interrupt_mode_converter_I
+       (.Clk(Clk),
+        .Interrupt(Interrupt),
+        .internal_interrupt(internal_interrupt),
+        .interrupt_Taken_i(interrupt_Taken_i),
+        .sync_reset(sync_reset));
   FDRE trace_data_access_i_reg
        (.C(Clk),
         .CE(1'b1),
@@ -79950,7 +80195,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Area
         .R(1'b0));
 endmodule
 
-(* ORIG_REF_NAME = "MicroBlaze_Core" *) 
 module blockdesign_microblaze_0_0_MicroBlaze_Core
    (D,
     \Using_FPGA.Native ,
@@ -79963,12 +80207,14 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
     Dbg_Trig_In,
     Dbg_Trig_Ack_Out,
     Dbg_TDO,
+    \Serial_Dbg_Intf.command_reg_reg[1] ,
     Interrupt_Ack,
     Clk,
     Dbg_Clk,
     Debug_Rst,
     Reset,
     Mb_Reset,
+    Interrupt,
     Pause,
     Dbg_Trig_Ack_In,
     Dbg_Trig_Out,
@@ -79977,23 +80223,21 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
     Dbg_Capture,
     DReady,
     M_AXI_DP_ARREADY,
-    M_AXI_DP_WREADY,
     M_AXI_DP_AWREADY,
-    M_AXI_DP_RVALID,
+    M_AXI_DP_WREADY,
     M_AXI_DP_BVALID,
+    M_AXI_DP_RVALID,
     IReady,
-    Interrupt,
     DWait,
     Reset_Mode,
     Scan_Reset,
     Scan_Reset_Sel,
-    Status_Reg_En,
-    Dbg_Reg_En_4_sp_1,
+    Dbg_Reg_En_5_sp_1,
+    Dbg_Reg_En_0_sp_1,
     Dbg_Reg_En,
-    Dbg_Reg_En_6_sp_1,
     Dbg_Shift,
     Interrupt_Address,
-    Dbg_Reg_En_2_sp_1,
+    \Dbg_Reg_En[0]_0 ,
     Data_Read,
     Instr,
     Dbg_TDI,
@@ -80010,12 +80254,14 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
   output [1:0]Dbg_Trig_In;
   output [1:0]Dbg_Trig_Ack_Out;
   output Dbg_TDO;
+  output \Serial_Dbg_Intf.command_reg_reg[1] ;
   output [0:1]Interrupt_Ack;
   input Clk;
   input Dbg_Clk;
   input Debug_Rst;
   input Reset;
   input Mb_Reset;
+  input Interrupt;
   input Pause;
   input [1:0]Dbg_Trig_Ack_In;
   input [1:0]Dbg_Trig_Out;
@@ -80024,23 +80270,21 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
   input Dbg_Capture;
   input DReady;
   input M_AXI_DP_ARREADY;
-  input M_AXI_DP_WREADY;
   input M_AXI_DP_AWREADY;
-  input M_AXI_DP_RVALID;
+  input M_AXI_DP_WREADY;
   input M_AXI_DP_BVALID;
+  input M_AXI_DP_RVALID;
   input IReady;
-  input Interrupt;
   input DWait;
   input [0:1]Reset_Mode;
   input Scan_Reset;
   input Scan_Reset_Sel;
-  input Status_Reg_En;
-  input Dbg_Reg_En_4_sp_1;
+  input Dbg_Reg_En_5_sp_1;
+  input Dbg_Reg_En_0_sp_1;
   input [0:7]Dbg_Reg_En;
-  input Dbg_Reg_En_6_sp_1;
   input Dbg_Shift;
   input [0:31]Interrupt_Address;
-  input Dbg_Reg_En_2_sp_1;
+  input \Dbg_Reg_En[0]_0 ;
   input [0:31]Data_Read;
   input [0:31]Instr;
   input Dbg_TDI;
@@ -80055,9 +80299,9 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
   wire Dbg_Capture;
   wire Dbg_Clk;
   wire [0:7]Dbg_Reg_En;
-  wire Dbg_Reg_En_2_sn_1;
-  wire Dbg_Reg_En_4_sn_1;
-  wire Dbg_Reg_En_6_sn_1;
+  wire \Dbg_Reg_En[0]_0 ;
+  wire Dbg_Reg_En_0_sn_1;
+  wire Dbg_Reg_En_5_sn_1;
   wire Dbg_Shift;
   wire Dbg_Stop;
   wire Dbg_TDI;
@@ -80088,8 +80332,8 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
   wire [0:1]Reset_Mode;
   wire Scan_Reset;
   wire Scan_Reset_Sel;
+  wire \Serial_Dbg_Intf.command_reg_reg[1] ;
   wire Sleep;
-  wire Status_Reg_En;
   wire Suspend;
   wire Synced;
   wire \Using_FPGA.Native ;
@@ -80099,9 +80343,8 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
   wire \void_bit16_reg[15] ;
   wire [0:1]wakeup_i;
 
-  assign Dbg_Reg_En_2_sn_1 = Dbg_Reg_En_2_sp_1;
-  assign Dbg_Reg_En_4_sn_1 = Dbg_Reg_En_4_sp_1;
-  assign Dbg_Reg_En_6_sn_1 = Dbg_Reg_En_6_sp_1;
+  assign Dbg_Reg_En_0_sn_1 = Dbg_Reg_En_0_sp_1;
+  assign Dbg_Reg_En_5_sn_1 = Dbg_Reg_En_5_sp_1;
   blockdesign_microblaze_0_0_MicroBlaze_Area \Area.Core 
        (.Clk(Clk),
         .D(D),
@@ -80111,9 +80354,9 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
         .Dbg_Capture(Dbg_Capture),
         .Dbg_Clk(Dbg_Clk),
         .Dbg_Reg_En(Dbg_Reg_En),
-        .Dbg_Reg_En_2_sp_1(Dbg_Reg_En_2_sn_1),
-        .Dbg_Reg_En_4_sp_1(Dbg_Reg_En_4_sn_1),
-        .Dbg_Reg_En_6_sp_1(Dbg_Reg_En_6_sn_1),
+        .\Dbg_Reg_En[0]_0 (\Dbg_Reg_En[0]_0 ),
+        .Dbg_Reg_En_0_sp_1(Dbg_Reg_En_0_sn_1),
+        .Dbg_Reg_En_5_sp_1(Dbg_Reg_En_5_sn_1),
         .Dbg_Shift(Dbg_Shift),
         .Dbg_Stop(Dbg_Stop),
         .Dbg_TDI(Dbg_TDI),
@@ -80141,8 +80384,8 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
         .Reset_Mode(Reset_Mode),
         .Scan_Reset(Scan_Reset),
         .Scan_Reset_Sel(Scan_Reset_Sel),
+        .\Serial_Dbg_Intf.command_reg_reg[1] (\Serial_Dbg_Intf.command_reg_reg[1] ),
         .Sleep(Sleep),
-        .Status_Reg_En(Status_Reg_En),
         .Suspend(Suspend),
         .\Using_FPGA.Native (\Using_FPGA.Native ),
         .sync_reset(sync_reset),
@@ -80179,7 +80422,6 @@ module blockdesign_microblaze_0_0_MicroBlaze_Core
         .O(reset_temp__0));
 endmodule
 
-(* ORIG_REF_NAME = "Operand_Select" *) 
 module blockdesign_microblaze_0_0_Operand_Select
    (Op1_Logic,
     EX_Op1,
@@ -80218,6 +80460,7 @@ module blockdesign_microblaze_0_0_Operand_Select
     Shifted,
     I0,
     \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
     D,
     S,
     \Using_FPGA.The_Compare[0].sel_reg ,
@@ -80235,12 +80478,8 @@ module blockdesign_microblaze_0_0_Operand_Select
     \C_reg[23] ,
     \C_reg[23]_0 ,
     \Using_BitField.mem_mask0_reg[1] ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
     Sext,
     \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ,
-    \Using_FPGA.Native_4 ,
     \Zero_Detecting[0].nibble_Zero_reg ,
     Q,
     sync_reset,
@@ -80292,28 +80531,29 @@ module blockdesign_microblaze_0_0_Operand_Select
     D_30,
     D_31,
     I3_17,
-    \Using_FPGA.Native_5 ,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    Shift_Logic_Res,
-    PCMP_Instr2_out,
     clz_instr,
-    \Using_FPGA.Native_6 ,
-    Select_Logic_reg,
+    \Using_FPGA.Native_2 ,
+    Shift_Logic_Res,
     pcmp_instr,
+    Select_Logic_reg,
+    \Using_FPGA.Native_3 ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    Select_Logic_reg_0,
+    PCMP_Instr2_out,
     BitField_Extract,
     compare_Instr,
     \Using_Barrel_Shifter.BitField_Extract_reg ,
     \instr_EX_i_reg[22] ,
-    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_4 ,
     void_bit,
     A,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    BitField_Insert,
     \Using_FPGA.Native_8 ,
     \Using_FPGA.Native_9 ,
     \Using_FPGA.Native_10 ,
-    BitField_Insert,
-    \Using_FPGA.Native_11 ,
-    \Using_FPGA.Native_12 ,
-    \Using_FPGA.Native_13 ,
     sext16,
     sext8,
     E,
@@ -80355,6 +80595,7 @@ module blockdesign_microblaze_0_0_Operand_Select
   output Shifted;
   output I0;
   output \Using_FPGA.Native_0 ;
+  output \Using_FPGA.Native_1 ;
   output [30:0]D;
   output S;
   output \Using_FPGA.The_Compare[0].sel_reg ;
@@ -80372,12 +80613,8 @@ module blockdesign_microblaze_0_0_Operand_Select
   output [5:0]\C_reg[23] ;
   output \C_reg[23]_0 ;
   output [30:0]\Using_BitField.mem_mask0_reg[1] ;
-  output \Using_FPGA.Native_1 ;
-  output \Using_FPGA.Native_2 ;
-  output \Using_FPGA.Native_3 ;
   output Sext;
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
-  output \Using_FPGA.Native_4 ;
   output \Zero_Detecting[0].nibble_Zero_reg ;
   output [15:0]Q;
   input sync_reset;
@@ -80429,28 +80666,29 @@ module blockdesign_microblaze_0_0_Operand_Select
   input D_30;
   input D_31;
   input I3_17;
-  input \Using_FPGA.Native_5 ;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input Shift_Logic_Res;
-  input PCMP_Instr2_out;
   input clz_instr;
-  input \Using_FPGA.Native_6 ;
-  input Select_Logic_reg;
+  input \Using_FPGA.Native_2 ;
+  input Shift_Logic_Res;
   input pcmp_instr;
+  input Select_Logic_reg;
+  input \Using_FPGA.Native_3 ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input Select_Logic_reg_0;
+  input PCMP_Instr2_out;
   input BitField_Extract;
   input compare_Instr;
   input \Using_Barrel_Shifter.BitField_Extract_reg ;
   input \instr_EX_i_reg[22] ;
-  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_4 ;
   input void_bit;
   input [1:0]A;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
   input \Using_FPGA.Native_10 ;
-  input BitField_Insert;
-  input \Using_FPGA.Native_11 ;
-  input \Using_FPGA.Native_12 ;
-  input \Using_FPGA.Native_13 ;
   input sext16;
   input sext8;
   input [0:0]E;
@@ -80540,21 +80778,28 @@ module blockdesign_microblaze_0_0_Operand_Select
   wire I3_17;
   wire Op1_Logic;
   wire Op1_Shift;
-  wire \OpSelect_Bits[12].Operand_Select_Bit_I_n_3 ;
-  wire \OpSelect_Bits[16].Operand_Select_Bit_I_n_3 ;
-  wire \OpSelect_Bits[16].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[10].Operand_Select_Bit_I_n_3 ;
+  wire \OpSelect_Bits[11].Operand_Select_Bit_I_n_3 ;
+  wire \OpSelect_Bits[17].Operand_Select_Bit_I_n_3 ;
+  wire \OpSelect_Bits[17].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[18].Operand_Select_Bit_I_n_3 ;
+  wire \OpSelect_Bits[19].Operand_Select_Bit_I_n_3 ;
   wire \OpSelect_Bits[1].Operand_Select_Bit_I_n_4 ;
-  wire \OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ;
-  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ;
-  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_12 ;
-  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_13 ;
-  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_14 ;
-  wire \OpSelect_Bits[26].Operand_Select_Bit_I_n_3 ;
-  wire \OpSelect_Bits[27].Operand_Select_Bit_I_n_4 ;
-  wire \OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ;
-  wire \OpSelect_Bits[29].Operand_Select_Bit_I_n_3 ;
-  wire \OpSelect_Bits[9].Operand_Select_Bit_I_n_3 ;
-  wire \OpSelect_Bits[9].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[21].Operand_Select_Bit_I_n_32 ;
+  wire \OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[23].Operand_Select_Bit_I_n_7 ;
+  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_6 ;
+  wire \OpSelect_Bits[24].Operand_Select_Bit_I_n_7 ;
+  wire \OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[25].Operand_Select_Bit_I_n_5 ;
+  wire \OpSelect_Bits[25].Operand_Select_Bit_I_n_6 ;
+  wire \OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ;
+  wire \OpSelect_Bits[28].Operand_Select_Bit_I_n_10 ;
+  wire \OpSelect_Bits[29].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[29].Operand_Select_Bit_I_n_5 ;
+  wire \OpSelect_Bits[30].Operand_Select_Bit_I_n_10 ;
+  wire \OpSelect_Bits[30].Operand_Select_Bit_I_n_4 ;
+  wire \OpSelect_Bits[5].Operand_Select_Bit_I_n_3 ;
   wire PCMP_Instr2_out;
   wire [15:0]Q;
   wire [0:31]Reg1_Data;
@@ -80564,6 +80809,7 @@ module blockdesign_microblaze_0_0_Operand_Select
   wire S_5;
   wire S_8;
   wire Select_Logic_reg;
+  wire Select_Logic_reg_0;
   wire Sext;
   wire Shift_Logic_Res;
   wire Shifted;
@@ -80574,9 +80820,6 @@ module blockdesign_microblaze_0_0_Operand_Select
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_12 ;
-  wire \Using_FPGA.Native_13 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -80610,9 +80853,11 @@ module blockdesign_microblaze_0_0_Operand_Select
   wire void_bit;
 
   blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12 \OpSelect_Bits[0].Operand_Select_Bit_I 
-       (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ),
-        .\C_reg[28] (Shifted),
-        .\C_reg[28]_0 (\C_reg[23] [3:2]),
+       (.A(A[0]),
+        .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ),
+        .\C_reg[23] (\C_reg[23]_0 ),
+        .\C_reg[29] ({\C_reg[23] [2],\C_reg[23] [0]}),
+        .\C_reg[31] (Shifted),
         .Clk(Clk),
         .D_31(D_31),
         .EX_Op1(EX_Op1[0]),
@@ -80621,11 +80866,14 @@ module blockdesign_microblaze_0_0_Operand_Select
         .S(S),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.DSP48E1_I1 (op2_C[14]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_4 ),
         .\Using_FPGA.Native_1 (B[2]),
         .\Using_FPGA.Native_2 (B[3]),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_3 (\OpSelect_Bits[30].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_4 (\OpSelect_Bits[29].Operand_Select_Bit_I_n_5 ),
+        .\Using_FPGA.Native_5 (B[1]),
+        .\Using_FPGA.Native_6 (B[0]),
         .compare_Instr(compare_Instr),
         .ex_Result(ex_Result[0]),
         .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
@@ -80640,6 +80888,10 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_21(D_21),
         .EX_Op1(EX_Op1[10]),
         .Reg1_Data(Reg1_Data[10]),
+        .\Using_FPGA.Native (\OpSelect_Bits[10].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
+        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .ex_Result(ex_Result[10]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[4]),
@@ -80653,10 +80905,12 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_20(D_20),
         .EX_Op1(EX_Op1[11]),
         .Reg1_Data(Reg1_Data[11]),
-        .S_2(S_2),
-        .\Using_FPGA.Native (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] ),
-        .\Using_FPGA.Native_0 (op2_C[2:1]),
+        .\Using_FPGA.Native (\OpSelect_Bits[11].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
         .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ),
+        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] ),
+        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
+        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .ex_Result(ex_Result[11]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[3]),
@@ -80669,10 +80923,23 @@ module blockdesign_microblaze_0_0_Operand_Select
         .Clk(Clk),
         .D_19(D_19),
         .EX_Op1(EX_Op1[12]),
+        .PCMP_Instr2_out(PCMP_Instr2_out),
         .Reg1_Data(Reg1_Data[12]),
-        .\Using_FPGA.Native (\OpSelect_Bits[12].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] ),
-        .\Using_FPGA.Native_1 (\C_reg[30]_2 ),
+        .S_2(S_2),
+        .Select_Logic_reg(Select_Logic_reg_0),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_1 (\OpSelect_Bits[5].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_10 (\C_reg[30]_2 ),
+        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
+        .\Using_FPGA.Native_3 ({op2_C[3],op2_C[1]}),
+        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_6 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_6 ),
+        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
+        .\Using_FPGA.Native_8 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
+        .\Using_FPGA.Native_9 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .ex_Result(ex_Result[12]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[2]),
@@ -80730,18 +80997,11 @@ module blockdesign_microblaze_0_0_Operand_Select
         .EX_Op1(EX_Op1[16]),
         .Reg1_Data(Reg1_Data[16]),
         .Sext(Sext),
-        .\Using_FPGA.Native (\OpSelect_Bits[16].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_0 (\OpSelect_Bits[16].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
-        .\Using_FPGA.Native_10 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
-        .\Using_FPGA.Native_3 (\OpSelect_Bits[26].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[9].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_6 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] ),
-        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_12 ),
-        .\Using_FPGA.Native_9 (\C_reg[30] ),
+        .\Using_FPGA.Native (\C_reg[30] ),
+        .\Using_FPGA.Native_0 (B[14:13]),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
+        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .\Using_FPGA.The_Compare[0].sel_reg_6 (\Using_FPGA.The_Compare[0].sel_reg_6 ),
         .ex_Result(ex_Result[16]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80757,10 +81017,16 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_14(D_14),
         .EX_Op1(EX_Op1[17]),
         .Reg1_Data(Reg1_Data[17]),
-        .\Using_FPGA.Native ({B[15],B[13]}),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
+        .\Using_FPGA.Native (\OpSelect_Bits[17].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\OpSelect_Bits[17].Operand_Select_Bit_I_n_4 ),
         .\Using_FPGA.Native_1 (\C_reg[30]_0 ),
-        .\Using_FPGA.The_Compare[0].sel_reg_6 (\Using_FPGA.The_Compare[0].sel_reg_6 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] ),
+        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
+        .\Using_FPGA.Native_5 (\OpSelect_Bits[19].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_6 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ),
+        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
+        .\Using_FPGA.Native_8 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
         .ex_Result(ex_Result[17]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80774,6 +81040,11 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_13(D_13),
         .EX_Op1(EX_Op1[18]),
         .Reg1_Data(Reg1_Data[18]),
+        .\Using_FPGA.Native (\OpSelect_Bits[18].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
+        .\Using_FPGA.Native_1 (\C_reg[30] ),
+        .\Using_FPGA.Native_2 (\C_reg[30]_0 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_10 ),
         .ex_Result(ex_Result[18]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80787,6 +81058,8 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_12(D_12),
         .EX_Op1(EX_Op1[19]),
         .Reg1_Data(Reg1_Data[19]),
+        .\Using_FPGA.Native (\OpSelect_Bits[19].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
         .ex_Result(ex_Result[19]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80800,11 +81073,11 @@ module blockdesign_microblaze_0_0_Operand_Select
         .EX_Op1(EX_Op1[1]),
         .Reg1_Data(Reg1_Data[1]),
         .\Using_FPGA.Native (\OpSelect_Bits[1].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_0 ({op2_C[14],op2_C[12]}),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
+        .\Using_FPGA.Native_1 ({op2_C[14],op2_C[12]}),
         .\Using_FPGA.Native_2 (Shifted),
-        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
+        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
+        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
         .\Using_FPGA.Native_5 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
         .\Using_FPGA.The_Compare[0].sel_reg (\Using_FPGA.The_Compare[0].sel_reg ),
         .ex_Result(ex_Result[1]),
@@ -80829,17 +81102,17 @@ module blockdesign_microblaze_0_0_Operand_Select
   blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777 \OpSelect_Bits[21].Operand_Select_Bit_I 
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
         .Address(Address[2]),
-        .B({B[12:11],B[4:2]}),
+        .B({B[12:11],B[4:1]}),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Clk(Clk),
-        .D({D[30:24],D[22:8],D[6:5],D[2:0]}),
+        .D({D[30:8],D[6:5],D[2:0]}),
         .D_10(D_10),
         .EX_Op1(EX_Op1[21]),
         .Reg1_Data(Reg1_Data[21]),
         .S_5(S_5),
-        .\Using_BitField.mem_mask0_reg[1] ({\Using_BitField.mem_mask0_reg[1] [30],\Using_BitField.mem_mask0_reg[1] [28:27],\Using_BitField.mem_mask0_reg[1] [24:21],\Using_BitField.mem_mask0_reg[1] [19:14]}),
-        .\Using_BitField.mem_mask0_reg[4] (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
+        .\Using_BitField.mem_mask0_reg[30] (\OpSelect_Bits[21].Operand_Select_Bit_I_n_32 ),
+        .\Using_BitField.mem_mask0_reg[30]_0 (\Using_BitField.mem_mask0_reg[1] [1]),
         .\Using_FPGA.DSP48E1_I1 (B[10]),
         .\Using_FPGA.Native (B[9]),
         .\Using_FPGA.Native_0 (B[8]),
@@ -80847,11 +81120,6 @@ module blockdesign_microblaze_0_0_Operand_Select
         .\Using_FPGA.Native_2 (B[7]),
         .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] ),
         .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_6 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ),
-        .\Using_FPGA.Native_7 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_12 ),
-        .\Using_FPGA.Native_8 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_13 ),
-        .\Using_FPGA.Native_9 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_14 ),
         .ex_Result(ex_Result[21]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80868,21 +81136,15 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_9(D_9),
         .EX_Op1(EX_Op1[22]),
         .Reg1_Data(Reg1_Data[22]),
-        .\Using_BitField.mem_mask0_reg[18] ({\Using_BitField.mem_mask0_reg[1] [13],\Using_BitField.mem_mask0_reg[1] [11],\Using_BitField.mem_mask0_reg[1] [9],\Using_BitField.mem_mask0_reg[1] [3]}),
+        .\Using_BitField.mem_mask0_reg[23] (\OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ),
+        .\Using_BitField.mem_mask0_reg[23]_0 (\Using_BitField.mem_mask0_reg[1] [8:7]),
         .\Using_FPGA.DSP48E1_I1 (B[9]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_0 (B[8]),
-        .\Using_FPGA.Native_1 (B[7]),
-        .\Using_FPGA.Native_10 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_14 ),
-        .\Using_FPGA.Native_11 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
-        .\Using_FPGA.Native_2 (B[6]),
-        .\Using_FPGA.Native_3 (B[10]),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
-        .\Using_FPGA.Native_5 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[11] ),
-        .\Using_FPGA.Native_6 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
-        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
-        .\Using_FPGA.Native_8 (\C_reg[30] ),
-        .\Using_FPGA.Native_9 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_13 ),
+        .\Using_FPGA.Native (B[8]),
+        .\Using_FPGA.Native_0 (B[7]),
+        .\Using_FPGA.Native_1 (B[6]),
+        .\Using_FPGA.Native_2 (B[10]),
+        .\Using_FPGA.Native_3 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_4 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
         .ex_Result(ex_Result[22]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -80891,24 +81153,26 @@ module blockdesign_microblaze_0_0_Operand_Select
   blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779 \OpSelect_Bits[23].Operand_Select_Bit_I 
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[8] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[8] ),
         .Address(Address[0]),
-        .B(B[2]),
+        .B(B[2:1]),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Clk(Clk),
-        .D({D[23],D[4]}),
+        .D(D[4]),
         .D_8(D_8),
         .EX_Op1(EX_Op1[23]),
         .Reg1_Data(Reg1_Data[23]),
-        .\Using_BitField.mem_mask0_reg[27] (\Using_BitField.mem_mask0_reg[1] [4]),
+        .\Using_BitField.mem_mask0_reg[22] (\OpSelect_Bits[23].Operand_Select_Bit_I_n_7 ),
+        .\Using_BitField.mem_mask0_reg[6] ({\Using_BitField.mem_mask0_reg[1] [25],\Using_BitField.mem_mask0_reg[1] [4]}),
         .\Using_FPGA.DSP48E1_I1 (B[8]),
         .\Using_FPGA.Native (B[7]),
         .\Using_FPGA.Native_0 (B[6]),
         .\Using_FPGA.Native_1 (B[9]),
         .\Using_FPGA.Native_2 (B[10]),
         .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ),
-        .\Using_FPGA.Native_4 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
-        .\Using_FPGA.Native_6 (\OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_4 (\OpSelect_Bits[28].Operand_Select_Bit_I_n_10 ),
+        .\Using_FPGA.Native_5 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_6 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
+        .\Using_FPGA.Native_7 (\OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ),
         .\Using_FPGA.The_Compare[2].sel_reg_4 (\Using_FPGA.The_Compare[2].sel_reg_4 ),
         .ex_Result(ex_Result[23]),
         .of_PipeRun(of_PipeRun),
@@ -80917,7 +81181,7 @@ module blockdesign_microblaze_0_0_Operand_Select
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_Operand_Select_Bit \OpSelect_Bits[24].Operand_Select_Bit_I 
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .B(B[4:2]),
+        .B(B[5:1]),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Clk(Clk),
@@ -80926,59 +81190,70 @@ module blockdesign_microblaze_0_0_Operand_Select
         .EX_Op1(EX_Op1[24]),
         .I3_16(I3_16),
         .Reg1_Data(Reg1_Data[24]),
-        .\Using_BitField.mem_mask0_reg[11] (\OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ),
-        .\Using_BitField.mem_mask0_reg[2] ({\Using_BitField.mem_mask0_reg[1] [29],\Using_BitField.mem_mask0_reg[1] [26:25],\Using_BitField.mem_mask0_reg[1] [20],\Using_BitField.mem_mask0_reg[1] [6:5],\Using_BitField.mem_mask0_reg[1] [2]}),
-        .\Using_BitField.mem_mask0_reg[2]_0 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_14 ),
-        .\Using_BitField.mem_mask0_reg[5] (\OpSelect_Bits[24].Operand_Select_Bit_I_n_12 ),
-        .\Using_BitField.mem_mask0_reg[6] (\OpSelect_Bits[24].Operand_Select_Bit_I_n_13 ),
+        .Select_Logic_reg(Select_Logic_reg),
+        .\Using_BitField.mem_mask0_reg[18] (\OpSelect_Bits[24].Operand_Select_Bit_I_n_6 ),
+        .\Using_BitField.mem_mask0_reg[18]_0 ({\Using_BitField.mem_mask0_reg[1] [13],\Using_BitField.mem_mask0_reg[1] [5]}),
         .\Using_FPGA.DSP48E1_I1 (B[7]),
-        .\Using_FPGA.Native (B[6]),
-        .\Using_FPGA.Native_0 (B[8]),
-        .\Using_FPGA.Native_1 (B[9]),
-        .\Using_FPGA.Native_2 (B[10]),
-        .\Using_FPGA.Native_3 (\OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_4 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
-        .\Using_FPGA.Native_5 (B[1]),
-        .\Using_FPGA.Native_6 (B[0]),
-        .\Using_FPGA.Native_7 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_7 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_10 (\OpSelect_Bits[11].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_11 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_12 (\OpSelect_Bits[1].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_13 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
+        .\Using_FPGA.Native_14 (Op1_Shift),
+        .\Using_FPGA.Native_15 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
+        .\Using_FPGA.Native_16 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_17 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_18 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_32 ),
+        .\Using_FPGA.Native_2 (B[6]),
+        .\Using_FPGA.Native_3 (B[8]),
+        .\Using_FPGA.Native_4 (B[9]),
+        .\Using_FPGA.Native_5 (B[10]),
+        .\Using_FPGA.Native_6 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
+        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
+        .\Using_FPGA.Native_8 (\OpSelect_Bits[17].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.The_Compare[0].sel_reg_9 (\Using_FPGA.The_Compare[0].sel_reg_9 ),
+        .clz_instr(clz_instr),
         .ex_Result(ex_Result[24]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
+        .pcmp_instr(pcmp_instr),
         .res_Forward1(res_Forward1),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_Operand_Select_Bit_780 \OpSelect_Bits[25].Operand_Select_Bit_I 
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
-        .B(B[5]),
+        .B(B[2:1]),
+        .BitField_Insert(BitField_Insert),
         .Clk(Clk),
         .D_6(D_6),
         .EX_Op1(EX_Op1[25]),
         .I3_15(I3_15),
         .Reg1_Data(Reg1_Data[25]),
-        .Select_Logic_reg(Select_Logic_reg),
+        .\Using_BitField.mem_mask0_reg[11] (\Using_BitField.mem_mask0_reg[1] [20]),
+        .\Using_BitField.mem_mask0_reg[11]_0 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ),
+        .\Using_BitField.mem_mask0_reg[13] (\OpSelect_Bits[25].Operand_Select_Bit_I_n_5 ),
         .\Using_FPGA.DSP48E1_I1 (B[6]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_10 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
-        .\Using_FPGA.Native_11 (Op1_Shift),
+        .\Using_FPGA.Native (\OpSelect_Bits[25].Operand_Select_Bit_I_n_6 ),
+        .\Using_FPGA.Native_0 (\OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_1 (B[8]),
+        .\Using_FPGA.Native_10 (Op1_Shift),
+        .\Using_FPGA.Native_11 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
         .\Using_FPGA.Native_12 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
-        .\Using_FPGA.Native_13 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_14 (\Using_FPGA.Native_13 ),
-        .\Using_FPGA.Native_15 (\Using_FPGA.Native_12 ),
-        .\Using_FPGA.Native_2 (B[7]),
-        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[16].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_7 (\OpSelect_Bits[9].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_9 (\OpSelect_Bits[1].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.The_Compare[0].sel_reg_9 (\Using_FPGA.The_Compare[0].sel_reg_9 ),
-        .clz_instr(clz_instr),
+        .\Using_FPGA.Native_13 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
+        .\Using_FPGA.Native_14 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_2 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
+        .\Using_FPGA.Native_3 (B[0]),
+        .\Using_FPGA.Native_4 (B[7]),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_6 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .\Using_FPGA.Native_7 (\OpSelect_Bits[17].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_8 (\C_reg[30]_0 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_10 ),
         .ex_Result(ex_Result[25]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
-        .pcmp_instr(pcmp_instr),
         .res_Forward1(res_Forward1),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6 \OpSelect_Bits[26].Operand_Select_Bit_I 
@@ -80989,12 +81264,6 @@ module blockdesign_microblaze_0_0_Operand_Select
         .EX_Op1(EX_Op1[26]),
         .I3_14(I3_14),
         .Reg1_Data(Reg1_Data[26]),
-        .\Using_FPGA.Native (\OpSelect_Bits[26].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_12 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_13 ),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
         .ex_Result(ex_Result[26]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
@@ -81007,47 +81276,67 @@ module blockdesign_microblaze_0_0_Operand_Select
         .Clk(Clk),
         .D_4(D_4),
         .EX_Op1(EX_Op1[27]),
+        .I0(I0),
         .I3_13(I3_13),
-        .Op1_Shift(Op1_Shift),
         .Reg1_Data(Reg1_Data[27]),
-        .S_8(S_8),
-        .\Using_BitField.mem_mask0_reg[30] (\OpSelect_Bits[27].Operand_Select_Bit_I_n_4 ),
-        .\Using_BitField.mem_mask0_reg[30]_0 (\Using_BitField.mem_mask0_reg[1] [1]),
-        .\Using_FPGA.Native (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
+        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Using_BitField.mem_mask0_reg[3] ({\Using_BitField.mem_mask0_reg[1] [28:27],\Using_BitField.mem_mask0_reg[1] [24:21],\Using_BitField.mem_mask0_reg[1] [19:15]}),
+        .\Using_BitField.mem_mask0_reg[3]_0 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
         .\Using_FPGA.Native_0 (B[3:2]),
-        .\Using_FPGA.Native_1 (B[10]),
-        .\Using_FPGA.Native_2 (B[9]),
-        .\Using_FPGA.Native_3 (B[7]),
-        .\Using_FPGA.Native_4 (B[1]),
-        .\Using_FPGA.Native_5 (B[8]),
+        .\Using_FPGA.Native_1 (B[8]),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_11 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
+        .\Using_FPGA.Native_12 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
+        .\Using_FPGA.Native_13 (\C_reg[30]_3 ),
+        .\Using_FPGA.Native_14 (Shifted),
+        .\Using_FPGA.Native_15 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
+        .\Using_FPGA.Native_16 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_7 ),
+        .\Using_FPGA.Native_17 (\OpSelect_Bits[18].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_18 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_19 (\OpSelect_Bits[10].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_2 (\OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_3 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_4 (B[10]),
+        .\Using_FPGA.Native_5 (B[9]),
+        .\Using_FPGA.Native_6 (\OpSelect_Bits[23].Operand_Select_Bit_I_n_7 ),
+        .\Using_FPGA.Native_7 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_5 ),
+        .\Using_FPGA.Native_8 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_6 ),
+        .\Using_FPGA.Native_9 (\OpSelect_Bits[30].Operand_Select_Bit_I_n_10 ),
+        .clz_instr(clz_instr),
         .ex_Result(ex_Result[27]),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
+        .pcmp_instr(pcmp_instr),
         .res_Forward1(res_Forward1),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2 \OpSelect_Bits[28].Operand_Select_Bit_I 
-       (.B({B[4],B[2]}),
+       (.B({B[4],B[2:1]}),
         .BitField_Insert(BitField_Insert),
         .\C_reg[23] (\C_reg[23] [5]),
         .Clk(Clk),
         .D_3(D_3),
         .EX_Op1(EX_Op1[28]),
         .I3_12(I3_12),
-        .Op1_Shift(Op1_Shift),
         .Reg1_Data(Reg1_Data[28]),
-        .\Using_BitField.mem_mask0_reg[21] (\OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ),
-        .\Using_BitField.mem_mask0_reg[21]_0 ({\Using_BitField.mem_mask0_reg[1] [10],\Using_BitField.mem_mask0_reg[1] [8:7]}),
+        .S_8(S_8),
+        .\Using_BitField.mem_mask0_reg[1] ({\Using_BitField.mem_mask0_reg[1] [30:29],\Using_BitField.mem_mask0_reg[1] [11],\Using_BitField.mem_mask0_reg[1] [9],\Using_BitField.mem_mask0_reg[1] [3]}),
+        .\Using_BitField.mem_mask0_reg[2] (\OpSelect_Bits[28].Operand_Select_Bit_I_n_10 ),
         .\Using_FPGA.DSP48E1_I1 (B[3]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_9 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_1 (\C_reg[23]_0 ),
-        .\Using_FPGA.Native_2 (B[9]),
-        .\Using_FPGA.Native_3 (B[8]),
-        .\Using_FPGA.Native_4 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
-        .\Using_FPGA.Native_6 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_12 ),
+        .\Using_FPGA.Native (Op1_Shift),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
+        .\Using_FPGA.Native_10 (\OpSelect_Bits[23].Operand_Select_Bit_I_n_7 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_4 (B[7]),
+        .\Using_FPGA.Native_5 (B[8]),
+        .\Using_FPGA.Native_6 (B[9]),
         .\Using_FPGA.Native_7 (B[10]),
+        .\Using_FPGA.Native_8 (\OpSelect_Bits[30].Operand_Select_Bit_I_n_10 ),
+        .\Using_FPGA.Native_9 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
         .ex_Result(ex_Result[28]),
+        .\instr_EX_i_reg[22] (\C_reg[23]_0 ),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1),
@@ -81057,19 +81346,25 @@ module blockdesign_microblaze_0_0_Operand_Select
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ),
         .B(B[2]),
         .BitField_Insert(BitField_Insert),
-        .\C_reg[30] (\OpSelect_Bits[29].Operand_Select_Bit_I_n_3 ),
+        .\C_reg[28] (\C_reg[23] [3]),
+        .\C_reg[30] (\OpSelect_Bits[29].Operand_Select_Bit_I_n_5 ),
         .Clk(Clk),
         .D_2(D_2),
         .EX_Op1(EX_Op1[29]),
         .I3_11(I3_11),
         .Reg1_Data(Reg1_Data[29]),
+        .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
+        .\Using_BitField.mem_mask0_reg[17] (\OpSelect_Bits[29].Operand_Select_Bit_I_n_4 ),
         .\Using_BitField.mem_mask0_reg[19] ({\Using_BitField.mem_mask0_reg[1] [12],\Using_BitField.mem_mask0_reg[1] [0]}),
-        .\Using_FPGA.Native (B[3]),
-        .\Using_FPGA.Native_0 (B[8]),
-        .\Using_FPGA.Native_1 (\OpSelect_Bits[28].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_2 (\OpSelect_Bits[24].Operand_Select_Bit_I_n_11 ),
-        .\Using_FPGA.Native_3 (\OpSelect_Bits[21].Operand_Select_Bit_I_n_44 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_0 (B[3]),
+        .\Using_FPGA.Native_1 (Shifted),
+        .\Using_FPGA.Native_2 (B[8]),
+        .\Using_FPGA.Native_3 (\OpSelect_Bits[22].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_4 (\OpSelect_Bits[25].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_5 (\OpSelect_Bits[27].Operand_Select_Bit_I_n_15 ),
         .ex_Result(ex_Result[29]),
+        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1),
@@ -81080,16 +81375,7 @@ module blockdesign_microblaze_0_0_Operand_Select
         .Clk(Clk),
         .D_29(D_29),
         .EX_Op1(EX_Op1[2]),
-        .I0(I0),
-        .PCMP_Instr2_out(PCMP_Instr2_out),
         .Reg1_Data(Reg1_Data[2]),
-        .Shift_Logic_Res(Shift_Logic_Res),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .\Using_FPGA.Native (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_0 (\OpSelect_Bits[16].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
-        .\Using_FPGA.Native_2 (Shifted),
-        .\Using_FPGA.Native_3 (\C_reg[30]_3 ),
         .ex_Result(ex_Result[2]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[12]),
@@ -81098,25 +81384,29 @@ module blockdesign_microblaze_0_0_Operand_Select
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_Operand_Select_Bit_783 \OpSelect_Bits[30].Operand_Select_Bit_I 
        (.A(A[0]),
-        .\C_reg[23] (\C_reg[23]_0 ),
-        .\C_reg[27] ({\C_reg[23] [4],\C_reg[23] [0]}),
+        .B(B[1]),
+        .BitField_Insert(BitField_Insert),
+        .\C_reg[27] (\C_reg[23] [4]),
+        .\C_reg[27]_0 (\OpSelect_Bits[30].Operand_Select_Bit_I_n_4 ),
         .Clk(Clk),
         .D_1(D_1),
         .EX_Op1(EX_Op1[30]),
         .I3_10(I3_10),
         .Reg1_Data(Reg1_Data[30]),
-        .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_FPGA.DSP48E1_I1 (B[1]),
+        .\Using_BitField.mem_mask0_reg[17] (\OpSelect_Bits[30].Operand_Select_Bit_I_n_10 ),
+        .\Using_BitField.mem_mask0_reg[5] ({\Using_BitField.mem_mask0_reg[1] [26],\Using_BitField.mem_mask0_reg[1] [14],\Using_BitField.mem_mask0_reg[1] [10],\Using_BitField.mem_mask0_reg[1] [6],\Using_BitField.mem_mask0_reg[1] [2]}),
         .\Using_FPGA.Native (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_0 (Shifted),
-        .\Using_FPGA.Native_1 (\OpSelect_Bits[29].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_2 (B[3:2]),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_4 (B[0]),
-        .\Using_FPGA.Native_5 (EX_Op1[31]),
+        .\Using_FPGA.Native_0 (B[4:2]),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_2 (B[9]),
+        .\Using_FPGA.Native_3 (B[10]),
+        .\Using_FPGA.Native_4 (B[7]),
+        .\Using_FPGA.Native_5 (B[0]),
+        .\Using_FPGA.Native_6 (B[6]),
+        .\Using_FPGA.Native_7 (\OpSelect_Bits[29].Operand_Select_Bit_I_n_4 ),
+        .\Using_FPGA.Native_8 (EX_Op1[31]),
         .\Zero_Detecting[0].nibble_Zero_reg (\Zero_Detecting[0].nibble_Zero_reg ),
         .ex_Result(ex_Result[30]),
-        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
         .of_PipeRun(of_PipeRun),
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1),
@@ -81124,6 +81414,7 @@ module blockdesign_microblaze_0_0_Operand_Select
         .void_bit(void_bit));
   blockdesign_microblaze_0_0_Operand_Select_Bit_784 \OpSelect_Bits[31].Operand_Select_Bit_I 
        (.A(A),
+        .B(B[1]),
         .\C_reg[30] (\C_reg[23] [1]),
         .Clk(Clk),
         .D_0(D_0),
@@ -81132,9 +81423,8 @@ module blockdesign_microblaze_0_0_Operand_Select
         .Op1_Logic(Op1_Logic),
         .Reg1_Data(Reg1_Data[31]),
         .\Using_FPGA.DSP48E1_I1 (B[0]),
-        .\Using_FPGA.Native (B[1]),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\OpSelect_Bits[29].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\OpSelect_Bits[29].Operand_Select_Bit_I_n_5 ),
         .\Using_FPGA.The_Compare[2].sel_reg_7 (\Using_FPGA.The_Compare[2].sel_reg_7 ),
         .ex_Result(ex_Result[31]),
         .of_PipeRun(of_PipeRun),
@@ -81163,15 +81453,9 @@ module blockdesign_microblaze_0_0_Operand_Select
         .EX_Op1(EX_Op1[4]),
         .Reg1_Data(Reg1_Data[4]),
         .S_0(S_0),
-        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
-        .\Using_FPGA.Native_1 ({op2_C[11],op2_C[9]}),
-        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
-        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
-        .\Using_FPGA.Native_4 (\C_reg[30]_3 ),
-        .\Using_FPGA.Native_5 (Shifted),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_7 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[25] ),
+        .\Using_FPGA.Native (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
+        .\Using_FPGA.Native_0 ({op2_C[11],op2_C[9]}),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
         .ex_Result(ex_Result[4]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[10]),
@@ -81185,6 +81469,13 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_26(D_26),
         .EX_Op1(EX_Op1[5]),
         .Reg1_Data(Reg1_Data[5]),
+        .\Using_FPGA.Native (\OpSelect_Bits[5].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[28] ),
+        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
+        .\Using_FPGA.Native_3 (\C_reg[30]_3 ),
+        .\Using_FPGA.Native_4 (Shifted),
+        .\Using_FPGA.Native_5 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[25] ),
         .ex_Result(ex_Result[5]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[9]),
@@ -81211,8 +81502,8 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_24(D_24),
         .EX_Op1(EX_Op1[7]),
         .Reg1_Data(Reg1_Data[7]),
-        .\Using_FPGA.Native (op2_C[8]),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[25] ),
+        .\Using_FPGA.Native (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[25] ),
+        .\Using_FPGA.Native_0 (op2_C[8]),
         .\Using_FPGA.The_Compare[2].sel_reg (\Using_FPGA.The_Compare[2].sel_reg ),
         .ex_Result(ex_Result[7]),
         .of_PipeRun(of_PipeRun),
@@ -81227,13 +81518,9 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_23(D_23),
         .EX_Op1(EX_Op1[8]),
         .Reg1_Data(Reg1_Data[8]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .\Using_FPGA.Native_0 (op2_C[5:4]),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
-        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
-        .\Using_FPGA.Native_5 (\OpSelect_Bits[12].Operand_Select_Bit_I_n_3 ),
+        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
         .\Using_FPGA.The_Compare[0].sel_reg_3 (\Using_FPGA.The_Compare[0].sel_reg_3 ),
         .ex_Result(ex_Result[8]),
         .of_PipeRun(of_PipeRun),
@@ -81248,13 +81535,6 @@ module blockdesign_microblaze_0_0_Operand_Select
         .D_22(D_22),
         .EX_Op1(EX_Op1[9]),
         .Reg1_Data(Reg1_Data[9]),
-        .\Using_FPGA.Native (\OpSelect_Bits[9].Operand_Select_Bit_I_n_3 ),
-        .\Using_FPGA.Native_0 (\OpSelect_Bits[9].Operand_Select_Bit_I_n_4 ),
-        .\Using_FPGA.Native_1 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
-        .\Using_FPGA.Native_2 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[18] ),
-        .\Using_FPGA.Native_3 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ),
-        .\Using_FPGA.Native_4 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
-        .\Using_FPGA.Native_5 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
         .ex_Result(ex_Result[9]),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C[5]),
@@ -81359,17 +81639,16 @@ module blockdesign_microblaze_0_0_Operand_Select
         .R(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "Operand_Select_Bit" *) 
 module blockdesign_microblaze_0_0_Operand_Select_Bit
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ,
     EX_Op1,
     \Using_FPGA.DSP48E1_I1 ,
+    \Using_FPGA.Native ,
     D,
-    \Using_BitField.mem_mask0_reg[2] ,
-    \Using_BitField.mem_mask0_reg[11] ,
-    \Using_BitField.mem_mask0_reg[5] ,
-    \Using_BitField.mem_mask0_reg[6] ,
-    \Using_BitField.mem_mask0_reg[2]_0 ,
+    \Using_FPGA.The_Compare[0].sel_reg_9 ,
+    \Using_BitField.mem_mask0_reg[18] ,
+    \Using_FPGA.Native_0 ,
+    \Using_BitField.mem_mask0_reg[18]_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -81379,27 +81658,39 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit
     res_Forward1,
     I3_16,
     opsel1_SPR,
-    BitField_Extract,
-    \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
+    clz_instr,
     \Using_FPGA.Native_1 ,
+    Select_Logic_reg,
+    pcmp_instr,
+    BitField_Extract,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    B,
-    BitField_Insert,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
+    B,
+    \Using_FPGA.Native_7 ,
+    BitField_Insert,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 ,
+    \Using_FPGA.Native_15 ,
+    \Using_FPGA.Native_16 ,
+    \Using_FPGA.Native_17 ,
+    \Using_FPGA.Native_18 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
+  output \Using_FPGA.Native ;
   output [0:0]D;
-  output [6:0]\Using_BitField.mem_mask0_reg[2] ;
-  output \Using_BitField.mem_mask0_reg[11] ;
-  output \Using_BitField.mem_mask0_reg[5] ;
-  output \Using_BitField.mem_mask0_reg[6] ;
-  output \Using_BitField.mem_mask0_reg[2]_0 ;
+  output \Using_FPGA.The_Compare[0].sel_reg_9 ;
+  output \Using_BitField.mem_mask0_reg[18] ;
+  output \Using_FPGA.Native_0 ;
+  output [1:0]\Using_BitField.mem_mask0_reg[18]_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -81409,159 +81700,19 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit
   input res_Forward1;
   input I3_16;
   input opsel1_SPR;
-  input BitField_Extract;
-  input \Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input [2:0]B;
-  input BitField_Insert;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-
-  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
-  wire [2:0]B;
-  wire BitField_Extract;
-  wire BitField_Insert;
-  wire Clk;
-  wire [0:0]D;
-  wire D_7;
-  wire [0:0]EX_Op1;
-  wire I3_16;
-  wire [0:0]Reg1_Data;
-  wire \Using_BitField.mem_mask0_reg[11] ;
-  wire [6:0]\Using_BitField.mem_mask0_reg[2] ;
-  wire \Using_BitField.mem_mask0_reg[2]_0 ;
-  wire \Using_BitField.mem_mask0_reg[5] ;
-  wire \Using_BitField.mem_mask0_reg[6] ;
-  wire \Using_FPGA.DSP48E1_I1 ;
-  wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire [0:0]ex_Result;
-  wire of_PipeRun;
-  wire op1_I;
-  wire op1_Reg;
-  wire opsel1_SPR;
-  wire res_Forward1;
-  wire sync_reset;
-
-  blockdesign_microblaze_0_0_MB_LUT6_2_851 \Both_PC_and_MSR.Op1_LUT6 
-       (.I3_16(I3_16),
-        .Reg1_Data(Reg1_Data),
-        .ex_Result(ex_Result),
-        .op1_I(op1_I),
-        .op1_Reg(op1_Reg),
-        .opsel1_SPR(opsel1_SPR),
-        .res_Forward1(res_Forward1));
-  blockdesign_microblaze_0_0_MB_FDRE_852 Op1_DFF
-       (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
-        .Clk(Clk),
-        .of_PipeRun(of_PipeRun),
-        .op1_I(op1_I),
-        .sync_reset(sync_reset));
-  blockdesign_microblaze_0_0_MB_FDRE_853 Op1_Reg_DFF
-       (.Clk(Clk),
-        .EX_Op1(EX_Op1),
-        .of_PipeRun(of_PipeRun),
-        .op1_Reg(op1_Reg),
-        .sync_reset(sync_reset));
-  blockdesign_microblaze_0_0_MB_FDE_854 Op2_DFF
-       (.B(B),
-        .BitField_Extract(BitField_Extract),
-        .BitField_Insert(BitField_Insert),
-        .Clk(Clk),
-        .D(D),
-        .D_7(D_7),
-        .\Using_BitField.mem_mask0_reg[11] (\Using_BitField.mem_mask0_reg[11] ),
-        .\Using_BitField.mem_mask0_reg[2] (\Using_BitField.mem_mask0_reg[2] ),
-        .\Using_BitField.mem_mask0_reg[2]_0 (\Using_BitField.mem_mask0_reg[2]_0 ),
-        .\Using_BitField.mem_mask0_reg[5] (\Using_BitField.mem_mask0_reg[5] ),
-        .\Using_BitField.mem_mask0_reg[6] (\Using_BitField.mem_mask0_reg[6] ),
-        .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_7 ),
-        .of_PipeRun(of_PipeRun));
-endmodule
-
-(* ORIG_REF_NAME = "Operand_Select_Bit" *) 
-module blockdesign_microblaze_0_0_Operand_Select_Bit_780
-   (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ,
-    EX_Op1,
-    \Using_FPGA.DSP48E1_I1 ,
-    \Using_FPGA.Native ,
-    \Using_FPGA.The_Compare[0].sel_reg_9 ,
-    \Using_FPGA.Native_0 ,
-    sync_reset,
-    of_PipeRun,
-    Clk,
-    D_6,
-    Reg1_Data,
-    ex_Result,
-    res_Forward1,
-    I3_15,
-    opsel1_SPR,
-    clz_instr,
-    \Using_FPGA.Native_1 ,
-    Select_Logic_reg,
-    pcmp_instr,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    B,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 ,
-    \Using_FPGA.Native_12 ,
-    \Using_FPGA.Native_13 ,
-    \Using_FPGA.Native_14 ,
-    \Using_FPGA.Native_15 );
-  output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
-  output [0:0]EX_Op1;
-  output \Using_FPGA.DSP48E1_I1 ;
-  output \Using_FPGA.Native ;
-  output \Using_FPGA.The_Compare[0].sel_reg_9 ;
-  output \Using_FPGA.Native_0 ;
-  input sync_reset;
-  input of_PipeRun;
-  input Clk;
-  input D_6;
-  input [0:0]Reg1_Data;
-  input [0:0]ex_Result;
-  input res_Forward1;
-  input I3_15;
-  input opsel1_SPR;
   input clz_instr;
   input \Using_FPGA.Native_1 ;
   input Select_Logic_reg;
   input pcmp_instr;
+  input BitField_Extract;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
-  input [0:0]B;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
+  input [4:0]B;
   input \Using_FPGA.Native_7 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_8 ;
   input \Using_FPGA.Native_9 ;
   input \Using_FPGA.Native_10 ;
@@ -81570,15 +81721,23 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_780
   input \Using_FPGA.Native_13 ;
   input \Using_FPGA.Native_14 ;
   input \Using_FPGA.Native_15 ;
+  input \Using_FPGA.Native_16 ;
+  input \Using_FPGA.Native_17 ;
+  input \Using_FPGA.Native_18 ;
 
-  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
-  wire [0:0]B;
+  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ;
+  wire [4:0]B;
+  wire BitField_Extract;
+  wire BitField_Insert;
   wire Clk;
-  wire D_6;
+  wire [0:0]D;
+  wire D_7;
   wire [0:0]EX_Op1;
-  wire I3_15;
+  wire I3_16;
   wire [0:0]Reg1_Data;
   wire Select_Logic_reg;
+  wire \Using_BitField.mem_mask0_reg[18] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[18]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -81589,6 +81748,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_780
   wire \Using_FPGA.Native_13 ;
   wire \Using_FPGA.Native_14 ;
   wire \Using_FPGA.Native_15 ;
+  wire \Using_FPGA.Native_16 ;
+  wire \Using_FPGA.Native_17 ;
+  wire \Using_FPGA.Native_18 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -81608,6 +81770,171 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_780
   wire res_Forward1;
   wire sync_reset;
 
+  blockdesign_microblaze_0_0_MB_LUT6_2_851 \Both_PC_and_MSR.Op1_LUT6 
+       (.I3_16(I3_16),
+        .Reg1_Data(Reg1_Data),
+        .ex_Result(ex_Result),
+        .op1_I(op1_I),
+        .op1_Reg(op1_Reg),
+        .opsel1_SPR(opsel1_SPR),
+        .res_Forward1(res_Forward1));
+  blockdesign_microblaze_0_0_MB_FDRE_852 Op1_DFF
+       (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[7] ),
+        .B(B[4]),
+        .Clk(Clk),
+        .Select_Logic_reg(Select_Logic_reg),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_11 ),
+        .\Using_FPGA.Native_11 (\Using_FPGA.Native_12 ),
+        .\Using_FPGA.Native_12 (\Using_FPGA.Native_13 ),
+        .\Using_FPGA.Native_13 (\Using_FPGA.Native_14 ),
+        .\Using_FPGA.Native_14 (\Using_FPGA.Native_15 ),
+        .\Using_FPGA.Native_15 (\Using_FPGA.Native_16 ),
+        .\Using_FPGA.Native_16 (\Using_FPGA.Native_17 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.The_Compare[0].sel_reg_9 (\Using_FPGA.The_Compare[0].sel_reg_9 ),
+        .clz_instr(clz_instr),
+        .of_PipeRun(of_PipeRun),
+        .op1_I(op1_I),
+        .pcmp_instr(pcmp_instr),
+        .sync_reset(sync_reset));
+  blockdesign_microblaze_0_0_MB_FDRE_853 Op1_Reg_DFF
+       (.Clk(Clk),
+        .EX_Op1(EX_Op1),
+        .of_PipeRun(of_PipeRun),
+        .op1_Reg(op1_Reg),
+        .sync_reset(sync_reset));
+  blockdesign_microblaze_0_0_MB_FDE_854 Op2_DFF
+       (.B(B[3:0]),
+        .BitField_Extract(BitField_Extract),
+        .BitField_Insert(BitField_Insert),
+        .Clk(Clk),
+        .D(D),
+        .D_7(D_7),
+        .\Using_BitField.mem_mask0_reg[18] (\Using_BitField.mem_mask0_reg[18] ),
+        .\Using_BitField.mem_mask0_reg[18]_0 (\Using_BitField.mem_mask0_reg[18]_0 ),
+        .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_18 ),
+        .of_PipeRun(of_PipeRun));
+endmodule
+
+(* ORIG_REF_NAME = "Operand_Select_Bit" *) 
+module blockdesign_microblaze_0_0_Operand_Select_Bit_780
+   (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ,
+    EX_Op1,
+    \Using_FPGA.DSP48E1_I1 ,
+    \Using_BitField.mem_mask0_reg[11] ,
+    \Using_BitField.mem_mask0_reg[11]_0 ,
+    \Using_BitField.mem_mask0_reg[13] ,
+    \Using_FPGA.Native ,
+    sync_reset,
+    of_PipeRun,
+    Clk,
+    D_6,
+    Reg1_Data,
+    ex_Result,
+    res_Forward1,
+    I3_15,
+    opsel1_SPR,
+    \Using_FPGA.Native_0 ,
+    B,
+    BitField_Insert,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 );
+  output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
+  output [0:0]EX_Op1;
+  output \Using_FPGA.DSP48E1_I1 ;
+  output [0:0]\Using_BitField.mem_mask0_reg[11] ;
+  output \Using_BitField.mem_mask0_reg[11]_0 ;
+  output \Using_BitField.mem_mask0_reg[13] ;
+  output \Using_FPGA.Native ;
+  input sync_reset;
+  input of_PipeRun;
+  input Clk;
+  input D_6;
+  input [0:0]Reg1_Data;
+  input [0:0]ex_Result;
+  input res_Forward1;
+  input I3_15;
+  input opsel1_SPR;
+  input \Using_FPGA.Native_0 ;
+  input [1:0]B;
+  input BitField_Insert;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_13 ;
+  input \Using_FPGA.Native_14 ;
+
+  wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ;
+  wire [1:0]B;
+  wire BitField_Insert;
+  wire Clk;
+  wire D_6;
+  wire [0:0]EX_Op1;
+  wire I3_15;
+  wire [0:0]Reg1_Data;
+  wire [0:0]\Using_BitField.mem_mask0_reg[11] ;
+  wire \Using_BitField.mem_mask0_reg[11]_0 ;
+  wire \Using_BitField.mem_mask0_reg[13] ;
+  wire \Using_FPGA.DSP48E1_I1 ;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
+  wire \Using_FPGA.Native_13 ;
+  wire \Using_FPGA.Native_14 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire [0:0]ex_Result;
+  wire of_PipeRun;
+  wire op1_I;
+  wire op1_Reg;
+  wire opsel1_SPR;
+  wire res_Forward1;
+  wire sync_reset;
+
   blockdesign_microblaze_0_0_MB_LUT6_2_847 \Both_PC_and_MSR.Op1_LUT6 
        (.I3_15(I3_15),
         .Reg1_Data(Reg1_Data),
@@ -81618,32 +81945,20 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_780
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_848 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[6] ),
-        .B(B),
         .Clk(Clk),
-        .Select_Logic_reg(Select_Logic_reg),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_10 (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_11 (\Using_FPGA.Native_9 ),
-        .\Using_FPGA.Native_12 (\Using_FPGA.Native_10 ),
-        .\Using_FPGA.Native_13 (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_14 (\Using_FPGA.Native_12 ),
-        .\Using_FPGA.Native_15 (\Using_FPGA.Native_13 ),
-        .\Using_FPGA.Native_16 (\Using_FPGA.Native_14 ),
-        .\Using_FPGA.Native_17 (\Using_FPGA.Native_15 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.DSP48E1_I1 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_9 (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.The_Compare[0].sel_reg_9 (\Using_FPGA.The_Compare[0].sel_reg_9 ),
-        .clz_instr(clz_instr),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_14 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_11 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_12 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_13 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
-        .pcmp_instr(pcmp_instr),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_849 Op1_Reg_DFF
        (.Clk(Clk),
@@ -81652,9 +81967,19 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_780
         .op1_Reg(op1_Reg),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_850 Op2_DFF
-       (.Clk(Clk),
+       (.B(B),
+        .BitField_Insert(BitField_Insert),
+        .Clk(Clk),
         .D_6(D_6),
+        .\Using_BitField.mem_mask0_reg[11] (\Using_BitField.mem_mask0_reg[11] ),
+        .\Using_BitField.mem_mask0_reg[11]_0 (\Using_BitField.mem_mask0_reg[11]_0 ),
+        .\Using_BitField.mem_mask0_reg[13] (\Using_BitField.mem_mask0_reg[13] ),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -81663,6 +81988,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_781
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ,
     EX_Op1,
     B,
+    \C_reg[28] ,
+    \Using_BitField.mem_mask0_reg[17] ,
     \C_reg[30] ,
     \Using_BitField.mem_mask0_reg[19] ,
     sync_reset,
@@ -81675,14 +82002,20 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_781
     I3_11,
     opsel1_SPR,
     \Using_FPGA.Native ,
-    BitField_Insert,
     \Using_FPGA.Native_0 ,
+    \Using_Barrel_Shifter.BitField_Extract_reg ,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_1 ,
+    BitField_Insert,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ;
   output [0:0]EX_Op1;
   output [0:0]B;
+  output [0:0]\C_reg[28] ;
+  output \Using_BitField.mem_mask0_reg[17] ;
   output \C_reg[30] ;
   output [1:0]\Using_BitField.mem_mask0_reg[19] ;
   input sync_reset;
@@ -81694,29 +82027,39 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_781
   input res_Forward1;
   input I3_11;
   input opsel1_SPR;
-  input [0:0]\Using_FPGA.Native ;
-  input BitField_Insert;
-  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native ;
+  input [0:0]\Using_FPGA.Native_0 ;
+  input \Using_Barrel_Shifter.BitField_Extract_reg ;
+  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_1 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[2] ;
   wire [0:0]B;
   wire BitField_Insert;
+  wire [0:0]\C_reg[28] ;
   wire \C_reg[30] ;
   wire Clk;
   wire D_2;
   wire [0:0]EX_Op1;
   wire I3_11;
   wire [0:0]Reg1_Data;
+  wire \Using_Barrel_Shifter.BitField_Extract_reg ;
+  wire \Using_BitField.mem_mask0_reg[17] ;
   wire [1:0]\Using_BitField.mem_mask0_reg[19] ;
-  wire [0:0]\Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native ;
+  wire [0:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
   wire [0:0]ex_Result;
+  wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
   wire op1_I;
   wire op1_Reg;
@@ -81746,9 +82089,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_781
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_834 Op2_DFF
        (.BitField_Insert(BitField_Insert),
+        .\C_reg[28] (\C_reg[28] ),
         .\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
         .D_2(D_2),
+        .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
+        .\Using_BitField.mem_mask0_reg[17] (\Using_BitField.mem_mask0_reg[17] ),
         .\Using_BitField.mem_mask0_reg[19] (\Using_BitField.mem_mask0_reg[19] ),
         .\Using_FPGA.DSP48E1_I1 (B),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
@@ -81756,6 +82102,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_781
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
         .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
+        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -81763,9 +82112,11 @@ endmodule
 module blockdesign_microblaze_0_0_Operand_Select_Bit_783
    (\Using_FPGA.Native ,
     EX_Op1,
-    \Using_FPGA.DSP48E1_I1 ,
+    B,
     \C_reg[27] ,
-    \C_reg[23] ,
+    \C_reg[27]_0 ,
+    \Using_BitField.mem_mask0_reg[5] ,
+    \Using_BitField.mem_mask0_reg[17] ,
     \Zero_Detecting[0].nibble_Zero_reg ,
     sync_reset,
     of_PipeRun,
@@ -81777,20 +82128,24 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_783
     I3_10,
     opsel1_SPR,
     A,
-    \Using_Barrel_Shifter.BitField_Extract_reg ,
-    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     void_bit,
+    \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
+    BitField_Insert,
     \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 );
   output \Using_FPGA.Native ;
   output [0:0]EX_Op1;
-  output \Using_FPGA.DSP48E1_I1 ;
-  output [1:0]\C_reg[27] ;
-  output \C_reg[23] ;
+  output [0:0]B;
+  output [0:0]\C_reg[27] ;
+  output \C_reg[27]_0 ;
+  output [4:0]\Using_BitField.mem_mask0_reg[5] ;
+  output \Using_BitField.mem_mask0_reg[17] ;
   output \Zero_Detecting[0].nibble_Zero_reg ;
   input sync_reset;
   input of_PipeRun;
@@ -81802,36 +82157,42 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_783
   input I3_10;
   input opsel1_SPR;
   input [0:0]A;
-  input \Using_Barrel_Shifter.BitField_Extract_reg ;
-  input \instr_EX_i_reg[22] ;
-  input \Using_FPGA.Native_0 ;
+  input [2:0]\Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input [1:0]\Using_FPGA.Native_2 ;
   input void_bit;
+  input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_4 ;
-  input [0:0]\Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input [0:0]\Using_FPGA.Native_8 ;
 
   wire [0:0]A;
-  wire \C_reg[23] ;
-  wire [1:0]\C_reg[27] ;
+  wire [0:0]B;
+  wire BitField_Insert;
+  wire [0:0]\C_reg[27] ;
+  wire \C_reg[27]_0 ;
   wire Clk;
   wire D_1;
   wire [0:0]EX_Op1;
   wire I3_10;
   wire [0:0]Reg1_Data;
-  wire \Using_Barrel_Shifter.BitField_Extract_reg ;
-  wire \Using_FPGA.DSP48E1_I1 ;
+  wire \Using_BitField.mem_mask0_reg[17] ;
+  wire [4:0]\Using_BitField.mem_mask0_reg[5] ;
   wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
+  wire [2:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire [1:0]\Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire [0:0]\Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire [0:0]\Using_FPGA.Native_8 ;
   wire \Zero_Detecting[0].nibble_Zero_reg ;
   wire [0:0]ex_Result;
-  wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
   wire op1_I;
   wire op1_Reg;
@@ -81857,25 +82218,29 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_783
   blockdesign_microblaze_0_0_MB_FDRE_825 Op1_Reg_DFF
        (.Clk(Clk),
         .EX_Op1(EX_Op1),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_8 ),
         .\Zero_Detecting[0].nibble_Zero_reg (\Zero_Detecting[0].nibble_Zero_reg ),
         .of_PipeRun(of_PipeRun),
         .op1_Reg(op1_Reg),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_826 Op2_DFF
        (.A(A),
-        .\C_reg[23] (\C_reg[23] ),
+        .BitField_Insert(BitField_Insert),
         .\C_reg[27] (\C_reg[27] ),
+        .\C_reg[27]_0 (\C_reg[27]_0 ),
         .Clk(Clk),
         .D_1(D_1),
-        .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_BitField.mem_mask0_reg[17] (\Using_BitField.mem_mask0_reg[17] ),
+        .\Using_BitField.mem_mask0_reg[5] (\Using_BitField.mem_mask0_reg[5] ),
+        .\Using_FPGA.DSP48E1_I1 (B),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
         .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
-        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_7 ),
         .of_PipeRun(of_PipeRun),
         .void_bit(void_bit));
 endmodule
@@ -81897,10 +82262,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_784
     I3,
     opsel1_SPR,
     \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
+    B,
     void_bit,
     A,
-    \Using_FPGA.Native_1 );
+    \Using_FPGA.Native_0 );
   output Op1_Logic;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
@@ -81916,12 +82281,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_784
   input I3;
   input opsel1_SPR;
   input \Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
+  input [0:0]B;
   input void_bit;
   input [1:0]A;
-  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_0 ;
 
   wire [1:0]A;
+  wire [0:0]B;
   wire [0:0]\C_reg[30] ;
   wire Clk;
   wire D_0;
@@ -81932,7 +82298,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_784
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.The_Compare[2].sel_reg_7 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
@@ -81952,8 +82317,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_784
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_820 Op1_DFF
-       (.Clk(Clk),
+       (.B(B),
+        .Clk(Clk),
         .Op1_Logic(Op1_Logic),
+        .\Using_FPGA.Native_0 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.The_Compare[2].sel_reg_7 (\Using_FPGA.The_Compare[2].sel_reg_7 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -81965,15 +82334,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit_784
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_822 Op2_DFF
        (.A(A),
+        .B(B),
         .\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
         .D_0(D_0),
-        .Op1_Logic(Op1_Logic),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.The_Compare[2].sel_reg_7 (\Using_FPGA.The_Compare[2].sel_reg_7 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .of_PipeRun(of_PipeRun),
         .void_bit(void_bit));
 endmodule
@@ -81983,6 +82349,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ,
     EX_Op1,
     op2_C,
+    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -81991,10 +82358,14 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR);
+    opsel1_SPR,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
+  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82004,6 +82375,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ;
   wire [0:0]Address;
@@ -82011,6 +82385,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10
   wire D_21;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82031,6 +82409,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10
   blockdesign_microblaze_0_0_MB_FDRE_912 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[21] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -82052,7 +82434,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ,
     EX_Op1,
     op2_C,
-    S_2,
+    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -82062,13 +82444,15 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
     res_Forward1,
     Address,
     opsel1_SPR,
-    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 );
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
-  output S_2;
+  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82078,9 +82462,11 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input \Using_FPGA.Native ;
-  input [1:0]\Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ;
   wire [0:0]Address;
@@ -82088,10 +82474,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
   wire D_20;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire S_2;
   wire \Using_FPGA.Native ;
-  wire [1:0]\Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82112,6 +82500,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
   blockdesign_microblaze_0_0_MB_FDRE_908 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -82124,11 +82518,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_767
   blockdesign_microblaze_0_0_MB_FDE_910 Op2_DFF
        (.Clk(Clk),
         .D_20(D_20),
-        .S_2(S_2),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[20] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C));
 endmodule
@@ -82139,6 +82528,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_768
     EX_Op1,
     op2_C,
     \Using_FPGA.Native ,
+    S_2,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -82149,11 +82539,24 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_768
     Address,
     opsel1_SPR,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 );
+    \Using_FPGA.Native_1 ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    Select_Logic_reg,
+    PCMP_Instr2_out,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
   output \Using_FPGA.Native ;
+  output S_2;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82165,16 +82568,41 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_768
   input opsel1_SPR;
   input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  input Select_Logic_reg;
+  input PCMP_Instr2_out;
+  input \Using_FPGA.Native_2 ;
+  input [1:0]\Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ;
   wire [0:0]Address;
   wire Clk;
   wire D_19;
   wire [0:0]EX_Op1;
+  wire PCMP_Instr2_out;
   wire [0:0]Reg1_Data;
+  wire S_2;
+  wire Select_Logic_reg;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_2 ;
+  wire [1:0]\Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82195,11 +82623,25 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_768
   blockdesign_microblaze_0_0_MB_FDRE_904 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[19] ),
         .Clk(Clk),
+        .PCMP_Instr2_out(PCMP_Instr2_out),
+        .S_2(S_2),
+        .Select_Logic_reg(Select_Logic_reg),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_11 (\Using_FPGA.Native_10 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_8 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .op2_C(op2_C),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_905 Op1_Reg_DFF
        (.Clk(Clk),
@@ -82367,8 +82809,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_771
     res_Forward1,
     Address,
     opsel1_SPR,
-    op2_C,
-    \Using_FPGA.Native );
+    \Using_FPGA.Native ,
+    op2_C);
   output \C_reg[30] ;
   output [0:0]EX_Op1;
   output [0:0]B;
@@ -82382,8 +82824,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_771
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input [0:0]op2_C;
   input \Using_FPGA.Native ;
+  input [0:0]op2_C;
 
   wire [0:0]Address;
   wire [0:0]B;
@@ -82412,10 +82854,14 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_771
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_892 Op1_DFF
-       (.\C_reg[30] (\C_reg[30] ),
+       (.B(B),
+        .\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.The_Compare[2].sel_reg_1 (\Using_FPGA.The_Compare[2].sel_reg_1 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .op2_C(op2_C),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_893 Op1_Reg_DFF
        (.Clk(Clk),
@@ -82427,11 +82873,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_771
        (.B(B),
         .Clk(Clk),
         .D_16(D_16),
-        .\Using_FPGA.Native_0 (\C_reg[30] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.The_Compare[2].sel_reg_1 (\Using_FPGA.The_Compare[2].sel_reg_1 ),
-        .of_PipeRun(of_PipeRun),
-        .op2_C(op2_C));
+        .of_PipeRun(of_PipeRun));
 endmodule
 
 (* ORIG_REF_NAME = "Operand_Select_Bit" *) 
@@ -82470,8 +82912,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_775
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input [1:0]\Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_0 ;
+  input [1:0]\Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
@@ -82484,8 +82926,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_775
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
   wire \Using_FPGA.Native ;
-  wire [1:0]\Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_0 ;
+  wire [1:0]\Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
@@ -82512,13 +82954,16 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_775
        (.\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.The_Compare[0].sel_reg (\Using_FPGA.The_Compare[0].sel_reg ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .op2_C(op2_C),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_873 Op1_Reg_DFF
        (.Clk(Clk),
@@ -82529,11 +82974,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_775
   blockdesign_microblaze_0_0_MB_FDE_874 Op2_DFF
        (.Clk(Clk),
         .D_30(D_30),
-        .\Using_FPGA.Native_0 (\C_reg[30] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.The_Compare[0].sel_reg (\Using_FPGA.The_Compare[0].sel_reg ),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C));
 endmodule
@@ -82543,7 +82983,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_782
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ,
     EX_Op1,
     op2_C,
-    I0,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -82552,19 +82991,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_782
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR,
-    \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    Shift_Logic_Res,
-    PCMP_Instr2_out,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    opsel1_SPR);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
-  output I0;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82574,30 +83004,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_782
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input \Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input Shift_Logic_Res;
-  input PCMP_Instr2_out;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ;
   wire [0:0]Address;
   wire Clk;
   wire D_29;
   wire [0:0]EX_Op1;
-  wire I0;
-  wire PCMP_Instr2_out;
   wire [0:0]Reg1_Data;
-  wire Shift_Logic_Res;
-  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82618,15 +83031,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_782
   blockdesign_microblaze_0_0_MB_FDRE_828 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[29] ),
         .Clk(Clk),
-        .I0(I0),
-        .PCMP_Instr2_out(PCMP_Instr2_out),
-        .Shift_Logic_Res(Shift_Logic_Res),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -82718,7 +83122,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
     EX_Op1,
     op2_C,
     S_0,
-    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -82728,19 +83131,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
     res_Forward1,
     Address,
     opsel1_SPR,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
+    \Using_FPGA.Native_1 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
   output S_0;
-  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82750,14 +83147,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input \Using_FPGA.Native_0 ;
-  input [1:0]\Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native ;
+  input [1:0]\Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ;
   wire [0:0]Address;
@@ -82767,14 +83159,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
   wire [0:0]Reg1_Data;
   wire S_0;
   wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire [1:0]\Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
+  wire [1:0]\Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82795,16 +83181,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
   blockdesign_microblaze_0_0_MB_FDRE_812 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
         .Clk(Clk),
+        .S_0(S_0),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .op2_C(op2_C),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_813 Op1_Reg_DFF
        (.Clk(Clk),
@@ -82815,11 +83198,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_786
   blockdesign_microblaze_0_0_MB_FDE_814 Op2_DFF
        (.Clk(Clk),
         .D_27(D_27),
-        .S_0(S_0),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[27] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C));
 endmodule
@@ -82829,6 +83207,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_787
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ,
     EX_Op1,
     op2_C,
+    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -82837,10 +83216,17 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_787
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR);
+    opsel1_SPR,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
+  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -82850,6 +83236,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_787
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ;
   wire [0:0]Address;
@@ -82857,6 +83249,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_787
   wire D_26;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -82877,6 +83276,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_787
   blockdesign_microblaze_0_0_MB_FDRE_808 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[26] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -82992,8 +83398,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_789
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input [0:0]\Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native ;
+  input [0:0]\Using_FPGA.Native_0 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ;
   wire [0:0]Address;
@@ -83001,8 +83407,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_789
   wire D_24;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire [0:0]\Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native ;
+  wire [0:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.The_Compare[2].sel_reg ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
@@ -83024,8 +83430,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_789
   blockdesign_microblaze_0_0_MB_FDRE_800 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.The_Compare[2].sel_reg (\Using_FPGA.The_Compare[2].sel_reg ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .op2_C(op2_C),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_801 Op1_Reg_DFF
        (.Clk(Clk),
@@ -83036,10 +83446,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_789
   blockdesign_microblaze_0_0_MB_FDE_802 Op2_DFF
        (.Clk(Clk),
         .D_24(D_24),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[24] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.The_Compare[2].sel_reg (\Using_FPGA.The_Compare[2].sel_reg ),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C));
 endmodule
@@ -83050,7 +83456,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
     EX_Op1,
     op2_C,
     \Using_FPGA.The_Compare[0].sel_reg_3 ,
-    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83060,17 +83465,13 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
     res_Forward1,
     Address,
     opsel1_SPR,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    \Using_FPGA.Native_1 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
   output \Using_FPGA.The_Compare[0].sel_reg_3 ;
-  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83080,12 +83481,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native ;
   input [1:0]\Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ;
   wire [0:0]Address;
@@ -83096,10 +83494,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
   wire \Using_FPGA.Native ;
   wire [1:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_3 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
@@ -83121,12 +83515,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
   blockdesign_microblaze_0_0_MB_FDRE_796 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
         .Clk(Clk),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_5 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83140,9 +83528,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_790
        (.Clk(Clk),
         .D_23(D_23),
         .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[23] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
         .\Using_FPGA.The_Compare[0].sel_reg_3 (\Using_FPGA.The_Compare[0].sel_reg_3 ),
         .of_PipeRun(of_PipeRun),
         .op2_C(op2_C));
@@ -83153,8 +83541,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_791
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ,
     EX_Op1,
     op2_C,
-    \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83163,17 +83549,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_791
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    opsel1_SPR);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ;
   output [0:0]EX_Op1;
   output [0:0]op2_C;
-  output \Using_FPGA.Native ;
-  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83183,11 +83562,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_791
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ;
   wire [0:0]Address;
@@ -83195,13 +83569,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_791
   wire D_22;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -83222,13 +83589,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized10_791
   blockdesign_microblaze_0_0_MB_FDRE_792 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[22] ),
         .Clk(Clk),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83247,11 +83607,12 @@ endmodule
 
 (* ORIG_REF_NAME = "Operand_Select_Bit" *) 
 module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
-   (\C_reg[28] ,
+   (\C_reg[31] ,
     EX_Op1,
     \Using_FPGA.DSP48E1_I1 ,
     S,
-    \C_reg[28]_0 ,
+    \C_reg[29] ,
+    \C_reg[23] ,
     \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ,
     sync_reset,
     of_PipeRun,
@@ -83269,12 +83630,17 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
     \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
-  output \C_reg[28] ;
+    \Using_FPGA.Native_3 ,
+    A,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 );
+  output \C_reg[31] ;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
   output S;
-  output [1:0]\C_reg[28]_0 ;
+  output [1:0]\C_reg[29] ;
+  output \C_reg[23] ;
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
   input sync_reset;
   input of_PipeRun;
@@ -83293,10 +83659,16 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input [0:0]A;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
 
+  wire [0:0]A;
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ;
-  wire \C_reg[28] ;
-  wire [1:0]\C_reg[28]_0 ;
+  wire \C_reg[23] ;
+  wire [1:0]\C_reg[29] ;
+  wire \C_reg[31] ;
   wire Clk;
   wire D_31;
   wire [0:0]EX_Op1;
@@ -83310,6 +83682,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
   wire \Using_FPGA.Native_1 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
   wire compare_Instr;
   wire [0:0]ex_Result;
   wire \instr_EX_i_reg[22] ;
@@ -83329,14 +83704,24 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
         .opsel1_SPR(opsel1_SPR),
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_916 Op1_DFF
-       (.\C_reg[28] (\C_reg[28] ),
-        .\C_reg[28]_0 (\C_reg[28]_0 ),
+       (.A(A),
+        .\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ),
+        .\C_reg[23] (\C_reg[23] ),
+        .\C_reg[29] (\C_reg[29] ),
+        .\C_reg[31] (\C_reg[31] ),
         .Clk(Clk),
+        .S(S),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.DSP48E1_I1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_6 ),
+        .compare_Instr(compare_Instr),
         .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
@@ -83348,25 +83733,21 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized12
         .op1_Reg(op1_Reg),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_918 Op2_DFF
-       (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[31] ),
-        .Clk(Clk),
+       (.Clk(Clk),
         .D_31(D_31),
-        .S(S),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
-        .\Using_FPGA.Native_0 (\C_reg[28] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .compare_Instr(compare_Instr),
         .of_PipeRun(of_PipeRun));
 endmodule
 
 (* ORIG_REF_NAME = "Operand_Select_Bit" *) 
 module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
-   (Op1_Shift,
+   (\Using_FPGA.Native ,
     EX_Op1,
     \Using_FPGA.DSP48E1_I1 ,
+    S_8,
     \C_reg[23] ,
-    \Using_BitField.mem_mask0_reg[21] ,
-    \Using_BitField.mem_mask0_reg[21]_0 ,
+    \Using_BitField.mem_mask0_reg[1] ,
+    \Using_BitField.mem_mask0_reg[2] ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83376,24 +83757,28 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
     res_Forward1,
     I3_12,
     opsel1_SPR,
-    \Using_FPGA.Native ,
-    void_bit,
-    B,
     \Using_FPGA.Native_0 ,
+    B,
     \Using_FPGA.Native_1 ,
-    BitField_Insert,
     \Using_FPGA.Native_2 ,
+    void_bit,
     \Using_FPGA.Native_3 ,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
+    BitField_Insert,
     \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 );
-  output Op1_Shift;
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 );
+  output \Using_FPGA.Native ;
   output [0:0]EX_Op1;
   output [0:0]\Using_FPGA.DSP48E1_I1 ;
+  output S_8;
   output [0:0]\C_reg[23] ;
-  output \Using_BitField.mem_mask0_reg[21] ;
-  output [2:0]\Using_BitField.mem_mask0_reg[21]_0 ;
+  output [4:0]\Using_BitField.mem_mask0_reg[1] ;
+  output \Using_BitField.mem_mask0_reg[2] ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83403,41 +83788,48 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
   input res_Forward1;
   input I3_12;
   input opsel1_SPR;
-  input \Using_FPGA.Native ;
-  input void_bit;
-  input [1:0]B;
   input \Using_FPGA.Native_0 ;
+  input [2:0]B;
   input \Using_FPGA.Native_1 ;
-  input BitField_Insert;
   input \Using_FPGA.Native_2 ;
+  input void_bit;
   input \Using_FPGA.Native_3 ;
+  input \instr_EX_i_reg[22] ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
+  input BitField_Insert;
   input \Using_FPGA.Native_6 ;
   input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
 
-  wire [1:0]B;
+  wire [2:0]B;
   wire BitField_Insert;
   wire [0:0]\C_reg[23] ;
   wire Clk;
   wire D_3;
   wire [0:0]EX_Op1;
   wire I3_12;
-  wire Op1_Shift;
   wire [0:0]Reg1_Data;
-  wire \Using_BitField.mem_mask0_reg[21] ;
-  wire [2:0]\Using_BitField.mem_mask0_reg[21]_0 ;
+  wire S_8;
+  wire [4:0]\Using_BitField.mem_mask0_reg[1] ;
+  wire \Using_BitField.mem_mask0_reg[2] ;
   wire [0:0]\Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
   wire [0:0]ex_Result;
+  wire \instr_EX_i_reg[22] ;
   wire of_PipeRun;
   wire op1_I;
   wire op1_Reg;
@@ -83456,7 +83848,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_836 Op1_DFF
        (.Clk(Clk),
-        .Op1_Shift(Op1_Shift),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83472,11 +83864,14 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
         .\C_reg[23] (\C_reg[23] ),
         .Clk(Clk),
         .D_3(D_3),
-        .\Using_BitField.mem_mask0_reg[21] (\Using_BitField.mem_mask0_reg[21] ),
-        .\Using_BitField.mem_mask0_reg[21]_0 (\Using_BitField.mem_mask0_reg[21]_0 ),
+        .S_8(S_8),
+        .\Using_BitField.mem_mask0_reg[1] (\Using_BitField.mem_mask0_reg[1] ),
+        .\Using_BitField.mem_mask0_reg[2] (\Using_BitField.mem_mask0_reg[2] ),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_11 (\Using_FPGA.Native_10 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
         .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
@@ -83484,6 +83879,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized2
         .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
         .\Using_FPGA.Native_7 (\Using_FPGA.Native_6 ),
         .\Using_FPGA.Native_8 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_8 ),
+        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ),
         .of_PipeRun(of_PipeRun),
         .void_bit(void_bit));
 endmodule
@@ -83493,9 +83890,9 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ,
     EX_Op1,
     B,
-    S_8,
-    \Using_BitField.mem_mask0_reg[30] ,
-    \Using_BitField.mem_mask0_reg[30]_0 ,
+    I0,
+    \Using_BitField.mem_mask0_reg[3] ,
+    \Using_BitField.mem_mask0_reg[3]_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83505,21 +83902,37 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
     res_Forward1,
     I3_13,
     opsel1_SPR,
+    clz_instr,
     \Using_FPGA.Native ,
+    Shift_Logic_Res,
+    pcmp_instr,
     \Using_FPGA.Native_0 ,
-    Op1_Shift,
+    BitField_Insert,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    BitField_Insert,
     \Using_FPGA.Native_3 ,
     \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 );
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 ,
+    \Using_FPGA.Native_9 ,
+    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_11 ,
+    \Using_FPGA.Native_12 ,
+    \Using_FPGA.Native_13 ,
+    \Using_FPGA.Native_14 ,
+    \Using_FPGA.Native_15 ,
+    \Using_FPGA.Native_16 ,
+    \Using_FPGA.Native_17 ,
+    \Using_FPGA.Native_18 ,
+    \Using_FPGA.Native_19 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ;
   output [0:0]EX_Op1;
   output [0:0]B;
-  output S_8;
-  output \Using_BitField.mem_mask0_reg[30] ;
-  output [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
+  output I0;
+  output [10:0]\Using_BitField.mem_mask0_reg[3] ;
+  output \Using_BitField.mem_mask0_reg[3]_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83529,15 +83942,31 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
   input res_Forward1;
   input I3_13;
   input opsel1_SPR;
+  input clz_instr;
   input \Using_FPGA.Native ;
+  input Shift_Logic_Res;
+  input pcmp_instr;
   input [1:0]\Using_FPGA.Native_0 ;
-  input Op1_Shift;
+  input BitField_Insert;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
-  input BitField_Insert;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
+  input \Using_FPGA.Native_9 ;
+  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_11 ;
+  input \Using_FPGA.Native_12 ;
+  input \Using_FPGA.Native_13 ;
+  input \Using_FPGA.Native_14 ;
+  input \Using_FPGA.Native_15 ;
+  input \Using_FPGA.Native_16 ;
+  input \Using_FPGA.Native_17 ;
+  input \Using_FPGA.Native_18 ;
+  input \Using_FPGA.Native_19 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ;
   wire [0:0]B;
@@ -83545,24 +83974,40 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
   wire Clk;
   wire D_4;
   wire [0:0]EX_Op1;
+  wire I0;
   wire I3_13;
-  wire Op1_Shift;
   wire [0:0]Reg1_Data;
-  wire S_8;
-  wire \Using_BitField.mem_mask0_reg[30] ;
-  wire [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
+  wire Shift_Logic_Res;
+  wire [10:0]\Using_BitField.mem_mask0_reg[3] ;
+  wire \Using_BitField.mem_mask0_reg[3]_0 ;
   wire \Using_FPGA.Native ;
   wire [1:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_10 ;
+  wire \Using_FPGA.Native_11 ;
+  wire \Using_FPGA.Native_12 ;
+  wire \Using_FPGA.Native_13 ;
+  wire \Using_FPGA.Native_14 ;
+  wire \Using_FPGA.Native_15 ;
+  wire \Using_FPGA.Native_16 ;
+  wire \Using_FPGA.Native_17 ;
+  wire \Using_FPGA.Native_18 ;
+  wire \Using_FPGA.Native_19 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
+  wire \Using_FPGA.Native_9 ;
+  wire clz_instr;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
   wire op1_Reg;
   wire opsel1_SPR;
+  wire pcmp_instr;
   wire res_Forward1;
   wire sync_reset;
 
@@ -83577,8 +84022,23 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
   blockdesign_microblaze_0_0_MB_FDRE_840 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
         .Clk(Clk),
+        .I0(I0),
+        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_10 (\Using_FPGA.Native_19 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_11 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_12 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_13 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_14 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_15 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_16 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_17 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_18 ),
+        .clz_instr(clz_instr),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
+        .pcmp_instr(pcmp_instr),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDRE_841 Op1_Reg_DFF
        (.Clk(Clk),
@@ -83587,22 +84047,22 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized4
         .op1_Reg(op1_Reg),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_842 Op2_DFF
-       (.B(B),
-        .BitField_Insert(BitField_Insert),
+       (.BitField_Insert(BitField_Insert),
         .Clk(Clk),
         .D_4(D_4),
-        .Op1_Shift(Op1_Shift),
-        .S_8(S_8),
-        .\Using_BitField.mem_mask0_reg[30] (\Using_BitField.mem_mask0_reg[30] ),
-        .\Using_BitField.mem_mask0_reg[30]_0 (\Using_BitField.mem_mask0_reg[30]_0 ),
-        .\Using_FPGA.Native_0 (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[4] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_5 ),
+        .\Using_BitField.mem_mask0_reg[3] (\Using_BitField.mem_mask0_reg[3] ),
+        .\Using_BitField.mem_mask0_reg[3]_0 (\Using_BitField.mem_mask0_reg[3]_0 ),
+        .\Using_FPGA.DSP48E1_I1 (B),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_9 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -83611,7 +84071,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ,
     EX_Op1,
     B,
-    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83620,16 +84079,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6
     ex_Result,
     res_Forward1,
     I3_14,
-    opsel1_SPR,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 );
+    opsel1_SPR);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ;
   output [0:0]EX_Op1;
   output [0:0]B;
-  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83639,11 +84092,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6
   input res_Forward1;
   input I3_14;
   input opsel1_SPR;
-  input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ;
   wire [0:0]B;
@@ -83652,12 +84100,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6
   wire [0:0]EX_Op1;
   wire I3_14;
   wire [0:0]Reg1_Data;
-  wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -83677,12 +84119,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized6
   blockdesign_microblaze_0_0_MB_FDRE_844 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[5] ),
         .Clk(Clk),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83704,8 +84140,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
    (\C_reg[30] ,
     EX_Op1,
     B,
-    \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
+    \Using_FPGA.The_Compare[0].sel_reg_6 ,
     Sext,
     sync_reset,
     of_PipeRun,
@@ -83716,23 +84151,16 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
     res_Forward1,
     Address,
     opsel1_SPR,
+    \Using_FPGA.Native ,
+    \Using_FPGA.Native_0 ,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
     sext16,
-    \Using_FPGA.Native_10 ,
+    \Using_FPGA.Native_2 ,
     sext8);
   output \C_reg[30] ;
   output [0:0]EX_Op1;
   output [0:0]B;
-  output \Using_FPGA.Native ;
-  output \Using_FPGA.Native_0 ;
+  output \Using_FPGA.The_Compare[0].sel_reg_6 ;
   output Sext;
   input sync_reset;
   input of_PipeRun;
@@ -83743,17 +84171,11 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native ;
+  input [1:0]\Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
   input sext16;
-  input \Using_FPGA.Native_10 ;
+  input \Using_FPGA.Native_2 ;
   input sext8;
 
   wire [0:0]Address;
@@ -83765,17 +84187,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
   wire [0:0]Reg1_Data;
   wire Sext;
   wire \Using_FPGA.Native ;
-  wire \Using_FPGA.Native_0 ;
+  wire [1:0]\Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
   wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
+  wire \Using_FPGA.The_Compare[0].sel_reg_6 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -83798,18 +84213,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
        (.\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
         .Sext(Sext),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_10 (\Using_FPGA.Native_9 ),
-        .\Using_FPGA.Native_11 (\Using_FPGA.Native_10 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.Native_9 (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sext16(sext16),
@@ -83825,6 +84229,11 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8
        (.B(B),
         .Clk(Clk),
         .D_15(D_15),
+        .\Using_FPGA.Native_0 (\C_reg[30] ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.The_Compare[0].sel_reg_6 (\Using_FPGA.The_Compare[0].sel_reg_6 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -83833,7 +84242,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
    (\C_reg[30] ,
     EX_Op1,
     B,
-    \Using_FPGA.The_Compare[0].sel_reg_6 ,
+    \Using_FPGA.Native ,
+    \Using_FPGA.Native_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83843,13 +84253,19 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
     res_Forward1,
     Address,
     opsel1_SPR,
-    \Using_FPGA.Native ,
-    \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 );
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 ,
+    \Using_FPGA.Native_5 ,
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 ,
+    \Using_FPGA.Native_8 );
   output \C_reg[30] ;
   output [0:0]EX_Op1;
   output [0:0]B;
-  output \Using_FPGA.The_Compare[0].sel_reg_6 ;
+  output \Using_FPGA.Native ;
+  output \Using_FPGA.Native_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83859,9 +84275,14 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
-  input [1:0]\Using_FPGA.Native ;
-  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
+  input \Using_FPGA.Native_4 ;
+  input \Using_FPGA.Native_5 ;
+  input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
+  input \Using_FPGA.Native_8 ;
 
   wire [0:0]Address;
   wire [0:0]B;
@@ -83870,10 +84291,16 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
   wire D_14;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire [1:0]\Using_FPGA.Native ;
+  wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.The_Compare[0].sel_reg_6 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
+  wire \Using_FPGA.Native_4 ;
+  wire \Using_FPGA.Native_5 ;
+  wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
+  wire \Using_FPGA.Native_8 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -83893,6 +84320,16 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
   blockdesign_microblaze_0_0_MB_FDRE_884 Op1_DFF
        (.\C_reg[30] (\C_reg[30] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_6 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_8 (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_9 (\Using_FPGA.Native_8 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83906,11 +84343,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_772
        (.B(B),
         .Clk(Clk),
         .D_14(D_14),
-        .\Using_FPGA.Native_0 (\C_reg[30] ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.The_Compare[0].sel_reg_6 (\Using_FPGA.The_Compare[0].sel_reg_6 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -83919,6 +84351,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_773
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ,
     EX_Op1,
     B,
+    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83927,10 +84360,15 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_773
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR);
+    opsel1_SPR,
+    \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ;
   output [0:0]EX_Op1;
   output [0:0]B;
+  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -83940,6 +84378,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_773
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input \Using_FPGA.Native_3 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ;
   wire [0:0]Address;
@@ -83948,6 +84390,11 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_773
   wire D_13;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -83967,6 +84414,11 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_773
   blockdesign_microblaze_0_0_MB_FDRE_880 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[13] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -83988,6 +84440,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_774
    (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ,
     EX_Op1,
     B,
+    \Using_FPGA.Native ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -83996,10 +84449,12 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_774
     ex_Result,
     res_Forward1,
     Address,
-    opsel1_SPR);
+    opsel1_SPR,
+    \Using_FPGA.Native_0 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ;
   output [0:0]EX_Op1;
   output [0:0]B;
+  output \Using_FPGA.Native ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -84009,6 +84464,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_774
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native_0 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ;
   wire [0:0]Address;
@@ -84017,6 +84473,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_774
   wire D_12;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
+  wire \Using_FPGA.Native ;
+  wire \Using_FPGA.Native_0 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -84036,6 +84494,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_774
   blockdesign_microblaze_0_0_MB_FDRE_876 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[12] ),
         .Clk(Clk),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -84128,8 +84588,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
     \Using_FPGA.DSP48E1_I1 ,
     D,
     S_5,
-    \Using_BitField.mem_mask0_reg[1] ,
-    \Using_BitField.mem_mask0_reg[4] ,
+    \Using_BitField.mem_mask0_reg[30] ,
+    \Using_BitField.mem_mask0_reg[30]_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -84144,22 +84604,17 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
     \Using_FPGA.Native_1 ,
     BitField_Extract,
     \Using_FPGA.Native_2 ,
-    B,
     \Using_FPGA.Native_3 ,
+    B,
     \Using_FPGA.Native_4 ,
-    BitField_Insert,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 );
+    BitField_Insert);
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
-  output [26:0]D;
+  output [27:0]D;
   output S_5;
-  output [12:0]\Using_BitField.mem_mask0_reg[1] ;
-  output \Using_BitField.mem_mask0_reg[4] ;
+  output \Using_BitField.mem_mask0_reg[30] ;
+  output [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -84174,29 +84629,24 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
   input \Using_FPGA.Native_1 ;
   input BitField_Extract;
   input \Using_FPGA.Native_2 ;
-  input [4:0]B;
   input \Using_FPGA.Native_3 ;
+  input [5:0]B;
   input \Using_FPGA.Native_4 ;
   input BitField_Insert;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ;
   wire [0:0]Address;
-  wire [4:0]B;
+  wire [5:0]B;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Clk;
-  wire [26:0]D;
+  wire [27:0]D;
   wire D_10;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
   wire S_5;
-  wire [12:0]\Using_BitField.mem_mask0_reg[1] ;
-  wire \Using_BitField.mem_mask0_reg[4] ;
+  wire \Using_BitField.mem_mask0_reg[30] ;
+  wire [0:0]\Using_BitField.mem_mask0_reg[30]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -84204,11 +84654,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -84227,7 +84672,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
         .res_Forward1(res_Forward1));
   blockdesign_microblaze_0_0_MB_FDRE_864 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[10] ),
-        .B(B[4:3]),
+        .B(B[5:4]),
         .Clk(Clk),
         .S_5(S_5),
         .\Using_FPGA.Native_0 (\Using_FPGA.DSP48E1_I1 ),
@@ -84243,24 +84688,19 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_777
         .op1_Reg(op1_Reg),
         .sync_reset(sync_reset));
   blockdesign_microblaze_0_0_MB_FDE_866 Op2_DFF
-       (.B(B[2:0]),
+       (.B(B[3:0]),
         .BitField_Extract(BitField_Extract),
         .BitField_Insert(BitField_Insert),
         .Clk(Clk),
         .D(D),
         .D_10(D_10),
-        .\Using_BitField.mem_mask0_reg[1] (\Using_BitField.mem_mask0_reg[1] ),
-        .\Using_BitField.mem_mask0_reg[4] (\Using_BitField.mem_mask0_reg[4] ),
+        .\Using_BitField.mem_mask0_reg[30] (\Using_BitField.mem_mask0_reg[30] ),
+        .\Using_BitField.mem_mask0_reg[30]_0 (\Using_BitField.mem_mask0_reg[30]_0 ),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_9 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -84270,8 +84710,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
     EX_Op1,
     \Using_FPGA.DSP48E1_I1 ,
     D,
-    \Using_FPGA.Native ,
-    \Using_BitField.mem_mask0_reg[18] ,
+    \Using_BitField.mem_mask0_reg[23] ,
+    \Using_BitField.mem_mask0_reg[23]_0 ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -84281,27 +84721,21 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
     res_Forward1,
     Address,
     opsel1_SPR,
+    \Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
-    \Using_FPGA.Native_1 ,
     BitField_Extract,
+    \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    BitField_Insert,
     B,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 );
+    BitField_Insert,
+    \Using_FPGA.Native_3 ,
+    \Using_FPGA.Native_4 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
   output [0:0]D;
-  output \Using_FPGA.Native ;
-  output [3:0]\Using_BitField.mem_mask0_reg[18] ;
+  output \Using_BitField.mem_mask0_reg[23] ;
+  output [1:0]\Using_BitField.mem_mask0_reg[23]_0 ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -84311,21 +84745,15 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
   input res_Forward1;
   input [0:0]Address;
   input opsel1_SPR;
+  input \Using_FPGA.Native ;
   input \Using_FPGA.Native_0 ;
-  input \Using_FPGA.Native_1 ;
   input BitField_Extract;
+  input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
+  input [2:0]B;
+  input BitField_Insert;
   input \Using_FPGA.Native_3 ;
   input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input BitField_Insert;
-  input [2:0]B;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ;
   wire [0:0]Address;
@@ -84337,21 +84765,15 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
   wire D_9;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire [3:0]\Using_BitField.mem_mask0_reg[18] ;
+  wire \Using_BitField.mem_mask0_reg[23] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[23]_0 ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
   wire \Using_FPGA.Native_2 ;
   wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
   wire op1_I;
@@ -84371,12 +84793,6 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
   blockdesign_microblaze_0_0_MB_FDRE_860 Op1_DFF
        (.\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] (\Add_Output_DFFs.M_AXI_DP_AWADDR_reg[9] ),
         .Clk(Clk),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_8 ),
         .of_PipeRun(of_PipeRun),
         .op1_I(op1_I),
         .sync_reset(sync_reset));
@@ -84393,15 +84809,15 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_778
         .Clk(Clk),
         .D(D),
         .D_9(D_9),
-        .\Using_BitField.mem_mask0_reg[18] (\Using_BitField.mem_mask0_reg[18] ),
+        .\Using_BitField.mem_mask0_reg[23] (\Using_BitField.mem_mask0_reg[23] ),
+        .\Using_BitField.mem_mask0_reg[23]_0 (\Using_BitField.mem_mask0_reg[23]_0 ),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_9 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_10 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_11 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_4 (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_5 (\Using_FPGA.Native_4 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
@@ -84412,7 +84828,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
     \Using_FPGA.DSP48E1_I1 ,
     D,
     \Using_FPGA.The_Compare[2].sel_reg_4 ,
-    \Using_BitField.mem_mask0_reg[27] ,
+    \Using_BitField.mem_mask0_reg[6] ,
+    \Using_BitField.mem_mask0_reg[22] ,
     sync_reset,
     of_PipeRun,
     Clk,
@@ -84423,22 +84840,24 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
     Address,
     opsel1_SPR,
     \Using_FPGA.Native ,
-    BitField_Extract,
     \Using_FPGA.Native_0 ,
+    BitField_Extract,
     \Using_FPGA.Native_1 ,
     \Using_FPGA.Native_2 ,
     \Using_FPGA.Native_3 ,
-    BitField_Insert,
     B,
+    BitField_Insert,
     \Using_FPGA.Native_4 ,
     \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 );
+    \Using_FPGA.Native_6 ,
+    \Using_FPGA.Native_7 );
   output \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[8] ;
   output [0:0]EX_Op1;
   output \Using_FPGA.DSP48E1_I1 ;
-  output [1:0]D;
+  output [0:0]D;
   output \Using_FPGA.The_Compare[2].sel_reg_4 ;
-  output [0:0]\Using_BitField.mem_mask0_reg[27] ;
+  output [1:0]\Using_BitField.mem_mask0_reg[6] ;
+  output \Using_BitField.mem_mask0_reg[22] ;
   input sync_reset;
   input of_PipeRun;
   input Clk;
@@ -84449,28 +84868,30 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
   input [0:0]Address;
   input opsel1_SPR;
   input \Using_FPGA.Native ;
-  input BitField_Extract;
   input \Using_FPGA.Native_0 ;
+  input BitField_Extract;
   input \Using_FPGA.Native_1 ;
   input \Using_FPGA.Native_2 ;
   input \Using_FPGA.Native_3 ;
+  input [1:0]B;
   input BitField_Insert;
-  input [0:0]B;
   input \Using_FPGA.Native_4 ;
   input \Using_FPGA.Native_5 ;
   input \Using_FPGA.Native_6 ;
+  input \Using_FPGA.Native_7 ;
 
   wire \Add_Output_DFFs.M_AXI_DP_AWADDR_reg[8] ;
   wire [0:0]Address;
-  wire [0:0]B;
+  wire [1:0]B;
   wire BitField_Extract;
   wire BitField_Insert;
   wire Clk;
-  wire [1:0]D;
+  wire [0:0]D;
   wire D_8;
   wire [0:0]EX_Op1;
   wire [0:0]Reg1_Data;
-  wire [0:0]\Using_BitField.mem_mask0_reg[27] ;
+  wire \Using_BitField.mem_mask0_reg[22] ;
+  wire [1:0]\Using_BitField.mem_mask0_reg[6] ;
   wire \Using_FPGA.DSP48E1_I1 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -84480,6 +84901,7 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.The_Compare[2].sel_reg_4 ;
   wire [0:0]ex_Result;
   wire of_PipeRun;
@@ -84520,7 +84942,8 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
         .Clk(Clk),
         .D(D),
         .D_8(D_8),
-        .\Using_BitField.mem_mask0_reg[27] (\Using_BitField.mem_mask0_reg[27] ),
+        .\Using_BitField.mem_mask0_reg[22] (\Using_BitField.mem_mask0_reg[22] ),
+        .\Using_BitField.mem_mask0_reg[6] (\Using_BitField.mem_mask0_reg[6] ),
         .\Using_FPGA.DSP48E1_I1 (\Using_FPGA.DSP48E1_I1 ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
@@ -84529,10 +84952,10 @@ module blockdesign_microblaze_0_0_Operand_Select_Bit__parameterized8_779
         .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
         .\Using_FPGA.Native_5 (\Using_FPGA.Native_5 ),
         .\Using_FPGA.Native_6 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_7 (\Using_FPGA.Native_7 ),
         .of_PipeRun(of_PipeRun));
 endmodule
 
-(* ORIG_REF_NAME = "PC_Bit" *) 
 module blockdesign_microblaze_0_0_PC_Bit
    (LO,
     \Instr_Addr[30] ,
@@ -87812,7 +88235,6 @@ module blockdesign_microblaze_0_0_PC_Bit__parameterized2_577
         .sync_reset(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "PC_Module" *) 
 module blockdesign_microblaze_0_0_PC_Module
    (I3,
     Address,
@@ -88643,7 +89065,6 @@ module blockdesign_microblaze_0_0_PC_Module
         .\trace_pc_i_reg[9] (\trace_pc_i_reg[0] [22]));
 endmodule
 
-(* ORIG_REF_NAME = "PreFetch_Buffer" *) 
 module blockdesign_microblaze_0_0_PreFetch_Buffer
    (of_Valid_Raw,
     instr_OF,
@@ -88660,40 +89081,42 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
     \instr_EX_i_reg[27] ,
     \Using_FPGA.set_BIP_I_reg ,
     \Using_MSR_Instr.write_MSR_I_reg ,
-    \Using_MSR_Instr.MSRxxx_Instr_i_reg ,
+    p_47_out,
     mtsmsr_write_i_reg,
     \Using_MSR_Instr.msrxxx_carry_reg ,
     DI,
     buffer_Full,
+    ex_Valid_reg,
     mbar_is_sleep0,
-    mul_Executing0,
-    mbar_first,
-    E,
-    write_Carry_I_reg,
-    p_51_out,
-    write_Carry_I_reg_0,
     jump2_I_reg,
-    \Using_Mul_Instr.ex_not_mul_op_i_reg ,
-    mul_first136_in,
+    inHibit_EX_reg,
     mul_first38_out,
+    mul_Executing_reg,
     d_AS_I20_out,
     msrxxx_write_carry,
-    inHibit_EX_reg,
+    p_54_out,
+    mbar_first_reg,
+    of_mbar_decode,
+    \Area_Debug_Control.dbg_brki_hit_reg ,
+    \Area_Debug_Control.dbg_brki_hit_reg_0 ,
     \Using_FPGA.Native ,
-    force1_i43_out,
+    enable_Interrupts_I,
+    reset_BIP_I9_out,
+    E,
     \Using_FPGA.Native_0 ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
+    D_32,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    \Using_FPGA.Native_3 ,
     use_Reg_Neg_S_i42_out,
+    \Using_FPGA.Native_4 ,
     force_Val1_i41_out,
     use_Reg_Neg_DI_i40_out,
     Reg_Test_Equal_i,
     Reg_Test_Equal_N_i7_out,
-    \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 ,
-    D_32,
-    of_mbar_decode,
-    \Area_Debug_Control.dbg_brki_hit_reg ,
-    \Area_Debug_Control.dbg_brki_hit_reg_0 ,
+    force1_i43_out,
+    \Using_Barrel_Shifter.Not_Barrel_Op_reg ,
     MSRclr_Instr_i0_in,
     D_0,
     D_1,
@@ -88727,39 +89150,36 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
     D_29,
     D_30,
     D_31,
-    p_54_out,
-    reset_BIP_I9_out,
-    enable_Interrupts_I,
     byte_i17_out,
     load_Store_i_reg,
-    \Using_Barrel_Shifter.Not_Barrel_Op_reg ,
-    \write_Addr_I_reg[0] ,
-    select_ALU_Carry_reg,
-    check_srx15_in,
+    p_51_out,
+    write_Carry_I_reg,
+    \Using_Mul_Instr.ex_not_mul_op_i_reg ,
+    mul_first136_in,
     Compare_Instr_reg,
-    \Using_FPGA.Native_4 ,
-    Select_Logic0,
+    select_ALU_Carry_reg,
+    \write_Addr_I_reg[0] ,
+    check_srx15_in,
     p_49_out,
     p_50_out,
+    \Using_FPGA.Native_5 ,
     trace_jump_taken_i_reg,
     nonvalid_IFetch_n_reg,
-    ex_Valid_reg,
-    \Using_FPGA.Native_5 ,
     is_swx_I_reg,
     is_lwx_I_reg,
-    byte_i_reg,
     using_Imm_reg,
     write_Reg_reg,
-    writing_reg,
     doublet_i_reg,
+    writing_reg,
+    byte_i_reg,
     R,
     Clk,
     CI,
     Y,
-    mul_Executing_reg,
+    mul_Executing_reg_0,
     \Using_FPGA.set_BIP_I_reg_0 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     sync_reset,
+    take_Intr_Now_III,
     \Using_MSR_Instr.write_MSR_I_reg_0 ,
     mtsmsr_write_i_reg_0,
     msrxxx_carry,
@@ -88768,20 +89188,19 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
     mbar_hold_I_reg,
     missed_IFetch,
     jump_Carry2,
-    mul_Executing,
     mem_access_completed_reg,
-    I2106_out,
-    mul_first,
-    ok_To_Stop,
-    mbar_sleep_reg,
-    dbg_pause,
-    dbg_pause_reg,
+    load_Store_i,
+    mul_Executing,
+    S105_out,
     inHibit_EX,
+    dbg_pause_reg,
     inHibit_EX_reg_0,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
     dbg_brki_hit,
+    dbg_pause,
+    \Using_FPGA.take_Intr_2nd_Phase_reg ,
     \Size_17to32.imm_Reg_reg[0] ,
     using_Imm_reg_0,
+    \Using_FPGA.take_Intr_2nd_Phase_reg_0 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_1 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_2 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_3 ,
@@ -88813,28 +89232,26 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
     \Using_FPGA.take_Intr_2nd_Phase_reg_29 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_30 ,
     \Using_FPGA.take_Intr_2nd_Phase_reg_31 ,
-    \Using_FPGA.take_Intr_2nd_Phase_reg_32 ,
     take_Intr_Now_II,
     jump2_I_reg_0,
     \Serial_Dbg_Intf.control_reg_reg[8] ,
     \Serial_Dbg_Intf.if_debug_ready_i_reg ,
-    iFetch_In_Progress_reg,
+    mbar_decode_I_reg,
     nonvalid_IFetch_n_reg_0,
-    force_Val2_N,
     is_swx_I_reg_0,
     is_swx_I,
     is_lwx_I,
-    isbyte,
     write_Reg_reg_0,
     isdoublet,
+    isbyte,
     S,
+    \Using_FPGA.Native_7 ,
     lopt,
     lopt_1,
     lopt_2,
     lopt_3,
     lopt_4,
-    lopt_5,
-    lopt_6);
+    lopt_5);
   output of_Valid_Raw;
   output [10:0]instr_OF;
   output \instr_EX_i_reg[9] ;
@@ -88850,40 +89267,42 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   output \instr_EX_i_reg[27] ;
   output \Using_FPGA.set_BIP_I_reg ;
   output \Using_MSR_Instr.write_MSR_I_reg ;
-  output \Using_MSR_Instr.MSRxxx_Instr_i_reg ;
+  output p_47_out;
   output mtsmsr_write_i_reg;
   output \Using_MSR_Instr.msrxxx_carry_reg ;
   output DI;
   output buffer_Full;
+  output ex_Valid_reg;
   output mbar_is_sleep0;
-  output mul_Executing0;
-  output mbar_first;
-  output [0:0]E;
-  output write_Carry_I_reg;
-  output p_51_out;
-  output write_Carry_I_reg_0;
   output jump2_I_reg;
-  output \Using_Mul_Instr.ex_not_mul_op_i_reg ;
-  output mul_first136_in;
+  output inHibit_EX_reg;
   output mul_first38_out;
+  output mul_Executing_reg;
   output d_AS_I20_out;
   output msrxxx_write_carry;
-  output inHibit_EX_reg;
+  output p_54_out;
+  output mbar_first_reg;
+  output of_mbar_decode;
+  output \Area_Debug_Control.dbg_brki_hit_reg ;
+  output \Area_Debug_Control.dbg_brki_hit_reg_0 ;
   output \Using_FPGA.Native ;
-  output force1_i43_out;
+  output enable_Interrupts_I;
+  output reset_BIP_I9_out;
+  output [0:0]E;
   output \Using_FPGA.Native_0 ;
+  output \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  output D_32;
+  output \Using_FPGA.Native_1 ;
+  output \Using_FPGA.Native_2 ;
+  output \Using_FPGA.Native_3 ;
   output use_Reg_Neg_S_i42_out;
+  output \Using_FPGA.Native_4 ;
   output force_Val1_i41_out;
   output use_Reg_Neg_DI_i40_out;
   output Reg_Test_Equal_i;
   output Reg_Test_Equal_N_i7_out;
-  output \Using_FPGA.Native_1 ;
-  output \Using_FPGA.Native_2 ;
-  output \Using_FPGA.Native_3 ;
-  output D_32;
-  output of_mbar_decode;
-  output \Area_Debug_Control.dbg_brki_hit_reg ;
-  output \Area_Debug_Control.dbg_brki_hit_reg_0 ;
+  output force1_i43_out;
+  output \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
   output MSRclr_Instr_i0_in;
   output D_0;
   output D_1;
@@ -88917,39 +89336,36 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   output D_29;
   output D_30;
   output D_31;
-  output p_54_out;
-  output reset_BIP_I9_out;
-  output enable_Interrupts_I;
   output byte_i17_out;
   output load_Store_i_reg;
-  output \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
-  output [3:0]\write_Addr_I_reg[0] ;
-  output select_ALU_Carry_reg;
-  output check_srx15_in;
+  output p_51_out;
+  output write_Carry_I_reg;
+  output \Using_Mul_Instr.ex_not_mul_op_i_reg ;
+  output mul_first136_in;
   output Compare_Instr_reg;
-  output \Using_FPGA.Native_4 ;
-  output Select_Logic0;
+  output select_ALU_Carry_reg;
+  output [4:0]\write_Addr_I_reg[0] ;
+  output check_srx15_in;
   output p_49_out;
   output p_50_out;
+  output \Using_FPGA.Native_5 ;
   output trace_jump_taken_i_reg;
   output nonvalid_IFetch_n_reg;
-  output ex_Valid_reg;
-  output \Using_FPGA.Native_5 ;
   output is_swx_I_reg;
   output is_lwx_I_reg;
-  output byte_i_reg;
   output using_Imm_reg;
   output write_Reg_reg;
-  output writing_reg;
   output doublet_i_reg;
+  output writing_reg;
+  output byte_i_reg;
   input R;
   input Clk;
   input CI;
   input [0:31]Y;
-  input mul_Executing_reg;
+  input mul_Executing_reg_0;
   input \Using_FPGA.set_BIP_I_reg_0 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input sync_reset;
+  input take_Intr_Now_III;
   input \Using_MSR_Instr.write_MSR_I_reg_0 ;
   input mtsmsr_write_i_reg_0;
   input msrxxx_carry;
@@ -88958,20 +89374,19 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   input mbar_hold_I_reg;
   input missed_IFetch;
   input jump_Carry2;
-  input mul_Executing;
   input mem_access_completed_reg;
-  input I2106_out;
-  input mul_first;
-  input ok_To_Stop;
-  input mbar_sleep_reg;
-  input dbg_pause;
-  input dbg_pause_reg;
+  input load_Store_i;
+  input mul_Executing;
+  input S105_out;
   input inHibit_EX;
+  input dbg_pause_reg;
   input inHibit_EX_reg_0;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   input dbg_brki_hit;
+  input dbg_pause;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg ;
   input [15:0]\Size_17to32.imm_Reg_reg[0] ;
   input using_Imm_reg_0;
+  input \Using_FPGA.take_Intr_2nd_Phase_reg_0 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_1 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_2 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_3 ;
@@ -89003,28 +89418,26 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   input \Using_FPGA.take_Intr_2nd_Phase_reg_29 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_30 ;
   input \Using_FPGA.take_Intr_2nd_Phase_reg_31 ;
-  input \Using_FPGA.take_Intr_2nd_Phase_reg_32 ;
   input take_Intr_Now_II;
   input jump2_I_reg_0;
   input [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
   input \Serial_Dbg_Intf.if_debug_ready_i_reg ;
-  input iFetch_In_Progress_reg;
+  input mbar_decode_I_reg;
   input nonvalid_IFetch_n_reg_0;
-  input force_Val2_N;
   input is_swx_I_reg_0;
   input is_swx_I;
   input is_lwx_I;
-  input isbyte;
   input write_Reg_reg_0;
   input isdoublet;
+  input isbyte;
   input S;
+  input \Using_FPGA.Native_7 ;
   input lopt;
   input lopt_1;
-  output lopt_2;
+  input lopt_2;
   input lopt_3;
   input lopt_4;
-  input lopt_5;
-  output lopt_6;
+  output lopt_5;
 
   wire \Area_Debug_Control.dbg_brki_hit_reg ;
   wire \Area_Debug_Control.dbg_brki_hit_reg_0 ;
@@ -89068,32 +89481,35 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire D_8;
   wire D_9;
   wire [0:0]E;
-  wire I2106_out;
   wire MSRclr_Instr_i0_in;
+  wire \PreFetch_Buffers[0].SRL16E_I_n_4 ;
   wire \PreFetch_Buffers[0].SRL16E_I_n_6 ;
-  wire \PreFetch_Buffers[0].SRL16E_I_n_7 ;
-  wire \PreFetch_Buffers[1].SRL16E_I_n_3 ;
-  wire \PreFetch_Buffers[26].SRL16E_I_n_3 ;
-  wire \PreFetch_Buffers[27].SRL16E_I_n_2 ;
-  wire \PreFetch_Buffers[30].SRL16E_I_n_2 ;
-  wire \PreFetch_Buffers[31].SRL16E_I_n_5 ;
-  wire \PreFetch_Buffers[3].SRL16E_I_n_1 ;
-  wire \PreFetch_Buffers[3].SRL16E_I_n_2 ;
-  wire \PreFetch_Buffers[3].SRL16E_I_n_6 ;
-  wire \PreFetch_Buffers[4].SRL16E_I_n_2 ;
-  wire \PreFetch_Buffers[4].SRL16E_I_n_3 ;
+  wire \PreFetch_Buffers[11].SRL16E_I_n_1 ;
+  wire \PreFetch_Buffers[12].SRL16E_I_n_2 ;
+  wire \PreFetch_Buffers[13].SRL16E_I_n_1 ;
+  wire \PreFetch_Buffers[17].SRL16E_I_n_1 ;
+  wire \PreFetch_Buffers[17].SRL16E_I_n_3 ;
+  wire \PreFetch_Buffers[18].SRL16E_I_n_2 ;
+  wire \PreFetch_Buffers[1].SRL16E_I_n_1 ;
+  wire \PreFetch_Buffers[1].SRL16E_I_n_6 ;
+  wire \PreFetch_Buffers[1].SRL16E_I_n_7 ;
+  wire \PreFetch_Buffers[23].SRL16E_I_n_2 ;
+  wire \PreFetch_Buffers[31].SRL16E_I_n_2 ;
+  wire \PreFetch_Buffers[4].SRL16E_I_n_11 ;
+  wire \PreFetch_Buffers[4].SRL16E_I_n_4 ;
+  wire \PreFetch_Buffers[5].SRL16E_I_n_11 ;
   wire \PreFetch_Buffers[5].SRL16E_I_n_2 ;
-  wire \PreFetch_Buffers[6].SRL16E_I_n_2 ;
+  wire \PreFetch_Buffers[5].SRL16E_I_n_3 ;
   wire R;
   wire Reg_Test_Equal_N_i7_out;
   wire Reg_Test_Equal_i;
   wire S;
-  wire S0_out;
+  wire S105_out;
   wire S_34;
-  wire Select_Logic0;
   wire [0:0]\Serial_Dbg_Intf.control_reg_reg[8] ;
   wire \Serial_Dbg_Intf.if_debug_ready_i_reg ;
   wire [15:0]\Size_17to32.imm_Reg_reg[0] ;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Using_Barrel_Shifter.Not_Barrel_Op_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
@@ -89103,6 +89519,7 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire \Using_FPGA.Native_4 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_6 ;
+  wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.set_BIP_I_reg ;
   wire \Using_FPGA.set_BIP_I_reg_0 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg ;
@@ -89132,19 +89549,18 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_3 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_30 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_31 ;
-  wire \Using_FPGA.take_Intr_2nd_Phase_reg_32 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_4 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_5 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_6 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_7 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_8 ;
   wire \Using_FPGA.take_Intr_2nd_Phase_reg_9 ;
-  wire \Using_MSR_Instr.MSRxxx_Instr_i_reg ;
   wire \Using_MSR_Instr.msrxxx_carry_reg ;
   wire \Using_MSR_Instr.write_MSR_I_reg ;
   wire \Using_MSR_Instr.write_MSR_I_reg_0 ;
   wire \Using_Mul_Instr.ex_not_mul_op_i_reg ;
   wire [0:31]Y;
+  wire bs_first1;
   wire buffer_Addr_Carry_1;
   wire buffer_Addr_Carry_2;
   wire buffer_Addr_S_I_0;
@@ -89164,8 +89580,6 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire ex_Valid_reg;
   wire force1_i43_out;
   wire force_Val1_i41_out;
-  wire force_Val2_N;
-  wire iFetch_In_Progress_reg;
   wire inHibit_EX;
   wire inHibit_EX_reg;
   wire inHibit_EX_reg_0;
@@ -89190,16 +89604,17 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire jump2_I_reg;
   wire jump2_I_reg_0;
   wire jump_Carry2;
+  wire load_Store_i;
   wire load_Store_i_reg;
   wire lopt;
   wire lopt_1;
-  wire \^lopt_2 ;
-  wire \^lopt_3 ;
-  wire \^lopt_4 ;
-  wire mbar_first;
+  wire lopt_2;
+  wire lopt_3;
+  wire lopt_4;
+  wire mbar_decode_I_reg;
+  wire mbar_first_reg;
   wire mbar_hold_I_reg;
   wire mbar_is_sleep0;
-  wire mbar_sleep_reg;
   wire mem_access_completed_reg;
   wire missed_IFetch;
   wire msrxxx_carry;
@@ -89207,76 +89622,61 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
   wire mtsmsr_write_i_reg;
   wire mtsmsr_write_i_reg_0;
   wire mul_Executing;
-  wire mul_Executing0;
   wire mul_Executing_reg;
-  wire mul_first;
+  wire mul_Executing_reg_0;
   wire mul_first136_in;
   wire mul_first38_out;
   wire nonvalid_IFetch_n_reg;
   wire nonvalid_IFetch_n_reg_0;
   wire of_Valid_Raw;
   wire of_mbar_decode;
-  wire ok_To_Stop;
+  wire p_47_out;
   wire p_49_out;
   wire p_50_out;
   wire p_51_out;
   wire p_54_out;
   wire reset_BIP_I9_out;
   wire select_ALU_Carry_reg;
-  wire set_BIP_I0;
   wire sync_reset;
   wire take_Intr_Now_II;
+  wire take_Intr_Now_III;
   wire trace_jump_taken_i_reg;
   wire use_Reg_Neg_DI_i40_out;
   wire use_Reg_Neg_S_i42_out;
   wire using_Imm_reg;
   wire using_Imm_reg_0;
-  wire [3:0]\write_Addr_I_reg[0] ;
+  wire [4:0]\write_Addr_I_reg[0] ;
   wire write_Carry_I_reg;
-  wire write_Carry_I_reg_0;
   wire write_Reg_reg;
   wire write_Reg_reg_0;
   wire writing_reg;
 
-  assign \^lopt_2  = lopt_3;
-  assign \^lopt_3  = lopt_4;
-  assign \^lopt_4  = lopt_5;
-  assign lopt_2 = S0_out;
-  assign lopt_6 = S_34;
+  assign lopt_5 = S_34;
   blockdesign_microblaze_0_0_MB_FDS \Buffer_DFFs[1].FDS_I 
        (.Clk(Clk),
-        .DI(DI),
         .R(R),
         .S_34(S_34),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_1 (of_Valid_Raw),
         .buffer_Addr_S_I_2(buffer_Addr_S_I_2),
-        .buffer_Full(buffer_Full),
-        .ex_Valid(ex_Valid),
         .\instr_EX_i_reg[9] (\instr_EX_i_reg[9]_1 ),
-        .mbar_hold_I_reg(mbar_hold_I_reg),
-        .missed_IFetch(missed_IFetch),
-        .mul_Executing_reg(mul_Executing_reg));
+        .mul_Executing_reg(mul_Executing_reg_0));
   blockdesign_microblaze_0_0_MB_MUXCY_XORCY \Buffer_DFFs[1].MUXCY_XOR_I 
        (.LO(buffer_Addr_Carry_2),
         .S_34(S_34),
         .buffer_Addr_S_I_2(buffer_Addr_S_I_2),
-        .lopt(\^lopt_4 ));
+        .lopt(lopt_4));
   blockdesign_microblaze_0_0_MB_FDS_90 \Buffer_DFFs[2].FDS_I 
        (.Clk(Clk),
         .O(buffer_Addr_S_I_1),
         .R(R),
-        .S(S0_out),
-        .\instr_EX_i_reg[9] (\instr_EX_i_reg[9]_0 ),
-        .mul_Executing_reg(mul_Executing_reg));
+        .\instr_EX_i_reg[9] (\instr_EX_i_reg[9]_0 ));
   blockdesign_microblaze_0_0_MB_MUXCY_XORCY_91 \Buffer_DFFs[2].MUXCY_XOR_I 
        (.LO(buffer_Addr_Carry_2),
         .O(buffer_Addr_S_I_1),
-        .S(S0_out),
+        .S(S),
         .\Using_FPGA.Native (buffer_Addr_Carry_1),
         .lopt(lopt_1),
-        .lopt_1(\^lopt_3 ),
-        .mul_Executing_reg(mul_Executing_reg));
+        .lopt_1(lopt_3),
+        .mul_Executing_reg(mul_Executing_reg_0));
   blockdesign_microblaze_0_0_MB_FDS_92 \Buffer_DFFs[3].FDS_I 
        (.Clk(Clk),
         .O(buffer_Addr_S_I_0),
@@ -89286,42 +89686,46 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
        (.CI(CI),
         .LO(buffer_Addr_Carry_1),
         .O(buffer_Addr_S_I_0),
-        .S(S),
+        .\Using_FPGA.Native (\Using_FPGA.Native_7 ),
         .lopt(lopt),
-        .lopt_1(\^lopt_2 ),
-        .mul_Executing_reg(mul_Executing_reg));
+        .lopt_1(lopt_2),
+        .mul_Executing_reg(mul_Executing_reg_0));
   blockdesign_microblaze_0_0_MB_SRL16E \PreFetch_Buffers[0].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
         .\Result_Sel_reg[0] (instr_OF[10]),
-        .\Size_17to32.imm_Reg_reg[15] (\PreFetch_Buffers[0].SRL16E_I_n_7 ),
+        .\Size_17to32.imm_Reg_reg[15] (\PreFetch_Buffers[0].SRL16E_I_n_4 ),
         .\Using_FPGA.Native (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_1 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_10 (D[12]),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_4 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_5 (instr_OF[9]),
-        .\Using_FPGA.Native_6 (instr_OF[7]),
+        .\Using_FPGA.Native_0 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_10 (instr_OF[8]),
+        .\Using_FPGA.Native_11 (\PreFetch_Buffers[12].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native_12 (\instr_EX_i_reg[25] ),
+        .\Using_FPGA.Native_13 (\instr_EX_i_reg[26] ),
+        .\Using_FPGA.Native_14 (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_4 (instr_OF[4]),
+        .\Using_FPGA.Native_5 (instr_OF[5]),
+        .\Using_FPGA.Native_6 (D[13]),
         .\Using_FPGA.Native_7 (instr_OF[6]),
-        .\Using_FPGA.Native_8 (instr_OF[8]),
-        .\Using_FPGA.Native_9 (instr_OF[5]),
+        .\Using_FPGA.Native_8 (instr_OF[7]),
+        .\Using_FPGA.Native_9 (instr_OF[9]),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
         .Y(Y[0]),
         .byte_i17_out(byte_i17_out),
         .d_AS_I20_out(d_AS_I20_out),
         .dbg_pause_reg(dbg_pause_reg),
         .inHibit_EX(inHibit_EX),
-        .inHibit_EX_reg(\PreFetch_Buffers[6].SRL16E_I_n_2 ),
-        .jump2_I_reg(jump2_I_reg),
+        .inHibit_EX_reg(inHibit_EX_reg),
+        .inHibit_EX_reg_0(inHibit_EX_reg_0),
         .mul_Executing_reg(mul_Executing_reg),
+        .mul_Executing_reg_0(mul_Executing_reg_0),
         .mul_first136_in(mul_first136_in),
-        .mul_first38_out(mul_first38_out),
-        .ok_To_Stop(ok_To_Stop),
         .select_ALU_Carry_reg(select_ALU_Carry_reg),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .using_Imm_reg(using_Imm_reg),
+        .write_Carry_I_reg(write_Carry_I_reg),
         .writing_reg(writing_reg));
   blockdesign_microblaze_0_0_MB_SRL16E_94 \PreFetch_Buffers[10].SRL16E_I 
        (.CI(CI),
@@ -89329,14 +89733,14 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[0].SRL16E_I_n_7 ),
-        .\Using_FPGA.Native_3 (instr_OF[5]),
-        .\Using_FPGA.Native_4 (instr_OF[6]),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_2 (instr_OF[5]),
+        .\Using_FPGA.Native_3 (instr_OF[6]),
+        .\Using_FPGA.Native_4 (\PreFetch_Buffers[0].SRL16E_I_n_4 ),
         .Y(Y[10]),
         .enable_Interrupts_I(enable_Interrupts_I),
         .\instr_EX_i_reg[10] (instr_OF[0]),
         .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .\write_Addr_I_reg[4] (\write_Addr_I_reg[0] [0]));
   blockdesign_microblaze_0_0_MB_SRL16E_95 \PreFetch_Buffers[11].SRL16E_I 
        (.CI(CI),
@@ -89344,38 +89748,40 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_2 (D[12]),
+        .\Using_FPGA.Native_3 (D[11]),
+        .\Using_FPGA.set_BIP_I_reg (\PreFetch_Buffers[11].SRL16E_I_n_1 ),
         .Y(Y[11]),
         .\instr_EX_i_reg[11] (D[13]));
   blockdesign_microblaze_0_0_MB_SRL16E_96 \PreFetch_Buffers[12].SRL16E_I 
-       (.\Area_Debug_Control.dbg_brki_hit_reg (\Area_Debug_Control.dbg_brki_hit_reg ),
-        .\Area_Debug_Control.dbg_brki_hit_reg_0 (\Area_Debug_Control.dbg_brki_hit_reg_0 ),
-        .CI(CI),
-        .Clk(Clk),
-        .D({D[13],D[11]}),
-        .D_32(D_32),
-        .\Serial_Dbg_Intf.control_reg_reg[8] (\PreFetch_Buffers[27].SRL16E_I_n_2 ),
-        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_2 ),
-        .\Using_FPGA.Native_3 (\PreFetch_Buffers[30].SRL16E_I_n_2 ),
-        .\Using_FPGA.Native_4 (\PreFetch_Buffers[26].SRL16E_I_n_3 ),
-        .\Using_FPGA.Native_5 (\PreFetch_Buffers[31].SRL16E_I_n_5 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .Y(Y[12]),
-        .dbg_brki_hit(dbg_brki_hit),
-        .\instr_EX_i_reg[12] (D[12]),
-        .mul_Executing_reg(mul_Executing_reg),
-        .set_BIP_I0(set_BIP_I0));
-  blockdesign_microblaze_0_0_MB_SRL16E_97 \PreFetch_Buffers[13].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .D(D[11]),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_0 (\PreFetch_Buffers[12].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_4 (instr_OF[10]),
+        .\Using_FPGA.Native_5 (instr_OF[9]),
+        .\Using_FPGA.Native_6 (instr_OF[7]),
+        .\Using_FPGA.Native_7 (instr_OF[6]),
+        .\Using_FPGA.Native_8 (instr_OF[5]),
+        .Y(Y[12]),
+        .\instr_EX_i_reg[12] (D[12]));
+  blockdesign_microblaze_0_0_MB_SRL16E_97 \PreFetch_Buffers[13].SRL16E_I 
+       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[13].SRL16E_I_n_1 ),
+        .CI(CI),
+        .Clk(Clk),
+        .D(D[1]),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .Y(Y[13]));
+        .\Using_FPGA.Native_2 (D[12]),
+        .\Using_FPGA.Native_3 (D[13]),
+        .\Using_FPGA.Native_4 (\instr_EX_i_reg[21] ),
+        .\Using_FPGA.Native_5 (\instr_EX_i_reg[22] ),
+        .Y(Y[13]),
+        .\instr_EX_i_reg[13] (D[11]));
   blockdesign_microblaze_0_0_MB_SRL16E_98 \PreFetch_Buffers[14].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
@@ -89383,18 +89789,13 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_3 (instr_OF[8]),
-        .\Using_FPGA.Native_4 (\PreFetch_Buffers[5].SRL16E_I_n_2 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_2 (instr_OF[7]),
+        .\Using_FPGA.Native_3 (instr_OF[6]),
+        .\Using_FPGA.Native_4 (instr_OF[8]),
+        .\Using_FPGA.Native_5 (instr_OF[5]),
+        .\Using_FPGA.Native_6 (\PreFetch_Buffers[1].SRL16E_I_n_6 ),
         .Y(Y[14]),
-        .inHibit_EX_reg(\PreFetch_Buffers[4].SRL16E_I_n_2 ),
-        .mbar_first(mbar_first),
-        .mbar_sleep_reg(mbar_sleep_reg),
-        .mul_Executing0(mul_Executing0),
-        .mul_first(mul_first),
-        .of_mbar_decode(of_mbar_decode),
-        .ok_To_Stop(ok_To_Stop));
+        .mbar_first_reg(mbar_first_reg));
   blockdesign_microblaze_0_0_MB_SRL16E_99 \PreFetch_Buffers[15].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
@@ -89403,13 +89804,12 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_2 ),
-        .\Using_FPGA.Native_3 (D[8]),
+        .\Using_FPGA.Native_2 (D[8]),
+        .\Using_FPGA.Native_3 (\PreFetch_Buffers[4].SRL16E_I_n_11 ),
         .Y(Y[15]));
   blockdesign_microblaze_0_0_MB_SRL16E_100 \PreFetch_Buffers[16].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .D(D[9]),
         .D_0(D_0),
         .D_1(D_1),
         .D_10(D_10),
@@ -89428,58 +89828,79 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .D_8(D_8),
         .D_9(D_9),
         .\Size_17to32.imm_Reg_reg[0] (\Size_17to32.imm_Reg_reg[0] ),
-        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (D[2]),
-        .\Using_FPGA.Native_3 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_4 (\PreFetch_Buffers[3].SRL16E_I_n_2 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_1 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_2 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_1 (\Using_FPGA.take_Intr_2nd_Phase_reg_3 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_10 (\Using_FPGA.take_Intr_2nd_Phase_reg_12 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_11 (\Using_FPGA.take_Intr_2nd_Phase_reg_13 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_12 (\Using_FPGA.take_Intr_2nd_Phase_reg_14 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_13 (\Using_FPGA.take_Intr_2nd_Phase_reg_15 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_14 (\Using_FPGA.take_Intr_2nd_Phase_reg_16 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_15 (\Using_FPGA.take_Intr_2nd_Phase_reg_17 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_2 (\Using_FPGA.take_Intr_2nd_Phase_reg_4 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_3 (\Using_FPGA.take_Intr_2nd_Phase_reg_5 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_4 (\Using_FPGA.take_Intr_2nd_Phase_reg_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_5 (\Using_FPGA.take_Intr_2nd_Phase_reg_7 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_6 (\Using_FPGA.take_Intr_2nd_Phase_reg_8 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_7 (\Using_FPGA.take_Intr_2nd_Phase_reg_9 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_8 (\Using_FPGA.take_Intr_2nd_Phase_reg_10 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_9 (\Using_FPGA.take_Intr_2nd_Phase_reg_11 ),
-        .\Using_MSR_Instr.MSRxxx_Instr_i_reg (\Using_MSR_Instr.MSRxxx_Instr_i_reg ),
-        .\Using_MSR_Instr.msrxxx_carry_reg (\Using_MSR_Instr.msrxxx_carry_reg ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_3 (\PreFetch_Buffers[4].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_4 (D[2]),
+        .\Using_FPGA.Native_5 (D[7]),
+        .\Using_FPGA.Native_6 (D[0]),
+        .\Using_FPGA.Native_7 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
+        .\Using_FPGA.Native_8 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_9 (instr_OF[8]),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_1 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_1 (\Using_FPGA.take_Intr_2nd_Phase_reg_2 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_10 (\Using_FPGA.take_Intr_2nd_Phase_reg_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_11 (\Using_FPGA.take_Intr_2nd_Phase_reg_12 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_12 (\Using_FPGA.take_Intr_2nd_Phase_reg_13 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_13 (\Using_FPGA.take_Intr_2nd_Phase_reg_14 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_14 (\Using_FPGA.take_Intr_2nd_Phase_reg_15 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_15 (\Using_FPGA.take_Intr_2nd_Phase_reg_16 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_2 (\Using_FPGA.take_Intr_2nd_Phase_reg_3 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_3 (\Using_FPGA.take_Intr_2nd_Phase_reg_4 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_4 (\Using_FPGA.take_Intr_2nd_Phase_reg_5 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_5 (\Using_FPGA.take_Intr_2nd_Phase_reg_6 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_6 (\Using_FPGA.take_Intr_2nd_Phase_reg_7 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_7 (\Using_FPGA.take_Intr_2nd_Phase_reg_8 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_8 (\Using_FPGA.take_Intr_2nd_Phase_reg_9 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_9 (\Using_FPGA.take_Intr_2nd_Phase_reg_10 ),
         .Y(Y[16]),
+        .dbg_pause_reg(dbg_pause_reg),
+        .inHibit_EX(inHibit_EX),
         .\instr_EX_i_reg[16] (D[8]),
-        .msrxxx_carry(msrxxx_carry),
-        .mul_Executing_reg(mul_Executing_reg),
-        .sync_reset(sync_reset),
+        .msrxxx_write_carry(msrxxx_write_carry),
+        .p_49_out(p_49_out),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .using_Imm_reg(using_Imm_reg_0));
   blockdesign_microblaze_0_0_MB_SRL16E_101 \PreFetch_Buffers[17].SRL16E_I 
-       (.CI(CI),
+       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[17].SRL16E_I_n_3 ),
+        .CI(CI),
         .Clk(Clk),
+        .D(D[5]),
         .D_17(D_17),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_18 ),
+        .\Using_FPGA.Native_10 (\instr_EX_i_reg[24] ),
+        .\Using_FPGA.Native_2 (instr_OF[7]),
+        .\Using_FPGA.Native_3 (instr_OF[10]),
+        .\Using_FPGA.Native_4 (instr_OF[8]),
+        .\Using_FPGA.Native_5 (instr_OF[9]),
+        .\Using_FPGA.Native_6 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_7 (D[0]),
+        .\Using_FPGA.Native_8 (D[2]),
+        .\Using_FPGA.Native_9 (\instr_EX_i_reg[27] ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_17 ),
         .Y(Y[17]),
-        .\instr_EX_i_reg[17] (D[7]));
+        .bs_first1(bs_first1),
+        .\instr_EX_i_reg[17] (D[7]),
+        .mtsmsr_write_i_reg(\PreFetch_Buffers[17].SRL16E_I_n_1 ));
   blockdesign_microblaze_0_0_MB_SRL16E_102 \PreFetch_Buffers[18].SRL16E_I 
-       (.CI(CI),
+       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[18].SRL16E_I_n_2 ),
+        .CI(CI),
         .Clk(Clk),
         .D(D[6]),
         .D_18(D_18),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_19 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[25] ),
+        .\Using_FPGA.Native_4 (D[3]),
+        .\Using_FPGA.Native_5 (D[4]),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_18 ),
         .Y(Y[18]));
   blockdesign_microblaze_0_0_MB_SRL16E_103 \PreFetch_Buffers[19].SRL16E_I 
        (.CI(CI),
@@ -89489,30 +89910,40 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_20 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_19 ),
         .Y(Y[19]));
   blockdesign_microblaze_0_0_MB_SRL16E_104 \PreFetch_Buffers[1].SRL16E_I 
-       (.CI(CI),
+       (.\Area_Debug_Control.dbg_brki_hit_reg (\Area_Debug_Control.dbg_brki_hit_reg ),
+        .\Area_Debug_Control.dbg_brki_hit_reg_0 (\Area_Debug_Control.dbg_brki_hit_reg_0 ),
+        .CI(CI),
         .Clk(Clk),
-        .Compare_Instr_reg(Compare_Instr_reg),
-        .D({D[12],D[0]}),
+        .D(D[10]),
         .\Result_Sel_reg[1] (instr_OF[9]),
-        .\Using_FPGA.Native (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_3 (instr_OF[10]),
-        .\Using_FPGA.Native_4 (instr_OF[5]),
+        .S105_out(S105_out),
+        .\Serial_Dbg_Intf.control_reg_reg[8] (\PreFetch_Buffers[23].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_10 (instr_OF[5]),
+        .\Using_FPGA.Native_2 (instr_OF[10]),
+        .\Using_FPGA.Native_3 (instr_OF[6]),
+        .\Using_FPGA.Native_4 (instr_OF[8]),
         .\Using_FPGA.Native_5 (instr_OF[7]),
-        .\Using_FPGA.Native_6 (instr_OF[6]),
-        .\Using_FPGA.Native_7 (instr_OF[8]),
-        .\Using_FPGA.Native_8 (\instr_EX_i_reg[21] ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_6 (\instr_EX_i_reg[21] ),
+        .\Using_FPGA.Native_7 (\PreFetch_Buffers[18].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native_8 (\PreFetch_Buffers[13].SRL16E_I_n_1 ),
+        .\Using_FPGA.Native_9 (\PreFetch_Buffers[17].SRL16E_I_n_3 ),
         .Y(Y[1]),
-        .is_swx_I_reg(\PreFetch_Buffers[1].SRL16E_I_n_3 ),
+        .dbg_brki_hit(dbg_brki_hit),
+        .is_swx_I_reg(\PreFetch_Buffers[1].SRL16E_I_n_7 ),
+        .jump2_I_reg(\PreFetch_Buffers[1].SRL16E_I_n_1 ),
         .load_Store_i_reg(load_Store_i_reg),
-        .p_54_out(p_54_out));
+        .mbar_first_reg(\PreFetch_Buffers[1].SRL16E_I_n_6 ),
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .of_mbar_decode(of_mbar_decode),
+        .p_54_out(p_54_out),
+        .take_Intr_Now_III(take_Intr_Now_III));
   blockdesign_microblaze_0_0_MB_SRL16E_105 \PreFetch_Buffers[20].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
@@ -89521,8 +89952,8 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_21 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_20 ),
         .Y(Y[20]));
   blockdesign_microblaze_0_0_MB_SRL16E_106 \PreFetch_Buffers[21].SRL16E_I 
        (.CI(CI),
@@ -89531,8 +89962,8 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_22 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_21 ),
         .Y(Y[21]),
         .\instr_EX_i_reg[21] (\instr_EX_i_reg[21] ));
   blockdesign_microblaze_0_0_MB_SRL16E_107 \PreFetch_Buffers[22].SRL16E_I 
@@ -89542,19 +89973,23 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_23 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_22 ),
         .Y(Y[22]),
         .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ));
   blockdesign_microblaze_0_0_MB_SRL16E_108 \PreFetch_Buffers[23].SRL16E_I 
-       (.CI(CI),
+       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[23].SRL16E_I_n_2 ),
+        .CI(CI),
         .Clk(Clk),
         .D_23(D_23),
+        .\Serial_Dbg_Intf.control_reg_reg[8] (\Serial_Dbg_Intf.control_reg_reg[8] ),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_24 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[26] ),
+        .\Using_FPGA.Native_4 (D[8]),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_23 ),
         .Y(Y[23]),
         .\instr_EX_i_reg[23] (\instr_EX_i_reg[23] ));
   blockdesign_microblaze_0_0_MB_SRL16E_109 \PreFetch_Buffers[24].SRL16E_I 
@@ -89564,12 +89999,9 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_3 (\instr_EX_i_reg[25] ),
-        .\Using_FPGA.Native_4 (\instr_EX_i_reg[26] ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_25 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_24 ),
         .Y(Y[24]),
-        .check_srx15_in(check_srx15_in),
         .\instr_EX_i_reg[24] (\instr_EX_i_reg[24] ));
   blockdesign_microblaze_0_0_MB_SRL16E_110 \PreFetch_Buffers[25].SRL16E_I 
        (.CI(CI),
@@ -89578,40 +90010,33 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_26 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_25 ),
         .Y(Y[25]),
         .\instr_EX_i_reg[25] (\instr_EX_i_reg[25] ));
   blockdesign_microblaze_0_0_MB_SRL16E_111 \PreFetch_Buffers[26].SRL16E_I 
-       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[26].SRL16E_I_n_3 ),
-        .CI(CI),
+       (.CI(CI),
         .Clk(Clk),
-        .D(D[6:4]),
         .D_26(D_26),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[25] ),
-        .\Using_FPGA.Native_3 (\instr_EX_i_reg[24] ),
-        .\Using_FPGA.Native_4 (write_Carry_I_reg),
-        .\Using_FPGA.Native_5 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_27 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[25] ),
+        .\Using_FPGA.Native_4 (\instr_EX_i_reg[24] ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_26 ),
         .Y(Y[26]),
-        .\instr_EX_i_reg[26] (\instr_EX_i_reg[26] ),
-        .p_51_out(p_51_out));
+        .check_srx15_in(check_srx15_in),
+        .\instr_EX_i_reg[26] (\instr_EX_i_reg[26] ));
   blockdesign_microblaze_0_0_MB_SRL16E_112 \PreFetch_Buffers[27].SRL16E_I 
-       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[27].SRL16E_I_n_2 ),
-        .CI(CI),
+       (.CI(CI),
         .Clk(Clk),
         .D_27(D_27),
-        .\Serial_Dbg_Intf.control_reg_reg[8] (\Serial_Dbg_Intf.control_reg_reg[8] ),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_3 (instr_OF[8]),
-        .\Using_FPGA.Native_4 (\instr_EX_i_reg[24] ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_28 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_27 ),
         .Y(Y[27]),
         .\instr_EX_i_reg[27] (\instr_EX_i_reg[27] ));
   blockdesign_microblaze_0_0_MB_SRL16E_113 \PreFetch_Buffers[28].SRL16E_I 
@@ -89621,221 +90046,229 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_29 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_28 ),
         .Y(Y[28]),
         .\instr_EX_i_reg[28] (D[3]));
   blockdesign_microblaze_0_0_MB_SRL16E_114 \PreFetch_Buffers[29].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
+        .D({D[11],D[3]}),
         .D_29(D_29),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_30 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[4].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_3 (D[7]),
+        .\Using_FPGA.Native_4 (\PreFetch_Buffers[5].SRL16E_I_n_3 ),
+        .\Using_FPGA.Native_5 (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Using_FPGA.Native_6 (\PreFetch_Buffers[5].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native_7 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_29 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .Y(Y[29]),
-        .\instr_EX_i_reg[29] (D[2]));
+        .\instr_EX_i_reg[29] (D[2]),
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
+        .write_Reg_reg(write_Reg_reg),
+        .write_Reg_reg_0(write_Reg_reg_0));
   blockdesign_microblaze_0_0_MB_SRL16E_115 \PreFetch_Buffers[2].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (D[8]),
-        .\Using_FPGA.Native_3 (D[7]),
+        .Compare_Instr_reg(Compare_Instr_reg),
+        .\Using_FPGA.Native (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_3 (instr_OF[10]),
+        .\Using_FPGA.Native_4 (instr_OF[9]),
+        .\Using_FPGA.Native_5 (instr_OF[7]),
+        .\Using_FPGA.Native_6 (instr_OF[6]),
+        .\Using_FPGA.Native_7 (instr_OF[5]),
+        .\Using_FPGA.Native_8 (D[0]),
+        .\Using_FPGA.Native_9 (D[7]),
         .Y(Y[2]),
         .\instr_EX_i_reg[2] (instr_OF[8]),
-        .p_49_out(p_49_out),
         .p_50_out(p_50_out));
   blockdesign_microblaze_0_0_MB_SRL16E_116 \PreFetch_Buffers[30].SRL16E_I 
-       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[30].SRL16E_I_n_2 ),
-        .CI(CI),
+       (.CI(CI),
         .Clk(Clk),
         .D(D[1]),
         .D_30(D_30),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_3 (\instr_EX_i_reg[22] ),
-        .\Using_FPGA.Native_4 (D[3]),
-        .\Using_FPGA.Native_5 (\instr_EX_i_reg[21] ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_31 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_30 ),
         .Y(Y[30]));
   blockdesign_microblaze_0_0_MB_SRL16E_117 \PreFetch_Buffers[31].SRL16E_I 
-       (.\Area_Debug_Control.dbg_brki_hit_reg (\PreFetch_Buffers[31].SRL16E_I_n_5 ),
-        .CI(CI),
+       (.CI(CI),
         .Clk(Clk),
-        .D(D[0]),
         .D_31(D_31),
-        .\Using_FPGA.Native (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_10 (D[2]),
-        .\Using_FPGA.Native_11 (\instr_EX_i_reg[23] ),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_3 (\Using_MSR_Instr.MSRxxx_Instr_i_reg ),
+        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[17].SRL16E_I_n_1 ),
+        .\Using_FPGA.Native_3 (\PreFetch_Buffers[4].SRL16E_I_n_11 ),
         .\Using_FPGA.Native_4 (D[7]),
-        .\Using_FPGA.Native_5 (D[8]),
-        .\Using_FPGA.Native_6 (\PreFetch_Buffers[3].SRL16E_I_n_2 ),
-        .\Using_FPGA.Native_7 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_8 (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_9 (\instr_EX_i_reg[25] ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_32 ),
-        .\Using_MSR_Instr.write_MSR_I_reg (\Using_MSR_Instr.write_MSR_I_reg ),
-        .\Using_MSR_Instr.write_MSR_I_reg_0 (\Using_MSR_Instr.write_MSR_I_reg_0 ),
+        .\Using_FPGA.Native_5 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg_31 ),
+        .\Using_MSR_Instr.write_MSR_I_reg (\PreFetch_Buffers[31].SRL16E_I_n_2 ),
         .Y(Y[31]),
+        .\instr_EX_i_reg[31] (D[0]),
         .mtsmsr_write_i_reg(mtsmsr_write_i_reg),
         .mtsmsr_write_i_reg_0(mtsmsr_write_i_reg_0),
-        .mul_Executing_reg(mul_Executing_reg),
-        .sync_reset(sync_reset));
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III));
   blockdesign_microblaze_0_0_MB_SRL16E_118 \PreFetch_Buffers[3].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .D({D[8],D[3:2]}),
-        .Select_Logic0(Select_Logic0),
-        .\Using_Barrel_Shifter.Not_Barrel_Op_reg (\Using_Barrel_Shifter.Not_Barrel_Op_reg ),
-        .\Using_FPGA.Native (\PreFetch_Buffers[3].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_10 (instr_OF[5]),
-        .\Using_FPGA.Native_11 (\instr_EX_i_reg[21] ),
-        .\Using_FPGA.Native_12 (\PreFetch_Buffers[1].SRL16E_I_n_3 ),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_3 (D[7]),
-        .\Using_FPGA.Native_4 (\instr_EX_i_reg[26] ),
-        .\Using_FPGA.Native_5 (\instr_EX_i_reg[25] ),
-        .\Using_FPGA.Native_6 (instr_OF[10]),
-        .\Using_FPGA.Native_7 (instr_OF[9]),
-        .\Using_FPGA.Native_8 (instr_OF[8]),
-        .\Using_FPGA.Native_9 (instr_OF[6]),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .\Using_MSR_Instr.msrxxx_write_carry_reg (\PreFetch_Buffers[3].SRL16E_I_n_2 ),
+        .D({D[9:8],D[2]}),
+        .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_2 (\PreFetch_Buffers[31].SRL16E_I_n_2 ),
+        .\Using_FPGA.Native_3 (instr_OF[10]),
+        .\Using_FPGA.Native_4 (instr_OF[8]),
+        .\Using_FPGA.Native_5 (instr_OF[9]),
+        .\Using_FPGA.Native_6 (\instr_EX_i_reg[21] ),
+        .\Using_FPGA.Native_7 (instr_OF[6]),
+        .\Using_FPGA.Native_8 (\PreFetch_Buffers[1].SRL16E_I_n_7 ),
+        .\Using_MSR_Instr.msrxxx_carry_reg (\Using_MSR_Instr.msrxxx_carry_reg ),
+        .\Using_MSR_Instr.write_MSR_I_reg (\Using_MSR_Instr.write_MSR_I_reg ),
+        .\Using_MSR_Instr.write_MSR_I_reg_0 (\Using_MSR_Instr.write_MSR_I_reg_0 ),
         .Y(Y[3]),
-        .dbg_pause_reg(dbg_pause_reg),
-        .inHibit_EX(inHibit_EX),
+        .bs_first1(bs_first1),
         .\instr_EX_i_reg[3] (instr_OF[7]),
         .is_lwx_I(is_lwx_I),
         .is_lwx_I_reg(is_lwx_I_reg),
         .is_swx_I(is_swx_I),
-        .msrxxx_write_carry(msrxxx_write_carry),
-        .mul_Executing_reg(mul_Executing_reg),
+        .msrxxx_carry(msrxxx_carry),
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .p_47_out(p_47_out),
         .sync_reset(sync_reset),
-        .take_Intr_Now_II(take_Intr_Now_II),
-        .write_Carry_I_reg(write_Carry_I_reg),
-        .write_Carry_I_reg_0(write_Carry_I_reg_0),
-        .write_Reg_reg(\PreFetch_Buffers[3].SRL16E_I_n_1 ));
+        .take_Intr_Now_III(take_Intr_Now_III));
   blockdesign_microblaze_0_0_MB_SRL16E_119 \PreFetch_Buffers[4].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .\Using_FPGA.Native (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_0 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_3 (instr_OF[5]),
-        .\Using_FPGA.Native_4 (instr_OF[9]),
-        .\Using_FPGA.Native_5 (instr_OF[10]),
-        .\Using_FPGA.Native_6 (instr_OF[7]),
-        .\Using_FPGA.Native_7 (instr_OF[8]),
-        .\Using_FPGA.Native_8 (\instr_EX_i_reg[21] ),
-        .\Using_FPGA.Native_9 (\PreFetch_Buffers[1].SRL16E_I_n_3 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .Reg_Test_Equal_N_i7_out(Reg_Test_Equal_N_i7_out),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Using_FPGA.Native (\PreFetch_Buffers[4].SRL16E_I_n_4 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_10 (instr_OF[0]),
+        .\Using_FPGA.Native_11 (instr_OF[1]),
+        .\Using_FPGA.Native_12 (instr_OF[7]),
+        .\Using_FPGA.Native_13 (\instr_EX_i_reg[25] ),
+        .\Using_FPGA.Native_14 (\instr_EX_i_reg[26] ),
+        .\Using_FPGA.Native_15 (\instr_EX_i_reg[24] ),
+        .\Using_FPGA.Native_16 (\instr_EX_i_reg[21] ),
+        .\Using_FPGA.Native_17 (\PreFetch_Buffers[1].SRL16E_I_n_7 ),
+        .\Using_FPGA.Native_18 (instr_OF[8]),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_4 (instr_OF[5]),
+        .\Using_FPGA.Native_5 (instr_OF[4]),
+        .\Using_FPGA.Native_6 (D[13]),
+        .\Using_FPGA.Native_7 (instr_OF[9]),
+        .\Using_FPGA.Native_8 (instr_OF[10]),
+        .\Using_FPGA.Native_9 (instr_OF[2]),
+        .\Using_MSR_Instr.msrxxx_write_carry_reg (\PreFetch_Buffers[4].SRL16E_I_n_11 ),
+        .\Using_Mul_Instr.ex_not_mul_op_i_reg (\Using_Mul_Instr.ex_not_mul_op_i_reg ),
         .Y(Y[4]),
         .byte_i17_out(byte_i17_out),
+        .byte_i_reg(byte_i_reg),
         .doublet_i_reg(doublet_i_reg),
-        .inHibit_EX_reg(inHibit_EX_reg_0),
+        .inHibit_EX_reg(\PreFetch_Buffers[1].SRL16E_I_n_1 ),
+        .inHibit_EX_reg_0(inHibit_EX_reg_0),
         .\instr_EX_i_reg[4] (instr_OF[6]),
         .is_swx_I(is_swx_I),
         .is_swx_I_reg(is_swx_I_reg),
         .is_swx_I_reg_0(is_swx_I_reg_0),
+        .isbyte(isbyte),
         .isdoublet(isdoublet),
-        .mul_Executing_reg(\PreFetch_Buffers[4].SRL16E_I_n_2 ),
-        .mul_Executing_reg_0(mul_Executing_reg),
-        .mul_first136_in(mul_first136_in),
+        .jump2_I_reg(jump2_I_reg),
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .mul_first38_out(mul_first38_out),
+        .p_51_out(p_51_out),
         .sync_reset(sync_reset),
-        .write_Reg_reg(\PreFetch_Buffers[4].SRL16E_I_n_3 ));
+        .take_Intr_Now_III(take_Intr_Now_III));
   blockdesign_microblaze_0_0_MB_SRL16E_120 \PreFetch_Buffers[5].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
-        .D(D[11]),
-        .Reg_Test_Equal_N_i7_out(Reg_Test_Equal_N_i7_out),
-        .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9] ),
-        .\Using_FPGA.Native_10 (instr_OF[1]),
-        .\Using_FPGA.Native_11 (instr_OF[0]),
-        .\Using_FPGA.Native_12 (instr_OF[7]),
-        .\Using_FPGA.Native_13 (instr_OF[9]),
-        .\Using_FPGA.Native_14 (instr_OF[10]),
-        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9]_0 ),
-        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_4 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_5 (\PreFetch_Buffers[4].SRL16E_I_n_3 ),
-        .\Using_FPGA.Native_6 (instr_OF[8]),
-        .\Using_FPGA.Native_7 (\PreFetch_Buffers[3].SRL16E_I_n_1 ),
-        .\Using_FPGA.Native_8 (instr_OF[6]),
-        .\Using_FPGA.Native_9 (instr_OF[2]),
+        .D_32(D_32),
+        .\Using_Barrel_Shifter.Not_Barrel_Op_reg (\Using_Barrel_Shifter.Not_Barrel_Op_reg ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_1 (\PreFetch_Buffers[5].SRL16E_I_n_11 ),
+        .\Using_FPGA.Native_10 (instr_OF[10]),
+        .\Using_FPGA.Native_11 (D[12]),
+        .\Using_FPGA.Native_12 (instr_OF[2]),
+        .\Using_FPGA.Native_13 (instr_OF[1]),
+        .\Using_FPGA.Native_14 (instr_OF[0]),
+        .\Using_FPGA.Native_2 (\instr_EX_i_reg[9] ),
+        .\Using_FPGA.Native_3 (\instr_EX_i_reg[9]_0 ),
+        .\Using_FPGA.Native_4 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_5 (\PreFetch_Buffers[11].SRL16E_I_n_1 ),
+        .\Using_FPGA.Native_6 (instr_OF[6]),
+        .\Using_FPGA.Native_7 (instr_OF[8]),
+        .\Using_FPGA.Native_8 (instr_OF[7]),
+        .\Using_FPGA.Native_9 (instr_OF[9]),
         .\Using_FPGA.set_BIP_I_reg (\Using_FPGA.set_BIP_I_reg ),
         .\Using_FPGA.set_BIP_I_reg_0 (\PreFetch_Buffers[5].SRL16E_I_n_2 ),
         .\Using_FPGA.set_BIP_I_reg_1 (\Using_FPGA.set_BIP_I_reg_0 ),
         .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg_0 (\Using_FPGA.take_Intr_2nd_Phase_reg_0 ),
-        .\Using_Mul_Instr.ex_not_mul_op_i_reg (\Using_Mul_Instr.ex_not_mul_op_i_reg ),
         .Y(Y[5]),
-        .byte_i17_out(byte_i17_out),
-        .byte_i_reg(byte_i_reg),
-        .force1_i43_out(force1_i43_out),
+        .bs_first1(bs_first1),
         .force_Val1_i41_out(force_Val1_i41_out),
-        .force_Val2_N(force_Val2_N),
-        .inHibit_EX_reg(inHibit_EX_reg_0),
         .\instr_EX_i_reg[5] (instr_OF[5]),
-        .isbyte(isbyte),
-        .mul_Executing_reg(mul_Executing_reg),
-        .set_BIP_I0(set_BIP_I0),
+        .mul_Executing_reg(mul_Executing_reg_0),
+        .mul_first136_in(mul_first136_in),
         .sync_reset(sync_reset),
+        .take_Intr_Now_II(take_Intr_Now_II),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .use_Reg_Neg_DI_i40_out(use_Reg_Neg_DI_i40_out),
         .use_Reg_Neg_S_i42_out(use_Reg_Neg_S_i42_out),
-        .write_Reg_reg(write_Reg_reg),
-        .write_Reg_reg_0(write_Reg_reg_0));
+        .write_Reg_reg(\PreFetch_Buffers[5].SRL16E_I_n_3 ));
   blockdesign_microblaze_0_0_MB_SRL16E_121 \PreFetch_Buffers[6].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (D[13]),
-        .\Using_FPGA.Native_3 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
         .Y(Y[6]),
-        .dbg_pause_reg(dbg_pause_reg),
-        .inHibit_EX(inHibit_EX),
-        .inHibit_EX_reg(inHibit_EX_reg),
         .\instr_EX_i_reg[6] (instr_OF[4]),
-        .instr_OF({instr_OF[6:5],instr_OF[3]}),
-        .jump2_I_reg(\PreFetch_Buffers[6].SRL16E_I_n_2 ),
-        .mbar_is_sleep0(mbar_is_sleep0),
         .sync_reset(sync_reset),
-        .\write_Addr_I_reg[0] (\write_Addr_I_reg[0] [3]));
+        .take_Intr_Now_III(take_Intr_Now_III),
+        .\write_Addr_I_reg[0] (\write_Addr_I_reg[0] [4]));
   blockdesign_microblaze_0_0_MB_SRL16E_122 \PreFetch_Buffers[7].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_2 (instr_OF[4]),
         .Y(Y[7]),
-        .instr_OF(instr_OF[3]));
+        .instr_OF(instr_OF[3]),
+        .mbar_is_sleep0(mbar_is_sleep0),
+        .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
+        .\write_Addr_I_reg[1] (\write_Addr_I_reg[0] [3]));
   blockdesign_microblaze_0_0_MB_SRL16E_123 \PreFetch_Buffers[8].SRL16E_I 
        (.CI(CI),
         .Clk(Clk),
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_2 (instr_OF[1]),
+        .\Using_FPGA.Native_3 (\PreFetch_Buffers[4].SRL16E_I_n_4 ),
         .Y(Y[8]),
+        .force1_i43_out(force1_i43_out),
         .\instr_EX_i_reg[8] (instr_OF[2]),
         .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .\write_Addr_I_reg[2] (\write_Addr_I_reg[0] [2]));
   blockdesign_microblaze_0_0_MB_SRL16E_124 \PreFetch_Buffers[9].SRL16E_I 
        (.CI(CI),
@@ -89844,14 +90277,17 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .\Using_FPGA.Native (\instr_EX_i_reg[9] ),
         .\Using_FPGA.Native_0 (\instr_EX_i_reg[9]_0 ),
         .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
-        .\Using_FPGA.Native_2 (\PreFetch_Buffers[0].SRL16E_I_n_6 ),
-        .\Using_FPGA.Native_3 (\PreFetch_Buffers[0].SRL16E_I_n_7 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_2 (instr_OF[5]),
+        .\Using_FPGA.Native_3 (instr_OF[6]),
+        .\Using_FPGA.Native_4 (\PreFetch_Buffers[0].SRL16E_I_n_4 ),
+        .\Using_FPGA.Native_5 (instr_OF[0]),
+        .\Using_FPGA.Native_6 (instr_OF[2]),
+        .\Using_FPGA.Native_7 (\PreFetch_Buffers[4].SRL16E_I_n_4 ),
         .Y(Y[9]),
         .\instr_EX_i_reg[9] (instr_OF[1]),
-        .instr_OF({instr_OF[6:5],instr_OF[2],instr_OF[0]}),
         .reset_BIP_I9_out(reset_BIP_I9_out),
         .sync_reset(sync_reset),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .\write_Addr_I_reg[3] (\write_Addr_I_reg[0] [1]));
   LUT3 #(
     .INIT(8'h7F)) 
@@ -89862,33 +90298,36 @@ module blockdesign_microblaze_0_0_PreFetch_Buffer
         .O(D_33));
   blockdesign_microblaze_0_0_MB_FDR of_valid_FDR_I
        (.Clk(Clk),
+        .DI(DI),
         .D_33(D_33),
         .E(E),
-        .I2106_out(I2106_out),
         .R(R),
         .\Serial_Dbg_Intf.if_debug_ready_i_reg (\Serial_Dbg_Intf.if_debug_ready_i_reg ),
         .\Size_17to32.imm_Reg_reg[15] (of_Valid_Raw),
-        .\Using_FPGA.Native_0 (\PreFetch_Buffers[0].SRL16E_I_n_7 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.take_Intr_2nd_Phase_reg (\Using_FPGA.take_Intr_2nd_Phase_reg ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_1 (\instr_EX_i_reg[9]_1 ),
+        .\Using_FPGA.Native_2 (instr_OF[5]),
+        .\Using_FPGA.Native_3 (instr_OF[6]),
+        .\Using_FPGA.Native_4 (\PreFetch_Buffers[0].SRL16E_I_n_4 ),
+        .buffer_Full(buffer_Full),
         .dbg_pause(dbg_pause),
         .ex_Valid(ex_Valid),
         .ex_Valid_reg(ex_Valid_reg),
-        .iFetch_In_Progress_reg(iFetch_In_Progress_reg),
         .inHibit_EX(inHibit_EX),
-        .inHibit_EX_reg(inHibit_EX_reg_0),
-        .instr_OF(instr_OF[6:5]),
         .jump2_I_reg(jump2_I_reg_0),
         .jump_Carry2(jump_Carry2),
+        .load_Store_i(load_Store_i),
+        .mbar_decode_I_reg(mbar_decode_I_reg),
+        .mbar_hold_I_reg(mbar_hold_I_reg),
         .mem_access_completed_reg(mem_access_completed_reg),
+        .missed_IFetch(missed_IFetch),
         .mul_Executing(mul_Executing),
-        .mul_Executing_reg(mul_Executing_reg),
         .nonvalid_IFetch_n_reg(nonvalid_IFetch_n_reg),
         .nonvalid_IFetch_n_reg_0(nonvalid_IFetch_n_reg_0),
+        .take_Intr_Now_III(take_Intr_Now_III),
         .trace_jump_taken_i_reg(trace_jump_taken_i_reg));
 endmodule
 
-(* ORIG_REF_NAME = "Register_File" *) 
 module blockdesign_microblaze_0_0_Register_File
    (\Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
@@ -89927,8 +90366,8 @@ module blockdesign_microblaze_0_0_Register_File
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -89971,8 +90410,8 @@ module blockdesign_microblaze_0_0_Register_File
   output [23:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:31]ex_Result;
   input [0:31]Interrupt_Address;
+  input [0:31]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90442,15 +90881,14 @@ module blockdesign_microblaze_0_0_Register_File
         .\write_Addr_I_reg[0] (\write_Addr_I_reg[0] ));
 endmodule
 
-(* ORIG_REF_NAME = "Register_File_Bit" *) 
 module blockdesign_microblaze_0_0_Register_File_Bit
    (\Using_FPGA.Native ,
     Reg1_Data,
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90461,8 +90899,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90509,8 +90947,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_454
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90521,8 +90959,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_454
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90569,8 +91007,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_455
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90581,8 +91019,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_455
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90629,8 +91067,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_456
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90641,8 +91079,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_456
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90689,8 +91127,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_457
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90701,8 +91139,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_457
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90749,8 +91187,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_458
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90761,8 +91199,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_458
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90809,8 +91247,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_459
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90821,8 +91259,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_459
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90869,8 +91307,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_460
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90881,8 +91319,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_460
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90929,8 +91367,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_461
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -90941,8 +91379,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_461
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -90989,8 +91427,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_462
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91001,8 +91439,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_462
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91049,8 +91487,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_463
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91061,8 +91499,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_463
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91109,8 +91547,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_464
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91121,8 +91559,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_464
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91169,8 +91607,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_465
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91181,8 +91619,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_465
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91229,8 +91667,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_466
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91241,8 +91679,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_466
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91289,8 +91727,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_467
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91301,8 +91739,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_467
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91349,8 +91787,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_468
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91361,8 +91799,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_468
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91409,8 +91847,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_469
     \Data_Write[24] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91421,8 +91859,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_469
   output [0:0]\Data_Write[24] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91469,8 +91907,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_470
     \Data_Write[25] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91481,8 +91919,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_470
   output [0:0]\Data_Write[25] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91529,8 +91967,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_471
     \Data_Write[26] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91541,8 +91979,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_471
   output [0:0]\Data_Write[26] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91589,8 +92027,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_472
     \Data_Write[27] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91601,8 +92039,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_472
   output [0:0]\Data_Write[27] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91649,8 +92087,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_473
     \Data_Write[28] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91661,8 +92099,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_473
   output [0:0]\Data_Write[28] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91709,8 +92147,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_474
     \Data_Write[29] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91721,8 +92159,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_474
   output [0:0]\Data_Write[29] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91769,8 +92207,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_475
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91781,8 +92219,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_475
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91829,8 +92267,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_476
     \Data_Write[30] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91841,8 +92279,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_476
   output [0:0]\Data_Write[30] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91889,8 +92327,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_477
     \Data_Write[31] ,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91901,8 +92339,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_477
   output [0:0]\Data_Write[31] ;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -91949,8 +92387,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_478
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -91961,8 +92399,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_478
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92009,8 +92447,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_479
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92021,8 +92459,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_479
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92069,8 +92507,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_480
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92081,8 +92519,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_480
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92129,8 +92567,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_481
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92141,8 +92579,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_481
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92189,8 +92627,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_482
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92201,8 +92639,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_482
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92249,8 +92687,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_483
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92261,8 +92699,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_483
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92309,8 +92747,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_484
     Data_Write,
     exception_kind,
     res_Forward2,
-    ex_Result,
     Interrupt_Address,
+    ex_Result,
     Clk,
     Reg_Write,
     \write_Addr_I_reg[0] ,
@@ -92321,8 +92759,8 @@ module blockdesign_microblaze_0_0_Register_File_Bit_484
   output [0:0]Data_Write;
   input [0:0]exception_kind;
   input res_Forward2;
-  input [0:0]ex_Result;
   input [0:0]Interrupt_Address;
+  input [0:0]ex_Result;
   input Clk;
   input Reg_Write;
   input [4:0]\write_Addr_I_reg[0] ;
@@ -92362,7 +92800,6 @@ module blockdesign_microblaze_0_0_Register_File_Bit_484
         .\write_Addr_I_reg[0] (\write_Addr_I_reg[0] ));
 endmodule
 
-(* ORIG_REF_NAME = "Result_Mux" *) 
 module blockdesign_microblaze_0_0_Result_Mux
    (\data_rd_reg_reg[28] ,
     \LOCKSTEP_Out_reg[3007] ,
@@ -92931,7 +93368,6 @@ module blockdesign_microblaze_0_0_Result_Mux
         .mul_Result(mul_Result[9]));
 endmodule
 
-(* ORIG_REF_NAME = "Result_Mux_Bit" *) 
 module blockdesign_microblaze_0_0_Result_Mux_Bit
    (ex_Result,
     \LOCKSTEP_Out_reg[3007] ,
@@ -94699,7 +95135,6 @@ module blockdesign_microblaze_0_0_Result_Mux_Bit_360
         .mul_Result(mul_Result));
 endmodule
 
-(* ORIG_REF_NAME = "Shift_Logic_Bit" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Bit
    (\Using_FPGA.Native ,
     EX_Op2,
@@ -95042,42 +95477,42 @@ endmodule
 module blockdesign_microblaze_0_0_Shift_Logic_Bit_186
    (\Using_FPGA.Native ,
     B,
-    Op1_Shift,
-    Logic_Oper,
     \Using_FPGA.Native_0 ,
+    Logic_Oper,
+    \Using_FPGA.Native_1 ,
     Sext,
     Shift_Oper,
     Select_Logic);
   output \Using_FPGA.Native ;
   input [0:0]B;
-  input Op1_Shift;
-  input [0:1]Logic_Oper;
   input \Using_FPGA.Native_0 ;
+  input [0:1]Logic_Oper;
+  input \Using_FPGA.Native_1 ;
   input Sext;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
-  wire Op1_Shift;
   wire Select_Logic;
   wire Sext;
   wire Shift_Oper;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire logic_Res_i;
   wire shift_Res;
 
   blockdesign_microblaze_0_0_MB_LUT4__parameterized15_306 Logic_LUT
        (.B(B),
         .Logic_Oper(Logic_Oper),
-        .Op1_Shift(Op1_Shift),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_307 Shift_LUT
-       (.Op1_Shift(Op1_Shift),
-        .Sext(Sext),
+       (.Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_308 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
@@ -95092,7 +95527,7 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_187
     B,
     \Using_FPGA.Native_0 ,
     Logic_Oper,
-    Op1_Shift,
+    \Using_FPGA.Native_1 ,
     Sext,
     Shift_Oper,
     Select_Logic);
@@ -95100,19 +95535,19 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_187
   input [0:0]B;
   input \Using_FPGA.Native_0 ;
   input [0:1]Logic_Oper;
-  input Op1_Shift;
+  input \Using_FPGA.Native_1 ;
   input Sext;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
-  wire Op1_Shift;
   wire Select_Logic;
   wire Sext;
   wire Shift_Oper;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire logic_Res_i;
   wire shift_Res;
 
@@ -95122,10 +95557,10 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_187
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_304 Shift_LUT
-       (.Op1_Shift(Op1_Shift),
-        .Sext(Sext),
+       (.Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_305 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
@@ -95560,133 +95995,185 @@ endmodule
 
 (* ORIG_REF_NAME = "Shift_Logic_Bit" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Bit_197
-   (Shift_Logic_Res,
-    B,
+   (shift_Logic_Result,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
     \Using_FPGA.Native ,
-    Logic_Oper,
     \Using_FPGA.Native_0 ,
+    B,
+    \Using_FPGA.Native_1 ,
+    Logic_Oper,
+    \Using_FPGA.Native_2 ,
     Shift_Oper,
     Select_Logic);
-  output Shift_Logic_Res;
-  input [0:0]B;
+  output [0:0]shift_Logic_Result;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
   input \Using_FPGA.Native ;
-  input [0:1]Logic_Oper;
   input \Using_FPGA.Native_0 ;
+  input [0:0]B;
+  input \Using_FPGA.Native_1 ;
+  input [0:1]Logic_Oper;
+  input \Using_FPGA.Native_2 ;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
   wire Select_Logic;
-  wire Shift_Logic_Res;
   wire Shift_Oper;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   blockdesign_microblaze_0_0_MB_LUT4__parameterized15_273 Logic_LUT
        (.B(B),
         .Logic_Oper(Logic_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_274 Shift_LUT
        (.Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_275 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i),
+        .shift_Logic_Result(shift_Logic_Result),
         .shift_Res(shift_Res));
 endmodule
 
 (* ORIG_REF_NAME = "Shift_Logic_Bit" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Bit_198
-   (Shift_Logic_Res,
-    B,
+   (shift_Logic_Result,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Use_The_PCMP_instr.CLZ_Instr_reg ,
     \Using_FPGA.Native ,
-    Logic_Oper,
     \Using_FPGA.Native_0 ,
+    B,
+    \Using_FPGA.Native_1 ,
+    Logic_Oper,
+    \Using_FPGA.Native_2 ,
     Shift_Oper,
     Select_Logic);
-  output Shift_Logic_Res;
-  input [0:0]B;
+  output [0:0]shift_Logic_Result;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
+  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
   input \Using_FPGA.Native ;
-  input [0:1]Logic_Oper;
   input \Using_FPGA.Native_0 ;
+  input [0:0]B;
+  input \Using_FPGA.Native_1 ;
+  input [0:1]Logic_Oper;
+  input \Using_FPGA.Native_2 ;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
   wire Select_Logic;
-  wire Shift_Logic_Res;
   wire Shift_Oper;
+  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   blockdesign_microblaze_0_0_MB_LUT4__parameterized15_270 Logic_LUT
        (.B(B),
         .Logic_Oper(Logic_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_271 Shift_LUT
        (.Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_272 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i),
+        .shift_Logic_Result(shift_Logic_Result),
         .shift_Res(shift_Res));
 endmodule
 
 (* ORIG_REF_NAME = "Shift_Logic_Bit" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Bit_199
-   (Shift_Logic_Res,
-    B,
+   (shift_Logic_Result,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
     \Using_FPGA.Native ,
-    Logic_Oper,
     \Using_FPGA.Native_0 ,
+    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_2 ,
+    B,
+    Op1_Shift,
+    Logic_Oper,
+    \Using_FPGA.Native_3 ,
     Shift_Oper,
     Select_Logic);
-  output Shift_Logic_Res;
-  input [0:0]B;
+  output [0:0]shift_Logic_Result;
+  input \Use_The_PCMP_instr.PCMP_Instr_reg ;
   input \Using_FPGA.Native ;
-  input [0:1]Logic_Oper;
   input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_2 ;
+  input [0:0]B;
+  input Op1_Shift;
+  input [0:1]Logic_Oper;
+  input \Using_FPGA.Native_3 ;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
+  wire Op1_Shift;
   wire Select_Logic;
-  wire Shift_Logic_Res;
   wire Shift_Oper;
+  wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire logic_Res_i;
+  wire [0:0]shift_Logic_Result;
   wire shift_Res;
 
   blockdesign_microblaze_0_0_MB_LUT4__parameterized15_267 Logic_LUT
        (.B(B),
         .Logic_Oper(Logic_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .Op1_Shift(Op1_Shift),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_268 Shift_LUT
-       (.Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+       (.Op1_Shift(Op1_Shift),
+        .Shift_Oper(Shift_Oper),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_3 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_269 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_2 ),
         .logic_Res_i(logic_Res_i),
+        .shift_Logic_Result(shift_Logic_Result),
         .shift_Res(shift_Res));
 endmodule
 
@@ -95696,27 +96183,27 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_200
     B,
     \Using_FPGA.Native_0 ,
     Logic_Oper,
+    Op1_Shift,
     \Using_FPGA.Native_1 ,
-    \Using_FPGA.Native_2 ,
     Shift_Oper,
     Select_Logic);
   output \Using_FPGA.Native ;
   input [0:0]B;
   input \Using_FPGA.Native_0 ;
   input [0:1]Logic_Oper;
+  input Op1_Shift;
   input \Using_FPGA.Native_1 ;
-  input \Using_FPGA.Native_2 ;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
+  wire Op1_Shift;
   wire Select_Logic;
   wire Shift_Oper;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
   wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
   wire logic_Res_i;
   wire shift_Res;
 
@@ -95726,9 +96213,9 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_200
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_265 Shift_LUT
-       (.Shift_Oper(Shift_Oper),
+       (.Op1_Shift(Op1_Shift),
+        .Shift_Oper(Shift_Oper),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_2 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_266 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
@@ -95787,44 +96274,44 @@ endmodule
 
 (* ORIG_REF_NAME = "Shift_Logic_Bit" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Bit_202
-   (Shift_Logic_Res,
+   (\Using_FPGA.Native ,
     B,
-    \Using_FPGA.Native ,
-    Logic_Oper,
     \Using_FPGA.Native_0 ,
+    Logic_Oper,
+    \Using_FPGA.Native_1 ,
     Shift_Oper,
     Select_Logic);
-  output Shift_Logic_Res;
+  output \Using_FPGA.Native ;
   input [0:0]B;
-  input \Using_FPGA.Native ;
-  input [0:1]Logic_Oper;
   input \Using_FPGA.Native_0 ;
+  input [0:1]Logic_Oper;
+  input \Using_FPGA.Native_1 ;
   input Shift_Oper;
   input Select_Logic;
 
   wire [0:0]B;
   wire [0:1]Logic_Oper;
   wire Select_Logic;
-  wire Shift_Logic_Res;
   wire Shift_Oper;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
   wire logic_Res_i;
   wire shift_Res;
 
   blockdesign_microblaze_0_0_MB_LUT4__parameterized15_258 Logic_LUT
        (.B(B),
         .Logic_Oper(Logic_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .logic_Res_i(logic_Res_i));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized17_259 Shift_LUT
        (.Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
         .shift_Res(shift_Res));
   blockdesign_microblaze_0_0_MB_MUXF7_260 Shift_Logic_Mux
        (.Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .logic_Res_i(logic_Res_i),
         .shift_Res(shift_Res));
 endmodule
@@ -96209,7 +96696,6 @@ module blockdesign_microblaze_0_0_Shift_Logic_Bit_210
         .shift_Res(shift_Res));
 endmodule
 
-(* ORIG_REF_NAME = "Shift_Logic_Module" *) 
 module blockdesign_microblaze_0_0_Shift_Logic_Module
    (\Using_FPGA.Native ,
     \Using_FPGA.Native_0 ,
@@ -96244,18 +96730,19 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
     \Using_FPGA.Native_27 ,
     \Using_FPGA.Native_28 ,
     \Using_FPGA.Native_29 ,
-    \Use_The_PCMP_instr.PCMP_Instr_reg ,
     \Using_FPGA.Native_30 ,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Using_FPGA.Native_31 ,
     \Using_FPGA.The_Compare[2].sel_reg ,
     S,
     \Using_FPGA.The_Compare[0].sel_reg ,
     \Use_The_PCMP_instr.PCMP_Instr_reg_0 ,
-    \Using_FPGA.Native_31 ,
+    \Using_FPGA.Native_32 ,
     \Using_FPGA.The_Compare[2].sel_reg_0 ,
     S_1,
     \Using_FPGA.The_Compare[0].sel_reg_2 ,
     \Use_The_PCMP_instr.PCMP_Instr_reg_1 ,
-    \Using_FPGA.Native_32 ,
+    \Using_FPGA.Native_33 ,
     \Using_FPGA.The_Compare[2].sel_reg_3 ,
     S_4,
     \Using_FPGA.The_Compare[0].sel_reg_5 ,
@@ -96267,41 +96754,39 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
     Logic_Oper,
     I0,
     \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    I3,
-    \Using_FPGA.Native_33 ,
-    clz_instr,
     \Using_FPGA.Native_34 ,
-    pcmp_instr,
-    \Using_FPGA.Native_35 ,
+    I3,
     \Use_The_PCMP_instr.PCMP_Instr_reg_3 ,
-    Op1_Shift,
+    \Using_FPGA.Native_35 ,
+    clz_instr,
     \Using_FPGA.Native_36 ,
-    \Using_FPGA.Native_37 ,
-    \Using_FPGA.Native_38 ,
-    \Using_FPGA.Native_39 ,
     B,
     Op1_Logic,
-    \Using_FPGA.Native_40 ,
+    \Using_FPGA.Native_37 ,
     Shift_Oper,
     Select_Logic,
+    \Using_FPGA.Native_38 ,
+    Op1_Shift,
+    \Using_FPGA.Native_39 ,
+    \Using_FPGA.Native_40 ,
     \Using_FPGA.Native_41 ,
     \Using_FPGA.Native_42 ,
     \Using_FPGA.Native_43 ,
     \Using_FPGA.Native_44 ,
     \Using_FPGA.Native_45 ,
+    Sext,
     \Using_FPGA.Native_46 ,
     \Using_FPGA.Native_47 ,
     \Using_FPGA.Native_48 ,
-    Sext,
     \Using_FPGA.Native_49 ,
     \Using_FPGA.Native_50 ,
     \Using_FPGA.Native_51 ,
     \Using_FPGA.Native_52 ,
     \Using_FPGA.Native_53 ,
     \Using_FPGA.Native_54 ,
+    EX_Op2,
     \Using_FPGA.Native_55 ,
     \Using_FPGA.Native_56 ,
-    EX_Op2,
     \Using_FPGA.Native_57 ,
     \Using_FPGA.Native_58 ,
     \Using_FPGA.Native_59 ,
@@ -96313,11 +96798,9 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
     \Using_FPGA.Native_65 ,
     \Using_FPGA.Native_66 ,
     \Using_FPGA.Native_67 ,
-    \Using_FPGA.Native_68 ,
-    \Using_FPGA.Native_69 ,
     Shifted,
-    \Using_FPGA.Native_70 ,
-    \Using_FPGA.Native_71 );
+    \Using_FPGA.Native_68 ,
+    \Using_FPGA.Native_69 );
   output \Using_FPGA.Native ;
   output \Using_FPGA.Native_0 ;
   output \Using_FPGA.Native_1 ;
@@ -96351,18 +96834,19 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   output \Using_FPGA.Native_27 ;
   output \Using_FPGA.Native_28 ;
   output \Using_FPGA.Native_29 ;
+  output \Using_FPGA.Native_30 ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  input \Using_FPGA.Native_30 ;
+  input \Using_FPGA.Native_31 ;
   input \Using_FPGA.The_Compare[2].sel_reg ;
   input S;
   input \Using_FPGA.The_Compare[0].sel_reg ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg_0 ;
-  input \Using_FPGA.Native_31 ;
+  input \Using_FPGA.Native_32 ;
   input \Using_FPGA.The_Compare[2].sel_reg_0 ;
   input S_1;
   input \Using_FPGA.The_Compare[0].sel_reg_2 ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg_1 ;
-  input \Using_FPGA.Native_32 ;
+  input \Using_FPGA.Native_33 ;
   input \Using_FPGA.The_Compare[2].sel_reg_3 ;
   input S_4;
   input \Using_FPGA.The_Compare[0].sel_reg_5 ;
@@ -96374,41 +96858,39 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   input [0:1]Logic_Oper;
   input I0;
   input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input I3;
-  input \Using_FPGA.Native_33 ;
-  input clz_instr;
   input \Using_FPGA.Native_34 ;
-  input pcmp_instr;
-  input \Using_FPGA.Native_35 ;
+  input I3;
   input \Use_The_PCMP_instr.PCMP_Instr_reg_3 ;
-  input Op1_Shift;
+  input \Using_FPGA.Native_35 ;
+  input clz_instr;
   input \Using_FPGA.Native_36 ;
-  input \Using_FPGA.Native_37 ;
-  input \Using_FPGA.Native_38 ;
-  input \Using_FPGA.Native_39 ;
   input [16:0]B;
   input Op1_Logic;
-  input \Using_FPGA.Native_40 ;
+  input \Using_FPGA.Native_37 ;
   input Shift_Oper;
   input Select_Logic;
+  input \Using_FPGA.Native_38 ;
+  input Op1_Shift;
+  input \Using_FPGA.Native_39 ;
+  input \Using_FPGA.Native_40 ;
   input \Using_FPGA.Native_41 ;
   input \Using_FPGA.Native_42 ;
   input \Using_FPGA.Native_43 ;
   input \Using_FPGA.Native_44 ;
   input \Using_FPGA.Native_45 ;
+  input Sext;
   input \Using_FPGA.Native_46 ;
   input \Using_FPGA.Native_47 ;
   input \Using_FPGA.Native_48 ;
-  input Sext;
   input \Using_FPGA.Native_49 ;
   input \Using_FPGA.Native_50 ;
   input \Using_FPGA.Native_51 ;
   input \Using_FPGA.Native_52 ;
   input \Using_FPGA.Native_53 ;
   input \Using_FPGA.Native_54 ;
+  input [14:0]EX_Op2;
   input \Using_FPGA.Native_55 ;
   input \Using_FPGA.Native_56 ;
-  input [14:0]EX_Op2;
   input \Using_FPGA.Native_57 ;
   input \Using_FPGA.Native_58 ;
   input \Using_FPGA.Native_59 ;
@@ -96420,11 +96902,9 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   input \Using_FPGA.Native_65 ;
   input \Using_FPGA.Native_66 ;
   input \Using_FPGA.Native_67 ;
+  input Shifted;
   input \Using_FPGA.Native_68 ;
   input \Using_FPGA.Native_69 ;
-  input Shifted;
-  input \Using_FPGA.Native_70 ;
-  input \Using_FPGA.Native_71 ;
 
   wire [16:0]B;
   wire [14:0]EX_Op2;
@@ -96441,14 +96921,9 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   wire Select_Logic;
   wire Sext;
   wire Shift_Logic_Res;
-  wire Shift_Logic_Res27_out;
-  wire Shift_Logic_Res28_out;
-  wire Shift_Logic_Res29_out;
-  wire Shift_Logic_Res_0;
   wire Shift_Oper;
   wire Shifted;
-  wire \Use_PCMP_instr.carry_equal_byte1_n_3 ;
-  wire \Use_PCMP_instr.carry_equal_byte3_n_3 ;
+  wire \Use_PCMP_instr.carry_equal_byte2_n_3 ;
   wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Use_The_PCMP_instr.PCMP_Instr_reg_0 ;
@@ -96524,8 +96999,6 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   wire \Using_FPGA.Native_68 ;
   wire \Using_FPGA.Native_69 ;
   wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_70 ;
-  wire \Using_FPGA.Native_71 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.The_Compare[0].sel_reg ;
@@ -96545,7 +97018,6 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
   wire byte4;
   wire byte4_0x;
   wire clz_instr;
-  wire pcmp_instr;
   wire res_00_0;
   wire res_00_1;
   wire res_00_2;
@@ -96560,282 +97032,295 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
         .Shifted(Shifted),
-        .\Using_FPGA.Native (\Using_FPGA.Native_29 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_70 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_71 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_30 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_68 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_69 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_180 \Shift_Logic_Bits[10].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[4]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_19 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_60 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_61 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_20 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_58 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_59 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_181 \Shift_Logic_Bits[11].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[3]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_18 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_59 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_60 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_19 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_57 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_58 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_182 \Shift_Logic_Bits[12].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[2]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_17 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_58 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_59 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_18 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_56 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_57 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_183 \Shift_Logic_Bits[13].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[1]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_16 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_57 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_58 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_17 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_55 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_56 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_184 \Shift_Logic_Bits[14].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[0]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_15 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_55 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_57 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_16 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_53 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_55 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_185 \Shift_Logic_Bits[15].Shift_Logic_Bit_I 
        (.B(B[16]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_14 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_54 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_55 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_15 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_52 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_53 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_186 \Shift_Logic_Bits[16].Shift_Logic_Bit_I 
        (.B(B[15]),
         .Logic_Oper(Logic_Oper),
-        .Op1_Shift(Op1_Shift),
+        .Select_Logic(Select_Logic),
+        .Sext(Sext),
+        .Shift_Oper(Shift_Oper),
+        .\Using_FPGA.Native (\Using_FPGA.Native_14 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_51 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_52 ));
+  blockdesign_microblaze_0_0_Shift_Logic_Bit_187 \Shift_Logic_Bits[17].Shift_Logic_Bit_I 
+       (.B(B[14]),
+        .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
         .\Using_FPGA.Native (\Using_FPGA.Native_13 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_54 ));
-  blockdesign_microblaze_0_0_Shift_Logic_Bit_187 \Shift_Logic_Bits[17].Shift_Logic_Bit_I 
-       (.B(B[14]),
-        .Logic_Oper(Logic_Oper),
-        .Op1_Shift(Op1_Shift),
-        .Select_Logic(Select_Logic),
-        .Sext(Sext),
-        .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_12 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_53 ));
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_50 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_51 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_188 \Shift_Logic_Bits[18].Shift_Logic_Bit_I 
        (.B(B[13]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_52 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_53 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_12 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_49 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_50 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_189 \Shift_Logic_Bits[19].Shift_Logic_Bit_I 
        (.B(B[12]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_10 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_51 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_52 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_11 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_48 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_49 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_190 \Shift_Logic_Bits[1].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[13]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
         .Shifted(Shifted),
-        .\Using_FPGA.Native (\Using_FPGA.Native_28 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_69 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_29 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_67 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_191 \Shift_Logic_Bits[20].Shift_Logic_Bit_I 
        (.B(B[11]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_9 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_50 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_51 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_10 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_47 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_48 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_192 \Shift_Logic_Bits[21].Shift_Logic_Bit_I 
        (.B(B[10]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_49 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_50 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_9 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_46 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_47 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_193 \Shift_Logic_Bits[22].Shift_Logic_Bit_I 
        (.B(B[9]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_48 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_49 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_8 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_45 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_46 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_194 \Shift_Logic_Bits[23].Shift_Logic_Bit_I 
        (.B(B[8]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Sext(Sext),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_47 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_48 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_7 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_44 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_45 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_195 \Shift_Logic_Bits[24].Shift_Logic_Bit_I 
        (.B(B[7]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_38 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_47 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_6 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_43 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_44 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_196 \Shift_Logic_Bits[25].Shift_Logic_Bit_I 
        (.B(B[6]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_46 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_38 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_5 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_42 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_43 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_197 \Shift_Logic_Bits[26].Shift_Logic_Bit_I 
        (.B(B[5]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res27_out),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_45 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_46 ));
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_PCMP_instr.carry_equal_byte2_n_3 ),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_3 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_41 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_42 ),
+        .shift_Logic_Result(shift_Logic_Result[5]));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_198 \Shift_Logic_Bits[27].Shift_Logic_Bit_I 
        (.B(B[4]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res28_out),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_44 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_45 ));
+        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_PCMP_instr.carry_equal_byte2_n_3 ),
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_3 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_40 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_41 ),
+        .shift_Logic_Result(shift_Logic_Result[4]));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_199 \Shift_Logic_Bits[28].Shift_Logic_Bit_I 
        (.B(B[3]),
         .Logic_Oper(Logic_Oper),
+        .Op1_Shift(Op1_Shift),
         .Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res29_out),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_42 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_44 ));
+        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_3 ),
+        .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_1 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_35 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_40 ),
+        .shift_Logic_Result(shift_Logic_Result[3]));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_200 \Shift_Logic_Bits[29].Shift_Logic_Bit_I 
        (.B(B[2]),
         .Logic_Oper(Logic_Oper),
+        .Op1_Shift(Op1_Shift),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_41 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_42 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_43 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_4 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_38 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_39 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_201 \Shift_Logic_Bits[2].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[12]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_27 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_68 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_69 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_28 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_66 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_67 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_202 \Shift_Logic_Bits[30].Shift_Logic_Bit_I 
        (.B(B[1]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_40 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_41 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_3 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_37 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_38 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_203 \Shift_Logic_Bits[31].Shift_Logic_Bit_I 
        (.B(B[0]),
         .Logic_Oper(Logic_Oper),
         .Op1_Logic(Op1_Logic),
         .Select_Logic(Select_Logic),
-        .Shift_Logic_Res(Shift_Logic_Res_0),
+        .Shift_Logic_Res(Shift_Logic_Res),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_40 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_37 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_204 \Shift_Logic_Bits[3].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[11]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_26 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_67 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_68 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_27 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_65 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_66 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_205 \Shift_Logic_Bits[4].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[10]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_25 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_66 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_67 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_26 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_64 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_65 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_206 \Shift_Logic_Bits[5].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[9]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_24 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_65 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_66 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_25 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_63 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_64 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_207 \Shift_Logic_Bits[6].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[8]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_23 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_64 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_65 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_24 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_62 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_63 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_208 \Shift_Logic_Bits[7].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[7]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_22 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_63 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_64 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_23 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_61 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_62 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_209 \Shift_Logic_Bits[8].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[6]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_21 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_62 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_63 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_22 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_60 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_61 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_Shift_Logic_Bit_210 \Shift_Logic_Bits[9].Shift_Logic_Bit_I 
        (.EX_Op2(EX_Op2[5]),
         .Logic_Oper(Logic_Oper),
         .Select_Logic(Select_Logic),
         .Shift_Oper(Shift_Oper),
-        .\Using_FPGA.Native (\Using_FPGA.Native_20 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_61 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_62 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_56 ));
+        .\Using_FPGA.Native (\Using_FPGA.Native_21 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_59 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_60 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_54 ));
   blockdesign_microblaze_0_0_MB_MUXF7 \Use_PCMP_instr.MUXF5_pcmp1x 
        (.Logic_Oper(Logic_Oper[1]),
         .res_10(res_10),
@@ -96845,54 +97330,33 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
        (.S(S),
         .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
         .\Using_FPGA.Native (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_0 (\Use_PCMP_instr.carry_equal_byte1_n_3 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_30 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_34 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_31 ),
         .\Using_FPGA.The_Compare[0].sel_reg (\Using_FPGA.The_Compare[0].sel_reg ),
         .\Using_FPGA.The_Compare[2].sel_reg (\Using_FPGA.The_Compare[2].sel_reg ),
         .byte1(byte1),
-        .byte1_0x(byte1_0x),
-        .clz_instr(clz_instr));
+        .byte1_0x(byte1_0x));
   blockdesign_microblaze_0_0_carry_equal_211 \Use_PCMP_instr.carry_equal_byte2 
        (.S_1(S_1),
         .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_0 ),
         .\Using_FPGA.Native (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_31 ),
+        .\Using_FPGA.Native_0 (\Use_PCMP_instr.carry_equal_byte2_n_3 ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_32 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_36 ),
         .\Using_FPGA.The_Compare[0].sel_reg_2 (\Using_FPGA.The_Compare[0].sel_reg_2 ),
         .\Using_FPGA.The_Compare[2].sel_reg_0 (\Using_FPGA.The_Compare[2].sel_reg_0 ),
         .byte2(byte2),
-        .byte2_0x(byte2_0x));
+        .byte2_0x(byte2_0x),
+        .clz_instr(clz_instr));
   blockdesign_microblaze_0_0_carry_equal_212 \Use_PCMP_instr.carry_equal_byte3 
-       (.Op1_Shift(Op1_Shift),
-        .S_4(S_4),
-        .Select_Logic_reg(Shift_Logic_Res29_out),
-        .Select_Logic_reg_0(Shift_Logic_Res28_out),
-        .Select_Logic_reg_1(Shift_Logic_Res27_out),
-        .Shift_Logic_Res(Shift_Logic_Res_0),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_PCMP_instr.carry_equal_byte1_n_3 ),
+       (.S_4(S_4),
         .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_1 ),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg_0 (\Use_The_PCMP_instr.PCMP_Instr_reg_3 ),
         .\Using_FPGA.Native (\Using_FPGA.Native_1 ),
-        .\Using_FPGA.Native_0 (\Use_PCMP_instr.carry_equal_byte3_n_3 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_32 ),
-        .\Using_FPGA.Native_10 (\Using_FPGA.Native_38 ),
-        .\Using_FPGA.Native_11 (\Using_FPGA.Native_39 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_33 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_34 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_35 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_36 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_9 (\Using_FPGA.Native_37 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_33 ),
         .\Using_FPGA.The_Compare[0].sel_reg_5 (\Using_FPGA.The_Compare[0].sel_reg_5 ),
         .\Using_FPGA.The_Compare[2].sel_reg_3 (\Using_FPGA.The_Compare[2].sel_reg_3 ),
         .byte3(byte3),
-        .byte3_0x(byte3_0x),
-        .clz_instr(clz_instr),
-        .pcmp_instr(pcmp_instr),
-        .shift_Logic_Result(shift_Logic_Result[5:3]));
+        .byte3_0x(byte3_0x));
   blockdesign_microblaze_0_0_carry_equal_213 \Use_PCMP_instr.carry_equal_byte4 
        (.Enable_2(Enable_2),
         .S_7(S_7),
@@ -96942,13 +97406,12 @@ module blockdesign_microblaze_0_0_Shift_Logic_Module
         .shift_Logic_Result(shift_Logic_Result[1]));
   blockdesign_microblaze_0_0_MB_LUT4__parameterized27 \Use_PCMP_instr.shift_logic_result_i_lut_2 
        (.I3(I3),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_PCMP_instr.carry_equal_byte3_n_3 ),
+        .\Using_FPGA.Native_0 (\Using_FPGA.Native_34 ),
         .res_00_0(res_00_0),
         .res_1x(res_1x),
         .shift_Logic_Result(shift_Logic_Result[0]));
 endmodule
 
-(* ORIG_REF_NAME = "Zero_Detect" *) 
 module blockdesign_microblaze_0_0_Zero_Detect
    (Reg_zero,
     Reg_Test_Equal,
@@ -97099,15 +97562,13 @@ module blockdesign_microblaze_0_0_Zero_Detect
         .O(\Zero_Detecting[5].nibble_Zero_reg ));
 endmodule
 
-(* ORIG_REF_NAME = "address_hit" *) 
 module blockdesign_microblaze_0_0_address_hit
    (\Using_FPGA.Native ,
     Hit,
-    \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ,
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
+    \Area_Debug_Control.force_stop_cmd_hold_reg ,
     normal_stop_cmd_hold,
     normal_stop_cmd_i,
-    force_stop_cmd_hold,
-    force_stop_cmd_i,
     \Serial_Dbg_Intf.control_reg_reg[8] ,
     Dbg_Reg_En,
     Dbg_TDI,
@@ -97117,11 +97578,10 @@ module blockdesign_microblaze_0_0_address_hit
     Single_Step_N);
   output \Using_FPGA.Native ;
   output Hit;
-  output \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
+  input \Area_Debug_Control.force_stop_cmd_hold_reg ;
   input normal_stop_cmd_hold;
   input normal_stop_cmd_i;
-  input force_stop_cmd_hold;
-  input force_stop_cmd_i;
   input \Serial_Dbg_Intf.control_reg_reg[8] ;
   input [0:7]Dbg_Reg_En;
   input Dbg_TDI;
@@ -97131,6 +97591,7 @@ module blockdesign_microblaze_0_0_address_hit
   input Single_Step_N;
 
   wire [0:31]Address;
+  wire \Area_Debug_Control.force_stop_cmd_hold_reg ;
   wire Dbg_Clk;
   wire [0:7]Dbg_Reg_En;
   wire Dbg_TDI;
@@ -97151,8 +97612,8 @@ module blockdesign_microblaze_0_0_address_hit
   wire SRL16_Sel_5;
   wire SRL16_Sel_6;
   wire SRL16_Sel_7;
-  wire \Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ;
   wire \Serial_Dbg_Intf.control_reg_reg[8] ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   wire Single_Step_N;
   wire \Using_FPGA.Native ;
   wire carry_0;
@@ -97163,8 +97624,6 @@ module blockdesign_microblaze_0_0_address_hit
   wire carry_5;
   wire carry_6;
   wire carry_7;
-  wire force_stop_cmd_hold;
-  wire force_stop_cmd_i;
   wire lopt;
   wire lopt_1;
   wire lopt_10;
@@ -97200,7 +97659,6 @@ module blockdesign_microblaze_0_0_address_hit
         .Dbg_Reg_En(Dbg_Reg_En),
         .SRL16_MC15_7(SRL16_MC15_7),
         .SRL16_Sel_7(SRL16_Sel_7),
-        .\Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg (\Serial_Dbg_Intf.Instr_Insert_Reg_En_1_reg ),
         .which_pc(which_pc));
   blockdesign_microblaze_0_0_MB_MUXCY_32 \Compare[1].MUXCY_I 
        (.SRL16_Sel_6(SRL16_Sel_6),
@@ -97301,18 +97759,17 @@ module blockdesign_microblaze_0_0_address_hit
         .SRL16_Sel_0(SRL16_Sel_0),
         .which_pc(which_pc));
   blockdesign_microblaze_0_0_MB_MUXCY_46 \The_First_BreakPoints.MUXCY_Post 
-       (.Hit(Hit),
+       (.\Area_Debug_Control.force_stop_cmd_hold_reg (\Area_Debug_Control.force_stop_cmd_hold_reg ),
+        .Hit(Hit),
         .\Serial_Dbg_Intf.control_reg_reg[8] (\Serial_Dbg_Intf.control_reg_reg[8] ),
+        .\Serial_Dbg_Intf.force_stop_cmd_i_reg (\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
         .Single_Step_N(Single_Step_N),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .carry_0(carry_0),
-        .force_stop_cmd_hold(force_stop_cmd_hold),
-        .force_stop_cmd_i(force_stop_cmd_i),
         .normal_stop_cmd_hold(normal_stop_cmd_hold),
         .normal_stop_cmd_i(normal_stop_cmd_i));
 endmodule
 
-(* ORIG_REF_NAME = "barrel_shift" *) 
 module blockdesign_microblaze_0_0_barrel_shift
    (\C_reg[30]_0 ,
     \Using_FPGA.Native ,
@@ -97338,9 +97795,9 @@ module blockdesign_microblaze_0_0_barrel_shift
     \Using_FPGA.Native_19 ,
     \Using_FPGA.Native_20 ,
     \Using_FPGA.Native_21 ,
-    \C_reg[17]_0 ,
+    \C_reg[21]_0 ,
+    \C_reg[11]_0 ,
     \C_reg[19]_0 ,
-    \C_reg[19]_1 ,
     \C_reg[24]_0 ,
     Other_Result,
     Barrel_Result,
@@ -97383,11 +97840,11 @@ module blockdesign_microblaze_0_0_barrel_shift
     SR,
     void_bit,
     Clk,
+    \instr_EX_i_reg[22] ,
     \Using_FPGA.Native_51 ,
-    \Using_FPGA.Native_52 ,
     \Using_Barrel_Shifter.BitField_Insert_reg ,
     Data_Write,
-    \Using_FPGA.Native_53 );
+    \Using_FPGA.Native_52 );
   output [1:0]\C_reg[30]_0 ;
   output \Using_FPGA.Native ;
   output \Using_FPGA.Native_0 ;
@@ -97412,9 +97869,9 @@ module blockdesign_microblaze_0_0_barrel_shift
   output \Using_FPGA.Native_19 ;
   output \Using_FPGA.Native_20 ;
   output \Using_FPGA.Native_21 ;
-  output \C_reg[17]_0 ;
+  output \C_reg[21]_0 ;
+  output \C_reg[11]_0 ;
   output \C_reg[19]_0 ;
-  output \C_reg[19]_1 ;
   output \C_reg[24]_0 ;
   output Other_Result;
   output [7:0]Barrel_Result;
@@ -97457,14 +97914,15 @@ module blockdesign_microblaze_0_0_barrel_shift
   input [0:0]SR;
   input void_bit;
   input Clk;
-  input \Using_FPGA.Native_51 ;
-  input [30:0]\Using_FPGA.Native_52 ;
+  input \instr_EX_i_reg[22] ;
+  input [30:0]\Using_FPGA.Native_51 ;
   input [31:0]\Using_Barrel_Shifter.BitField_Insert_reg ;
   input [23:0]Data_Write;
-  input [5:0]\Using_FPGA.Native_53 ;
+  input [5:0]\Using_FPGA.Native_52 ;
 
-  wire [0:29]A;
+  wire [1:29]A;
   wire [4:0]B;
+  wire \BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_1 ;
   wire \BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ;
@@ -97473,26 +97931,20 @@ module blockdesign_microblaze_0_0_barrel_shift
   wire \BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 ;
   wire \BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ;
   wire \BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_7 ;
+  wire \BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_8 ;
   wire \BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 ;
   wire \BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ;
-  wire \BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_6 ;
-  wire \BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_7 ;
-  wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_10 ;
   wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ;
   wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ;
-  wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_6 ;
-  wire \BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_7 ;
   wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_4 ;
-  wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_5 ;
   wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ;
   wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 ;
-  wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_8 ;
-  wire \BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_9 ;
+  wire \BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ;
@@ -97504,23 +97956,26 @@ module blockdesign_microblaze_0_0_barrel_shift
   wire \BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ;
   wire \BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ;
   wire \BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ;
+  wire \BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_8 ;
   wire \BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_4 ;
   wire \BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ;
+  wire \BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_6 ;
   wire \BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ;
-  wire \BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_4 ;
-  wire \BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_5 ;
   wire \BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ;
+  wire \BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_3 ;
   wire \BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_2 ;
   wire \BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 ;
-  wire \BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_5 ;
+  wire \BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_4 ;
   wire \BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ;
+  wire \BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_3 ;
+  wire \BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_4 ;
   wire [7:0]Barrel_Result;
-  wire \C_reg[17]_0 ;
+  wire \C_reg[11]_0 ;
   wire \C_reg[19]_0 ;
-  wire \C_reg[19]_1 ;
+  wire \C_reg[21]_0 ;
   wire \C_reg[24]_0 ;
   wire [1:0]\C_reg[30]_0 ;
   wire \C_reg_n_0_[10] ;
@@ -97679,13 +98134,13 @@ module blockdesign_microblaze_0_0_barrel_shift
   wire \Using_FPGA.Native_49 ;
   wire \Using_FPGA.Native_5 ;
   wire \Using_FPGA.Native_50 ;
-  wire \Using_FPGA.Native_51 ;
-  wire [30:0]\Using_FPGA.Native_52 ;
-  wire [5:0]\Using_FPGA.Native_53 ;
+  wire [30:0]\Using_FPGA.Native_51 ;
+  wire [5:0]\Using_FPGA.Native_52 ;
   wire \Using_FPGA.Native_6 ;
   wire \Using_FPGA.Native_7 ;
   wire \Using_FPGA.Native_8 ;
   wire \Using_FPGA.Native_9 ;
+  wire \instr_EX_i_reg[22] ;
   (* DIRECT_RESET *) wire mask_reset;
   wire p_0_in10_in;
   wire p_0_in13_in;
@@ -97776,19 +98231,20 @@ module blockdesign_microblaze_0_0_barrel_shift
 
   assign mask_reset = in0;
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_132 \BS_Rev_Loop[0].I_BS_REV_A_LUT6 
-       (.A({A[0],A[16]}),
-        .B(B[3:0]),
-        .\C_reg[11] (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ),
-        .D(\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
+       (.B(B[3:0]),
+        .\C_reg[0] (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ),
+        .\C_reg[12] (A[16]),
+        .\C_reg[12]_0 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_1 ),
         .Op1_Logic(Op1_Logic),
         .Shifted(Shifted),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native_22 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_23 ),
-        .\Using_FPGA.Native_2 (\C_reg[19]_0 ),
-        .\Using_FPGA.Native_3 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_7 ),
-        .\Using_FPGA.Native_5 ({A[15],A[17],A[18]}));
+        .\Using_FPGA.Native_0 ({A[1],A[2],A[3],A[17],A[18],A[19]}),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_22 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_23 ),
+        .\Using_FPGA.Native_3 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_133 \BS_Rev_Loop[0].I_BS_REV_LUT6 
        (.Last_Mux_1_0(Last_Mux_1_0),
         .Last_Mux_1_15(Last_Mux_1_15),
@@ -97806,23 +98262,25 @@ module blockdesign_microblaze_0_0_barrel_shift
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_135 \BS_Rev_Loop[10].I_BS_REV_A_LUT6 
        (.A({A[10],A[26]}),
         .B(B[3:0]),
-        .\C_reg[13] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
-        .\C_reg[14] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ),
-        .\C_reg[3] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_7 ),
-        .\C_reg[6] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 ),
-        .D({\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_4 }),
+        .\C_reg[26] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
+        .\C_reg[4] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_8 ),
+        .\C_reg[6] (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_7 ),
+        .D({\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_4 ,\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_42 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_41 ),
-        .\Using_FPGA.Native_10 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_10 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_8 ),
+        .\Using_FPGA.Native_11 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_12 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_40 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_39 ),
-        .\Using_FPGA.Native_4 ({A[7],A[8],A[9],A[11],A[12],A[13],A[25],A[27],A[28],A[29]}),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_9 ),
-        .\Using_FPGA.Native_7 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_8 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_4 ),
-        .\Using_FPGA.Native_9 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_7 ));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_7 ({A[8],A[9],A[11],A[12],A[13],A[27],A[28],A[29]}),
+        .\Using_FPGA.Native_8 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_9 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_4 ),
+        .void_bit(void_bit));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_136 \BS_Rev_Loop[10].I_BS_REV_LUT6 
        (.Last_Mux_1_10(Last_Mux_1_10),
         .Last_Mux_1_21(Last_Mux_1_21),
@@ -97838,26 +98296,22 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[10] ,\C_reg_n_0_[26] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_138 \BS_Rev_Loop[11].I_BS_REV_A_LUT6 
-       (.A({A[8],A[9],A[10],A[12],A[13],A[14],A[28],A[29]}),
+       (.A({A[9],A[10],A[12],A[13],A[14],A[28],A[29]}),
         .B(B[3:0]),
-        .\C_reg[19] (\C_reg[19]_1 ),
-        .\C_reg[4] (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_6 ),
-        .\C_reg[5] (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
+        .\C_reg[19] (\C_reg[19]_0 ),
         .\C_reg[7] ({A[11],A[27]}),
-        .\C_reg[7]_0 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_7 ),
-        .D({\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 }),
+        .\C_reg[7]_0 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 ),
+        .\C_reg[9] (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
+        .D(\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_3 ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_38 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_37 ),
-        .\Using_FPGA.Native_10 (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_36 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_35 ),
         .\Using_FPGA.Native_4 (\C_reg[30]_0 [1]),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_10 ),
-        .\Using_FPGA.Native_7 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_8 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_9 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_8 ));
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_7 (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_139 \BS_Rev_Loop[11].I_BS_REV_LUT6 
        (.Last_Mux_1_11(Last_Mux_1_11),
         .Last_Mux_1_20(Last_Mux_1_20),
@@ -97874,11 +98328,16 @@ module blockdesign_microblaze_0_0_barrel_shift
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_141 \BS_Rev_Loop[12].I_BS_REV_A_LUT6 
        (.A({A[12],A[28]}),
+        .B(B[1:0]),
+        .\C_reg[24] (\C_reg[24]_0 ),
         .Op1_Shift(Op1_Shift),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_34 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_33 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_32 ));
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_32 ),
+        .\Using_FPGA.Native_3 (A[29]),
+        .\Using_FPGA.Native_4 (\C_reg[30]_0 [1]),
+        .\Using_FPGA.Native_5 (\C_reg[30]_0 [0]));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_142 \BS_Rev_Loop[12].I_BS_REV_LUT6 
        (.Last_Mux_1_12(Last_Mux_1_12),
         .Last_Mux_1_19(Last_Mux_1_19),
@@ -97896,27 +98355,20 @@ module blockdesign_microblaze_0_0_barrel_shift
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_144 \BS_Rev_Loop[13].I_BS_REV_A_LUT6 
        (.A({A[13],A[29]}),
         .B(B[3:0]),
-        .\C_reg[17] (\C_reg[17]_0 ),
-        .\C_reg[1] (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_10 ),
-        .\C_reg[24] (\C_reg[24]_0 ),
-        .D({\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_6 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_7 }),
+        .\C_reg[13] (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ),
+        .\C_reg[8] (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ),
+        .D({\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_3 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_31 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_30 ),
-        .\Using_FPGA.Native_10 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_11 ({A[14],A[15],A[16],A[28]}),
-        .\Using_FPGA.Native_12 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_13 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ),
-        .\Using_FPGA.Native_14 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_29 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_28 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_7 (\C_reg[30]_0 [1]),
-        .\Using_FPGA.Native_8 (\C_reg[30]_0 [0]),
-        .\Using_FPGA.Native_9 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ),
-        .void_bit(void_bit));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_8 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_7 ({A[12],A[14],A[15],A[16]}),
+        .\Using_FPGA.Native_8 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_8 ),
+        .\Using_FPGA.Native_9 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_145 \BS_Rev_Loop[13].I_BS_REV_LUT6 
        (.Last_Mux_1_13(Last_Mux_1_13),
         .Last_Mux_1_18(Last_Mux_1_18),
@@ -97932,28 +98384,25 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[13] ,\C_reg_n_0_[29] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_147 \BS_Rev_Loop[14].I_BS_REV_A_LUT6 
-       (.A({A[12],A[13],A[15],A[16],A[17]}),
+       (.A({A[15],A[16],A[17],A[29]}),
         .B(B[3:0]),
         .\C_reg[10] (A[14]),
-        .\C_reg[10]_0 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_9 ),
+        .\C_reg[10]_0 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 ),
+        .\C_reg[21] (\C_reg[21]_0 ),
+        .\C_reg[22] (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ),
         .\C_reg[30] (\C_reg[30]_0 [1]),
-        .\C_reg[8] (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_8 ),
-        .D({\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_4 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_5 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 }),
+        .D({\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_4 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_27 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_26 ),
-        .\Using_FPGA.Native_10 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_6 ),
-        .\Using_FPGA.Native_11 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_12 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_13 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_25 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_24 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_7 (\C_reg[30]_0 [0]),
-        .\Using_FPGA.Native_8 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_9 (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ),
+        .\Using_FPGA.Native_6 (\C_reg[30]_0 [0]),
+        .\Using_FPGA.Native_7 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_8 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_9 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
         .void_bit(void_bit));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_148 \BS_Rev_Loop[14].I_BS_REV_LUT6 
        (.Last_Mux_1_1(Last_Mux_1_1),
@@ -97971,12 +98420,15 @@ module blockdesign_microblaze_0_0_barrel_shift
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_150 \BS_Rev_Loop[15].I_BS_REV_A_LUT6 
        (.A(A[15]),
+        .B(B[1:0]),
+        .\C_reg[11] (\BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ),
         .\C_reg[30] (\C_reg[30]_0 [0]),
         .Op1_Logic(Op1_Logic),
         .Shifted(Shifted),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_23 ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_22 ));
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_22 ),
+        .\Using_FPGA.Native_2 ({A[16],A[17],A[18]}));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_151 \BS_Rev_Loop[15].I_BS_REV_LUT6 
        (.D(D[0]),
         .Last_Mux_1_0(Last_Mux_1_0),
@@ -97994,7 +98446,7 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[15] ,\C_reg_n_0_[31] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_153 \BS_Rev_Loop[1].I_BS_REV_A_LUT6 
-       (.A({A[1],A[17]}),
+       (.\C_reg[1] ({A[1],A[17]}),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_24 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_25 ),
@@ -98015,20 +98467,19 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[1] ,\C_reg_n_0_[17] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_156 \BS_Rev_Loop[2].I_BS_REV_A_LUT6 
-       (.A({A[2],A[18]}),
+       (.A({A[1],A[3],A[4],A[17],A[19],A[20]}),
         .B(B[3:0]),
-        .\C_reg[0] (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ),
-        .\C_reg[13] (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ),
-        .D(\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_2 ),
+        .\C_reg[1] ({A[2],A[18]}),
+        .\C_reg[5] (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ),
+        .D({\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_28 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_29 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_30 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_31 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_10 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
-        .\Using_FPGA.Native_7 ({A[0],A[1],A[3],A[17],A[19],A[20]}));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_157 \BS_Rev_Loop[2].I_BS_REV_LUT6 
        (.Last_Mux_1_13(Last_Mux_1_13),
         .Last_Mux_1_18(Last_Mux_1_18),
@@ -98044,19 +98495,19 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[2] ,\C_reg_n_0_[18] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_159 \BS_Rev_Loop[3].I_BS_REV_A_LUT6 
-       (.A({A[16],A[17],A[18]}),
+       (.A({A[3],A[19]}),
         .B(B[3:0]),
-        .\C_reg[12] (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
-        .\C_reg[3] ({A[3],A[19]}),
+        .\C_reg[15] (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
         .D(\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_2 ),
         .Op1_Shift(Op1_Shift),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_32 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_33 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_34 ),
-        .\Using_FPGA.Native_3 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_8 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ));
+        .\Using_FPGA.Native_3 (\C_reg[11]_0 ),
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_5 (\C_reg[19]_0 ),
+        .\Using_FPGA.Native_6 ({A[20],A[21],A[22]}));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_160 \BS_Rev_Loop[3].I_BS_REV_LUT6 
        (.Last_Mux_1_12(Last_Mux_1_12),
         .Last_Mux_1_19(Last_Mux_1_19),
@@ -98074,24 +98525,25 @@ module blockdesign_microblaze_0_0_barrel_shift
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_162 \BS_Rev_Loop[4].I_BS_REV_A_LUT6 
        (.A({A[4],A[20]}),
         .B(B[3:0]),
-        .\C_reg[15] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
-        .\C_reg[16] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ),
-        .\C_reg[1] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ),
-        .D({\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_4 }),
+        .\C_reg[0] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_8 ),
+        .\C_reg[14] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_7 ),
+        .\C_reg[20] (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
+        .D({\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_4 ,\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_35 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_36 ),
-        .\Using_FPGA.Native_10 (\C_reg[19]_1 ),
+        .\Using_FPGA.Native_10 ({A[2],A[3],A[5],A[6],A[7],A[18],A[19],A[21],A[22],A[23]}),
         .\Using_FPGA.Native_11 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_7 ),
-        .\Using_FPGA.Native_12 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_12 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_4 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_37 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_38 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_6 (\C_reg[24]_0 ),
-        .\Using_FPGA.Native_7 ({A[1],A[2],A[3],A[19],A[21],A[22],A[23]}),
-        .\Using_FPGA.Native_8 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_9 (\C_reg[19]_0 ));
+        .\Using_FPGA.Native_4 (\C_reg[24]_0 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_7 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 ),
+        .\Using_FPGA.Native_8 (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_9 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
+        .void_bit(void_bit));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_163 \BS_Rev_Loop[4].I_BS_REV_LUT6 
        (.Last_Mux_1_11(Last_Mux_1_11),
         .Last_Mux_1_20(Last_Mux_1_20),
@@ -98107,21 +98559,25 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[4] ,\C_reg_n_0_[20] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_165 \BS_Rev_Loop[5].I_BS_REV_A_LUT6 
-       (.A({A[5],A[21]}),
+       (.A({A[3],A[4],A[6],A[7],A[8],A[22],A[23],A[24]}),
         .B(B[3:0]),
-        .\C_reg[0] (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ),
-        .\C_reg[14] (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ),
-        .\C_reg[2] (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_4 ),
-        .D(\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_2 ),
+        .\C_reg[17] (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ),
+        .\C_reg[3] ({A[5],A[21]}),
+        .\C_reg[5] (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_6 ),
+        .D({\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ,\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_4 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_39 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_40 ),
+        .\Using_FPGA.Native_10 (\BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_11 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_41 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_42 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_9 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ),
-        .\Using_FPGA.Native_7 ({A[2],A[3],A[4],A[6],A[7],A[18],A[19],A[20]}));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_6 (\C_reg[21]_0 ),
+        .\Using_FPGA.Native_7 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ),
+        .\Using_FPGA.Native_8 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
+        .\Using_FPGA.Native_9 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_4 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_166 \BS_Rev_Loop[5].I_BS_REV_LUT6 
        (.Last_Mux_1_10(Last_Mux_1_10),
         .Last_Mux_1_21(Last_Mux_1_21),
@@ -98139,19 +98595,17 @@ module blockdesign_microblaze_0_0_barrel_shift
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_168 \BS_Rev_Loop[6].I_BS_REV_A_LUT6 
        (.A({A[6],A[22]}),
         .B(B[3:0]),
-        .\C_reg[1] (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_5 ),
-        .\C_reg[3] (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_4 ),
-        .\C_reg[9] (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
+        .\C_reg[22] (\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_3 ),
         .D(\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_2 ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_43 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_44 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_45 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_46 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_5 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_10 ),
-        .\Using_FPGA.Native_6 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ),
-        .\Using_FPGA.Native_7 ({A[3],A[4],A[5],A[7],A[8],A[21],A[23],A[24]}));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ),
+        .\Using_FPGA.Native_6 ({A[23],A[24],A[25]}),
+        .void_bit(void_bit));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_169 \BS_Rev_Loop[6].I_BS_REV_LUT6 
        (.Last_Mux_1_22(Last_Mux_1_22),
         .Last_Mux_1_25(Last_Mux_1_25),
@@ -98167,15 +98621,21 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[6] ,\C_reg_n_0_[22] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_171 \BS_Rev_Loop[7].I_BS_REV_A_LUT6 
-       (.A({A[22],A[24],A[25]}),
-        .B(B[1:0]),
-        .\C_reg[14] (\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ),
-        .\C_reg[2] ({A[7],A[23]}),
+       (.A({A[7],A[23]}),
+        .B(B[3:0]),
+        .\C_reg[11] (\C_reg[11]_0 ),
+        .D({\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_3 }),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_47 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_48 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_49 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_50 ));
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_50 ),
+        .\Using_FPGA.Native_4 (\C_reg[19]_0 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_3 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[15].I_BS_REV_A_LUT6_n_2 ),
+        .\Using_FPGA.Native_7 (\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_8 ({A[24],A[25],A[26]}),
+        .\instr_EX_i_reg[22] (\instr_EX_i_reg[22] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_172 \BS_Rev_Loop[7].I_BS_REV_LUT6 
        (.Last_Mux_1_23(Last_Mux_1_23),
         .Last_Mux_1_24(Last_Mux_1_24),
@@ -98191,23 +98651,19 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[7] ,\C_reg_n_0_[23] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_174 \BS_Rev_Loop[8].I_BS_REV_A_LUT6 
-       (.A({A[6],A[7],A[9],A[23],A[25],A[26]}),
+       (.A({A[8],A[24]}),
         .B(B[3:0]),
-        .\C_reg[19] (\C_reg[19]_0 ),
-        .\C_reg[2] ({A[8],A[24]}),
-        .\C_reg[2]_0 (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_5 ),
-        .D({\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_2 ,\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 }),
+        .\C_reg[24] (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 ),
+        .\C_reg[2] (\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_2 ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_50 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_49 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_48 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_47 ),
-        .\Using_FPGA.Native_4 (\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_6 ),
-        .\Using_FPGA.Native_5 (\C_reg[19]_1 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_51 ),
-        .\Using_FPGA.Native_7 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_4 ),
-        .\Using_FPGA.Native_8 (\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 ),
-        .\Using_FPGA.Native_9 (\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_9 ));
+        .\Using_FPGA.Native_4 (\C_reg[24]_0 ),
+        .\Using_FPGA.Native_5 ({A[6],A[7],A[9],A[25],A[26],A[27]}),
+        .void_bit(void_bit));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_175 \BS_Rev_Loop[8].I_BS_REV_LUT6 
        (.Last_Mux_1_23(Last_Mux_1_23),
         .Last_Mux_1_24(Last_Mux_1_24),
@@ -98223,15 +98679,20 @@ module blockdesign_microblaze_0_0_barrel_shift
         .Q({\C_reg_n_0_[8] ,\C_reg_n_0_[24] }),
         .\void_bit16_reg[15] (\void_bit16_reg_n_0_[15] ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_177 \BS_Rev_Loop[9].I_BS_REV_A_LUT6 
-       (.A({A[9],A[25]}),
-        .B(B[1:0]),
-        .\C_reg[16] (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
+       (.A({A[7],A[8],A[10],A[26],A[27],A[28]}),
+        .B(B[3:0]),
+        .\C_reg[13] (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_3 ),
+        .\C_reg[3] ({A[9],A[25]}),
+        .\C_reg[3]_0 (\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
         .\Using_Barrel_Shifter.BitField_Extract_reg (\Using_Barrel_Shifter.BitField_Extract_reg ),
         .\Using_FPGA.Native_0 (\Using_FPGA.Native_46 ),
         .\Using_FPGA.Native_1 (\Using_FPGA.Native_45 ),
         .\Using_FPGA.Native_2 (\Using_FPGA.Native_44 ),
         .\Using_FPGA.Native_3 (\Using_FPGA.Native_43 ),
-        .\Using_FPGA.Native_4 ({A[24],A[26],A[27]}));
+        .\Using_FPGA.Native_4 (\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_4 ),
+        .\Using_FPGA.Native_5 (\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ),
+        .\Using_FPGA.Native_6 (\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_5 ));
   blockdesign_microblaze_0_0_MB_LUT6_2__parameterized4_178 \BS_Rev_Loop[9].I_BS_REV_LUT6 
        (.Last_Mux_1_22(Last_Mux_1_22),
         .Last_Mux_1_25(Last_Mux_1_25),
@@ -98435,7 +98896,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[0] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_2 ),
         .Q(I0),
         .R(SR));
   FDRE #(
@@ -98443,7 +98904,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[10] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[10] ),
         .R(SR));
   FDRE #(
@@ -98451,7 +98912,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[11] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[11] ),
         .R(SR));
   FDRE #(
@@ -98459,7 +98920,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[12] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[0].I_BS_REV_A_LUT6_n_1 ),
         .Q(\C_reg_n_0_[12] ),
         .R(SR));
   FDRE #(
@@ -98467,7 +98928,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[13] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[9].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[13] ),
         .R(SR));
   FDRE #(
@@ -98475,7 +98936,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[14] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[14] ),
         .R(SR));
   FDRE #(
@@ -98483,7 +98944,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[15] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[3].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[15] ),
         .R(SR));
   FDRE #(
@@ -98499,7 +98960,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[17] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_4 ),
         .Q(\C_reg_n_0_[17] ),
         .R(SR));
   FDRE #(
@@ -98507,7 +98968,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[18] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_5 ),
+        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_4 ),
         .Q(\C_reg_n_0_[18] ),
         .R(SR));
   FDRE #(
@@ -98515,7 +98976,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[19] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[7].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[19] ),
         .R(SR));
   FDRE #(
@@ -98523,7 +98984,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[1] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[1] ),
         .R(SR));
   FDRE #(
@@ -98531,7 +98992,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[20] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_5 ),
         .Q(\C_reg_n_0_[20] ),
         .R(SR));
   FDRE #(
@@ -98539,7 +99000,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[21] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_5 ),
+        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[21] ),
         .R(SR));
   FDRE #(
@@ -98547,7 +99008,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[22] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_6 ),
+        .D(\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[22] ),
         .R(SR));
   FDRE #(
@@ -98555,7 +99016,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[23] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [5]),
+        .D(\Using_FPGA.Native_52 [5]),
         .Q(\C_reg_n_0_[23] ),
         .R(SR));
   FDRE #(
@@ -98563,7 +99024,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[24] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_6 ),
+        .D(\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[24] ),
         .R(SR));
   FDRE #(
@@ -98571,7 +99032,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[25] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_7 ),
+        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_4 ),
         .Q(\C_reg_n_0_[25] ),
         .R(SR));
   FDRE #(
@@ -98579,7 +99040,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[26] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_7 ),
+        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_5 ),
         .Q(\C_reg_n_0_[26] ),
         .R(SR));
   FDRE #(
@@ -98587,7 +99048,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[27] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [4]),
+        .D(\Using_FPGA.Native_52 [4]),
         .Q(\C_reg_n_0_[27] ),
         .R(SR));
   FDRE #(
@@ -98595,7 +99056,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[28] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [3]),
+        .D(\Using_FPGA.Native_52 [3]),
         .Q(\C_reg_n_0_[28] ),
         .R(SR));
   FDRE #(
@@ -98603,7 +99064,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[29] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [2]),
+        .D(\Using_FPGA.Native_52 [2]),
         .Q(\C_reg_n_0_[29] ),
         .R(SR));
   FDRE #(
@@ -98611,7 +99072,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[2] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[8].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[2] ),
         .R(SR));
   FDRE #(
@@ -98619,7 +99080,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[30] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [1]),
+        .D(\Using_FPGA.Native_52 [1]),
         .Q(\C_reg_n_0_[30] ),
         .R(SR));
   FDRE #(
@@ -98627,7 +99088,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[31] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_53 [0]),
+        .D(\Using_FPGA.Native_52 [0]),
         .Q(\C_reg_n_0_[31] ),
         .R(SR));
   FDRE #(
@@ -98635,7 +99096,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[3] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[3] ),
         .R(SR));
   FDRE #(
@@ -98643,7 +99104,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[4] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_2 ),
         .Q(\C_reg_n_0_[4] ),
         .R(SR));
   FDRE #(
@@ -98651,7 +99112,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[5] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[2].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[5] ),
         .R(SR));
   FDRE #(
@@ -98659,7 +99120,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[6] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_4 ),
+        .D(\BS_Rev_Loop[10].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[6] ),
         .R(SR));
   FDRE #(
@@ -98667,7 +99128,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[7] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[4].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[11].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[7] ),
         .R(SR));
   FDRE #(
@@ -98675,7 +99136,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[8] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[14].I_BS_REV_A_LUT6_n_3 ),
+        .D(\BS_Rev_Loop[13].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[8] ),
         .R(SR));
   FDRE #(
@@ -98683,7 +99144,7 @@ module blockdesign_microblaze_0_0_barrel_shift
     \C_reg[9] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\BS_Rev_Loop[6].I_BS_REV_A_LUT6_n_2 ),
+        .D(\BS_Rev_Loop[5].I_BS_REV_A_LUT6_n_3 ),
         .Q(\C_reg_n_0_[9] ),
         .R(SR));
   FDRE \Using_BitField.mem_Rd_reg[0] 
@@ -99025,187 +99486,187 @@ module blockdesign_microblaze_0_0_barrel_shift
   FDRE \Using_BitField.mem_mask1_reg[0] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [30]),
+        .D(\Using_FPGA.Native_51 [30]),
         .Q(p_21_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[10] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [20]),
+        .D(\Using_FPGA.Native_51 [20]),
         .Q(p_0_in58_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[11] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [19]),
+        .D(\Using_FPGA.Native_51 [19]),
         .Q(p_0_in55_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[12] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [18]),
+        .D(\Using_FPGA.Native_51 [18]),
         .Q(p_0_in52_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[13] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [17]),
+        .D(\Using_FPGA.Native_51 [17]),
         .Q(p_0_in49_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[14] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [16]),
+        .D(\Using_FPGA.Native_51 [16]),
         .Q(p_0_in46_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[15] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [15]),
+        .D(\Using_FPGA.Native_51 [15]),
         .Q(p_0_in43_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[16] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [14]),
+        .D(\Using_FPGA.Native_51 [14]),
         .Q(p_0_in40_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[17] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [13]),
+        .D(\Using_FPGA.Native_51 [13]),
         .Q(p_0_in37_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[18] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [12]),
+        .D(\Using_FPGA.Native_51 [12]),
         .Q(p_0_in34_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[19] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [11]),
+        .D(\Using_FPGA.Native_51 [11]),
         .Q(p_0_in31_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[1] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [29]),
+        .D(\Using_FPGA.Native_51 [29]),
         .Q(p_18_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[20] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [10]),
+        .D(\Using_FPGA.Native_51 [10]),
         .Q(p_0_in28_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[21] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [9]),
+        .D(\Using_FPGA.Native_51 [9]),
         .Q(p_0_in25_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[22] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [8]),
+        .D(\Using_FPGA.Native_51 [8]),
         .Q(p_0_in22_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[23] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [7]),
+        .D(\Using_FPGA.Native_51 [7]),
         .Q(p_0_in19_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[24] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [6]),
+        .D(\Using_FPGA.Native_51 [6]),
         .Q(p_0_in16_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[25] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [5]),
+        .D(\Using_FPGA.Native_51 [5]),
         .Q(p_0_in13_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[26] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [4]),
+        .D(\Using_FPGA.Native_51 [4]),
         .Q(p_0_in10_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[27] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [3]),
+        .D(\Using_FPGA.Native_51 [3]),
         .Q(p_0_in7_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[28] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [2]),
+        .D(\Using_FPGA.Native_51 [2]),
         .Q(p_0_in4_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[29] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [1]),
+        .D(\Using_FPGA.Native_51 [1]),
         .Q(p_0_in1_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[2] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [28]),
+        .D(\Using_FPGA.Native_51 [28]),
         .Q(p_15_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[30] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [0]),
+        .D(\Using_FPGA.Native_51 [0]),
         .Q(\Using_BitField.mem_mask1_reg_n_0_[30] ),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[3] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [27]),
+        .D(\Using_FPGA.Native_51 [27]),
         .Q(p_12_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[4] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [26]),
+        .D(\Using_FPGA.Native_51 [26]),
         .Q(p_9_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[5] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [25]),
+        .D(\Using_FPGA.Native_51 [25]),
         .Q(p_6_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[6] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [24]),
+        .D(\Using_FPGA.Native_51 [24]),
         .Q(p_3_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[7] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [23]),
+        .D(\Using_FPGA.Native_51 [23]),
         .Q(p_0_in67_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[8] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [22]),
+        .D(\Using_FPGA.Native_51 [22]),
         .Q(p_0_in64_in),
         .R(mask_reset));
   FDRE \Using_BitField.mem_mask1_reg[9] 
        (.C(Clk),
         .CE(1'b1),
-        .D(\Using_FPGA.Native_52 [21]),
+        .D(\Using_FPGA.Native_51 [21]),
         .Q(p_0_in61_in),
         .R(mask_reset));
   LUT4 #(
@@ -99282,47 +99743,34 @@ module blockdesign_microblaze_0_0_barrel_shift
         .R(SR));
 endmodule
 
-(* ORIG_REF_NAME = "carry_equal" *) 
 module blockdesign_microblaze_0_0_carry_equal
    (byte1,
     \Using_FPGA.Native ,
     byte1_0x,
-    \Using_FPGA.Native_0 ,
     \Use_The_PCMP_instr.PCMP_Instr_reg ,
-    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_0 ,
     \Using_FPGA.The_Compare[2].sel_reg ,
     S,
-    \Using_FPGA.The_Compare[0].sel_reg ,
-    clz_instr,
-    \Using_FPGA.Native_2 ,
-    \Using_FPGA.Native_3 );
+    \Using_FPGA.The_Compare[0].sel_reg );
   output byte1;
   output \Using_FPGA.Native ;
   output byte1_0x;
-  output \Using_FPGA.Native_0 ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.The_Compare[2].sel_reg ;
   input S;
   input \Using_FPGA.The_Compare[0].sel_reg ;
-  input clz_instr;
-  input \Using_FPGA.Native_2 ;
-  input \Using_FPGA.Native_3 ;
 
   wire S;
   wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.The_Compare[0].sel_reg ;
   wire \Using_FPGA.The_Compare[2].sel_reg ;
   wire byte1;
   wire byte1_0x;
   wire carry_1;
   wire carry_2;
-  wire clz_instr;
   wire lopt;
   wire lopt_1;
   wire lopt_2;
@@ -99337,17 +99785,13 @@ module blockdesign_microblaze_0_0_carry_equal
         .lopt(lopt_4),
         .lopt_1(lopt_5));
   blockdesign_microblaze_0_0_MB_MUXCY_232 \Using_FPGA.MUXCY_L_Enable_2 
-       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .byte1(byte1),
         .byte1_0x(byte1_0x));
   blockdesign_microblaze_0_0_MB_MUXCY_233 \Using_FPGA.The_Compare[0].MUXCY_L_I1 
        (.\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
         .\Using_FPGA.The_Compare[0].sel_reg (\Using_FPGA.The_Compare[0].sel_reg ),
         .carry_2(carry_2),
-        .clz_instr(clz_instr),
         .lopt(lopt_2),
         .lopt_1(lopt_3));
   blockdesign_microblaze_0_0_MB_MUXCY_234 \Using_FPGA.The_Compare[1].MUXCY_L_I1 
@@ -99375,30 +99819,42 @@ module blockdesign_microblaze_0_0_carry_equal_211
    (byte2,
     \Using_FPGA.Native ,
     byte2_0x,
-    \Use_The_PCMP_instr.PCMP_Instr_reg ,
     \Using_FPGA.Native_0 ,
+    \Use_The_PCMP_instr.PCMP_Instr_reg ,
+    \Using_FPGA.Native_1 ,
     \Using_FPGA.The_Compare[2].sel_reg_0 ,
     S_1,
-    \Using_FPGA.The_Compare[0].sel_reg_2 );
+    \Using_FPGA.The_Compare[0].sel_reg_2 ,
+    \Using_FPGA.Native_2 ,
+    clz_instr,
+    \Using_FPGA.Native_3 );
   output byte2;
   output \Using_FPGA.Native ;
   output byte2_0x;
+  output \Using_FPGA.Native_0 ;
   input \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  input \Using_FPGA.Native_0 ;
+  input \Using_FPGA.Native_1 ;
   input \Using_FPGA.The_Compare[2].sel_reg_0 ;
   input S_1;
   input \Using_FPGA.The_Compare[0].sel_reg_2 ;
+  input \Using_FPGA.Native_2 ;
+  input clz_instr;
+  input \Using_FPGA.Native_3 ;
 
   wire S_1;
   wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
+  wire \Using_FPGA.Native_1 ;
+  wire \Using_FPGA.Native_2 ;
+  wire \Using_FPGA.Native_3 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_2 ;
   wire \Using_FPGA.The_Compare[2].sel_reg_0 ;
   wire byte2;
   wire byte2_0x;
   wire carry_1;
   wire carry_2;
+  wire clz_instr;
   wire lopt;
   wire lopt_1;
   wire lopt_2;
@@ -99413,13 +99869,17 @@ module blockdesign_microblaze_0_0_carry_equal_211
         .lopt(lopt_4),
         .lopt_1(lopt_5));
   blockdesign_microblaze_0_0_MB_MUXCY_227 \Using_FPGA.MUXCY_L_Enable_2 
-       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
         .byte2(byte2),
         .byte2_0x(byte2_0x));
   blockdesign_microblaze_0_0_MB_MUXCY_228 \Using_FPGA.The_Compare[0].MUXCY_L_I1 
        (.\Using_FPGA.Native_0 (\Using_FPGA.Native ),
+        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
+        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
+        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
         .\Using_FPGA.The_Compare[0].sel_reg_2 (\Using_FPGA.The_Compare[0].sel_reg_2 ),
         .carry_2(carry_2),
+        .clz_instr(clz_instr),
         .lopt(lopt_2),
         .lopt_1(lopt_3));
   blockdesign_microblaze_0_0_MB_MUXCY_229 \Using_FPGA.The_Compare[1].MUXCY_L_I1 
@@ -99447,99 +99907,36 @@ module blockdesign_microblaze_0_0_carry_equal_212
    (byte3,
     \Using_FPGA.Native ,
     byte3_0x,
-    \Using_FPGA.Native_0 ,
-    shift_Logic_Result,
     \Use_The_PCMP_instr.PCMP_Instr_reg ,
-    \Using_FPGA.Native_1 ,
+    \Using_FPGA.Native_0 ,
     \Using_FPGA.The_Compare[2].sel_reg_3 ,
     S_4,
-    \Using_FPGA.The_Compare[0].sel_reg_5 ,
-    \Using_FPGA.Native_2 ,
-    clz_instr,
-    \Using_FPGA.Native_3 ,
-    Shift_Logic_Res,
-    pcmp_instr,
-    \Using_FPGA.Native_4 ,
-    \Using_FPGA.Native_5 ,
-    \Using_FPGA.Native_6 ,
-    \Use_The_PCMP_instr.PCMP_Instr_reg_0 ,
-    Select_Logic_reg,
-    \Use_The_PCMP_instr.CLZ_Instr_reg ,
-    Select_Logic_reg_0,
-    Select_Logic_reg_1,
-    Op1_Shift,
-    \Using_FPGA.Native_7 ,
-    \Using_FPGA.Native_8 ,
-    \Using_FPGA.Native_9 ,
-    \Using_FPGA.Native_10 ,
-    \Using_FPGA.Native_11 );
+    \Using_FPGA.The_Compare[0].sel_reg_5 );
   output byte3;
   output \Using_FPGA.Native ;
   output byte3_0x;
-  output \Using_FPGA.Native_0 ;
-  output [2:0]shift_Logic_Result;
   input \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  input \Using_FPGA.Native_1 ;
+  input \Using_FPGA.Native_0 ;
   input \Using_FPGA.The_Compare[2].sel_reg_3 ;
   input S_4;
   input \Using_FPGA.The_Compare[0].sel_reg_5 ;
-  input \Using_FPGA.Native_2 ;
-  input clz_instr;
-  input \Using_FPGA.Native_3 ;
-  input Shift_Logic_Res;
-  input pcmp_instr;
-  input \Using_FPGA.Native_4 ;
-  input \Using_FPGA.Native_5 ;
-  input \Using_FPGA.Native_6 ;
-  input \Use_The_PCMP_instr.PCMP_Instr_reg_0 ;
-  input Select_Logic_reg;
-  input \Use_The_PCMP_instr.CLZ_Instr_reg ;
-  input Select_Logic_reg_0;
-  input Select_Logic_reg_1;
-  input Op1_Shift;
-  input \Using_FPGA.Native_7 ;
-  input \Using_FPGA.Native_8 ;
-  input \Using_FPGA.Native_9 ;
-  input \Using_FPGA.Native_10 ;
-  input \Using_FPGA.Native_11 ;
 
-  wire Op1_Shift;
   wire S_4;
-  wire Select_Logic_reg;
-  wire Select_Logic_reg_0;
-  wire Select_Logic_reg_1;
-  wire Shift_Logic_Res;
-  wire \Use_The_PCMP_instr.CLZ_Instr_reg ;
   wire \Use_The_PCMP_instr.PCMP_Instr_reg ;
-  wire \Use_The_PCMP_instr.PCMP_Instr_reg_0 ;
   wire \Using_FPGA.Native ;
   wire \Using_FPGA.Native_0 ;
-  wire \Using_FPGA.Native_1 ;
-  wire \Using_FPGA.Native_10 ;
-  wire \Using_FPGA.Native_11 ;
-  wire \Using_FPGA.Native_2 ;
-  wire \Using_FPGA.Native_3 ;
-  wire \Using_FPGA.Native_4 ;
-  wire \Using_FPGA.Native_5 ;
-  wire \Using_FPGA.Native_6 ;
-  wire \Using_FPGA.Native_7 ;
-  wire \Using_FPGA.Native_8 ;
-  wire \Using_FPGA.Native_9 ;
   wire \Using_FPGA.The_Compare[0].sel_reg_5 ;
   wire \Using_FPGA.The_Compare[2].sel_reg_3 ;
   wire byte3;
   wire byte3_0x;
   wire carry_1;
   wire carry_2;
-  wire clz_instr;
   wire lopt;
   wire lopt_1;
   wire lopt_2;
   wire lopt_3;
   wire lopt_4;
   wire lopt_5;
-  wire pcmp_instr;
-  wire [2:0]shift_Logic_Result;
 
   blockdesign_microblaze_0_0_MB_MUXCY_221 \Using_FPGA.MUXCY_L_Enable 
        (.\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg ),
@@ -99548,36 +99945,15 @@ module blockdesign_microblaze_0_0_carry_equal_212
         .lopt(lopt_4),
         .lopt_1(lopt_5));
   blockdesign_microblaze_0_0_MB_MUXCY_222 \Using_FPGA.MUXCY_L_Enable_2 
-       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_1 ),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native_0 ),
         .byte3(byte3),
         .byte3_0x(byte3_0x));
   blockdesign_microblaze_0_0_MB_MUXCY_223 \Using_FPGA.The_Compare[0].MUXCY_L_I1 
-       (.Op1_Shift(Op1_Shift),
-        .Select_Logic_reg(Select_Logic_reg),
-        .Select_Logic_reg_0(Select_Logic_reg_0),
-        .Select_Logic_reg_1(Select_Logic_reg_1),
-        .Shift_Logic_Res(Shift_Logic_Res),
-        .\Use_The_PCMP_instr.CLZ_Instr_reg (\Use_The_PCMP_instr.CLZ_Instr_reg ),
-        .\Use_The_PCMP_instr.PCMP_Instr_reg (\Use_The_PCMP_instr.PCMP_Instr_reg_0 ),
-        .\Using_FPGA.Native_0 (\Using_FPGA.Native ),
-        .\Using_FPGA.Native_1 (\Using_FPGA.Native_0 ),
-        .\Using_FPGA.Native_10 (\Using_FPGA.Native_10 ),
-        .\Using_FPGA.Native_11 (\Using_FPGA.Native_11 ),
-        .\Using_FPGA.Native_2 (\Using_FPGA.Native_2 ),
-        .\Using_FPGA.Native_3 (\Using_FPGA.Native_3 ),
-        .\Using_FPGA.Native_4 (\Using_FPGA.Native_4 ),
-        .\Using_FPGA.Native_5 (\Using_FPGA.Native_5 ),
-        .\Using_FPGA.Native_6 (\Using_FPGA.Native_6 ),
-        .\Using_FPGA.Native_7 (\Using_FPGA.Native_7 ),
-        .\Using_FPGA.Native_8 (\Using_FPGA.Native_8 ),
-        .\Using_FPGA.Native_9 (\Using_FPGA.Native_9 ),
+       (.\Using_FPGA.Native_0 (\Using_FPGA.Native ),
         .\Using_FPGA.The_Compare[0].sel_reg_5 (\Using_FPGA.The_Compare[0].sel_reg_5 ),
         .carry_2(carry_2),
-        .clz_instr(clz_instr),
         .lopt(lopt_2),
-        .lopt_1(lopt_3),
-        .pcmp_instr(pcmp_instr),
-        .shift_Logic_Result(shift_Logic_Result));
+        .lopt_1(lopt_3));
   blockdesign_microblaze_0_0_MB_MUXCY_224 \Using_FPGA.The_Compare[1].MUXCY_L_I1 
        (.S_4(S_4),
         .carry_1(carry_1),
@@ -99670,7 +100046,6 @@ module blockdesign_microblaze_0_0_carry_equal_213
         .lopt_8(\Use_The_PCMP_instr.PCMP_Instr_reg ));
 endmodule
 
-(* ORIG_REF_NAME = "dsp_module" *) 
 module blockdesign_microblaze_0_0_dsp_module
    (P,
     \Using_FPGA.DSP48E1_I1 ,
@@ -99759,7 +100134,6 @@ module blockdesign_microblaze_0_0_dsp_module__parameterized3
         .op2_C(op2_C));
 endmodule
 
-(* ORIG_REF_NAME = "instr_mux" *) 
 module blockdesign_microblaze_0_0_instr_mux
    (Y,
     Instr,
@@ -99778,7 +100152,50 @@ module blockdesign_microblaze_0_0_instr_mux
         .Y(Y));
 endmodule
 
-(* ORIG_REF_NAME = "mb_sync_bit" *) 
+module blockdesign_microblaze_0_0_interrupt_mode_converter
+   (internal_interrupt,
+    sync_reset,
+    Interrupt,
+    Clk,
+    interrupt_Taken_i);
+  output internal_interrupt;
+  input sync_reset;
+  input Interrupt;
+  input Clk;
+  input interrupt_Taken_i;
+
+  wire Clk;
+  wire Interrupt;
+  wire \Interrupt_Is_Edge_Negative.Internal_interrupt_i_1_n_0 ;
+  wire external_interrupt_d1;
+  wire internal_interrupt;
+  wire interrupt_Taken_i;
+  wire sync_reset;
+
+  LUT4 #(
+    .INIT(16'h4F44)) 
+    \Interrupt_Is_Edge_Negative.Internal_interrupt_i_1 
+       (.I0(Interrupt),
+        .I1(external_interrupt_d1),
+        .I2(interrupt_Taken_i),
+        .I3(internal_interrupt),
+        .O(\Interrupt_Is_Edge_Negative.Internal_interrupt_i_1_n_0 ));
+  FDRE \Interrupt_Is_Edge_Negative.Internal_interrupt_reg 
+       (.C(Clk),
+        .CE(1'b1),
+        .D(\Interrupt_Is_Edge_Negative.Internal_interrupt_i_1_n_0 ),
+        .Q(internal_interrupt),
+        .R(sync_reset));
+  FDRE #(
+    .INIT(1'b0)) 
+    \Interrupt_Is_Edge_Negative.external_interrupt_d1_reg 
+       (.C(Clk),
+        .CE(1'b1),
+        .D(Interrupt),
+        .Q(external_interrupt_d1),
+        .R(sync_reset));
+endmodule
+
 module blockdesign_microblaze_0_0_mb_sync_bit
    (out,
     reset_temp__0,
@@ -100439,14 +100856,14 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized2_26
     AR,
     Pause,
     Dbg_Clk,
-    Scan_Reset,
-    Scan_Reset_Sel);
+    Scan_Reset_Sel,
+    Scan_Reset);
   output [0:0]D;
   output [0:0]AR;
   input Pause;
   input Dbg_Clk;
-  input Scan_Reset;
   input Scan_Reset_Sel;
+  input Scan_Reset;
 
   wire [0:0]AR;
   wire [0:0]D;
@@ -100458,8 +100875,8 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized2_26
   LUT2 #(
     .INIT(4'h8)) 
     \Serial_Dbg_Intf.New_Instr_Reg_TCK[0]_i_1 
-       (.I0(Scan_Reset),
-        .I1(Scan_Reset_Sel),
+       (.I0(Scan_Reset_Sel),
+        .I1(Scan_Reset),
         .O(AR));
   FDCE #(
     .INIT(1'b0)) 
@@ -100502,16 +100919,22 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized2_28
    (D,
     Sleep,
     Dbg_Clk,
-    AR);
+    AR,
+    sleep_reset_mode_reg,
+    Sleep_Decode);
   output [0:0]D;
-  input Sleep;
+  output Sleep;
   input Dbg_Clk;
   input [0:0]AR;
+  input sleep_reset_mode_reg;
+  input Sleep_Decode;
 
   wire [0:0]AR;
   wire [0:0]D;
   wire Dbg_Clk;
   wire Sleep;
+  wire Sleep_Decode;
+  wire sleep_reset_mode_reg;
 
   FDCE #(
     .INIT(1'b0)) 
@@ -100521,6 +100944,12 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized2_28
         .CLR(AR),
         .D(Sleep),
         .Q(D));
+  LUT2 #(
+    .INIT(4'hE)) 
+    Sleep_INST_0
+       (.I0(sleep_reset_mode_reg),
+        .I1(Sleep_Decode),
+        .O(Sleep));
 endmodule
 
 (* ORIG_REF_NAME = "mb_sync_bit" *) 
@@ -100582,31 +101011,31 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4
     LOCKSTEP_Master_Out,
     Clk,
     start_single_cmd,
-    normal_stop_cmd_i,
-    force_stop_cmd_i,
-    \Area_Debug_Control.dbg_stop_Detected_reg ,
     \Serial_Dbg_Intf.continue_from_brk_reg ,
-    dbg_pause);
+    \Serial_Dbg_Intf.force_stop_cmd_i_reg ,
+    dbg_pause,
+    normal_stop_cmd_i,
+    \Area_Debug_Control.dbg_stop_Detected_reg );
   output dbg_continue_i_reg;
   input sync_reset;
   input [2:0]LOCKSTEP_Master_Out;
   input Clk;
   input start_single_cmd;
-  input normal_stop_cmd_i;
-  input force_stop_cmd_i;
-  input \Area_Debug_Control.dbg_stop_Detected_reg ;
   input \Serial_Dbg_Intf.continue_from_brk_reg ;
+  input \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   input dbg_pause;
+  input normal_stop_cmd_i;
+  input \Area_Debug_Control.dbg_stop_Detected_reg ;
 
   wire \Area_Debug_Control.dbg_stop_Detected_reg ;
   wire Clk;
   wire [2:0]LOCKSTEP_Master_Out;
   wire \Serial_Dbg_Intf.continue_from_brk_reg ;
+  wire \Serial_Dbg_Intf.force_stop_cmd_i_reg ;
   wire dbg_continue_i_i_2_n_0;
   wire dbg_continue_i_reg;
   wire dbg_pause;
   wire dbg_wakeup_synced;
-  wire force_stop_cmd_i;
   wire normal_stop_cmd_i;
   wire start_single_cmd;
   wire sync_reset;
@@ -100620,22 +101049,22 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4
         .Q(dbg_wakeup_synced),
         .R(sync_reset));
   LUT6 #(
-    .INIT(64'hFFFF0000FFFE0000)) 
+    .INIT(64'hF0F0F0F0F0F0F0E0)) 
     dbg_continue_i_i_1
        (.I0(dbg_continue_i_i_2_n_0),
         .I1(LOCKSTEP_Master_Out[2]),
-        .I2(\Area_Debug_Control.dbg_stop_Detected_reg ),
-        .I3(\Serial_Dbg_Intf.continue_from_brk_reg ),
-        .I4(dbg_pause),
+        .I2(dbg_pause),
+        .I3(normal_stop_cmd_i),
+        .I4(\Area_Debug_Control.dbg_stop_Detected_reg ),
         .I5(LOCKSTEP_Master_Out[0]),
         .O(dbg_continue_i_reg));
   LUT4 #(
     .INIT(16'hFFFE)) 
     dbg_continue_i_i_2
-       (.I0(start_single_cmd),
-        .I1(dbg_wakeup_synced),
-        .I2(normal_stop_cmd_i),
-        .I3(force_stop_cmd_i),
+       (.I0(dbg_wakeup_synced),
+        .I1(start_single_cmd),
+        .I2(\Serial_Dbg_Intf.continue_from_brk_reg ),
+        .I3(\Serial_Dbg_Intf.force_stop_cmd_i_reg ),
         .O(dbg_continue_i_i_2_n_0));
 endmodule
 
@@ -100646,18 +101075,18 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4_30
     sync_reset,
     Dbg_Trig_Ack_In,
     Clk,
+    trig_ack_in_0_synced_1,
     mb_halted_1,
     \Area_Debug_Control.mb_halted_i_reg ,
-    trig_ack_in_0_synced_1,
     Dbg_Trig_In);
   output trig_ack_in_0_synced;
   output trig_in_0_reg;
   input sync_reset;
   input [0:0]Dbg_Trig_Ack_In;
   input Clk;
+  input trig_ack_in_0_synced_1;
   input mb_halted_1;
   input \Area_Debug_Control.mb_halted_i_reg ;
-  input trig_ack_in_0_synced_1;
   input [0:0]Dbg_Trig_In;
 
   wire \Area_Debug_Control.mb_halted_i_reg ;
@@ -100679,12 +101108,12 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4_30
         .Q(trig_ack_in_0_synced),
         .R(sync_reset));
   LUT5 #(
-    .INIT(32'hF0FF4044)) 
+    .INIT(32'hBBBB0B00)) 
     trig_in_0_i_1
-       (.I0(mb_halted_1),
-        .I1(\Area_Debug_Control.mb_halted_i_reg ),
-        .I2(trig_ack_in_0_synced_1),
-        .I3(trig_ack_in_0_synced),
+       (.I0(trig_ack_in_0_synced_1),
+        .I1(trig_ack_in_0_synced),
+        .I2(mb_halted_1),
+        .I3(\Area_Debug_Control.mb_halted_i_reg ),
         .I4(Dbg_Trig_In),
         .O(trig_in_0_reg));
 endmodule
@@ -100715,10 +101144,10 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4_31
   wire trig_out_0_synced_1;
 
   LUT3 #(
-    .INIT(8'hD4)) 
+    .INIT(8'hB2)) 
     \Area_Debug_Control.trig_ack_out_0_i_1 
-       (.I0(trig_out_0_synced_1),
-        .I1(trig_out_0_synced),
+       (.I0(trig_out_0_synced),
+        .I1(trig_out_0_synced_1),
         .I2(Dbg_Trig_Ack_Out),
         .O(\Area_Debug_Control.trig_ack_out_0_reg ));
   FDRE #(
@@ -100731,7 +101160,6 @@ module blockdesign_microblaze_0_0_mb_sync_bit__parameterized4_31
         .R(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "mb_sync_vec" *) 
 module blockdesign_microblaze_0_0_mb_sync_vec
    (D,
     Raw,
@@ -100910,7 +101338,6 @@ module blockdesign_microblaze_0_0_mb_sync_vec__parameterized1
         .sync_reset(sync_reset));
 endmodule
 
-(* ORIG_REF_NAME = "mul_unit" *) 
 module blockdesign_microblaze_0_0_mul_unit
    (mul_Result,
     Clk,
@@ -101059,7 +101486,6 @@ module blockdesign_microblaze_0_0_mul_unit
         .\Using_FPGA.DSP48E1_I1 ({mem_bd_pout[0],mem_bd_pout[1],mem_bd_pout[2],mem_bd_pout[3],mem_bd_pout[4],mem_bd_pout[5],mem_bd_pout[6],mem_bd_pout[7],mem_bd_pout[8],mem_bd_pout[9],mem_bd_pout[10],mem_bd_pout[11],mem_bd_pout[12],mem_bd_pout[13],mem_bd_pout[14],mem_bd_pout[15],mem_bd_pout[16],mem_bd_pout[17],mem_bd_pout[18],mem_bd_pout[19],mem_bd_pout[20],mem_bd_pout[21],mem_bd_pout[22],mem_bd_pout[23],mem_bd_pout[24],mem_bd_pout[25],mem_bd_pout[26],mem_bd_pout[27],mem_bd_pout[28],mem_bd_pout[29],mem_bd_pout[30],mem_bd_pout[31],mem_bd_pout[32],mem_bd_pout[33],mem_bd_pout[34],mem_bd_pout[35],mem_bd_pout[36],mem_bd_pout[37],mem_bd_pout[38],mem_bd_pout[39],mem_bd_pout[40],mem_bd_pout[41],mem_bd_pout[42],mem_bd_pout[43],mem_bd_pout[44],mem_bd_pout[45],mem_bd_pout[46],mem_bd_pout[47]}));
 endmodule
 
-(* ORIG_REF_NAME = "mux4_8" *) 
 module blockdesign_microblaze_0_0_mux4_8
    (D,
     \write_Addr_I_reg[0] ,
@@ -101106,7 +101532,6 @@ module blockdesign_microblaze_0_0_mux4_8
         .\write_Addr_I_reg[0] ({\write_Addr_I_reg[0] [7],\write_Addr_I_reg[0] [15],\write_Addr_I_reg[0] [23],\write_Addr_I_reg[0] [31]}));
 endmodule
 
-(* ORIG_REF_NAME = "mux_bus" *) 
 module blockdesign_microblaze_0_0_mux_bus
    (Y,
     Instr,

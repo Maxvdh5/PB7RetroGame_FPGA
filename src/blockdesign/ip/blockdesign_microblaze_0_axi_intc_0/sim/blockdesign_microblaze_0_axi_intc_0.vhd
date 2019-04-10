@@ -152,13 +152,13 @@ ARCHITECTURE blockdesign_microblaze_0_axi_intc_0_arch OF blockdesign_microblaze_
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF interrupt_address: SIGNAL IS "xilinx.com:interface:mbinterrupt:1.0 interrupt ADDRESS";
   ATTRIBUTE X_INTERFACE_INFO OF processor_ack: SIGNAL IS "xilinx.com:interface:mbinterrupt:1.0 interrupt ACK";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF irq: SIGNAL IS "XIL_INTERFACENAME interrupt, SENSITIVITY LEVEL_HIGH, LOW_LATENCY 1";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF irq: SIGNAL IS "XIL_INTERFACENAME interrupt, SENSITIVITY EDGE_FALLING, LOW_LATENCY 1";
   ATTRIBUTE X_INTERFACE_INFO OF irq: SIGNAL IS "xilinx.com:interface:mbinterrupt:1.0 interrupt INTERRUPT";
   ATTRIBUTE X_INTERFACE_PARAMETER OF processor_rst: SIGNAL IS "XIL_INTERFACENAME proc_reset, POLARITY ACTIVE_HIGH, TYPE PROCESSOR";
   ATTRIBUTE X_INTERFACE_INFO OF processor_rst: SIGNAL IS "xilinx.com:signal:reset:1.0 proc_reset RST";
   ATTRIBUTE X_INTERFACE_PARAMETER OF processor_clk: SIGNAL IS "XIL_INTERFACENAME proc_clock, ASSOCIATED_BUSIF interrupt, ASSOCIATED_RESET processor_rst, FREQ_HZ 100000000, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1";
   ATTRIBUTE X_INTERFACE_INFO OF processor_clk: SIGNAL IS "xilinx.com:signal:clock:1.0 proc_clock CLK";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF intr: SIGNAL IS "XIL_INTERFACENAME interrupt_input, SENSITIVITY LEVEL_HIGH, PortWidth 2";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF intr: SIGNAL IS "XIL_INTERFACENAME interrupt_input, SENSITIVITY LEVEL_HIGH:LEVEL_HIGH, PortWidth 2";
   ATTRIBUTE X_INTERFACE_INFO OF intr: SIGNAL IS "xilinx.com:signal:interrupt:1.0 interrupt_input INTERRUPT";
   ATTRIBUTE X_INTERFACE_INFO OF s_axi_rready: SIGNAL IS "xilinx.com:interface:aximm:1.0 s_axi RREADY";
   ATTRIBUTE X_INTERFACE_INFO OF s_axi_rvalid: SIGNAL IS "xilinx.com:interface:aximm:1.0 s_axi RVALID";
@@ -191,10 +191,10 @@ BEGIN
       C_S_AXI_DATA_WIDTH => 32,
       C_NUM_INTR_INPUTS => 2,
       C_NUM_SW_INTR => 0,
-      C_KIND_OF_INTR => X"FFFFFFFF",
-      C_KIND_OF_EDGE => X"FFFFFFFF",
+      C_KIND_OF_INTR => X"fffffff0",
+      C_KIND_OF_EDGE => X"fffffffe",
       C_KIND_OF_LVL => X"FFFFFFFF",
-      C_ASYNC_INTR => X"FFFFFFFF",
+      C_ASYNC_INTR => X"FFFFFFFC",
       C_NUM_SYNC_FF => 2,
       C_IVAR_RESET_VALUE => X"00000010",
       C_ENABLE_ASYNC => 0,
@@ -203,8 +203,8 @@ BEGIN
       C_HAS_CIE => 1,
       C_HAS_IVR => 1,
       C_HAS_ILR => 0,
-      C_IRQ_IS_LEVEL => 1,
-      C_IRQ_ACTIVE => '1',
+      C_IRQ_IS_LEVEL => 0,
+      C_IRQ_ACTIVE => '0',
       C_DISABLE_SYNCHRONIZERS => 0,
       C_MB_CLK_NOT_CONNECTED => 1,
       C_HAS_FAST => 1,

@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Feb 25 19:25:43 2019
+// Date        : Mon Apr  8 17:38:06 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_microblaze_0_axi_intc_0/blockdesign_microblaze_0_axi_intc_0_sim_netlist.v
@@ -59,10 +59,10 @@ module blockdesign_microblaze_0_axi_intc_0
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 s_axi RRESP" *) output [1:0]s_axi_rresp;
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 s_axi RVALID" *) output s_axi_rvalid;
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 s_axi RREADY" *) input s_axi_rready;
-  (* x_interface_info = "xilinx.com:signal:interrupt:1.0 interrupt_input INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME interrupt_input, SENSITIVITY LEVEL_HIGH, PortWidth 2" *) input [1:0]intr;
+  (* x_interface_info = "xilinx.com:signal:interrupt:1.0 interrupt_input INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME interrupt_input, SENSITIVITY LEVEL_HIGH:LEVEL_HIGH, PortWidth 2" *) input [1:0]intr;
   (* x_interface_info = "xilinx.com:signal:clock:1.0 proc_clock CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME proc_clock, ASSOCIATED_BUSIF interrupt, ASSOCIATED_RESET processor_rst, FREQ_HZ 100000000, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1" *) input processor_clk;
   (* x_interface_info = "xilinx.com:signal:reset:1.0 proc_reset RST" *) (* x_interface_parameter = "XIL_INTERFACENAME proc_reset, POLARITY ACTIVE_HIGH, TYPE PROCESSOR" *) input processor_rst;
-  (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 interrupt INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME interrupt, SENSITIVITY LEVEL_HIGH, LOW_LATENCY 1" *) output irq;
+  (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 interrupt INTERRUPT" *) (* x_interface_parameter = "XIL_INTERFACENAME interrupt, SENSITIVITY EDGE_FALLING, LOW_LATENCY 1" *) output irq;
   (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 interrupt ACK" *) input [1:0]processor_ack;
   (* x_interface_info = "xilinx.com:interface:mbinterrupt:1.0 interrupt ADDRESS" *) output [31:0]interrupt_address;
 
@@ -93,7 +93,7 @@ module blockdesign_microblaze_0_axi_intc_0
   wire s_axi_wvalid;
   wire [1:0]NLW_U0_processor_ack_out_UNCONNECTED;
 
-  (* C_ASYNC_INTR = "-1" *) 
+  (* C_ASYNC_INTR = "-4" *) 
   (* C_CASCADE_MASTER = "0" *) 
   (* C_DISABLE_SYNCHRONIZERS = "0" *) 
   (* C_ENABLE_ASYNC = "0" *) 
@@ -106,11 +106,11 @@ module blockdesign_microblaze_0_axi_intc_0
   (* C_HAS_IVR = "1" *) 
   (* C_HAS_SIE = "1" *) 
   (* C_INSTANCE = "blockdesign_microblaze_0_axi_intc_0" *) 
-  (* C_IRQ_ACTIVE = "1'b1" *) 
-  (* C_IRQ_IS_LEVEL = "1" *) 
+  (* C_IRQ_ACTIVE = "1'b0" *) 
+  (* C_IRQ_IS_LEVEL = "0" *) 
   (* C_IVAR_RESET_VALUE = "16" *) 
-  (* C_KIND_OF_EDGE = "-1" *) 
-  (* C_KIND_OF_INTR = "-1" *) 
+  (* C_KIND_OF_EDGE = "-2" *) 
+  (* C_KIND_OF_INTR = "-16" *) 
   (* C_KIND_OF_LVL = "-1" *) 
   (* C_MB_CLK_NOT_CONNECTED = "1" *) 
   (* C_NUM_INTR_INPUTS = "2" *) 
@@ -184,7 +184,7 @@ module blockdesign_microblaze_0_axi_intc_0_address_decoder
     s_axi_aresetn,
     \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_1 ,
     s_axi_wdata,
-    p_0_in26_in,
+    p_0_in22_in,
     \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ,
     p_0_in15_in,
     ip2bus_wrack_int_d1,
@@ -237,7 +237,7 @@ module blockdesign_microblaze_0_axi_intc_0_address_decoder
   input s_axi_aresetn;
   input \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_1 ;
   input [1:0]s_axi_wdata;
-  input p_0_in26_in;
+  input p_0_in22_in;
   input \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ;
   input p_0_in15_in;
   input ip2bus_wrack_int_d1;
@@ -317,7 +317,7 @@ module blockdesign_microblaze_0_axi_intc_0_address_decoder
   wire \mer_int_reg[1] ;
   wire p_0_in;
   wire p_0_in15_in;
-  wire p_0_in26_in;
+  wire p_0_in22_in;
   wire p_10_in;
   wire p_10_out;
   wire p_11_in;
@@ -725,7 +725,7 @@ module blockdesign_microblaze_0_axi_intc_0_address_decoder
     .INIT(32'h02000000)) 
     \SIE_GEN.SIE_BIT_GEN[1].sie[1]_i_1 
        (.I0(s_axi_aresetn),
-        .I1(p_0_in26_in),
+        .I1(p_0_in22_in),
         .I2(\SIE_GEN.SIE_BIT_GEN[0].sie_reg[0] ),
         .I3(p_13_in),
         .I4(s_axi_wdata[1]),
@@ -1134,12 +1134,12 @@ module blockdesign_microblaze_0_axi_intc_0_address_decoder
         .O(s_axi_wready));
 endmodule
 
-(* C_ASYNC_INTR = "-1" *) (* C_CASCADE_MASTER = "0" *) (* C_DISABLE_SYNCHRONIZERS = "0" *) 
+(* C_ASYNC_INTR = "-4" *) (* C_CASCADE_MASTER = "0" *) (* C_DISABLE_SYNCHRONIZERS = "0" *) 
 (* C_ENABLE_ASYNC = "0" *) (* C_EN_CASCADE_MODE = "0" *) (* C_FAMILY = "artix7" *) 
 (* C_HAS_CIE = "1" *) (* C_HAS_FAST = "1" *) (* C_HAS_ILR = "0" *) 
 (* C_HAS_IPR = "1" *) (* C_HAS_IVR = "1" *) (* C_HAS_SIE = "1" *) 
-(* C_INSTANCE = "blockdesign_microblaze_0_axi_intc_0" *) (* C_IRQ_ACTIVE = "1'b1" *) (* C_IRQ_IS_LEVEL = "1" *) 
-(* C_IVAR_RESET_VALUE = "16" *) (* C_KIND_OF_EDGE = "-1" *) (* C_KIND_OF_INTR = "-1" *) 
+(* C_INSTANCE = "blockdesign_microblaze_0_axi_intc_0" *) (* C_IRQ_ACTIVE = "1'b0" *) (* C_IRQ_IS_LEVEL = "0" *) 
+(* C_IVAR_RESET_VALUE = "16" *) (* C_KIND_OF_EDGE = "-2" *) (* C_KIND_OF_INTR = "-16" *) 
 (* C_KIND_OF_LVL = "-1" *) (* C_MB_CLK_NOT_CONNECTED = "1" *) (* C_NUM_INTR_INPUTS = "2" *) 
 (* C_NUM_SW_INTR = "0" *) (* C_NUM_SYNC_FF = "2" *) (* C_S_AXI_ADDR_WIDTH = "9" *) 
 (* C_S_AXI_DATA_WIDTH = "32" *) (* ORIG_REF_NAME = "axi_intc" *) (* hdl = "VHDL" *) 
@@ -1245,7 +1245,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_intc
   wire irq;
   wire p_0_in;
   wire p_0_in15_in;
-  wire p_0_in26_in;
+  wire p_0_in22_in;
   wire p_0_in4_in;
   wire p_1_in;
   wire [1:0]processor_ack;
@@ -1312,7 +1312,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_intc
         .\mer_int_reg[1] (AXI_LITE_IPIF_I_n_26),
         .p_0_in(p_0_in),
         .p_0_in15_in(p_0_in15_in),
-        .p_0_in26_in(p_0_in26_in),
+        .p_0_in22_in(p_0_in22_in),
         .p_0_in4_in(p_0_in4_in),
         .p_14_in(\I_SLAVE_ATTACHMENT/I_DECODER/p_14_in ),
         .p_17_in(\I_SLAVE_ATTACHMENT/I_DECODER/p_17_in ),
@@ -1369,7 +1369,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_intc
         .irq_gen_reg_1(INTC_CORE_I_n_14),
         .p_0_in(p_0_in),
         .p_0_in15_in(p_0_in15_in),
-        .p_0_in26_in(p_0_in26_in),
+        .p_0_in22_in(p_0_in22_in),
         .p_0_in4_in(p_0_in4_in),
         .p_14_in(\I_SLAVE_ATTACHMENT/I_DECODER/p_14_in ),
         .p_17_in(\I_SLAVE_ATTACHMENT/I_DECODER/p_17_in ),
@@ -1439,7 +1439,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_lite_ipif
     s_axi_aresetn,
     \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_0 ,
     s_axi_wdata,
-    p_0_in26_in,
+    p_0_in22_in,
     \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ,
     p_0_in15_in,
     ip2bus_wrack_int_d1,
@@ -1498,7 +1498,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_lite_ipif
   input s_axi_aresetn;
   input \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_0 ;
   input [1:0]s_axi_wdata;
-  input p_0_in26_in;
+  input p_0_in22_in;
   input \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ;
   input p_0_in15_in;
   input ip2bus_wrack_int_d1;
@@ -1561,7 +1561,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_lite_ipif
   wire \mer_int_reg[1] ;
   wire p_0_in;
   wire p_0_in15_in;
-  wire p_0_in26_in;
+  wire p_0_in22_in;
   wire p_0_in4_in;
   wire p_14_in;
   wire p_17_in;
@@ -1623,7 +1623,7 @@ module blockdesign_microblaze_0_axi_intc_0_axi_lite_ipif
         .\mer_int_reg[1] (\mer_int_reg[1] ),
         .p_0_in(p_0_in),
         .p_0_in15_in(p_0_in15_in),
-        .p_0_in26_in(p_0_in26_in),
+        .p_0_in22_in(p_0_in22_in),
         .p_0_in4_in(p_0_in4_in),
         .p_17_in(p_17_in),
         .p_1_in(p_1_in),
@@ -1657,7 +1657,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
     \REG_GEN[0].IMR_FAST_MODE_GEN.imr_reg[0]_0 ,
     \REG_GEN[1].IMR_FAST_MODE_GEN.imr_reg[1]_0 ,
     \REG_GEN[0].ier_reg[0]_0 ,
-    p_0_in26_in,
+    p_0_in22_in,
     \REG_GEN[0].ier_reg[0]_1 ,
     p_0_in15_in,
     \IVAR_INDEX_SYNC_ON_AXI_CLK_GEN.ivar_index_axi_clk_reg[1]_1 ,
@@ -1685,8 +1685,8 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
     processor_ack,
     \GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3] ,
     \GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3]_0 ,
-    p_17_in,
     intr,
+    p_17_in,
     bus2ip_wrce,
     \bus2ip_addr_i_reg[5] );
   output irq_gen_reg_0;
@@ -1697,7 +1697,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
   output \REG_GEN[0].IMR_FAST_MODE_GEN.imr_reg[0]_0 ;
   output \REG_GEN[1].IMR_FAST_MODE_GEN.imr_reg[1]_0 ;
   output \REG_GEN[0].ier_reg[0]_0 ;
-  output p_0_in26_in;
+  output p_0_in22_in;
   output \REG_GEN[0].ier_reg[0]_1 ;
   output p_0_in15_in;
   output \IVAR_INDEX_SYNC_ON_AXI_CLK_GEN.ivar_index_axi_clk_reg[1]_1 ;
@@ -1725,8 +1725,8 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
   input [1:0]processor_ack;
   input \GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3] ;
   input \GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3]_0 ;
-  input p_17_in;
   input [1:0]intr;
+  input p_17_in;
   input [0:0]bus2ip_wrce;
   input [3:0]\bus2ip_addr_i_reg[5] ;
 
@@ -1744,15 +1744,14 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
   wire \GEN_BKEND_CE_REGISTERS[7].ce_out_i_reg[7] ;
   wire \GEN_BKEND_CE_REGISTERS[8].ce_out_i_reg[8] ;
   wire \GEN_BKEND_CE_REGISTERS[8].ce_out_i_reg[8]_0 ;
-  wire \INTR_DETECT_GEN[0].EDGE_DETECT_GEN.hw_intr[0]_i_1_n_0 ;
-  wire \INTR_DETECT_GEN[1].EDGE_DETECT_GEN.hw_intr[1]_i_1_n_0 ;
-  wire \INTR_DETECT_GEN[1].EDGE_DETECT_GEN.intr_d1_reg_n_0 ;
+  wire \INTR_DETECT_GEN[0].LVL_DETECT_GEN.hw_intr[0]_i_1_n_0 ;
+  wire \INTR_DETECT_GEN[1].LVL_DETECT_GEN.hw_intr[1]_i_1_n_0 ;
   wire \IPR_GEN.ipr[0]_i_1_n_0 ;
   wire \IPR_GEN.ipr[1]_i_1_n_0 ;
-  wire \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ;
-  wire \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ;
-  wire \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ;
-  wire \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ;
+  wire \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ;
+  wire \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ;
+  wire \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ;
+  wire \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ;
   wire \IVAR_INDEX_SYNC_ON_AXI_CLK_GEN.ivar_index_axi_clk[0]_i_1_n_0 ;
   wire \IVAR_INDEX_SYNC_ON_AXI_CLK_GEN.ivar_index_axi_clk[1]_i_1_n_0 ;
   wire \IVAR_INDEX_SYNC_ON_AXI_CLK_GEN.ivar_index_axi_clk_reg[0]_0 ;
@@ -1790,9 +1789,6 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
   wire in_idle;
   wire [31:0]interrupt_address;
   wire [1:0]intr;
-  wire intr_d1;
-  (* async_reg = "true" *) wire [0:1]intr_ff;
-  (* async_reg = "true" *) wire [0:1]intr_ff__0;
   wire irq;
   wire irq_gen;
   wire irq_gen_i;
@@ -1803,7 +1799,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
   wire ivar_index_sample_en_i;
   wire p_0_in;
   wire p_0_in15_in;
-  wire p_0_in26_in;
+  wire p_0_in22_in;
   wire p_0_in4_in;
   wire p_12_out;
   wire p_13_out;
@@ -1883,88 +1879,34 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
         .D(\GEN_BKEND_CE_REGISTERS[5].ce_out_i_reg[5]_0 ),
         .Q(p_0_in15_in),
         .R(1'b0));
-  (* ASYNC_REG *) 
-  (* KEEP = "yes" *) 
-  FDRE #(
-    .INIT(1'b0)) 
-    \INTR_DETECT_GEN[0].ASYNC_GEN.intr_ff_reg[0] 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr[0]),
-        .Q(intr_ff[0]),
-        .R(1'b0));
-  (* ASYNC_REG *) 
-  (* KEEP = "yes" *) 
-  FDRE #(
-    .INIT(1'b0)) 
-    \INTR_DETECT_GEN[0].ASYNC_GEN.intr_ff_reg[1] 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr_ff[0]),
-        .Q(intr_ff[1]),
-        .R(1'b0));
-  LUT5 #(
-    .INIT(32'h0000AE00)) 
-    \INTR_DETECT_GEN[0].EDGE_DETECT_GEN.hw_intr[0]_i_1 
+  LUT4 #(
+    .INIT(16'h00E0)) 
+    \INTR_DETECT_GEN[0].LVL_DETECT_GEN.hw_intr[0]_i_1 
        (.I0(hw_intr[0]),
-        .I1(intr_ff[1]),
-        .I2(intr_d1),
-        .I3(s_axi_aresetn),
-        .I4(\REG_GEN[0].IAR_FAST_MODE_GEN.iar_reg_n_0_[0] ),
-        .O(\INTR_DETECT_GEN[0].EDGE_DETECT_GEN.hw_intr[0]_i_1_n_0 ));
-  FDRE \INTR_DETECT_GEN[0].EDGE_DETECT_GEN.hw_intr_reg[0] 
+        .I1(intr[0]),
+        .I2(s_axi_aresetn),
+        .I3(\REG_GEN[0].IAR_FAST_MODE_GEN.iar_reg_n_0_[0] ),
+        .O(\INTR_DETECT_GEN[0].LVL_DETECT_GEN.hw_intr[0]_i_1_n_0 ));
+  FDRE \INTR_DETECT_GEN[0].LVL_DETECT_GEN.hw_intr_reg[0] 
        (.C(s_axi_aclk),
         .CE(1'b1),
-        .D(\INTR_DETECT_GEN[0].EDGE_DETECT_GEN.hw_intr[0]_i_1_n_0 ),
+        .D(\INTR_DETECT_GEN[0].LVL_DETECT_GEN.hw_intr[0]_i_1_n_0 ),
         .Q(hw_intr[0]),
         .R(1'b0));
-  FDRE \INTR_DETECT_GEN[0].EDGE_DETECT_GEN.intr_d1_reg 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr_ff[1]),
-        .Q(intr_d1),
-        .R(SR));
-  (* ASYNC_REG *) 
-  (* KEEP = "yes" *) 
-  FDRE #(
-    .INIT(1'b0)) 
-    \INTR_DETECT_GEN[1].ASYNC_GEN.intr_ff_reg[0] 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr[1]),
-        .Q(intr_ff__0[0]),
-        .R(1'b0));
-  (* ASYNC_REG *) 
-  (* KEEP = "yes" *) 
-  FDRE #(
-    .INIT(1'b0)) 
-    \INTR_DETECT_GEN[1].ASYNC_GEN.intr_ff_reg[1] 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr_ff__0[0]),
-        .Q(intr_ff__0[1]),
-        .R(1'b0));
-  LUT5 #(
-    .INIT(32'h0000AE00)) 
-    \INTR_DETECT_GEN[1].EDGE_DETECT_GEN.hw_intr[1]_i_1 
+  LUT4 #(
+    .INIT(16'h00E0)) 
+    \INTR_DETECT_GEN[1].LVL_DETECT_GEN.hw_intr[1]_i_1 
        (.I0(hw_intr[1]),
-        .I1(intr_ff__0[1]),
-        .I2(\INTR_DETECT_GEN[1].EDGE_DETECT_GEN.intr_d1_reg_n_0 ),
-        .I3(s_axi_aresetn),
-        .I4(\REG_GEN[1].IAR_FAST_MODE_GEN.iar_reg_n_0_[1] ),
-        .O(\INTR_DETECT_GEN[1].EDGE_DETECT_GEN.hw_intr[1]_i_1_n_0 ));
-  FDRE \INTR_DETECT_GEN[1].EDGE_DETECT_GEN.hw_intr_reg[1] 
+        .I1(intr[1]),
+        .I2(s_axi_aresetn),
+        .I3(\REG_GEN[1].IAR_FAST_MODE_GEN.iar_reg_n_0_[1] ),
+        .O(\INTR_DETECT_GEN[1].LVL_DETECT_GEN.hw_intr[1]_i_1_n_0 ));
+  FDRE \INTR_DETECT_GEN[1].LVL_DETECT_GEN.hw_intr_reg[1] 
        (.C(s_axi_aclk),
         .CE(1'b1),
-        .D(\INTR_DETECT_GEN[1].EDGE_DETECT_GEN.hw_intr[1]_i_1_n_0 ),
+        .D(\INTR_DETECT_GEN[1].LVL_DETECT_GEN.hw_intr[1]_i_1_n_0 ),
         .Q(hw_intr[1]),
         .R(1'b0));
-  FDRE \INTR_DETECT_GEN[1].EDGE_DETECT_GEN.intr_d1_reg 
-       (.C(s_axi_aclk),
-        .CE(1'b1),
-        .D(intr_ff__0[1]),
-        .Q(\INTR_DETECT_GEN[1].EDGE_DETECT_GEN.intr_d1_reg_n_0 ),
-        .R(SR));
   (* SOFT_HLUTNM = "soft_lutpair35" *) 
   LUT2 #(
     .INIT(4'h8)) 
@@ -1992,72 +1934,72 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
         .R(SR));
   LUT1 #(
     .INIT(2'h1)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.Irq_i_1 
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.Irq_i_1 
        (.I0(s_axi_aresetn),
         .O(SR));
-  (* SOFT_HLUTNM = "soft_lutpair34" *) 
   LUT2 #(
-    .INIT(4'h2)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.Irq_i_2 
-       (.I0(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
-        .I1(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
+    .INIT(4'hB)) 
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.Irq_i_2 
+       (.I0(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
+        .I1(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
         .O(Irq_i));
-  FDRE \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.Irq_reg 
+  FDSE \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.Irq_reg 
        (.C(s_axi_aclk),
         .CE(1'b1),
         .D(Irq_i),
         .Q(irq),
-        .R(SR));
+        .S(SR));
   LUT6 #(
-    .INIT(64'h000500CC00F500CC)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[0]_i_1 
+    .INIT(64'h000005CC0000F5CC)) 
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[0]_i_1 
        (.I0(ack_or),
         .I1(ivar_index_sample_en),
-        .I2(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ),
-        .I3(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
-        .I4(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
+        .I2(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ),
+        .I3(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
+        .I4(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
         .I5(first_ack),
         .O(current_state[0]));
   (* SOFT_HLUTNM = "soft_lutpair34" *) 
   LUT5 #(
     .INIT(32'h00880F00)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_1 
-       (.I0(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ),
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_1 
+       (.I0(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ),
         .I1(first_ack),
         .I2(second_ack_sync_d2),
-        .I3(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
-        .I4(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
+        .I3(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
+        .I4(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
         .O(current_state[1]));
   LUT4 #(
     .INIT(16'h00B8)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2 
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2 
        (.I0(\REG_GEN[1].IMR_FAST_MODE_GEN.imr_reg[1]_0 ),
         .I1(ivar_index_axi_clk[0]),
         .I2(\REG_GEN[0].IMR_FAST_MODE_GEN.imr_reg[0]_0 ),
         .I3(ivar_index_axi_clk[1]),
-        .O(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ));
-  FDRE \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg[0] 
+        .O(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state[1]_i_2_n_0 ));
+  FDRE \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg[0] 
        (.C(s_axi_aclk),
         .CE(1'b1),
         .D(current_state[0]),
-        .Q(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
+        .Q(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
         .R(SR));
-  FDRE \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg[1] 
+  FDRE \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg[1] 
        (.C(s_axi_aclk),
         .CE(1'b1),
         .D(current_state[1]),
-        .Q(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
+        .Q(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
         .R(SR));
+  (* SOFT_HLUTNM = "soft_lutpair34" *) 
   LUT2 #(
     .INIT(4'h1)) 
-    \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.in_idle_i_1 
-       (.I0(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
-        .I1(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
-        .O(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ));
-  FDRE \IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.in_idle_reg 
+    \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.in_idle_i_1 
+       (.I0(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[0] ),
+        .I1(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.current_state_reg_n_0_[1] ),
+        .O(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ));
+  FDRE \IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.in_idle_reg 
        (.C(s_axi_aclk),
         .CE(1'b1),
-        .D(\IRQ_LEVEL_GEN.IRQ_LEVEL_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ),
+        .D(\IRQ_EDGE_GEN.IRQ_EDGE_FAST_ON_AXI_CLK_GEN.in_idle_i_1_n_0 ),
         .Q(in_idle),
         .R(SR));
   blockdesign_microblaze_0_axi_intc_0_shared_ram_ivar \IVAR_FAST_MODE_GEN.IVAR_REG_MEM_AXI_CLK_GEN.IVAR_REG_MEM_I 
@@ -2162,7 +2104,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
        (.I0(\REG_GEN[0].IAR_FAST_MODE_GEN.iar[0]_i_2_n_0 ),
         .I1(s_axi_wdata[0]),
         .I2(\GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3] ),
-        .I3(first_ack),
+        .I3(second_ack),
         .I4(s_axi_aresetn),
         .I5(\REG_GEN[0].IAR_FAST_MODE_GEN.iar_reg_n_0_[0] ),
         .O(\REG_GEN[0].IAR_FAST_MODE_GEN.iar[0]_i_1_n_0 ));
@@ -2170,7 +2112,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
     .INIT(64'h040004FF04000400)) 
     \REG_GEN[0].IAR_FAST_MODE_GEN.iar[0]_i_2 
        (.I0(ivar_index_axi_clk[1]),
-        .I1(first_ack),
+        .I1(second_ack),
         .I2(ivar_index_axi_clk[0]),
         .I3(\REG_GEN[0].IMR_FAST_MODE_GEN.imr_reg[0]_0 ),
         .I4(Bus_RNW_reg),
@@ -2232,7 +2174,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
        (.I0(\REG_GEN[1].IAR_FAST_MODE_GEN.iar[1]_i_2_n_0 ),
         .I1(s_axi_wdata[1]),
         .I2(\GEN_BKEND_CE_REGISTERS[3].ce_out_i_reg[3]_0 ),
-        .I3(first_ack),
+        .I3(second_ack),
         .I4(s_axi_aresetn),
         .I5(\REG_GEN[1].IAR_FAST_MODE_GEN.iar_reg_n_0_[1] ),
         .O(\REG_GEN[1].IAR_FAST_MODE_GEN.iar[1]_i_1_n_0 ));
@@ -2240,7 +2182,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
     .INIT(64'h400040FF40004000)) 
     \REG_GEN[1].IAR_FAST_MODE_GEN.iar[1]_i_2 
        (.I0(ivar_index_axi_clk[1]),
-        .I1(first_ack),
+        .I1(second_ack),
         .I2(ivar_index_axi_clk[0]),
         .I3(\REG_GEN[1].IMR_FAST_MODE_GEN.imr_reg[1]_0 ),
         .I4(Bus_RNW_reg),
@@ -2264,7 +2206,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
        (.I0(p_0_in4_in),
         .I1(s_axi_aresetn),
         .I2(p_0_in15_in),
-        .I3(p_0_in26_in),
+        .I3(p_0_in22_in),
         .I4(s_axi_wdata[1]),
         .I5(Bus_RNW_reg_reg_0),
         .O(p_7_out8_out));
@@ -2306,7 +2248,7 @@ module blockdesign_microblaze_0_axi_intc_0_intc_core
        (.C(s_axi_aclk),
         .CE(1'b1),
         .D(\SIE_GEN.SIE_BIT_GEN[1].sie_reg[1]_0 ),
-        .Q(p_0_in26_in),
+        .Q(p_0_in22_in),
         .R(1'b0));
   LUT2 #(
     .INIT(4'hE)) 
@@ -3436,7 +3378,7 @@ module blockdesign_microblaze_0_axi_intc_0_slave_attachment
     s_axi_aresetn,
     \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_1 ,
     s_axi_wdata,
-    p_0_in26_in,
+    p_0_in22_in,
     \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ,
     p_0_in15_in,
     ip2bus_wrack_int_d1,
@@ -3495,7 +3437,7 @@ module blockdesign_microblaze_0_axi_intc_0_slave_attachment
   input s_axi_aresetn;
   input \SIE_GEN.SIE_BIT_GEN[0].sie_reg[0]_1 ;
   input [1:0]s_axi_wdata;
-  input p_0_in26_in;
+  input p_0_in22_in;
   input \CIE_GEN.CIE_BIT_GEN[0].cie_reg[0]_0 ;
   input p_0_in15_in;
   input ip2bus_wrack_int_d1;
@@ -3578,7 +3520,7 @@ module blockdesign_microblaze_0_axi_intc_0_slave_attachment
   wire \mer_int_reg[1] ;
   wire p_0_in;
   wire p_0_in15_in;
-  wire p_0_in26_in;
+  wire p_0_in22_in;
   wire p_0_in4_in;
   wire p_17_in;
   wire p_1_in;
@@ -3728,7 +3670,7 @@ module blockdesign_microblaze_0_axi_intc_0_slave_attachment
         .\mer_int_reg[1] (\mer_int_reg[1] ),
         .p_0_in(p_0_in),
         .p_0_in15_in(p_0_in15_in),
-        .p_0_in26_in(p_0_in26_in),
+        .p_0_in22_in(p_0_in22_in),
         .p_17_in(p_17_in),
         .s_axi_aclk(s_axi_aclk),
         .s_axi_aresetn(s_axi_aresetn),

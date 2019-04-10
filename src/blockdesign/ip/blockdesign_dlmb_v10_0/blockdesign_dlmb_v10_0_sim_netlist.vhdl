@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Mon Feb 25 19:21:29 2019
+-- Date        : Tue Apr  9 12:38:42 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_dlmb_v10_0/blockdesign_dlmb_v10_0_sim_netlist.vhdl
@@ -25,11 +25,11 @@ entity blockdesign_dlmb_v10_0_lmb_v10 is
     M_AddrStrobe : in STD_LOGIC;
     M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
     M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
-    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 0 );
+    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 63 );
+    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 1 );
     LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
     LMB_ReadStrobe : out STD_LOGIC;
     LMB_WriteStrobe : out STD_LOGIC;
@@ -49,7 +49,7 @@ entity blockdesign_dlmb_v10_0_lmb_v10 is
   attribute C_LMB_DWIDTH : integer;
   attribute C_LMB_DWIDTH of blockdesign_dlmb_v10_0_lmb_v10 : entity is 32;
   attribute C_LMB_NUM_SLAVES : integer;
-  attribute C_LMB_NUM_SLAVES of blockdesign_dlmb_v10_0_lmb_v10 : entity is 1;
+  attribute C_LMB_NUM_SLAVES of blockdesign_dlmb_v10_0_lmb_v10 : entity is 2;
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of blockdesign_dlmb_v10_0_lmb_v10 : entity is "lmb_v10";
 end blockdesign_dlmb_v10_0_lmb_v10;
@@ -61,11 +61,9 @@ architecture STRUCTURE of blockdesign_dlmb_v10_0_lmb_v10 is
   signal \^m_dbus\ : STD_LOGIC_VECTOR ( 0 to 31 );
   signal \^m_readstrobe\ : STD_LOGIC;
   signal \^m_writestrobe\ : STD_LOGIC;
-  signal \^sl_ce\ : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal \^sl_dbus\ : STD_LOGIC_VECTOR ( 0 to 31 );
-  signal \^sl_ready\ : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal \^sl_ue\ : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal \^sl_wait\ : STD_LOGIC_VECTOR ( 0 to 0 );
+  attribute SOFT_HLUTNM : string;
+  attribute SOFT_HLUTNM of \LMB_ReadDBus[16]_INST_0\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of LMB_Ready_INST_0 : label is "soft_lutpair0";
   attribute BOX_TYPE : string;
   attribute BOX_TYPE of POR_FF_I : label is "PRIMITIVE";
   attribute XILINX_LEGACY_PRIM : string;
@@ -74,12 +72,7 @@ begin
   LMB_ABus(0 to 31) <= \^m_abus\(0 to 31);
   LMB_AddrStrobe <= \^m_addrstrobe\;
   LMB_BE(0 to 3) <= \^m_be\(0 to 3);
-  LMB_CE <= \^sl_ce\(0);
-  LMB_ReadDBus(0 to 31) <= \^sl_dbus\(0 to 31);
   LMB_ReadStrobe <= \^m_readstrobe\;
-  LMB_Ready <= \^sl_ready\(0);
-  LMB_UE <= \^sl_ue\(0);
-  LMB_Wait <= \^sl_wait\(0);
   LMB_WriteDBus(0 to 31) <= \^m_dbus\(0 to 31);
   LMB_WriteStrobe <= \^m_writestrobe\;
   \^m_abus\(0 to 31) <= M_ABus(0 to 31);
@@ -88,11 +81,394 @@ begin
   \^m_dbus\(0 to 31) <= M_DBus(0 to 31);
   \^m_readstrobe\ <= M_ReadStrobe;
   \^m_writestrobe\ <= M_WriteStrobe;
-  \^sl_ce\(0) <= Sl_CE(0);
-  \^sl_dbus\(0 to 31) <= Sl_DBus(0 to 31);
-  \^sl_ready\(0) <= Sl_Ready(0);
-  \^sl_ue\(0) <= Sl_UE(0);
-  \^sl_wait\(0) <= Sl_Wait(0);
+LMB_CE_INST_0: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"E"
+    )
+        port map (
+      I0 => Sl_CE(1),
+      I1 => Sl_CE(0),
+      O => LMB_CE
+    );
+\LMB_ReadDBus[0]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(0),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(32),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(0)
+    );
+\LMB_ReadDBus[10]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(10),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(42),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(10)
+    );
+\LMB_ReadDBus[11]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(11),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(43),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(11)
+    );
+\LMB_ReadDBus[12]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(12),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(44),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(12)
+    );
+\LMB_ReadDBus[13]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(13),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(45),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(13)
+    );
+\LMB_ReadDBus[14]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(14),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(46),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(14)
+    );
+\LMB_ReadDBus[15]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(15),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(47),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(15)
+    );
+\LMB_ReadDBus[16]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(16),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(48),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(16)
+    );
+\LMB_ReadDBus[17]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(17),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(49),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(17)
+    );
+\LMB_ReadDBus[18]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(18),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(50),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(18)
+    );
+\LMB_ReadDBus[19]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(19),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(51),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(19)
+    );
+\LMB_ReadDBus[1]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(1),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(33),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(1)
+    );
+\LMB_ReadDBus[20]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(20),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(52),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(20)
+    );
+\LMB_ReadDBus[21]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(21),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(53),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(21)
+    );
+\LMB_ReadDBus[22]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(22),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(54),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(22)
+    );
+\LMB_ReadDBus[23]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(23),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(55),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(23)
+    );
+\LMB_ReadDBus[24]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(24),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(56),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(24)
+    );
+\LMB_ReadDBus[25]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(25),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(57),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(25)
+    );
+\LMB_ReadDBus[26]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(26),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(58),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(26)
+    );
+\LMB_ReadDBus[27]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(27),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(59),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(27)
+    );
+\LMB_ReadDBus[28]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(28),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(60),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(28)
+    );
+\LMB_ReadDBus[29]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(29),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(61),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(29)
+    );
+\LMB_ReadDBus[2]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(2),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(34),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(2)
+    );
+\LMB_ReadDBus[30]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(30),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(62),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(30)
+    );
+\LMB_ReadDBus[31]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(31),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(63),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(31)
+    );
+\LMB_ReadDBus[3]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(3),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(35),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(3)
+    );
+\LMB_ReadDBus[4]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(4),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(36),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(4)
+    );
+\LMB_ReadDBus[5]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(5),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(37),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(5)
+    );
+\LMB_ReadDBus[6]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(6),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(38),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(6)
+    );
+\LMB_ReadDBus[7]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(7),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(39),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(7)
+    );
+\LMB_ReadDBus[8]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(8),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(40),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(8)
+    );
+\LMB_ReadDBus[9]_INST_0\: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"F888"
+    )
+        port map (
+      I0 => Sl_DBus(9),
+      I1 => Sl_Ready(0),
+      I2 => Sl_DBus(41),
+      I3 => Sl_Ready(1),
+      O => LMB_ReadDBus(9)
+    );
+LMB_Ready_INST_0: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"E"
+    )
+        port map (
+      I0 => Sl_Ready(0),
+      I1 => Sl_Ready(1),
+      O => LMB_Ready
+    );
+LMB_UE_INST_0: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"E"
+    )
+        port map (
+      I0 => Sl_UE(1),
+      I1 => Sl_UE(0),
+      O => LMB_UE
+    );
+LMB_Wait_INST_0: unisim.vcomponents.LUT2
+    generic map(
+      INIT => X"E"
+    )
+        port map (
+      I0 => Sl_Wait(1),
+      I1 => Sl_Wait(0),
+      O => LMB_Wait
+    );
 POR_FF_I: unisim.vcomponents.FDSE
     generic map(
       INIT => '1'
@@ -120,11 +496,11 @@ entity blockdesign_dlmb_v10_0 is
     M_AddrStrobe : in STD_LOGIC;
     M_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
     M_BE : in STD_LOGIC_VECTOR ( 0 to 3 );
-    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 31 );
-    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 0 );
-    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 0 );
+    Sl_DBus : in STD_LOGIC_VECTOR ( 0 to 63 );
+    Sl_Ready : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_Wait : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_UE : in STD_LOGIC_VECTOR ( 0 to 1 );
+    Sl_CE : in STD_LOGIC_VECTOR ( 0 to 1 );
     LMB_ABus : out STD_LOGIC_VECTOR ( 0 to 31 );
     LMB_ReadStrobe : out STD_LOGIC;
     LMB_WriteStrobe : out STD_LOGIC;
@@ -155,37 +531,37 @@ architecture STRUCTURE of blockdesign_dlmb_v10_0 is
   attribute C_LMB_DWIDTH : integer;
   attribute C_LMB_DWIDTH of U0 : label is 32;
   attribute C_LMB_NUM_SLAVES : integer;
-  attribute C_LMB_NUM_SLAVES of U0 : label is 1;
+  attribute C_LMB_NUM_SLAVES of U0 : label is 2;
   attribute x_interface_info : string;
-  attribute x_interface_info of LMB_AddrStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 ADDRSTROBE";
+  attribute x_interface_info of LMB_AddrStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 ADDRSTROBE, xilinx.com:interface:lmb:1.0 LMB_Sl_1 ADDRSTROBE";
   attribute x_interface_info of LMB_CE : signal is "xilinx.com:interface:lmb:1.0 LMB_M CE";
   attribute x_interface_info of LMB_Clk : signal is "xilinx.com:signal:clock:1.0 CLK.LMB_Clk CLK";
   attribute x_interface_parameter : string;
   attribute x_interface_parameter of LMB_Clk : signal is "XIL_INTERFACENAME CLK.LMB_Clk, ASSOCIATED_BUSIF LMB_Sl_0:LMB_Sl_1:LMB_Sl_2:LMB_Sl_3:LMB_Sl_4:LMB_Sl_5:LMB_Sl_6:LMB_Sl_7:LMB_Sl_8:LMB_Sl_9:LMB_Sl_10:LMB_Sl_11:LMB_Sl_12:LMB_Sl_13:LMB_Sl_14:LMB_Sl_15:LMB_M, ASSOCIATED_RESET SYS_Rst, FREQ_HZ 100000000, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1";
-  attribute x_interface_info of LMB_ReadStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READSTROBE";
+  attribute x_interface_info of LMB_ReadStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READSTROBE, xilinx.com:interface:lmb:1.0 LMB_Sl_1 READSTROBE";
   attribute x_interface_info of LMB_Ready : signal is "xilinx.com:interface:lmb:1.0 LMB_M READY";
-  attribute x_interface_info of LMB_Rst : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 RST, xilinx.com:interface:lmb:1.0 LMB_M RST";
-  attribute x_interface_parameter of LMB_Rst : signal is "XIL_INTERFACENAME LMB_Sl_0, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_WRITE, XIL_INTERFACENAME LMB_M, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_WRITE";
+  attribute x_interface_info of LMB_Rst : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 RST, xilinx.com:interface:lmb:1.0 LMB_Sl_1 RST, xilinx.com:interface:lmb:1.0 LMB_M RST";
+  attribute x_interface_parameter of LMB_Rst : signal is "XIL_INTERFACENAME LMB_Sl_0, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_WRITE, XIL_INTERFACENAME LMB_Sl_1, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_WRITE, XIL_INTERFACENAME LMB_M, ADDR_WIDTH 32, DATA_WIDTH 32, READ_WRITE_MODE READ_WRITE";
   attribute x_interface_info of LMB_UE : signal is "xilinx.com:interface:lmb:1.0 LMB_M UE";
   attribute x_interface_info of LMB_Wait : signal is "xilinx.com:interface:lmb:1.0 LMB_M WAIT";
-  attribute x_interface_info of LMB_WriteStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WRITESTROBE";
+  attribute x_interface_info of LMB_WriteStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WRITESTROBE, xilinx.com:interface:lmb:1.0 LMB_Sl_1 WRITESTROBE";
   attribute x_interface_info of M_AddrStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_M ADDRSTROBE";
   attribute x_interface_info of M_ReadStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_M READSTROBE";
   attribute x_interface_info of M_WriteStrobe : signal is "xilinx.com:interface:lmb:1.0 LMB_M WRITESTROBE";
   attribute x_interface_info of SYS_Rst : signal is "xilinx.com:signal:reset:1.0 RST.SYS_Rst RST";
   attribute x_interface_parameter of SYS_Rst : signal is "XIL_INTERFACENAME RST.SYS_Rst, POLARITY ACTIVE_HIGH, TYPE INTERCONNECT";
-  attribute x_interface_info of LMB_ABus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 ABUS";
-  attribute x_interface_info of LMB_BE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 BE";
+  attribute x_interface_info of LMB_ABus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 ABUS, xilinx.com:interface:lmb:1.0 LMB_Sl_1 ABUS";
+  attribute x_interface_info of LMB_BE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 BE, xilinx.com:interface:lmb:1.0 LMB_Sl_1 BE";
   attribute x_interface_info of LMB_ReadDBus : signal is "xilinx.com:interface:lmb:1.0 LMB_M READDBUS";
-  attribute x_interface_info of LMB_WriteDBus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WRITEDBUS";
+  attribute x_interface_info of LMB_WriteDBus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WRITEDBUS, xilinx.com:interface:lmb:1.0 LMB_Sl_1 WRITEDBUS";
   attribute x_interface_info of M_ABus : signal is "xilinx.com:interface:lmb:1.0 LMB_M ABUS";
   attribute x_interface_info of M_BE : signal is "xilinx.com:interface:lmb:1.0 LMB_M BE";
   attribute x_interface_info of M_DBus : signal is "xilinx.com:interface:lmb:1.0 LMB_M WRITEDBUS";
-  attribute x_interface_info of Sl_CE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 CE";
-  attribute x_interface_info of Sl_DBus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READDBUS";
-  attribute x_interface_info of Sl_Ready : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READY";
-  attribute x_interface_info of Sl_UE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 UE";
-  attribute x_interface_info of Sl_Wait : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WAIT";
+  attribute x_interface_info of Sl_CE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 CE [0:0] [0:0], xilinx.com:interface:lmb:1.0 LMB_Sl_1 CE [0:0] [1:1]";
+  attribute x_interface_info of Sl_DBus : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READDBUS [0:31] [0:31], xilinx.com:interface:lmb:1.0 LMB_Sl_1 READDBUS [0:31] [32:63]";
+  attribute x_interface_info of Sl_Ready : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 READY [0:0] [0:0], xilinx.com:interface:lmb:1.0 LMB_Sl_1 READY [0:0] [1:1]";
+  attribute x_interface_info of Sl_UE : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 UE [0:0] [0:0], xilinx.com:interface:lmb:1.0 LMB_Sl_1 UE [0:0] [1:1]";
+  attribute x_interface_info of Sl_Wait : signal is "xilinx.com:interface:lmb:1.0 LMB_Sl_0 WAIT [0:0] [0:0], xilinx.com:interface:lmb:1.0 LMB_Sl_1 WAIT [0:0] [1:1]";
 begin
 U0: entity work.blockdesign_dlmb_v10_0_lmb_v10
      port map (
@@ -209,10 +585,10 @@ U0: entity work.blockdesign_dlmb_v10_0_lmb_v10
       M_ReadStrobe => M_ReadStrobe,
       M_WriteStrobe => M_WriteStrobe,
       SYS_Rst => SYS_Rst,
-      Sl_CE(0) => Sl_CE(0),
-      Sl_DBus(0 to 31) => Sl_DBus(0 to 31),
-      Sl_Ready(0) => Sl_Ready(0),
-      Sl_UE(0) => Sl_UE(0),
-      Sl_Wait(0) => Sl_Wait(0)
+      Sl_CE(0 to 1) => Sl_CE(0 to 1),
+      Sl_DBus(0 to 63) => Sl_DBus(0 to 63),
+      Sl_Ready(0 to 1) => Sl_Ready(0 to 1),
+      Sl_UE(0 to 1) => Sl_UE(0 to 1),
+      Sl_Wait(0 to 1) => Sl_Wait(0 to 1)
     );
 end STRUCTURE;
