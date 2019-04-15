@@ -393,22 +393,11 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>SPRITEDRAW_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="module_ref" spirit:name="SPRITEDRAW" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:instanceName>buttonDebounce_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="module_ref" spirit:name="buttonDebounce" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_SPRITEDRAW_0_0</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">SPRITEDRAW</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:subInstancePath"></spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:referenceType">hdl</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:BoundaryCRC">0x0</spirit:configurableElementValue>
-        </spirit:configurableElementValues>
-      </spirit:componentInstance>
-      <spirit:componentInstance>
-        <spirit:instanceName>HeaderManager_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="module_ref" spirit:name="HeaderManager" spirit:vendor="xilinx.com" spirit:version="1.0"/>
-        <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_HeaderManager_0_2</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">HeaderManager</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_buttonDebounce_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">buttonDebounce</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:subInstancePath"></spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:referenceType">hdl</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:BoundaryCRC">0x0</spirit:configurableElementValue>
@@ -426,11 +415,22 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>buttonDebounce_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="module_ref" spirit:name="buttonDebounce" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:instanceName>HeaderManager_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="module_ref" spirit:name="HeaderManager" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_buttonDebounce_0_0</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">buttonDebounce</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_HeaderManager_0_2</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">HeaderManager</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:subInstancePath"></spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:referenceType">hdl</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:BoundaryCRC">0x0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>FrameBuffer_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="module_ref" spirit:name="FrameBuffer" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">blockdesign_FrameBuffer_0_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">FrameBuffer</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:subInstancePath"></spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:referenceType">hdl</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:BoundaryCRC">0x0</spirit:configurableElementValue>
@@ -505,7 +505,6 @@
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_0" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="s_axi_aclk"/>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
         <spirit:internalPortReference spirit:componentRef="buttonDebounce_0" spirit:portRef="clk"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="S00_ACLK"/>
@@ -514,6 +513,8 @@
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M01_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M02_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M03_ACLK"/>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>clk_wiz_0_locked</spirit:name>
@@ -568,9 +569,8 @@
       <spirit:adHocConnection>
         <spirit:name>clk_wiz_0_clk_out2</spirit:name>
         <spirit:internalPortReference spirit:componentRef="clk_wiz_0" spirit:portRef="clk_out2"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="clk"/>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_25_IN"/>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="clk25"/>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_25_IN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_gpio_1_gpio_io_o</spirit:name>
@@ -586,43 +586,16 @@
         <spirit:name>VGA_0_hsync</spirit:name>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="hsync"/>
         <spirit:externalPortReference spirit:portRef="hSync"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="hSync"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>VGA_0_vsync</spirit:name>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="vsync"/>
         <spirit:externalPortReference spirit:portRef="vSync"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="vSync"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>VGA_0_RFlag</spirit:name>
         <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RFlag"/>
         <spirit:internalPortReference spirit:componentRef="axi_gpio_1" spirit:portRef="gpio2_io_i"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>VGA_0_outVcount</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="outVcount"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="vCount"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>HeaderManager_0_SpY</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="SpY"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="vPos"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>HeaderManager_0_SpX</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="SpX"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="hPos"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>SPRITEDRAW_0_RGBout</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="RGBout"/>
-        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RGBin"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>VGA_0_outHcount</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="outHcount"/>
-        <spirit:internalPortReference spirit:componentRef="SPRITEDRAW_0" spirit:portRef="hCount"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_gpio_1_ip2intc_irpt</spirit:name>
@@ -638,6 +611,41 @@
         <spirit:name>JA_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="JA"/>
         <spirit:internalPortReference spirit:componentRef="buttonDebounce_0" spirit:portRef="btnIn"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>FrameBuffer_0_RGBout</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="RGBout"/>
+        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="RGBin"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>HeaderManager_0_ObjectX</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="ObjectX"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="ObjectX"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>HeaderManager_0_ObjectY</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="ObjectY"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="ObjectY"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>HeaderManager_0_ObjectSpID</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="ObjectSpID"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="ObjectSpID"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>VGA_0_CFlag</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="CFlag"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Clear"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>VGA_0_outHcount</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="outHcount"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Hcount"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>VGA_0_outVcount</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="VGA_0" spirit:portRef="outVcount"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Vcount"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
