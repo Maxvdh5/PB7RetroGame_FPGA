@@ -19,14 +19,15 @@ end FrameBuffer;
 architecture Behavioral of FrameBuffer is
 
 constant    MAX_OBJECTS : integer   := 128;
-constant    SPRITE_SIZE : unsigned  := X"0A";
+constant    SPRITE_SIZE : unsigned  := X"14"; -- 20x20
 
 type frame is array(MAX_OBJECTS-1 downto 0) of SPRITE;
 signal buff : frame := (others => SPRITE_INIT);
 
-signal      cIndex          : integer := 0;
-signal      ColorInPixel    : boolean := false;
-signal      CurrentObject   : SPRITE := SPRITE_INIT;
+signal      cIndex          : integer range 0 to MAX_OBJECTS    := 0;
+signal      DrawPixel       : boolean                           := false;
+signal      PixelColorId    : std_logic_vector(1 downto 0)      := "00";
+signal      CurrentObject   : SPRITE                            := SPRITE_INIT;
 
 begin
 
@@ -48,19 +49,30 @@ begin
             cIndex <= cIndex + 1;
         end if;
         
-        ColorInPixel <= false;
+        DrawPixel <= false;
         -- check if _ANY_ object in buffer is present at current coordinates
         for i in 0 to MAX_OBJECTS-1 loop
           if  ((unsigned(Hcount) >= unsigned(buff(i).X) and 
                 unsigned(Hcount) < unsigned(buff(i).X)+SPRITE_SIZE) and
                (unsigned(Vcount) >= unsigned(buff(i).Y) and
-                unsigned(Vcount) < unsigned(buff(i).Y)+SPRITE_SIZE)) then
-                    ColorInPixel <= true;
+                unsigned(Vcount) < unsigned(buff(i).Y)+SPRITE_SIZE)) and
+                buff(i).SpID /= SPRITE_INIT.SpID then -- ignore 'empty' objects.
+                    DrawPixel       <= true;
+                    PixelColorId    <= buff(i).SpID(1 downto 0);
           end if;
         end loop;  -- i
 
-        if ColorInPixel then
-            RGBout <= X"FF";
+        if DrawPixel then
+            case PixelColorID is
+            when X"0"   =>
+              RGBout    <= X"FF"; -- white
+            when X"1"   =>
+              RGBout    <= X"E0"; -- red
+            when X"2"   =>
+              RGBout    <= X"03"; -- blue
+            when others =>
+              RGBout    <= X"00";
+            end case;
         else
             RGBout <= X"00";
         end if;
