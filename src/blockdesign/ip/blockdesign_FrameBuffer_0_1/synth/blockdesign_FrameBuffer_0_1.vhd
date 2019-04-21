@@ -56,9 +56,12 @@ USE ieee.numeric_std.ALL;
 ENTITY blockdesign_FrameBuffer_0_1 IS
   PORT (
     Clk : IN STD_LOGIC;
+    Clk25 : IN STD_LOGIC;
     ObjectX : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     ObjectY : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     ObjectSpID : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    SpriteRomAddr : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
+    SpriteRomData : IN STD_LOGIC;
     Hcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     Vcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     Clear : IN STD_LOGIC;
@@ -72,9 +75,12 @@ ARCHITECTURE blockdesign_FrameBuffer_0_1_arch OF blockdesign_FrameBuffer_0_1 IS
   COMPONENT FrameBuffer IS
     PORT (
       Clk : IN STD_LOGIC;
+      Clk25 : IN STD_LOGIC;
       ObjectX : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       ObjectY : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       ObjectSpID : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+      SpriteRomAddr : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
+      SpriteRomData : IN STD_LOGIC;
       Hcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       Vcount : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
       Clear : IN STD_LOGIC;
@@ -95,9 +101,12 @@ BEGIN
   U0 : FrameBuffer
     PORT MAP (
       Clk => Clk,
+      Clk25 => Clk25,
       ObjectX => ObjectX,
       ObjectY => ObjectY,
       ObjectSpID => ObjectSpID,
+      SpriteRomAddr => SpriteRomAddr,
+      SpriteRomData => SpriteRomData,
       Hcount => Hcount,
       Vcount => Vcount,
       Clear => Clear,

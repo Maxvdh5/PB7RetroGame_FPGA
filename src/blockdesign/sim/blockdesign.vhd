@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Thu Apr 18 12:12:05 2019
+--Date        : Thu Apr 18 16:34:33 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -2204,7 +2204,7 @@ entity blockdesign is
     vSync : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=29,numReposBlks=22,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=30,numReposBlks=23,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
@@ -2448,12 +2448,22 @@ architecture STRUCTURE of blockdesign is
     BG : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component blockdesign_HeaderManager_0_2;
+  component blockdesign_blk_mem_gen_0_0 is
+  port (
+    clka : in STD_LOGIC;
+    addra : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    douta : out STD_LOGIC_VECTOR ( 0 to 0 )
+  );
+  end component blockdesign_blk_mem_gen_0_0;
   component blockdesign_FrameBuffer_0_1 is
   port (
     Clk : in STD_LOGIC;
+    Clk25 : in STD_LOGIC;
     ObjectX : in STD_LOGIC_VECTOR ( 9 downto 0 );
     ObjectY : in STD_LOGIC_VECTOR ( 9 downto 0 );
     ObjectSpID : in STD_LOGIC_VECTOR ( 15 downto 0 );
+    SpriteRomAddr : out STD_LOGIC_VECTOR ( 13 downto 0 );
+    SpriteRomData : in STD_LOGIC;
     Hcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
     Vcount : in STD_LOGIC_VECTOR ( 9 downto 0 );
     Clear : in STD_LOGIC;
@@ -2461,6 +2471,7 @@ architecture STRUCTURE of blockdesign is
   );
   end component blockdesign_FrameBuffer_0_1;
   signal FrameBuffer_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal FrameBuffer_0_SpriteRomAddr : STD_LOGIC_VECTOR ( 13 downto 0 );
   signal HeaderManager_0_ObjectSpID : STD_LOGIC_VECTOR ( 15 downto 0 );
   signal HeaderManager_0_ObjectX : STD_LOGIC_VECTOR ( 9 downto 0 );
   signal HeaderManager_0_ObjectY : STD_LOGIC_VECTOR ( 9 downto 0 );
@@ -2477,6 +2488,7 @@ architecture STRUCTURE of blockdesign is
   signal axi_gpio_1_ip2intc_irpt : STD_LOGIC;
   signal axi_uartlite_0_UART_RxD : STD_LOGIC;
   signal axi_uartlite_0_UART_TxD : STD_LOGIC;
+  signal blk_mem_gen_sprite_douta : STD_LOGIC_VECTOR ( 0 to 0 );
   signal buttonDebounce_0_btnOut : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal clk_wiz_0_clk_out2 : STD_LOGIC;
   signal clk_wiz_0_locked : STD_LOGIC;
@@ -2644,11 +2656,14 @@ FrameBuffer_0: component blockdesign_FrameBuffer_0_1
      port map (
       Clear => VGA_0_CFlag,
       Clk => microblaze_0_Clk,
+      Clk25 => clk_wiz_0_clk_out2,
       Hcount(9 downto 0) => VGA_0_outHcount(9 downto 0),
       ObjectSpID(15 downto 0) => HeaderManager_0_ObjectSpID(15 downto 0),
       ObjectX(9 downto 0) => HeaderManager_0_ObjectX(9 downto 0),
       ObjectY(9 downto 0) => HeaderManager_0_ObjectY(9 downto 0),
       RGBout(7 downto 0) => FrameBuffer_0_RGBout(7 downto 0),
+      SpriteRomAddr(13 downto 0) => FrameBuffer_0_SpriteRomAddr(13 downto 0),
+      SpriteRomData => blk_mem_gen_sprite_douta(0),
       Vcount(9 downto 0) => VGA_0_outVcount(9 downto 0)
     );
 HeaderManager_0: component blockdesign_HeaderManager_0_2
@@ -2747,6 +2762,12 @@ axi_uartlite_0: component blockdesign_axi_uartlite_0_0
       s_axi_wstrb(3 downto 0) => microblaze_0_axi_periph_M01_AXI_WSTRB(3 downto 0),
       s_axi_wvalid => microblaze_0_axi_periph_M01_AXI_WVALID(0),
       tx => axi_uartlite_0_UART_TxD
+    );
+blk_mem_gen_sprite: component blockdesign_blk_mem_gen_0_0
+     port map (
+      addra(13 downto 0) => FrameBuffer_0_SpriteRomAddr(13 downto 0),
+      clka => microblaze_0_Clk,
+      douta(0) => blk_mem_gen_sprite_douta(0)
     );
 buttonDebounce_0: component blockdesign_buttonDebounce_0_0
      port map (
