@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Tue Apr  9 13:48:43 2019
+-- Date        : Thu Apr 18 12:59:36 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 -- Command     : write_vhdl -force -mode synth_stub -rename_top blockdesign_ilmb_bram_if_cntlr_1 -prefix
 --               blockdesign_ilmb_bram_if_cntlr_1_ blockdesign_dlmb_bram_if_cntlr_1_stub.vhdl

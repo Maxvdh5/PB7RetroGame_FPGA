@@ -357,6 +357,28 @@ proc create_root_design { parentCell } {
    CONFIG.USE_BOARD_FLOW {true} \
  ] $axi_uartlite_0
 
+  # Create instance: blk_mem_gen_sprite, and set properties
+  set blk_mem_gen_sprite [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_gen_sprite ]
+  set_property -dict [ list \
+   CONFIG.Byte_Size {9} \
+   CONFIG.Coe_File {../../../sprite/mainmenu.coe} \
+   CONFIG.EN_SAFETY_CKT {false} \
+   CONFIG.Enable_32bit_Address {false} \
+   CONFIG.Enable_A {Always_Enabled} \
+   CONFIG.Load_Init_File {true} \
+   CONFIG.Memory_Type {Single_Port_ROM} \
+   CONFIG.Port_A_Write_Rate {0} \
+   CONFIG.Read_Width_A {1} \
+   CONFIG.Read_Width_B {1} \
+   CONFIG.Register_PortA_Output_of_Memory_Primitives {false} \
+   CONFIG.Use_Byte_Write_Enable {false} \
+   CONFIG.Use_RSTA_Pin {false} \
+   CONFIG.Write_Depth_A {14400} \
+   CONFIG.Write_Width_A {1} \
+   CONFIG.Write_Width_B {1} \
+   CONFIG.use_bram_block {Stand_Alone} \
+ ] $blk_mem_gen_sprite
+
   # Create instance: buttonDebounce_0, and set properties
   set block_name buttonDebounce
   set block_cell_name buttonDebounce_0
@@ -441,6 +463,7 @@ proc create_root_design { parentCell } {
 
   # Create port connections
   connect_bd_net -net FrameBuffer_0_RGBout [get_bd_pins FrameBuffer_0/RGBout] [get_bd_pins VGA_0/RGBin]
+  connect_bd_net -net FrameBuffer_0_SpriteRomAddr [get_bd_pins FrameBuffer_0/SpriteRomAddr] [get_bd_pins blk_mem_gen_sprite/addra]
   connect_bd_net -net HeaderManager_0_ObjectSpID [get_bd_pins FrameBuffer_0/ObjectSpID] [get_bd_pins HeaderManager_0/ObjectSpID]
   connect_bd_net -net HeaderManager_0_ObjectX [get_bd_pins FrameBuffer_0/ObjectX] [get_bd_pins HeaderManager_0/ObjectX]
   connect_bd_net -net HeaderManager_0_ObjectY [get_bd_pins FrameBuffer_0/ObjectY] [get_bd_pins HeaderManager_0/ObjectY]
@@ -455,11 +478,12 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_gpio_0_ip2intc_irpt [get_bd_pins axi_gpio_0/ip2intc_irpt] [get_bd_pins microblaze_0_xlconcat/In0]
   connect_bd_net -net axi_gpio_1_gpio_io_o [get_bd_pins HeaderManager_0/Data] [get_bd_pins axi_gpio_1/gpio_io_o]
   connect_bd_net -net axi_gpio_1_ip2intc_irpt [get_bd_pins axi_gpio_1/ip2intc_irpt] [get_bd_pins microblaze_0_xlconcat/In1]
+  connect_bd_net -net blk_mem_gen_sprite_douta [get_bd_pins FrameBuffer_0/SpriteRomData] [get_bd_pins blk_mem_gen_sprite/douta]
   connect_bd_net -net buttonDebounce_0_btnOut [get_bd_pins axi_gpio_0/gpio2_io_i] [get_bd_pins buttonDebounce_0/btnOut]
-  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
+  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins FrameBuffer_0/Clk25] [get_bd_pins HeaderManager_0/Mhz_25_IN] [get_bd_pins VGA_0/clk25] [get_bd_pins clk_wiz_0/clk_out2]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins clk_wiz_0/locked] [get_bd_pins rst_clk_wiz_0_100M/dcm_locked]
   connect_bd_net -net mdm_1_debug_sys_rst [get_bd_pins mdm_1/Debug_SYS_Rst] [get_bd_pins rst_clk_wiz_0_100M/mb_debug_sys_rst]
-  connect_bd_net -net microblaze_0_Clk [get_bd_pins FrameBuffer_0/Clk] [get_bd_pins HeaderManager_0/Mhz_100] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins buttonDebounce_0/clk] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins microblaze_0/Clk] [get_bd_pins microblaze_0_axi_intc/processor_clk] [get_bd_pins microblaze_0_axi_intc/s_axi_aclk] [get_bd_pins microblaze_0_axi_periph/ACLK] [get_bd_pins microblaze_0_axi_periph/M00_ACLK] [get_bd_pins microblaze_0_axi_periph/M01_ACLK] [get_bd_pins microblaze_0_axi_periph/M02_ACLK] [get_bd_pins microblaze_0_axi_periph/M03_ACLK] [get_bd_pins microblaze_0_axi_periph/S00_ACLK] [get_bd_pins microblaze_0_local_memory/LMB_Clk] [get_bd_pins rst_clk_wiz_0_100M/slowest_sync_clk]
+  connect_bd_net -net microblaze_0_Clk [get_bd_pins FrameBuffer_0/Clk] [get_bd_pins HeaderManager_0/Mhz_100] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins blk_mem_gen_sprite/clka] [get_bd_pins buttonDebounce_0/clk] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins microblaze_0/Clk] [get_bd_pins microblaze_0_axi_intc/processor_clk] [get_bd_pins microblaze_0_axi_intc/s_axi_aclk] [get_bd_pins microblaze_0_axi_periph/ACLK] [get_bd_pins microblaze_0_axi_periph/M00_ACLK] [get_bd_pins microblaze_0_axi_periph/M01_ACLK] [get_bd_pins microblaze_0_axi_periph/M02_ACLK] [get_bd_pins microblaze_0_axi_periph/M03_ACLK] [get_bd_pins microblaze_0_axi_periph/S00_ACLK] [get_bd_pins microblaze_0_local_memory/LMB_Clk] [get_bd_pins rst_clk_wiz_0_100M/slowest_sync_clk]
   connect_bd_net -net microblaze_0_intr [get_bd_pins microblaze_0_axi_intc/intr] [get_bd_pins microblaze_0_xlconcat/dout]
   connect_bd_net -net reset_1 [get_bd_ports reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins rst_clk_wiz_0_100M/ext_reset_in]
   connect_bd_net -net rst_clk_wiz_0_100M_bus_struct_reset [get_bd_pins microblaze_0_local_memory/SYS_Rst] [get_bd_pins rst_clk_wiz_0_100M/bus_struct_reset]
@@ -472,9 +496,9 @@ proc create_root_design { parentCell } {
   create_bd_addr_seg -range 0x00010000 -offset 0x40000000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] SEG_axi_gpio_0_Reg
   create_bd_addr_seg -range 0x00010000 -offset 0x40010000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs axi_gpio_1/S_AXI/Reg] SEG_axi_gpio_1_Reg
   create_bd_addr_seg -range 0x00010000 -offset 0x40600000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs axi_uartlite_0/S_AXI/Reg] SEG_axi_uartlite_0_Reg
-  create_bd_addr_seg -range 0x00010000 -offset 0x00020000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs microblaze_0_local_memory/dlmb_bram_if_cntlr_1/SLMB/Mem] SEG_dlmb_bram_if_cntlr_1_Mem
+  create_bd_addr_seg -range 0x00008000 -offset 0x00020000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs microblaze_0_local_memory/dlmb_bram_if_cntlr_1/SLMB/Mem] SEG_dlmb_bram_if_cntlr_1_Mem
   create_bd_addr_seg -range 0x00020000 -offset 0x00000000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs microblaze_0_local_memory/dlmb_bram_if_cntlr/SLMB/Mem] SEG_dlmb_bram_if_cntlr_Mem
-  create_bd_addr_seg -range 0x00010000 -offset 0x00020000 [get_bd_addr_spaces microblaze_0/Instruction] [get_bd_addr_segs microblaze_0_local_memory/ilmb_bram_if_cntlr_1/SLMB/Mem] SEG_ilmb_bram_if_cntlr_1_Mem
+  create_bd_addr_seg -range 0x00008000 -offset 0x00020000 [get_bd_addr_spaces microblaze_0/Instruction] [get_bd_addr_segs microblaze_0_local_memory/ilmb_bram_if_cntlr_1/SLMB/Mem] SEG_ilmb_bram_if_cntlr_1_Mem
   create_bd_addr_seg -range 0x00020000 -offset 0x00000000 [get_bd_addr_spaces microblaze_0/Instruction] [get_bd_addr_segs microblaze_0_local_memory/ilmb_bram_if_cntlr/SLMB/Mem] SEG_ilmb_bram_if_cntlr_Mem
   create_bd_addr_seg -range 0x00010000 -offset 0x41200000 [get_bd_addr_spaces microblaze_0/Data] [get_bd_addr_segs microblaze_0_axi_intc/S_AXI/Reg] SEG_microblaze_0_axi_intc_Reg
 
