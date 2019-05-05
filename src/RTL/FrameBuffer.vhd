@@ -31,7 +31,7 @@ signal buff : frame := (others => SPRITE_INIT);
 signal      cIndex          : integer range 0 to MAX_OBJECTS                := 0;
 signal      sigRomAddr      : std_logic_vector(SpriteRomAddr'high downto 0) := (others => '0');
 signal      DrawPixel       : boolean                                       := false;
-signal      PixelColorId    : std_logic_vector(1 downto 0)                  := "00";
+signal      PixelColorId    : std_logic_vector(2 downto 0)                  := "000";
 signal      CurrentObject   : SPRITE                                        := SPRITE_INIT;
 
 begin
@@ -73,7 +73,7 @@ begin
                 unsigned(Vcount) < unsigned(buff(i).Y)+SPRITE_SIZE)) and
                 buff(i).SpID /= SPRITE_INIT.SpID then -- ignore 'empty' objects.
                     DrawPixel       <= true;
-                    PixelColorId    <= buff(i).SpID(1 downto 0);
+                    PixelColorId    <= buff(i).SpID(2 downto 0);
           end if;
         end loop;  -- i
 
@@ -86,6 +86,8 @@ begin
             when X"2"   =>
               RGBout    <= X"03"; -- blue
             when X"3"   =>
+              RGBout    <= X"FC"; -- yellow
+            when X"4"   =>
               RGBout    <= (others => SpriteRomData); -- pixels white or black
               sigRomAddr    <= std_logic_vector(unsigned(sigRomAddr) +1);
             when others =>
