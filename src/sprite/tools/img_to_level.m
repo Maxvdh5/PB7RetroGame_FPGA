@@ -103,4 +103,4 @@ while blockCount < staticBlockMax
     end
 end
 
-fprintf('}\n');
+fprintf('},\n');
