@@ -120,8 +120,8 @@ set files [list \
  "[file normalize "$origin_dir/src/RTL/FrameBuffer.vhd"]"\
  "[file normalize "$origin_dir/src/blockdesign/blockdesign.bd"]"\
  "[file normalize "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"]"\
- "[file normalize "$origin_dir/src/RTL/SpriteDraw.vhd"]"\
  "[file normalize "$origin_dir/src/sprite/mainmenu.coe"]"\
+ "[file normalize "$origin_dir/src/RTL/SpriteDraw.vhd"]"\
 ]
 add_files -norecurse -fileset $obj $files
 

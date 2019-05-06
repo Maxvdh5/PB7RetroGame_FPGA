@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Thu Apr 18 15:16:32 2019
+// Date        : Fri Apr 26 14:47:39 2019
 // Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
-// Command     : write_verilog -force -mode funcsim
-//               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_blk_mem_gen_0_0/blockdesign_blk_mem_gen_0_0_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top blockdesign_blk_mem_gen_0_0 -prefix
+//               blockdesign_blk_mem_gen_0_0_ blockdesign_blk_mem_gen_0_0_sim_netlist.v
 // Design      : blockdesign_blk_mem_gen_0_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -186,7 +186,6 @@ module blockdesign_blk_mem_gen_0_0
         .web(1'b0));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_generic_cstr" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr
    (douta,
     clka,
@@ -205,7 +204,6 @@ module blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr
         .douta(douta));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_prim_width" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width
    (douta,
     clka,
@@ -224,7 +222,6 @@ module blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width
         .douta(douta));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_prim_wrapper_init" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init
    (douta,
     clka,
@@ -367,7 +364,6 @@ module blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init
         .WEBWE({1'b0,1'b0,1'b0,1'b0}));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_top" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_top
    (douta,
     clka,
@@ -410,7 +406,7 @@ endmodule
 (* C_USE_URAM = "0" *) (* C_WEA_WIDTH = "1" *) (* C_WEB_WIDTH = "1" *) 
 (* C_WRITE_DEPTH_A = "14400" *) (* C_WRITE_DEPTH_B = "14400" *) (* C_WRITE_MODE_A = "WRITE_FIRST" *) 
 (* C_WRITE_MODE_B = "WRITE_FIRST" *) (* C_WRITE_WIDTH_A = "1" *) (* C_WRITE_WIDTH_B = "1" *) 
-(* C_XDEVICEFAMILY = "artix7" *) (* ORIG_REF_NAME = "blk_mem_gen_v8_4_1" *) (* downgradeipidentifiedwarnings = "yes" *) 
+(* C_XDEVICEFAMILY = "artix7" *) (* downgradeipidentifiedwarnings = "yes" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1
    (clka,
     rsta,
@@ -606,7 +602,6 @@ module blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1
         .douta(douta));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_v8_4_1_synth" *) 
 module blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1_synth
    (douta,
     clka,
