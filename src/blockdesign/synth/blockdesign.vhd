@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Sat May 11 15:02:08 2019
+--Date        : Sat May 11 19:46:49 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign.bd
 --Design      : blockdesign
@@ -1832,6 +1832,7 @@ use UNISIM.VCOMPONENTS.ALL;
 entity blockdesign is
   port (
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    PIN_MONO : out STD_LOGIC;
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hSync : out STD_LOGIC;
     reset : in STD_LOGIC;
@@ -1841,7 +1842,7 @@ entity blockdesign is
     vSync : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=27,numReposBlks=20,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
+  attribute CORE_GENERATION_INFO of blockdesign : entity is "blockdesign,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=blockdesign,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=29,numReposBlks=22,numNonXlnxBlks=0,numHierBlks=7,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=5,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_board_cnt=6,da_bram_cntlr_cnt=2,da_mb_cnt=1,synth_mode=OOC_per_IP}";
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of blockdesign : entity is "blockdesign.hwdef";
 end blockdesign;
@@ -2107,6 +2108,21 @@ architecture STRUCTURE of blockdesign is
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component blockdesign_FrameBuffer_0_1;
+  component blockdesign_sound_0_0 is
+  port (
+    clk : in STD_LOGIC;
+    PIN_MONO : out STD_LOGIC;
+    romDataIn : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    romAddrOut : out STD_LOGIC_VECTOR ( 13 downto 0 )
+  );
+  end component blockdesign_sound_0_0;
+  component blockdesign_blk_mem_gen_0_1 is
+  port (
+    clka : in STD_LOGIC;
+    addra : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    douta : out STD_LOGIC_VECTOR ( 7 downto 0 )
+  );
+  end component blockdesign_blk_mem_gen_0_1;
   signal FrameBuffer_0_RGBout : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal FrameBuffer_0_SpriteRomAddr : STD_LOGIC_VECTOR ( 13 downto 0 );
   signal HeaderManager_0_ObjectSpID : STD_LOGIC_VECTOR ( 15 downto 0 );
@@ -2125,6 +2141,7 @@ architecture STRUCTURE of blockdesign is
   signal axi_gpio_1_ip2intc_irpt : STD_LOGIC;
   signal axi_uartlite_0_UART_RxD : STD_LOGIC;
   signal axi_uartlite_0_UART_TxD : STD_LOGIC;
+  signal blk_mem_gen_0_douta : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal blk_mem_gen_sprite_douta : STD_LOGIC_VECTOR ( 0 to 0 );
   signal buttonDebounce_0_btnOut : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal clk_wiz_0_clk_out2 : STD_LOGIC;
@@ -2255,6 +2272,8 @@ architecture STRUCTURE of blockdesign is
   signal rst_clk_wiz_0_100M_interconnect_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   signal rst_clk_wiz_0_100M_mb_reset : STD_LOGIC;
   signal rst_clk_wiz_0_100M_peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal sound_0_PIN_MONO : STD_LOGIC;
+  signal sound_0_romAddrOut : STD_LOGIC_VECTOR ( 13 downto 0 );
   signal sys_clock_1 : STD_LOGIC;
   signal NLW_HeaderManager_0_BG_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_axi_gpio_0_gpio_io_o_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
@@ -2265,8 +2284,10 @@ architecture STRUCTURE of blockdesign is
   attribute KEEP_HIERARCHY : string;
   attribute KEEP_HIERARCHY of microblaze_0 : label is "yes";
   attribute X_INTERFACE_INFO : string;
-  attribute X_INTERFACE_INFO of hSync : signal is "xilinx.com:signal:data:1.0 DATA.HSYNC DATA";
+  attribute X_INTERFACE_INFO of PIN_MONO : signal is "xilinx.com:signal:data:1.0 DATA.PIN_MONO DATA";
   attribute X_INTERFACE_PARAMETER : string;
+  attribute X_INTERFACE_PARAMETER of PIN_MONO : signal is "XIL_INTERFACENAME DATA.PIN_MONO, LAYERED_METADATA undef";
+  attribute X_INTERFACE_INFO of hSync : signal is "xilinx.com:signal:data:1.0 DATA.HSYNC DATA";
   attribute X_INTERFACE_PARAMETER of hSync : signal is "XIL_INTERFACENAME DATA.HSYNC, LAYERED_METADATA undef";
   attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
   attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME RST.RESET, POLARITY ACTIVE_HIGH";
@@ -2282,6 +2303,7 @@ architecture STRUCTURE of blockdesign is
   attribute X_INTERFACE_PARAMETER of RGBout : signal is "XIL_INTERFACENAME DATA.RGBOUT, LAYERED_METADATA undef";
 begin
   JA_1(3 downto 0) <= JA(3 downto 0);
+  PIN_MONO <= sound_0_PIN_MONO;
   RGBout(7 downto 0) <= VGA_0_RGBout(7 downto 0);
   axi_uartlite_0_UART_RxD <= usb_uart_rxd;
   hSync <= VGA_0_hsync;
@@ -2399,6 +2421,12 @@ axi_uartlite_0: component blockdesign_axi_uartlite_0_0
       s_axi_wstrb(3 downto 0) => microblaze_0_axi_periph_M01_AXI_WSTRB(3 downto 0),
       s_axi_wvalid => microblaze_0_axi_periph_M01_AXI_WVALID(0),
       tx => axi_uartlite_0_UART_TxD
+    );
+blk_mem_gen_bgm: component blockdesign_blk_mem_gen_0_1
+     port map (
+      addra(13 downto 0) => sound_0_romAddrOut(13 downto 0),
+      clka => microblaze_0_Clk,
+      douta(7 downto 0) => blk_mem_gen_0_douta(7 downto 0)
     );
 blk_mem_gen_sprite: component blockdesign_blk_mem_gen_0_0
      port map (
@@ -2692,5 +2720,12 @@ rst_clk_wiz_0_100M: component blockdesign_rst_clk_wiz_0_100M_0
       peripheral_aresetn(0) => rst_clk_wiz_0_100M_peripheral_aresetn(0),
       peripheral_reset(0) => NLW_rst_clk_wiz_0_100M_peripheral_reset_UNCONNECTED(0),
       slowest_sync_clk => microblaze_0_Clk
+    );
+sound_bgm: component blockdesign_sound_0_0
+     port map (
+      PIN_MONO => sound_0_PIN_MONO,
+      clk => microblaze_0_Clk,
+      romAddrOut(13 downto 0) => sound_0_romAddrOut(13 downto 0),
+      romDataIn(7 downto 0) => blk_mem_gen_0_douta(7 downto 0)
     );
 end STRUCTURE;

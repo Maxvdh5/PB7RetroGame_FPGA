@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
---Date        : Sat May 11 15:02:09 2019
+--Date        : Sat May 11 19:46:50 2019
 --Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
 --Command     : generate_target blockdesign_wrapper.bd
 --Design      : blockdesign_wrapper
@@ -14,6 +14,7 @@ use UNISIM.VCOMPONENTS.ALL;
 entity blockdesign_wrapper is
   port (
     JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    PIN_MONO : out STD_LOGIC;
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hSync : out STD_LOGIC;
     reset : in STD_LOGIC;
@@ -34,13 +35,15 @@ architecture STRUCTURE of blockdesign_wrapper is
     RGBout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     hSync : out STD_LOGIC;
     vSync : out STD_LOGIC;
-    JA : in STD_LOGIC_VECTOR ( 3 downto 0 )
+    JA : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    PIN_MONO : out STD_LOGIC
   );
   end component blockdesign;
 begin
 blockdesign_i: component blockdesign
      port map (
       JA(3 downto 0) => JA(3 downto 0),
+      PIN_MONO => PIN_MONO,
       RGBout(7 downto 0) => RGBout(7 downto 0),
       hSync => hSync,
       reset => reset,
