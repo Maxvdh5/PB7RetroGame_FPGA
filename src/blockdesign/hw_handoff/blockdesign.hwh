@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun May  5 22:46:31 2019" VIVADOVERSION="2017.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sat May 11 15:02:11 2019" VIVADOVERSION="2017.4">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="blockdesign" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -2104,7 +2104,6 @@
             <CONNECTION INSTANCE="buttonDebounce_0" PORT="clk"/>
             <CONNECTION INSTANCE="HeaderManager_0" PORT="Mhz_100"/>
             <CONNECTION INSTANCE="blk_mem_gen_sprite" PORT="clka"/>
-            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Clk"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="S00_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M00_ACLK"/>
@@ -2115,6 +2114,7 @@
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M01_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M02_ACLK"/>
             <CONNECTION INSTANCE="microblaze_0_axi_periph" PORT="M03_ACLK"/>
+            <CONNECTION INSTANCE="FrameBuffer_0" PORT="Clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT CLKFREQUENCY="25000000" DIR="O" NAME="clk_out2" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out2">

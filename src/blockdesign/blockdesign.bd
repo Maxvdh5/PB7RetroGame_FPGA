@@ -526,7 +526,6 @@
         <spirit:internalPortReference spirit:componentRef="buttonDebounce_0" spirit:portRef="clk"/>
         <spirit:internalPortReference spirit:componentRef="HeaderManager_0" spirit:portRef="Mhz_100"/>
         <spirit:internalPortReference spirit:componentRef="blk_mem_gen_sprite" spirit:portRef="clka"/>
-        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Clk"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="S00_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M00_ACLK"/>
@@ -534,6 +533,7 @@
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M01_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M02_ACLK"/>
         <spirit:internalPortReference spirit:componentRef="microblaze_0_axi_periph" spirit:portRef="M03_ACLK"/>
+        <spirit:internalPortReference spirit:componentRef="FrameBuffer_0" spirit:portRef="Clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>clk_wiz_0_locked</spirit:name>
