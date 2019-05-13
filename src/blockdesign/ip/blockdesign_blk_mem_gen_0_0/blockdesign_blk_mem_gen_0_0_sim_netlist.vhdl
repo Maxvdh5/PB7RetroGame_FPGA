@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Fri Apr 26 14:47:39 2019
+-- Date        : Sat May 11 19:50:28 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
--- Command     : write_vhdl -force -mode funcsim -rename_top blockdesign_blk_mem_gen_0_0 -prefix
---               blockdesign_blk_mem_gen_0_0_ blockdesign_blk_mem_gen_0_0_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim
+--               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_blk_mem_gen_0_0/blockdesign_blk_mem_gen_0_0_sim_netlist.vhdl
 -- Design      : blockdesign_blk_mem_gen_0_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -20,6 +20,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init is
     clka : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 13 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init : entity is "blk_mem_gen_prim_wrapper_init";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init;
 
 architecture STRUCTURE of blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_wrapper_init is
@@ -46,27 +48,27 @@ begin
       INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_02 => X"000000FFFE000000000000000000000000000000000000000003FFE000000000",
       INIT_03 => X"0000000000000000000000001FFFE00000000000000000000000000000000000",
-      INIT_04 => X"01E000000E0000000000000000000000000000000001FFFE0000006000000000",
-      INIT_05 => X"000000000000000003E01E000001E0000000000000000000000000000000003F",
-      INIT_06 => X"07E0000000000000000000000000000000003C01E000003E0000000000000000",
-      INIT_07 => X"FFF80FFFF03C01E00000FE000000000001FFF007FFC003FE00FFFC03C01E0000",
-      INIT_08 => X"F8000000FFFC03FFF01FFFC07FFF03C01E00001FFFFFFF8000001FFFC07FFF00",
-      INIT_09 => X"1F03E01E00007CFFFFFF8000000FFFE03FFF81FFFE07FFF03E01E00003EFFFFF",
-      INIT_0A => X"0001E0000783E01F0001F03F01E0000F80000038000000003E0000F83F03F000",
-      INIT_0B => X"E0001F00000038000000007E0001F83C01F0001F01FF1E0001F0000003800000",
-      INIT_0C => X"3FF03FFFF8001F00FFFE0000F8000003800000001FE0007F83C00F8001F01FFF",
-      INIT_0D => X"FFFFFF80000003FF800FFE07FFFF8001F003FFE00007C00000380000000FFC00",
-      INIT_0E => X"0F8001F00001E00001FFFFFFF8000000FFF003FFC07FFFF8001F00001E00003E",
-      INIT_0F => X"000001FC0007F0000000F8001F00001E00000FFFFFFF8000001FF8007FE00000",
-      INIT_10 => X"00001E000003E000000000001F00007C0000001F0001F00001E000007E000000",
-      INIT_11 => X"00E0FC0380007F0001F00001E000001E000000000003E0000F80000001F0001F",
-      INIT_12 => X"000006000000000001FFFE07FFF81FFFE0001F00001E000000E000000000003F",
-      INIT_13 => X"FC1FFF80001F00001E0000002000000000001FFFE07FFF81FFFC0001F00001E0",
-      INIT_14 => X"000000000003FFC00FFF01FFE00001F00001E0000000000000000000FFFF03FF",
-      INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
-      INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
-      INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
-      INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+      INIT_04 => X"01E00000000000000000000000000000000000000001FFFE0000000000000000",
+      INIT_05 => X"000000000000000003E01E000F8000000003E00000000000000000000000003F",
+      INIT_06 => X"8000000003E00000000000000000000000003C01E000F8000000003E00000000",
+      INIT_07 => X"FFF80FFFF03C01E00078000FFF001E0001FFF007FFC003FE00FFFC03C01E000F",
+      INIT_08 => X"001E0000FFFC03FFF01FFFC07FFF03C01E00078003FFF001E0001FFFC07FFF00",
+      INIT_09 => X"1F03E01E00078007FFF001E0000FFFE03FFF81FFFE07FFF03E01E00078007FFF",
+      INIT_0A => X"0001E0000783E01F0001F03F01E0007800FC0F001E0000003E0000F83F03F000",
+      INIT_0B => X"E0007800F80F001E0000007E0001F83C01F0001F01FF1E0007800F80F001E000",
+      INIT_0C => X"3FF03FFFF8001F00FFFE0007000F00F001C000001FE0007F83C00F8001F01FFF",
+      INIT_0D => X"0F80F000000003FF800FFE07FFFF8001F003FFE0000000F00F000000000FFC00",
+      INIT_0E => X"0F8001F00001E0000000F80F00000000FFF003FFC07FFFF8001F00001E000000",
+      INIT_0F => X"000001FC0007F0000000F8001F00001E0000000FC0F00000001FF8007FE00000",
+      INIT_10 => X"00001E00000003FFF00000001F00007C0000001F0001F00001E00000007FCF00",
+      INIT_11 => X"00E0FC0380007F0001F00001E00000001FFF00000003E0000F80000001F0001F",
+      INIT_12 => X"0000001F8F00000001FFFE07FFF81FFFE0001F00001E00000000FFF00000003F",
+      INIT_13 => X"FC1FFF80001F00001E00000001F0F00000001FFFE07FFF81FFFC0001F00001E0",
+      INIT_14 => X"C0F000000003FFC00FFF01FFE00001F00001E00000003E0F00000000FFFF03FF",
+      INIT_15 => X"0000000000000000007C0F000000000000000000000000000000000000000007",
+      INIT_16 => X"0000000000000000000000000000000000000F80F00000000000000000000000",
+      INIT_17 => X"00000000001F00F00000000000000000000000000000000000000000F80F0000",
+      INIT_18 => X"000000000000000000000000000001F00F000000000000000000000000000000",
       INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -168,6 +170,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width is
     clka : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 13 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width : entity is "blk_mem_gen_prim_width";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width;
 
 architecture STRUCTURE of blockdesign_blk_mem_gen_0_0_blk_mem_gen_prim_width is
@@ -189,6 +193,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr is
     clka : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 13 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr : entity is "blk_mem_gen_generic_cstr";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr;
 
 architecture STRUCTURE of blockdesign_blk_mem_gen_0_0_blk_mem_gen_generic_cstr is
@@ -210,6 +216,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_top is
     clka : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 13 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_top : entity is "blk_mem_gen_top";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_top;
 
 architecture STRUCTURE of blockdesign_blk_mem_gen_0_0_blk_mem_gen_top is
@@ -231,6 +239,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1_synth is
     clka : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 13 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1_synth : entity is "blk_mem_gen_v8_4_1_synth";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1_synth;
 
 architecture STRUCTURE of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1_synth is
@@ -458,6 +468,8 @@ entity blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1 is
   attribute C_WRITE_WIDTH_B of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1 : entity is 1;
   attribute C_XDEVICEFAMILY : string;
   attribute C_XDEVICEFAMILY of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1 : entity is "artix7";
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1 : entity is "blk_mem_gen_v8_4_1";
   attribute downgradeipidentifiedwarnings : string;
   attribute downgradeipidentifiedwarnings of blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1 : entity is "yes";
 end blockdesign_blk_mem_gen_0_0_blk_mem_gen_v8_4_1;

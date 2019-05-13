@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
--- Date        : Fri Apr 26 14:47:39 2019
+-- Date        : Sat May 11 19:50:27 2019
 -- Host        : xilinux running 64-bit Ubuntu 18.04.2 LTS
--- Command     : write_vhdl -force -mode synth_stub -rename_top blockdesign_blk_mem_gen_0_0 -prefix
---               blockdesign_blk_mem_gen_0_0_ blockdesign_blk_mem_gen_0_0_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub
+--               /media/sf_shared/PB7RetroGame_FPGA/src/blockdesign/ip/blockdesign_blk_mem_gen_0_0/blockdesign_blk_mem_gen_0_0_stub.vhdl
 -- Design      : blockdesign_blk_mem_gen_0_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tcpg236-1

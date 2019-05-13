@@ -102,7 +102,7 @@ set_property -name "ip_output_repo" -value "$proj_dir/${project_name}.cache/ip" 
 set_property -name "sim.ip.auto_export_scripts" -value "1" -objects $obj
 set_property -name "simulator_language" -value "Mixed" -objects $obj
 set_property -name "target_language" -value "VHDL" -objects $obj
-set_property -name "xpm_libraries" -value "XPM_CDC XPM_MEMORY" -objects $obj
+set_property -name "xpm_libraries" -value "XPM_CDC XPM_FIFO XPM_MEMORY" -objects $obj
 
 # Create 'sources_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sources_1] ""]} {
@@ -118,10 +118,11 @@ set files [list \
  "[file normalize "$origin_dir/src/RTL/debounce.vhd"]"\
  "[file normalize "$origin_dir/src/RTL/buttonDebounce.vhd"]"\
  "[file normalize "$origin_dir/src/RTL/FrameBuffer.vhd"]"\
+ "[file normalize "$origin_dir/src/RTL/sound.vhd"]"\
  "[file normalize "$origin_dir/src/blockdesign/blockdesign.bd"]"\
  "[file normalize "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"]"\
- "[file normalize "$origin_dir/src/sprite/mainmenu.coe"]"\
- "[file normalize "$origin_dir/src/RTL/SpriteDraw.vhd"]"\
+ "[file normalize "$origin_dir/src/coe/mainmenu.coe"]"\
+ "[file normalize "$origin_dir/src/coe/ArcadeMusic.coe"]"\
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -156,12 +157,12 @@ set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
-set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
+set file "$origin_dir/src/RTL/sound.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
-set file "$origin_dir/src/RTL/SpriteDraw.vhd"
+set file "$origin_dir/src/blockdesign/hdl/blockdesign_wrapper.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
@@ -192,6 +193,7 @@ set_property -name "file_type" -value "XDC" -objects $file_obj
 
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
+set_property -name "target_constrs_file" -value "[file normalize "$origin_dir/src/constraints/io.xdc"]" -objects $obj
 
 # Create 'sim_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sim_1] ""]} {
@@ -243,6 +245,7 @@ if {[string equal [get_runs -quiet impl_1] ""]} {
 set obj [get_runs impl_1]
 set_property -name "report_strategy" -value "Vivado Implementation Default Reports" -objects $obj
 set_property -name "strategy" -value "Vivado Implementation Defaults" -objects $obj
+set_property -name "steps.write_bitstream.args.bin_file" -value "1" -objects $obj
 set_property -name "steps.write_bitstream.args.readback_file" -value "0" -objects $obj
 set_property -name "steps.write_bitstream.args.verbose" -value "0" -objects $obj
 

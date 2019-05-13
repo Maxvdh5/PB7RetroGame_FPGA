@@ -15,8 +15,8 @@ Choose `PB7_retrogame_fpga.tcl`
 Source structure is as described in [vivado-git - workflow](https://github.com/barbedo/vivado-git/blob/9de957f0c10c824dc80bb64b7e5a97df8c6e9e3e/README.md#workflow)  
 Do not add them *local to project* but to `src/` instead  
 
-![choose location 1](choose_location.png)  
-![choose location 2](choose_location2.png)  
+![choose location 1](image/choose_location.png)  
+![choose location 2](image/choose_location2.png)  
 
 ##### commiting changes
 As described in [vivado-git - workflow](https://github.com/barbedo/vivado-git/blob/9de957f0c10c824dc80bb64b7e5a97df8c6e9e3e/README.md#workflow)  
